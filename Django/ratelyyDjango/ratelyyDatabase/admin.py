@@ -1,11 +1,9 @@
 from django.contrib import admin
-from .models import Concerns
-from .models import Products
-from .models import Brands
-from .models import Companies
+from .models import ConcernsOld, CompaniesOld, BrandsOld, ProductsOld
+
 # Register your models here.
 
-admin.site.register(Concerns)
-admin.site.register(Products)
-admin.site.register(Brands)
-admin.site.register(Companies)
+admin.site.register(ConcernsOld)
+admin.site.register(CompaniesOld)
+admin.site.register(BrandsOld)
+admin.site.register(ProductsOld)
