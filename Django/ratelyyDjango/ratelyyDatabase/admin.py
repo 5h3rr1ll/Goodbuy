@@ -5,18 +5,24 @@ from .models import ConcernsOld, CompaniesOld, BrandsOld, ProductsOld, Concerns
 
 class ConcernsOldAdmin(admin.ModelAdmin):
     list_display = ("name",)
+    search_fields = ["name"]
+
 
 class CompaniesOldAdmin(admin.ModelAdmin):
     list_display = ("name",)
+    search_fields = ["name"]
+
 
 class BrandsOldAdmin(admin.ModelAdmin):
     list_display = ("name",)
+    search_fields = ["name"]
 
 class ProductsOldAdmin(admin.ModelAdmin):
     list_display = ("name",)
 
 class ConcernsAdmin(admin.ModelAdmin):
     list_display = ("id_concern", "concern_name",)
+    search_fields = ["id_concern", "concern_name"]
 
 admin.site.register(ConcernsOld, ConcernsOldAdmin)
 admin.site.register(CompaniesOld, CompaniesOldAdmin)

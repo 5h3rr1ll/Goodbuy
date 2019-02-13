@@ -7,6 +7,7 @@ class Concerns(models.Model):
     class Meta:
         managed = False
         db_table = 'concerns'
+        verbose_name_plural = "concerns"
 
 class ConcernsOld(models.Model):
     name = models.CharField(max_length=50)
