@@ -7,6 +7,8 @@ class Concerns(models.Model):
     class Meta:
         managed = False
         db_table = 'concerns'
+        # this do the trick that django admin doesn't place a further s after
+        # the table name. Source: https://stackoverflow.com/questions/2587707/django-fix-admin-plural
         verbose_name_plural = "concerns"
 
 class Companies(models.Model):
