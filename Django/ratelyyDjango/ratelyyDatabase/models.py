@@ -1,5 +1,13 @@
 from django.db import models
 
+class Concerns(models.Model):
+    id_concern = models.IntegerField(primary_key=True)
+    concern_name = models.CharField(max_length=45)
+
+    class Meta:
+        managed = False
+        db_table = 'concerns'
+
 class ConcernsOld(models.Model):
     name = models.CharField(max_length=50)
     fair = models.IntegerField()

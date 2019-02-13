@@ -31,13 +31,13 @@ ALLOWED_HOSTS = ['ratelyyDjangoEnv.p5j68a2z24.eu-central-1.elasticbeanstalk.com'
 # Application definition
 
 INSTALLED_APPS = [
+    'ratelyyDatabase',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ratelyyDatabase',
 ]
 
 MIDDLEWARE = [
