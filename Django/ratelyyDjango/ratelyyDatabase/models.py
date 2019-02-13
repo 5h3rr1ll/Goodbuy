@@ -9,6 +9,44 @@ class Concerns(models.Model):
         db_table = 'concerns'
         verbose_name_plural = "concerns"
 
+class Companies(models.Model):
+    id_company = models.IntegerField(primary_key=True)
+    company_name = models.CharField(max_length=45)
+    company_logo = models.CharField(max_length=45, blank=True, null=True)
+    concerns_id_concern = models.ForeignKey('Concerns', models.DO_NOTHING, db_column='concerns_id_concern')
+
+    class Meta:
+        managed = False
+        db_table = 'companies'
+        unique_together = (('id_company', 'concerns_id_concern'),)
+        verbose_name_plural = "companies"
+
+
+class Brands(models.Model):
+    id_brand = models.IntegerField(primary_key=True)
+    brand_name = models.CharField(max_length=45)
+    brand_logo = models.CharField(max_length=200, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'brands'
+        verbose_name_plural = "brands"
+
+class Products(models.Model):
+    id_product = models.IntegerField(primary_key=True)
+    product_name = models.CharField(max_length=45)
+    product_ean = models.CharField(max_length=45, blank=True, null=True)
+    product_image = models.CharField(max_length=45, blank=True, null=True)
+    product_group = models.CharField(max_length=200, blank=True, null=True)
+    brands_id_brand = models.ForeignKey(Brands, models.DO_NOTHING, db_column='brands_id_brand')
+
+    class Meta:
+        managed = False
+        db_table = 'products'
+        unique_together = (('id_product', 'brands_id_brand'),)
+        verbose_name_plural = "products"
+
+
 class ConcernsOld(models.Model):
     name = models.CharField(max_length=50)
     fair = models.IntegerField()
