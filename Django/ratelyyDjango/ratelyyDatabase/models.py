@@ -46,7 +46,7 @@ class Products(models.Model):
     product_ean = models.CharField(max_length=45, blank=True, null=True)
     product_image = models.CharField(max_length=45, blank=True, null=True)
     product_group = models.CharField(max_length=200, blank=True, null=True)
-    brands_id_brand = models.ForeignKey(Brands, models.DO_NOTHING, db_column='brands_id_brand')
+    brands_id_brand = models.ForeignKey(Brands, models.CASCADE, db_column='brands_id_brand')
 
     class Meta:
         managed = True
