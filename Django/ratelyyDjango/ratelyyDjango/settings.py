@@ -75,22 +75,22 @@ WSGI_APPLICATION = 'ratelyyDjango.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    # 'sqlite3': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # },
+   # ‘sqlite3’: {
+   #     ‘ENGINE’: ‘django.db.backends.sqlite3’,
+   #     ‘NAME’: os.path.join(BASE_DIR, ‘db.sqlite3’),
+   # },
 
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'USER': 'd025764e',
-        'NAME': 'd025764e',
-        'PASSWORD': 'r4tl3yy',
-        'HOST': '85.13.154.99',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-            }
-    },
+   'default': {
+       'ENGINE': 'django.db.backends.mysql',
+       'USER': 'd02d752b',
+       'NAME': 'd02d752b',
+       'PASSWORD': 'Nix123456',
+       'HOST': '85.13.154.99',
+       'PORT': '3306',
+       'OPTIONS': {
+           'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+           }
+   },
 }
 
 
