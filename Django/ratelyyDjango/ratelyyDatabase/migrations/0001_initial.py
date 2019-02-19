@@ -20,8 +20,7 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'brands',
                 'db_table': 'brands',
-                'managed': True, 
-
+                'managed': True,
             },
         ),
         migrations.CreateModel(
@@ -37,7 +36,6 @@ class Migration(migrations.Migration):
             options={
                 'db_table': 'brands_old',
                 'managed': True,
-
             },
         ),
         migrations.CreateModel(
@@ -51,7 +49,6 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'companies',
                 'db_table': 'companies',
                 'managed': True,
-
             },
         ),
         migrations.CreateModel(
@@ -66,7 +63,6 @@ class Migration(migrations.Migration):
             options={
                 'db_table': 'companies_old',
                 'managed': True,
-
             },
         ),
         migrations.CreateModel(
@@ -75,13 +71,11 @@ class Migration(migrations.Migration):
                 ('id_concern', models.IntegerField(primary_key=True, serialize=False)),
                 ('concern_name', models.CharField(max_length=45)),
                 ('concern_rating', models.CharField(choices=[('0', 'Neutral'), ('1', 'Ethical'), ('2', 'Unethical')], max_length=2)),
-
             ],
             options={
                 'verbose_name_plural': 'concerns',
                 'db_table': 'concerns',
                 'managed': True,
-
             },
         ),
         migrations.CreateModel(
@@ -95,7 +89,6 @@ class Migration(migrations.Migration):
             options={
                 'db_table': 'concerns_old',
                 'managed': True,
-
             },
         ),
         migrations.CreateModel(
@@ -106,7 +99,7 @@ class Migration(migrations.Migration):
                 ('product_ean', models.CharField(blank=True, max_length=45, null=True)),
                 ('product_image', models.CharField(blank=True, max_length=45, null=True)),
                 ('product_group', models.CharField(blank=True, max_length=200, null=True)),
-                ('brands_id_brand', models.ForeignKey(Brands, models.CASCADE, db.column='brands_id_brand')),
+                ('brands_id_brand', models.ForeignKey(db_column='brands_id_brand', on_delete=django.db.models.deletion.DO_NOTHING, to='ratelyyDatabase.Brands')),
             ],
             options={
                 'verbose_name_plural': 'products',
@@ -142,8 +135,5 @@ class Migration(migrations.Migration):
         migrations.AlterUniqueTogether(
             name='companies',
             unique_together={('id_company', 'concerns_id_concern')},
-        ),
-                'managed': False,
-            },
         ),
     ]
