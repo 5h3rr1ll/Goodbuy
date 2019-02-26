@@ -10,6 +10,9 @@ class Concerns(models.Model):
     )
     concern_rating = models.CharField(max_length=2, choices=RATINGS)
 
+    def __str__(self):
+        return self.concern_name
+
     class Meta:
             managed = True
             db_table = 'concerns'
@@ -24,6 +27,9 @@ class Companies(models.Model):
     company_logo = models.CharField(max_length=45, blank=True, null=True)
     concerns_id_concern = models.ForeignKey('Concerns', models.DO_NOTHING, db_column='concerns_id_concern')
 
+    def __str__(self):
+        return self.company_name
+
     class Meta:
         managed = True
         db_table = 'companies'
@@ -36,6 +42,10 @@ class Brands(models.Model):
     id_brand = models.IntegerField(primary_key=True)
     brand_name = models.CharField(max_length=45)
     brand_logo = models.CharField(max_length=200, blank=True, null=True)
+    companies = models.ManyToManyField(Companies)
+
+    def __unicode__(self):
+        return self.company_name
 
     def __str__(self):
         return self.brand_name
@@ -60,7 +70,7 @@ class Products(models.Model):
         return self.brand_name
 
     def __str__(self):
-        return product_name
+        return self.product_name
 
     class Meta:
         managed = True
