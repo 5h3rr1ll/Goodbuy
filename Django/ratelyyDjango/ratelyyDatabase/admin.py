@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ConcernsOld, CompaniesOld, BrandsOld, ProductsOld, Concerns, Companies, Brands, Products 
+from .models import ConcernsOld, CompaniesOld, BrandsOld, ProductsOld, Concerns, Companies, Brands, Products
 # Register your models here.
 class ConcernsAdmin(admin.ModelAdmin):
     list_display = ("concern_name", "concern_rating", "id_concern",)
@@ -8,6 +8,7 @@ class ConcernsAdmin(admin.ModelAdmin):
 class CompaniesAdmin(admin.ModelAdmin):
     list_display = ("company_name", "company_logo", "concerns_id_concern", "id_company",)
     search_fields = ["company_name", "company_logo", "concerns_id_concern", "id_company",]
+    autocomplete_fields = ("concerns_id_concern",)
 
 class BrandsAdmin(admin.ModelAdmin):
     list_display = ("brand_name", "brand_logo", "id_brand",)
