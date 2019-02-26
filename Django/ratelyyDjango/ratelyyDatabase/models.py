@@ -8,7 +8,7 @@ class Concerns(models.Model):
         ('1', 'Ethical'),
         ('2', 'Unethical'),
     )
-    concern_rating = models.CharField(max_length=2, choices=RATINGS)    
+    concern_rating = models.CharField(max_length=2, choices=RATINGS)
 
     class Meta:
             managed = True
@@ -35,6 +35,9 @@ class Brands(models.Model):
     brand_name = models.CharField(max_length=45)
     brand_logo = models.CharField(max_length=200, blank=True, null=True)
 
+    def __str__(self):
+        return self.brand_name
+
     class Meta:
         managed = True
         db_table = 'brands'
@@ -47,6 +50,12 @@ class Products(models.Model):
     product_image = models.CharField(max_length=45, blank=True, null=True)
     product_group = models.CharField(max_length=200, blank=True, null=True)
     brands_id_brand = models.ForeignKey(Brands, models.CASCADE, db_column='brands_id_brand')
+
+    def __unicode__(self):
+        return self.brand_name
+
+    def __str__(self):
+        return product_name
 
     class Meta:
         managed = True
