@@ -49,6 +49,7 @@ class Brands(models.Model):
     companies = models.ManyToManyField(Companies,verbose_name="Company")
     brand_created = models.DateTimeField(auto_now_add=True)
     brand_updated = models.DateTimeField(auto_now=True)
+    brand_concern = models.ForeignKey(Concerns,models.CASCADE,null=True,verbose_name="Concern")
 
     def __unicode__(self):
         return self.company_name
@@ -68,7 +69,7 @@ class Products(models.Model):
     product_ean = models.CharField(max_length=45, blank=True, null=True)
     product_image = models.CharField(max_length=45, blank=True, null=True)
     product_group = models.CharField(max_length=200, blank=True, null=True)
-    brands_id_brand = models.ForeignKey(Brands, models.CASCADE, db_column='brands_id_brand',verbose_name="Brand")
+    brands_id_brand = models.ForeignKey(Brands, models.CASCADE,db_column='brands_id_brand',verbose_name="Brand")
     product_created = models.DateTimeField(auto_now_add=True)
     product_updated = models.DateTimeField(auto_now=True)
 
