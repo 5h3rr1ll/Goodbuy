@@ -9,6 +9,8 @@ class Concerns(models.Model):
         ('2', 'Unethical'),
     )
     concern_rating = models.CharField(max_length=2, choices=ratings,default=0,verbose_name="Concern Rating")
+    concern_created = models.DateTimeField(auto_now_add=True)
+    concern_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.concern_name
@@ -26,6 +28,8 @@ class Companies(models.Model):
     company_name = models.CharField(max_length=45,unique=True,verbose_name="Company Name")
     company_logo = models.CharField(max_length=45, blank=True, null=True,verbose_name="Company Logo")
     concerns_id_concern = models.ForeignKey('Concerns', models.DO_NOTHING, db_column='concerns_id_concern',verbose_name="Concern")
+    company_created = models.DateTimeField(auto_now_add=True)
+    company_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.company_name
@@ -40,9 +44,11 @@ class Companies(models.Model):
 
 class Brands(models.Model):
     id_brand = models.AutoField(primary_key=True)
-    brand_name = models.CharField(max_length=45,unique=True,verbose_name="Brand Name")
+    brand_name = models.CharField(max_length=45,verbose_name="Brand Name")#,unique=True
     brand_logo = models.CharField(max_length=200, blank=True, null=True, verbose_name="Brand Logo")
     companies = models.ManyToManyField(Companies,verbose_name="Company")
+    brand_created = models.DateTimeField(auto_now_add=True)
+    brand_updated = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return self.company_name
@@ -63,6 +69,8 @@ class Products(models.Model):
     product_image = models.CharField(max_length=45, blank=True, null=True)
     product_group = models.CharField(max_length=200, blank=True, null=True)
     brands_id_brand = models.ForeignKey(Brands, models.CASCADE, db_column='brands_id_brand')
+    product_created = models.DateTimeField(auto_now_add=True)
+    product_updated = models.DateTimeField(auto_now=True)
 
     #with this function the name of the brand becomes returned instead of Object(1),
     #Object(2) etc
