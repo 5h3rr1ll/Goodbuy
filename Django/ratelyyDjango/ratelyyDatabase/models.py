@@ -1,7 +1,7 @@
 from django.db import models
 
 class Concerns(models.Model):
-    id_concern = models.IntegerField(primary_key=True)
+    id_concern = models.AutoField(primary_key=True)
     concern_name = models.CharField(max_length=45)
     RATINGS = (
         ('0', 'Neutral'),
@@ -22,7 +22,7 @@ class Concerns(models.Model):
             ordering = ("concern_name",)
 
 class Companies(models.Model):
-    id_company = models.IntegerField(primary_key=True)
+    id_company = models.AutoField(primary_key=True)
     company_name = models.CharField(max_length=45)
     company_logo = models.CharField(max_length=45, blank=True, null=True)
     concerns_id_concern = models.ForeignKey('Concerns', models.DO_NOTHING, db_column='concerns_id_concern')
@@ -39,7 +39,7 @@ class Companies(models.Model):
 
 
 class Brands(models.Model):
-    id_brand = models.IntegerField(primary_key=True)
+    id_brand = models.AutoField(primary_key=True)
     brand_name = models.CharField(max_length=45)
     brand_logo = models.CharField(max_length=200, blank=True, null=True)
     companies = models.ManyToManyField(Companies)
@@ -57,7 +57,7 @@ class Brands(models.Model):
         ordering = ("brand_name",)
 
 class Products(models.Model):
-    id_product = models.IntegerField(primary_key=True)
+    id_product = models.AutoField(primary_key=True)
     product_name = models.CharField(max_length=45)
     product_ean = models.CharField(max_length=45, blank=True, null=True)
     product_image = models.CharField(max_length=45, blank=True, null=True)
