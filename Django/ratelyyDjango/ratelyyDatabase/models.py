@@ -2,13 +2,13 @@ from django.db import models
 
 class Concerns(models.Model):
     id_concern = models.AutoField(primary_key=True)
-    concern_name = models.CharField(max_length=45)
-    RATINGS = (
+    concern_name = models.CharField(max_length=45,verbose_name="Concern Name",unique=True)
+    ratings = (
         ('0', 'Neutral'),
         ('1', 'Ethical'),
         ('2', 'Unethical'),
     )
-    concern_rating = models.CharField(max_length=2, choices=RATINGS)
+    concern_rating = models.CharField(max_length=2, choices=ratings,default=0,verbose_name="Concern Rating")
 
     def __str__(self):
         return self.concern_name
@@ -23,9 +23,9 @@ class Concerns(models.Model):
 
 class Companies(models.Model):
     id_company = models.AutoField(primary_key=True)
-    company_name = models.CharField(max_length=45)
-    company_logo = models.CharField(max_length=45, blank=True, null=True)
-    concerns_id_concern = models.ForeignKey('Concerns', models.DO_NOTHING, db_column='concerns_id_concern')
+    company_name = models.CharField(max_length=45,unique=True,verbose_name="Company Name")
+    company_logo = models.CharField(max_length=45, blank=True, null=True,verbose_name="Company Logo")
+    concerns_id_concern = models.ForeignKey('Concerns', models.DO_NOTHING, db_column='concerns_id_concern',verbose_name="Concern")
 
     def __str__(self):
         return self.company_name
@@ -40,9 +40,9 @@ class Companies(models.Model):
 
 class Brands(models.Model):
     id_brand = models.AutoField(primary_key=True)
-    brand_name = models.CharField(max_length=45)
-    brand_logo = models.CharField(max_length=200, blank=True, null=True)
-    companies = models.ManyToManyField(Companies)
+    brand_name = models.CharField(max_length=45,unique=True,verbose_name="Brand Name")
+    brand_logo = models.CharField(max_length=200, blank=True, null=True, verbose_name="Brand Logo")
+    companies = models.ManyToManyField(Companies,verbose_name="Company")
 
     def __unicode__(self):
         return self.company_name
@@ -58,7 +58,7 @@ class Brands(models.Model):
 
 class Products(models.Model):
     id_product = models.AutoField(primary_key=True)
-    product_name = models.CharField(max_length=45)
+    product_name = models.CharField(max_length=45,unique=True)
     product_ean = models.CharField(max_length=45, blank=True, null=True)
     product_image = models.CharField(max_length=45, blank=True, null=True)
     product_group = models.CharField(max_length=200, blank=True, null=True)
