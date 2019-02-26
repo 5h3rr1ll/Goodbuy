@@ -16,6 +16,7 @@ class Concerns(models.Model):
             # this do the trick that django admin doesn't place a further s after
             # the table name. Source: https://stackoverflow.com/questions/2587707/django-fix-admin-plural
             verbose_name_plural = "concerns"
+            ordering = ("concern_name",)
 
 class Companies(models.Model):
     id_company = models.IntegerField(primary_key=True)
@@ -28,6 +29,7 @@ class Companies(models.Model):
         db_table = 'companies'
         unique_together = (('id_company', 'concerns_id_concern'),)
         verbose_name_plural = "companies"
+        ordering = ("company_name",)
 
 
 class Brands(models.Model):
@@ -42,6 +44,7 @@ class Brands(models.Model):
         managed = True
         db_table = 'brands'
         verbose_name_plural = "brands"
+        ordering = ("brand_name",)
 
 class Products(models.Model):
     id_product = models.IntegerField(primary_key=True)
@@ -51,6 +54,8 @@ class Products(models.Model):
     product_group = models.CharField(max_length=200, blank=True, null=True)
     brands_id_brand = models.ForeignKey(Brands, models.CASCADE, db_column='brands_id_brand')
 
+    #with this function the name of the brand becomes returned instead of Object(1),
+    #Object(2) etc
     def __unicode__(self):
         return self.brand_name
 
@@ -62,6 +67,7 @@ class Products(models.Model):
         db_table = 'products'
         unique_together = (('id_product', 'brands_id_brand'),)
         verbose_name_plural = "products"
+        ordering = ("product_name",)
 
 
 class ConcernsOld(models.Model):
