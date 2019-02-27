@@ -44,23 +44,17 @@ class Companies(models.Model):
 
 class Brands(models.Model):
     id_brand = models.AutoField(primary_key=True)
-    brand_name = models.CharField(max_length=45,verbose_name="Brand Name")#,unique=True
-    brand_logo = models.CharField(max_length=200, blank=True, null=True, verbose_name="Brand Logo")
-    companies = models.ManyToManyField(Companies,verbose_name="Company")
-    brand_created = models.DateTimeField(auto_now_add=True)
-    brand_updated = models.DateTimeField(auto_now=True)
-
-    def __unicode__(self):
-        return self.company_name
-
-    def __str__(self):
-        return self.brand_name
+    brand_name = models.CharField(unique=True, max_length=45)
+    brand_logo = models.CharField(max_length=200, blank=True, null=True)
+    brand_rating = models.CharField(max_length=1, blank=True, null=True)
+    brand_created = models.DateTimeField()
+    brand_updated = models.DateTimeField()
+    brand_concern = models.ForeignKey('Concerns', models.DO_NOTHING, blank=True, null=True)
+    company_id = models.IntegerField()
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'brands'
-        verbose_name_plural = "brands"
-        ordering = ("brand_name",)
 
 class Products(models.Model):
     id_product = models.AutoField(primary_key=True)
