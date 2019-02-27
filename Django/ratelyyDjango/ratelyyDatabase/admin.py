@@ -6,17 +6,17 @@ class ConcernsAdmin(admin.ModelAdmin):
     search_fields = ["name", "rating", "id",]
 
 class CompaniesAdmin(admin.ModelAdmin):
-    list_display = ("name", "logo", "concern", "id",)
-    search_fields = ["name", "logo", "concern", "id",]
+    list_display = ("name","concern_rating", "logo", "concern", "id",)
+    search_fields = ["name","concern_rating", "logo", "concern", "id",]
 
 class BrandsAdmin(admin.ModelAdmin):
-    list_display = ("name", "logo", "id",)
-    search_fields = ["name", "logo", "id",]
+    list_display = ("name","concern_rating", "logo", "id",)
+    search_fields = ["name","concern_rating", "logo", "id",]
     autocomplete_fields = ("concern", "company",)
 
 class ProductsAdmin(admin.ModelAdmin):
-    list_display = ("name",  "ean", "image", "group", "brand", "id",)
-    search_fields = ["name", "id",]
+    list_display = ("name","concern_rating",  "ean", "image", "group", "brand", "id",)
+    search_fields = ["name","concern_rating",  "ean", "image", "group", "brand", "id",]
     autocomplete_fields = ("brand", "concern",)
 
 admin.site.register(Concerns, ConcernsAdmin)

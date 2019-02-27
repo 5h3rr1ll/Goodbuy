@@ -28,12 +28,17 @@ class Companies(models.Model):
     name = models.CharField(max_length=45,unique=True,verbose_name="Company Name")
     logo = models.CharField(max_length=45,verbose_name="Company Logo")
     concern = models.ForeignKey(Concerns, models.CASCADE)
+    concern_rating = models.ForeignKey(Concerns, models.CASCADE, db_column="concern_rating")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-
+    
     def __str__(self):
         return self.name
 
+    def __unicode__(self):
+       return self.concern.rating
+
+    
     class Meta:
         managed = True
         db_table = 'companies'
@@ -46,7 +51,6 @@ class Brands(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=45, verbose_name= "Brand Name")
     logo = models.CharField(max_length=200, verbose_name="Brand Logo")
-    rating = models.CharField(max_length=1, verbose_name="Brand Rating")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     company = models.ForeignKey(Companies, models.CASCADE)
@@ -68,14 +72,15 @@ class Products(models.Model):
     group = models.CharField(max_length=200,verbose_name="Product Group")
     brand = models.ForeignKey(Brands, models.CASCADE)
     concern = models.ForeignKey(Concerns, models.CASCADE)
+    concern_rating = models.ForeignKey(Concerns, models.CASCADE, db_column="concern_rating")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    def __unicode__(self):
-        return self.name
-
     def __str__(self):
         return self.name
+
+    def __unicode__(self):
+       return self.concerns.concern_rating
 
     class Meta:
         managed = False
