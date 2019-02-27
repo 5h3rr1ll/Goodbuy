@@ -2,11 +2,11 @@ from django.contrib import admin
 from .models import Concerns, Companies, Brands, Products
 # Register your models here.
 class ConcernsAdmin(admin.ModelAdmin):
-    list_display = ( "id","name","rating","created","updated",)
-    search_fields = ["id","name","rating","created","updated",]
+    list_display = ("id","name","logo","wiki","rating","created","updated",)
+    search_fields = ["id","name","logo","wiki","rating","created","updated",]
 
 class CompaniesAdmin(admin.ModelAdmin):
-    list_display = ("id","name","concern_rating", "logo", "concern","created","updated",)
+    list_display = ("id","name","logo","wiki","concern","concern_rating","created","updated",)
     search_fields = ["id","name","concern_rating", "logo", "concern","created","updated",]
 
 class BrandsAdmin(admin.ModelAdmin):
