@@ -68,7 +68,7 @@ class Products(models.Model):
     product_ean = models.CharField(max_length=45, blank=True, null=True)
     product_image = models.CharField(max_length=45, blank=True, null=True)
     product_group = models.CharField(max_length=200, blank=True, null=True)
-    brands_id_brand = models.ForeignKey(Brands, models.CASCADE, db_column='brands_id_brand',verbose_name="Brand")
+    brands_id_brand = models.ForeignKey(Brands, models.CASCADE, db_column='brands_id_brand')
     product_created = models.DateTimeField(auto_now_add=True)
     product_updated = models.DateTimeField(auto_now=True)
 
