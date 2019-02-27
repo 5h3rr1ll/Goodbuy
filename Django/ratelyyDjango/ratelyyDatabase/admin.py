@@ -1,52 +1,25 @@
 from django.contrib import admin
-from .models import ConcernsOld, CompaniesOld, BrandsOld, ProductsOld, Concerns, Companies, Brands, Products
+from .models import Concerns, Companies, Brands, Products
 # Register your models here.
 class ConcernsAdmin(admin.ModelAdmin):
-    list_display = ("concern_name", "concern_rating", "id_concern",)
-    search_fields = ["concern_name", "concern_rating", "id_concern",]
+    list_display = ("name", "rating", "id",)
+    search_fields = ["name", "rating", "id",]
 
 class CompaniesAdmin(admin.ModelAdmin):
-    list_display = ("company_name", "company_logo", "concerns_id_concern", "id_company",)
-    search_fields = ["company_name", "company_logo", "concerns_id_concern", "id_company",]
+    list_display = ("name", "logo", "concern", "id",)
+    search_fields = ["name", "logo", "concern", "id",]
 
 class BrandsAdmin(admin.ModelAdmin):
-    list_display = ("brand_name", "brand_logo", "id_brand",)
-    search_fields = ["brand_name", "brand_logo", "id_brand",]
-    autocomplete_fields = ("brand_concern", "brand_company",)
+    list_display = ("name", "logo", "id",)
+    search_fields = ["name", "logo", "id",]
+    autocomplete_fields = ("concern", "company",)
 
 class ProductsAdmin(admin.ModelAdmin):
-    list_display = ("product_name",  "product_ean", "product_image", "product_group", "product_brand", "product_id",)
-    search_fields = ["product_name", "id_product",]
-    autocomplete_fields = ("product_brand", "product_concern",)
-
-
-
-
-
-
-class ConcernsOldAdmin(admin.ModelAdmin):
-    list_display = ("name",)
-    search_fields = ["name"]
-
-
-class CompaniesOldAdmin(admin.ModelAdmin):
-    list_display = ("name",)
-    search_fields = ["name"]
-
-
-class BrandsOldAdmin(admin.ModelAdmin):
-    list_display = ("name",)
-    search_fields = ["name"]
-
-class ProductsOldAdmin(admin.ModelAdmin):
-    list_display = ("name",)
+    list_display = ("name",  "ean", "image", "group", "brand", "id",)
+    search_fields = ["name", "id",]
+    autocomplete_fields = ("brand", "concern",)
 
 admin.site.register(Concerns, ConcernsAdmin)
 admin.site.register(Companies, CompaniesAdmin)
 admin.site.register(Brands, BrandsAdmin)
 admin.site.register(Products, ProductsAdmin)
-
-admin.site.register(ConcernsOld, ConcernsOldAdmin)
-admin.site.register(CompaniesOld, CompaniesOldAdmin)
-admin.site.register(BrandsOld, BrandsOldAdmin)
-admin.site.register(ProductsOld, ProductsOldAdmin)
