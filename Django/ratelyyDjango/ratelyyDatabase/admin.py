@@ -16,8 +16,8 @@ class BrandAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     model = Product
-    list_display = ("id","name",  "logo", "wiki", "ean", "image", "group", "brand", "concern","concern_rating","created", "updated",)
-    search_fields = ["id","name",  "logo", "wiki", "ean", "image", "group", "brand", "concern","concern_rating","created", "updated",]
+    list_display = ("id","name",  "logo", "wiki", "gtin", "image", "group", "brand", "concern","concern_rating","created", "updated",)
+    search_fields = ["id","name",  "logo", "wiki", "gtin", "image", "group", "brand", "concern","concern_rating","created", "updated",]
     autocomplete_fields = ("brand", "concern",)
 
     def concern_rating(self, obj):
