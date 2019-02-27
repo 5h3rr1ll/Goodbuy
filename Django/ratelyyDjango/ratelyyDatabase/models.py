@@ -44,13 +44,16 @@ class Companies(models.Model):
 
 class Brands(models.Model):
     id_brand = models.AutoField(primary_key=True)
-    brand_name = models.CharField(unique=True, max_length=45)
-    brand_logo = models.CharField(max_length=200, blank=True, null=True)
-    brand_rating = models.CharField(max_length=1, blank=True, null=True)
-    brand_created = models.DateTimeField()
-    brand_updated = models.DateTimeField()
-    brand_concern = models.ForeignKey('Concerns', models.DO_NOTHING, blank=True, null=True)
-    company_id = models.IntegerField()
+    brand_name = models.CharField(unique=True, max_length=45, verbose_name= "Brand Name")
+    brand_logo = models.CharField(max_length=200, blank=True, null=True, verbose_name="Brand Logo")
+    brand_rating = models.CharField(max_length=1, blank=True, null=True, verbose_name="Brand Rating")
+    brand_created = models.DateTimeField(auto_now_add=True)
+    brand_updated = models.DateTimeField(auto_now=True)
+    brand_company = models.ForeignKey(Companies, models.CASCADE, verbose_name="Company")
+    brand_concern = models.ForeignKey('Concerns', models.CASCADE, blank=True, null=True, verbose_name="Brand Concern")
+
+    def __str__(self):
+        return self.brand_name
 
     class Meta:
         managed = False
@@ -58,17 +61,16 @@ class Brands(models.Model):
         verbose_name_plural = "brands"
 
 class Products(models.Model):
-    id_product = models.AutoField(primary_key=True)
-    product_name = models.CharField(max_length=45,unique=True)
-    product_ean = models.CharField(max_length=45, blank=True, null=True)
-    product_image = models.CharField(max_length=45, blank=True, null=True)
-    product_group = models.CharField(max_length=200, blank=True, null=True)
-    brands_id_brand = models.ForeignKey(Brands, models.CASCADE, db_column='brands_id_brand')
+    product_id = models.AutoField(primary_key=True)
+    product_name = models.CharField(unique=True, max_length=45,verbose_name="Product Name")
+    product_ean = models.CharField(max_length=45, blank=True, null=True,verbose_name="Product EAN")
+    product_image = models.CharField(max_length=45, blank=True, null=True,verbose_name="Product Image")
+    product_group = models.CharField(max_length=200, blank=True, null=True,verbose_name="Product Group")
+    product_brand = models.ForeignKey(Brands,models.CASCADE,db_column="product_brand",verbose_name="Product Brands")
+    product_concern = models.ForeignKey(Concerns, models.CASCADE, db_column="product_concern", verbose_name="Concern")
     product_created = models.DateTimeField(auto_now_add=True)
     product_updated = models.DateTimeField(auto_now=True)
 
-    #with this function the name of the brand becomes returned instead of Object(1),
-    #Object(2) etc
     def __unicode__(self):
         return self.brand_name
 
@@ -76,13 +78,10 @@ class Products(models.Model):
         return self.product_name
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'products'
-        unique_together = (('id_product', 'brands_id_brand'),)
+        unique_together = (('product_id','product_brand'),)
         verbose_name_plural = "products"
-        ordering = ("product_name",)
-
-
 class ConcernsOld(models.Model):
     name = models.CharField(max_length=50)
     fair = models.IntegerField()
