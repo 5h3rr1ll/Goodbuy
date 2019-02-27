@@ -1,14 +1,16 @@
 from django.db import models
 
 class Concerns(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45,verbose_name="Concern Name",unique=True)
     ratings = (
         ('0', 'Neutral'),
         ('1', 'Ethical'),
         ('2', 'Unethical'),
     )
-    rating = models.CharField(max_length=2, choices=ratings,default=0,verbose_name="Concern Rating")
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=45,verbose_name="Concern Name",unique=True)
+    logo = models.URLField()
+    wiki = medels.URLField()
+    rating = models.CharField(max_length=2, choices=ratings,default=0)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -25,20 +27,21 @@ class Concerns(models.Model):
 
 class Companies(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45,unique=True,verbose_name="Company Name")
-    logo = models.CharField(max_length=45,verbose_name="Company Logo")
+    name = models.CharField(max_length=45,unique=True)
+    logo = models.URLField()
+    wiki = models.URLField()
     concern = models.ForeignKey(Concerns, models.CASCADE)
     concern_rating = models.ForeignKey(Concerns, models.CASCADE, db_column="concern_rating")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    
+
     def __str__(self):
         return self.name
 
     def __unicode__(self):
        return self.concern.rating
 
-    
+
     class Meta:
         managed = True
         db_table = 'companies'
