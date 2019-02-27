@@ -77,7 +77,7 @@ class Product(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'products'
         unique_together = (('id','brand'),)
 
