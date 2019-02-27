@@ -52,12 +52,13 @@ class Companies(models.Model):
 
 class Brands(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=45, verbose_name= "Brand Name")
-    logo = models.CharField(max_length=200, verbose_name="Brand Logo")
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    name = models.CharField(unique=True, max_length=45,)
+    logo = models.URLField()
+    wiki = models.URLField()
     company = models.ForeignKey(Companies, models.CASCADE)
     concern = models.ForeignKey(Concerns, models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
@@ -69,10 +70,12 @@ class Brands(models.Model):
 
 class Products(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=45,verbose_name="Product Name")
-    ean = models.CharField(max_length=45,verbose_name="Product EAN")
-    image = models.CharField(max_length=45,verbose_name="Product Image")
-    group = models.CharField(max_length=200,verbose_name="Product Group")
+    name = models.CharField(unique=True, max_length=45,)
+    logo = models.URLField()
+    wiki = models.URLField()
+    ean = models.CharField(max_length=45,verbose_name="EAN")
+    image = models.CharField(max_length=45,)
+    group = models.CharField(max_length=200,)
     brand = models.ForeignKey(Brands, models.CASCADE)
     concern = models.ForeignKey(Concerns, models.CASCADE)
     concern_rating = models.ForeignKey(Concerns, models.CASCADE, db_column="concern_rating")
