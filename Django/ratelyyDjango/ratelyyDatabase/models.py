@@ -67,7 +67,7 @@ class Product(models.Model):
     name = models.CharField(unique=True, max_length=45,)
     logo = models.URLField()
     wiki = models.URLField()
-    gtin = models.PositiveIntegerField(max_length=14,verbose_name="GTIN")
+    gtin = models.PositiveIntegerField(verbose_name="GTIN")
     image = models.URLField()
     group = models.CharField(max_length=200,)
     brand = models.ForeignKey(Brand, models.CASCADE)
