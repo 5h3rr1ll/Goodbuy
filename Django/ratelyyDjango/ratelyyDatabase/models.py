@@ -38,6 +38,7 @@ class Company(models.Model):
         db_table = 'companies'
         unique_together = (('id', 'concern'),)
         ordering = ("name",)
+        verbose_name_plural = "Companies"
 
     def __str__(self):
         return self.name
@@ -54,7 +55,7 @@ class Brand(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'brands'
 
     def __str__(self):
