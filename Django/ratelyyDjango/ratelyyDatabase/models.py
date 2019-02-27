@@ -55,6 +55,7 @@ class Brands(models.Model):
     class Meta:
         managed = False
         db_table = 'brands'
+        verbose_name_plural = "brands"
 
 class Products(models.Model):
     id_product = models.AutoField(primary_key=True)
