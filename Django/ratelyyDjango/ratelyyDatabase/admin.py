@@ -13,7 +13,6 @@ class CompaniesAdmin(admin.ModelAdmin):
 class BrandsAdmin(admin.ModelAdmin):
     list_display = ("brand_name", "brand_logo", "id_brand",)
     search_fields = ["brand_name", "brand_logo", "id_brand",]
-    autocomplete_fields = ("brand_concern",)
 
 class ProductsAdmin(admin.ModelAdmin):
     list_display = ("product_name",  "product_ean", "product_image", "product_group", "brands_id_brand", "id_product",)
