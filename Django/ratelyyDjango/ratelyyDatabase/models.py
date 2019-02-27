@@ -1,7 +1,7 @@
 from django.db import models
 
 class Concern(models.Model):
-    ratings = (
+    RATINGS = (
         ('0', 'Neutral'),
         ('1', 'Ethical'),
         ('2', 'Unethical'),
@@ -10,19 +10,18 @@ class Concern(models.Model):
     name = models.CharField(max_length=45,verbose_name="Concern Name",unique=True)
     logo = models.URLField()
     wiki = models.URLField()
-    rating = models.CharField(max_length=2, choices=ratings,default=0)
+    rating = models.CharField(max_length=2, choices=RATINGS,default=0)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
 
     class Meta:
             managed = True
             db_table = 'concerns'
-            # this do the trick that django admin doesn't place a further s after
-            # the table name. Source: https://stackoverflow.com/questions/2587707/django-fix-admin-plural
             ordering = ("name",)
+
+    def __str__(self):
+        return self.name
+
 
 class Company(models.Model):
     id = models.AutoField(primary_key=True)
@@ -34,18 +33,14 @@ class Company(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.name
-
-    def __unicode__(self):
-       return self.concern.rating
-
-
     class Meta:
         managed = True
         db_table = 'companies'
         unique_together = (('id', 'concern'),)
         ordering = ("name",)
+
+    def __str__(self):
+        return self.name
 
 
 class Brand(models.Model):
@@ -58,12 +53,13 @@ class Brand(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         managed = False
         db_table = 'brands'
+
+    def __str__(self):
+        return self.name
+
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
@@ -79,13 +75,10 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return self.name
-
-    def __unicode__(self):
-       return self.concerns.rating
-
     class Meta:
         managed = False
         db_table = 'products'
         unique_together = (('id','brand'),)
+
+    def __str__(self):
+        return self.name

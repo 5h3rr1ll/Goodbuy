@@ -15,9 +15,12 @@ class BrandAdmin(admin.ModelAdmin):
     autocomplete_fields = ("concern", "company",)
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("id","name",  "logo", "wiki", "ean", "image", "group", "brand", "concern","created", "updated",)
-    search_fields = ["id","name",  "logo", "wiki", "ean", "image", "group", "brand", "concern","created", "updated",]
+    list_display = ("id","name",  "logo", "wiki", "ean", "image", "group", "brand", "concern","concern_rating","created", "updated",)
+    search_fields = ["id","name",  "logo", "wiki", "ean", "image", "group", "brand", "concern","concern_rating","created", "updated",]
     autocomplete_fields = ("brand", "concern",)
+
+    def concern_rating(self, obj):
+        return obj.concern.rating
 
 admin.site.register(Concern, ConcernAdmin)
 admin.site.register(Company, CompanyAdmin)
