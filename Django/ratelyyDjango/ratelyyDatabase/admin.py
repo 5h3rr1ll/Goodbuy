@@ -1,25 +1,25 @@
 from django.contrib import admin
 from .models import Concerns, Companies, Brands, Products
 # Register your models here.
-class ConcernsAdmin(admin.ModelAdmin):
+class ConcernAdmin(admin.ModelAdmin):
     list_display = ("id","name","logo","wiki","rating","created","updated",)
     search_fields = ["id","name","logo","wiki","rating","created","updated",]
 
-class CompaniesAdmin(admin.ModelAdmin):
+class CompanyAdmin(admin.ModelAdmin):
     list_display = ("id","name","logo","wiki","concern","created","updated",)
     search_fields = ["id","name", "logo", "concern","created","updated",]
 
-class BrandsAdmin(admin.ModelAdmin):
+class BrandAdmin(admin.ModelAdmin):
     list_display = ("id","name", "logo", "wiki", "company","concern","created", "updated",)
     search_fields = ["id","name", "logo", "wiki", "company","concern","created", "updated",]
     autocomplete_fields = ("concern", "company",)
 
-class ProductsAdmin(admin.ModelAdmin):
+class ProductAdmin(admin.ModelAdmin):
     list_display = ("id","name",  "logo", "wiki", "ean", "image", "group", "brand", "concern","created", "updated",)
     search_fields = ["id","name",  "logo", "wiki", "ean", "image", "group", "brand", "concern","created", "updated",]
     autocomplete_fields = ("brand", "concern",)
 
-admin.site.register(Concerns, ConcernsAdmin)
-admin.site.register(Companies, CompaniesAdmin)
-admin.site.register(Brands, BrandsAdmin)
-admin.site.register(Products, ProductsAdmin)
+admin.site.register(Concerns, ConcernAdmin)
+admin.site.register(Companies, CompanyAdmin)
+admin.site.register(Brands, BrandAdmin)
+admin.site.register(Products, ProductAdmin)
