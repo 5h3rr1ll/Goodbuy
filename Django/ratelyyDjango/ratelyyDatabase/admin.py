@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Concerns, Companies, Brands, Products
+from .models import Concern, Company, Brand, Product
 # Register your models here.
 class ConcernAdmin(admin.ModelAdmin):
     list_display = ("id","name","logo","wiki","rating","created","updated",)
@@ -19,7 +19,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ["id","name",  "logo", "wiki", "ean", "image", "group", "brand", "concern","created", "updated",]
     autocomplete_fields = ("brand", "concern",)
 
-admin.site.register(Concerns, ConcernAdmin)
-admin.site.register(Companies, CompanyAdmin)
-admin.site.register(Brands, BrandAdmin)
-admin.site.register(Products, ProductAdmin)
+admin.site.register(Concern, ConcernAdmin)
+admin.site.register(Company, CompanyAdmin)
+admin.site.register(Brand, BrandAdmin)
+admin.site.register(Product, ProductAdmin)
