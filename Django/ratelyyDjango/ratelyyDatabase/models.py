@@ -68,9 +68,9 @@ class Product(models.Model):
     wiki = models.URLField(null=True,blank=True)
     gtin = models.PositiveIntegerField(null=True,blank=True,verbose_name="GTIN")
     image = models.URLField(null=True,blank=True)
-    group = models.CharField(null=True,blank=True)
-    brand = models.ForeignKey(Brand, models.CASCADE,null=True,blank=True)
-    concern = models.ForeignKey(Concern, models.CASCADE,related_name="products",null=True,blank=True)
+    group = models.CharField(max_length=45,null=True,blank=True)
+    brand = models.ForeignKey(Brand, models.CASCADE)
+    concern = models.ForeignKey(Concern, models.CASCADE,null=True,blank=True,default=1)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
