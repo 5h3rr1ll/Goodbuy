@@ -28,8 +28,7 @@ class Company(models.Model):
     name = models.CharField(max_length=45,unique=True)
     logo = models.URLField()
     wiki = models.URLField()
-    concern = models.ForeignKey(Concern,models.CASCADE,db_column="concern",related_name="companies")
-    concern_rating = models.ForeignKey(Concern,models.CASCADE,related_name="companies_rating")
+    concern = models.ForeignKey(Concern,models.CASCADE,db_column="concern")#,related_name="companies")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -72,7 +71,6 @@ class Product(models.Model):
     group = models.CharField(max_length=200,)
     brand = models.ForeignKey(Brand, models.CASCADE)
     concern = models.ForeignKey(Concern, models.CASCADE,related_name="products")
-    concern_rating = models.ForeignKey(Concern,models.CASCADE,related_name="products_rating")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

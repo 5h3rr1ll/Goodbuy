@@ -22,8 +22,8 @@ class ProductAdmin(admin.ModelAdmin):
 
     def concern_rating(self, obj):
         return obj.concern.rating
-        concern_rating.short_description = "This is the Rating of the associated concern"
-        concern_rating.admin_order_field = "rating"
+    concern_rating.short_description = "This is the Rating of the associated concern"
+    concern_rating.admin_order_field = "rating"
 
 admin.site.register(Concern, ConcernAdmin,)
 admin.site.register(Company, CompanyAdmin,)
