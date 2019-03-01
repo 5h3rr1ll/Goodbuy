@@ -2,15 +2,15 @@ from django.db import models
 
 class Concern(models.Model):
     RATINGS = (
-        ('0', 'Neutral'),
-        ('1', 'Ethical'),
-        ('2', 'Unethical'),
+        ('Neutral','0'),
+        ('Ethical','1'),
+        ('Unethical','2'),
     )
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45,verbose_name="Concern Name",unique=True)
     logo = models.URLField(null=True,blank=True)
     wiki = models.URLField(null=True,blank=True)
-    rating = models.CharField(max_length=2, choices=RATINGS,default=0,null=True,blank=True)
+    rating = models.CharField(max_length=45,choices=RATINGS,default=0,null=True,blank=True,help_text="0 = Neutral | 1 = Ethical | 2 = Unethical")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

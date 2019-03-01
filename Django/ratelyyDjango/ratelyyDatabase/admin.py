@@ -8,7 +8,7 @@ class ConcernAdmin(admin.ModelAdmin):
 class CompanyAdmin(admin.ModelAdmin):
     list_display = ("id","name","logo","wiki","concern","created","updated",)
     search_fields = ["id","name", "logo", "concern","created","updated",]
-
+    autocomplete_fields = ("concern",)
 class BrandAdmin(admin.ModelAdmin):
     list_display = ("id","name", "logo", "wiki", "company","concern","created", "updated",)
     search_fields = ["id","name", "logo", "wiki", "company","concern","created", "updated",]
