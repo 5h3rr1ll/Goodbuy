@@ -70,7 +70,7 @@ class Product(models.Model):
     image = models.URLField(null=True,blank=True)
     group = models.CharField(max_length=45,null=True,blank=True)
     brand = models.ForeignKey(Brand, models.CASCADE)
-    concern = models.ForeignKey(Concern, models.CASCADE,null=True,blank=True,default=1)
+    concern = models.ForeignKey(Concern, models.CASCADE,null=True,blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

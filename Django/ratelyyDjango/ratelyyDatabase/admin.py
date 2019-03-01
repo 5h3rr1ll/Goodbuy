@@ -21,7 +21,10 @@ class ProductAdmin(admin.ModelAdmin):
     autocomplete_fields = ("brand", "concern",)
 
     def concern_rating(self, obj):
-        return obj.concern.rating
+        if obj.concern is not None:
+            return obj.concern.rating
+        else:
+            return None
     concern_rating.short_description = "Rating of associated Concern"
     concern_rating.admin_order_field = "rating"
 
