@@ -35,7 +35,6 @@ class Company(models.Model):
     class Meta:
         managed = True
         db_table = 'companies'
-        # unique_together = (('id', 'concern'),)
         ordering = ("name",)
         verbose_name_plural = "Companies"
 
@@ -48,7 +47,7 @@ class Brand(models.Model):
     name = models.CharField(unique=True, max_length=45,)
     logo = models.URLField(null=True,blank=True)
     wiki = models.URLField(null=True,blank=True)
-    company = models.ManyToManyField(Company,models.SET_NULL,null=True,blank=True)
+    company = models.ForeignKey(Company,models.SET_NULL,null=True,blank=True)
     concern = models.ForeignKey(Concern,models.SET_NULL,null=True,blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -69,7 +68,7 @@ class Product(models.Model):
     gtin = models.PositiveIntegerField(null=True,blank=True,verbose_name="GTIN")
     image = models.URLField(null=True,blank=True)
     group = models.CharField(max_length=45,null=True,blank=True)
-    brand = models.ForeignKey(Brand, models.SET_NULL)
+    brand = models.ForeignKey(Brand, models.SET_NULL,null=True,blank=True)
     concern = models.ForeignKey(Concern, models.SET_NULL,null=True,blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -77,7 +76,6 @@ class Product(models.Model):
     class Meta:
         managed = True
         db_table = 'products'
-        # unique_together = (('id','brand'),)
 
     def __str__(self):
         return self.name
