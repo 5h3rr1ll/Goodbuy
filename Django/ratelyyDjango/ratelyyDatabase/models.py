@@ -62,9 +62,23 @@ class Brand(models.Model):
         return self.name
 
 
+class MainCategoryOfProduct(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(unique=True, max_length=45)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = True
+        db_table = "main_category_of_products"
+
+    def __str__(self):
+        return self.name
+        
+
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=45,)
+    name = models.CharField(unique=True, max_length=45)
     logo = models.URLField(null=True,blank=True)
     wiki = models.URLField(null=True,blank=True)
     gtin = models.PositiveIntegerField(null=True,blank=True,verbose_name="GTIN")
@@ -72,12 +86,28 @@ class Product(models.Model):
     group = models.CharField(max_length=45,null=True,blank=True)
     brand = models.ForeignKey(Brand, models.SET_NULL,null=True,blank=True)
     concern = models.ForeignKey(Concern, models.SET_NULL,null=True,blank=True)
+    main_category = models.ForeignKey(MainCategoryOfProduct, models.SET_NULL,null=True,blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         managed = True
         db_table = 'products'
+
+    def __str__(self):
+        return self.name
+
+
+class SubCategoryOfProduct(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(unique=True, max_length=45)
+    main_category = models.ForeignKey(MainCategoryOfProduct,models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = True
+        db_table = "sub_category_of_products"
 
     def __str__(self):
         return self.name
