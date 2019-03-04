@@ -2,9 +2,9 @@ from django.contrib import admin
 from .models import Concern, Company, Brand, Product, Country
 # Register your models here.
 class ConcernAdmin(admin.ModelAdmin):
-    list_display = ("id","name","logo","wiki","rating","country","created","updated",)
+    list_display = ("id","name","logo","wiki","rating","origin","created","updated",)
     list_display_links = ("id","name")
-    search_fields = ["id","name","logo","wiki","rating","country","created","updated",]
+    search_fields = ["id","name","logo","wiki","rating","origin","created","updated",]
 
 class CompanyAdmin(admin.ModelAdmin):
     list_display = ("id","name","logo","wiki","concern","concern_rating","created","updated",)

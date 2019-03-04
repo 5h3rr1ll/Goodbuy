@@ -1,5 +1,4 @@
 from django.db import models
-import pycountry
 
 class Country(models.Model):
     id = models.AutoField(primary_key=True)
@@ -8,7 +7,7 @@ class Country(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        managed = True 
+        managed = True
         db_table = "countries"
 
     def __str__(self):
@@ -123,5 +122,3 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-
-
