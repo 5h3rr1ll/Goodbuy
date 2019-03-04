@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import Concern, Company, Brand, Product
+from .models import Concern, Company, Brand, Product, Country
 # Register your models here.
 class ConcernAdmin(admin.ModelAdmin):
-    list_display = ("id","name","logo","wiki","rating","created","updated",)
+    list_display = ("id","name","logo","wiki","rating","country","created","updated",)
     list_display_links = ("id","name")
-    search_fields = ["id","name","logo","wiki","rating","created","updated",]
+    search_fields = ["id","name","logo","wiki","rating","country","created","updated",]
 
 class CompanyAdmin(admin.ModelAdmin):
     list_display = ("id","name","logo","wiki","concern","concern_rating","created","updated",)
@@ -45,6 +45,11 @@ class ProductAdmin(admin.ModelAdmin):
             return None
     concern_rating.short_description = "Rating of associated Concern"
     concern_rating.admin_order_field = "rating"
+
+class CountryAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "created", "updated")
+    list_display_links = ("id","name")
+    search_field = ["id", "name", "created", "updated"]
 
 admin.site.register(Concern, ConcernAdmin,)
 admin.site.register(Company, CompanyAdmin,)
