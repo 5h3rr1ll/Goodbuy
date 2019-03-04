@@ -2,9 +2,9 @@ from django.db import models
 
 class Concern(models.Model):
     RATINGS = (
-        ('Neutral','0'),
-        ('Ethical','1'),
-        ('Unethical','2'),
+        ('Neutral','Neutral'),
+        ('Ethical','Ethical'),
+        ('Unethical','Unethical'),
     )
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45,verbose_name="Concern Name",unique=True)
@@ -74,7 +74,7 @@ class MainCategoryOfProduct(models.Model):
 
     def __str__(self):
         return self.name
-        
+
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True)

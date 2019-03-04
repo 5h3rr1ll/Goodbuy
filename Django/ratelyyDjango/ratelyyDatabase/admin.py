@@ -19,7 +19,6 @@ class BrandAdmin(admin.ModelAdmin):
     autocomplete_fields = ("concern", "company",)
 
 class ProductAdmin(admin.ModelAdmin):
-    model = Product
     list_display = ("id","name",  "logo", "wiki", "gtin", "image", "group", "brand", "concern","concern_rating","created", "updated",)
     list_display_links = ("id","name")
     search_fields = ["id","name",  "logo", "wiki", "gtin", "image", "group", "brand", "concern","concern_rating","created", "updated",]
