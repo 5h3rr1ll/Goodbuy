@@ -7,16 +7,30 @@ class ConcernAdmin(admin.ModelAdmin):
     search_fields = ["id","name","logo","wiki","rating","created","updated",]
 
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ("id","name","logo","wiki","concern","created","updated",)
+    list_display = ("id","name","logo","wiki","concern","concern_rating","created","updated",)
     list_display_links = ("id","name")
-    search_fields = ["id","name", "logo", "concern","created","updated",]
+    search_fields = ["id","name", "logo", "concern","concern_rating","created","updated",]
     autocomplete_fields = ("concern",)
 
+    def concern_rating(self, obj):
+        if obj.concern is not None:
+            return obj.concern.rating
+        else:
+            return None
+    concern_rating.short_description = "Rating of associated Concern"
+
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ("id","name", "logo", "wiki", "company","concern","created", "updated",)
+    list_display = ("id","name", "logo", "wiki", "company","concern","concern_rating","created", "updated",)
     list_display_links = ("id","name")
-    search_fields = ["id","name", "logo", "wiki", "company","concern","created", "updated",]
+    search_fields = ["id","name", "logo", "wiki", "company","concern","concern_rating","created", "updated",]
     autocomplete_fields = ("concern", "company",)
+
+    def concern_rating(self, obj):
+        if obj.concern is not None:
+            return obj.concern.rating
+        else:
+            return None
+    concern_rating.short_description = "Rating of associated Concern"
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ("id","name",  "logo", "wiki", "gtin", "image", "group", "brand", "concern","concern_rating","created", "updated",)

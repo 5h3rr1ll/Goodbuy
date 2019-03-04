@@ -2,7 +2,6 @@ from django.db import models
 
 class Concern(models.Model):
     RATINGS = (
-        ('Neutral','Neutral'),
         ('Ethical','Ethical'),
         ('Unethical','Unethical'),
     )
@@ -10,7 +9,7 @@ class Concern(models.Model):
     name = models.CharField(max_length=45,verbose_name="Concern Name",unique=True)
     logo = models.URLField(null=True,blank=True)
     wiki = models.URLField(null=True,blank=True)
-    rating = models.CharField(max_length=45,choices=RATINGS,null=True,blank=True,help_text="0 = Neutral | 1 = Ethical | 2 = Unethical")
+    rating = models.CharField(max_length=45,choices=RATINGS,null=True,blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     origin = models.CharField(max_length=56,null=True,blank=True)
