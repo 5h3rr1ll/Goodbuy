@@ -1,4 +1,18 @@
 from django.db import models
+import pycountry
+
+class Country(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(unique=True, max_length=50)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = True 
+        db_table = "countries"
+
+    def __str__(self):
+        return self.name
 
 class Concern(models.Model):
     RATINGS = (
@@ -10,9 +24,9 @@ class Concern(models.Model):
     logo = models.URLField(null=True,blank=True)
     wiki = models.URLField(null=True,blank=True)
     rating = models.CharField(max_length=45,choices=RATINGS,null=True,blank=True)
+    origin = models.ForeignKey(Country,models.SET_NULL,null=True,blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    origin = models.CharField(max_length=56,null=True,blank=True)
 
     class Meta:
             managed = True
@@ -110,3 +124,5 @@ class SubCategoryOfProduct(models.Model):
 
     def __str__(self):
         return self.name
+
+
