@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['ratelyyDjangoEnv.p5j68a2z24.eu-central-1.elasticbeanstalk.com'
 # Application definition
 
 INSTALLED_APPS = [
+    "accounts",
     "mvpScanWebApp",
     'ratelyyDatabase',
     'django.contrib.admin',
@@ -133,3 +134,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
+
+LOGIN_REDIRECT_URL = "/account/"
