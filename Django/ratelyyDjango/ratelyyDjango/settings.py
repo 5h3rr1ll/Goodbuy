@@ -136,4 +136,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
 
-LOGIN_REDIRECT_URL = "/account/"
+LOGIN_REDIRECT_URL = "/accounts/"
+
+# TODO: Need to set the right email server here
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025

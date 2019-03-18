@@ -20,6 +20,6 @@ from ratelyyDjango import views
 urlpatterns = [
     url(r"^$", views.login_redirect, name="login.redirect"),
     url(r'^admin/', admin.site.urls),
-    url(r"^account/", include("accounts.urls")),
+    url(r"^accounts/", include("accounts.urls")),
     url(r'^mvpLogoGrab/', include('mvpLogoGrab.urls')),
 ]

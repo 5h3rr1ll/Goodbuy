@@ -9,10 +9,12 @@ from accounts.forms import (
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 # All logic goes thru the views. If you want to access e.g. data from a database
 # you do it here in the view.py in the functions
+@login_required
 def home(request):
     numbers = [1,2,3,4,5]
     name = "Anthony Sherrill"
@@ -28,29 +30,34 @@ def register(request):
         form = RegistrationFrom(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("/account")
+            return redirect("/accounts/profile")
+        else:
+            return redirect("/accounts/register")
     else:
         form = RegistrationFrom()
 
         args = {"form": form}
         return render(request, "accounts/reg_form.html", args)
 
+@login_required
 def view_profile(request):
     args = {"user": request.user}
     return render(request, "accounts/profile.html", args)
 
+@login_required
 def edit_profile(request):
     if request.method == "POST":
         form = EditProfileForm(request.POST, instance=request.user)
 
         if form.is_valid():
             form.save()
-            return redirect("/account/profile")
+            return redirect("/accounts/profile")
     else:
         form = EditProfileForm(instance = request.user)
         args = {"form": form}
         return render(request, "accounts/edit_profile.html", args)
 
+@login_required
 def change_password(request):
     if request.method == "POST":
         form = PasswordChangeForm(data = request.POST, user = request.user)
@@ -58,9 +65,9 @@ def change_password(request):
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
-            return redirect("/account/profile")
+            return redirect("/accounts/profile")
         else:
-            return redirect("/account/change-password")
+            return redirect("/accounts/change-password")
     else:
         form = PasswordChangeForm(user = request.user)
         args = {"form": form}
