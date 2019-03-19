@@ -5,8 +5,8 @@
 {% block body %}
 <div class="container">
     <form method="post">
+        {% csrf_token %}
         {{form.as_p}}
-        {{crsf_token}}
         <button type="submit" name="button">Submit</button>
     </form>
 </div>
