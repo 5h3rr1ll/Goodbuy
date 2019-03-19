@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "ratelyyDjango.middleware.LoginRequireMiddleware",
 ]
 
 ROOT_URLCONF = 'ratelyyDjango.urls'
@@ -136,8 +137,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
 
-LOGIN_REDIRECT_URL = "/accounts/"
+LOGIN_URL = "/accounts/login"
+LOGIN_REDIRECT_URL = "/accounts/profile"
+LOGIN_EXEMPT_URLS = (
+    r"^accounts/logout/$",
+    r"^accounts/register/$",
+    r"^accounts/reset-password/$",
+)
 
-# TODO: Need to set the right email server here
+# TODO: Need to set up a propper email server here
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
