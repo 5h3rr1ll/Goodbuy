@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
-from accounts.forms import (
-    RegistrationFrom,
-    EditProfileForm,
-)
+from mvpLogoGrab.forms import RegistrationForm
+
 # Create your views here.
 def home(request):
     numbers = [25,5,6,8]
@@ -12,15 +10,16 @@ def home(request):
 
 def register(request):
     if request.method == "POST":
-        form = RegistrationFrom(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect("/mvpLogoGrab")
         else:
-            form = RegistrationFrom()
+            form = RegistrationForm()
             args = {"form": form}
             return render(request, "mvpLogoGrab/reg_failed.html", args)
     else:
-        form = RegistrationFrom()
+        form = RegistrationForm()
         args = {"form": form}
         return render(request, "mvpLogoGrab/reg_form.html", args)
+   
