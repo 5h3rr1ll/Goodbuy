@@ -22,14 +22,37 @@
     </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {% if user.is_authenticated %}
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/account/register"> Register <span class="sr-only">(current)</span></a>
+          <li class="nav-item">
+             <a class="nav-link" href="/accounts/logout"> Log Out </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/account/login"> Login </a>
+             <a class="nav-link" href="/accounts/profile"> Profile </a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="/accounts/profile/edit"> Edit Profile </a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="/accounts/change-password"> Change Password </a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="/accounts/reset-password"> Reset Password </a>
           </li>
         </ul>
+        {% else %}
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/accounts/register"> Register <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/accounts/login"> Login </a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="/accounts/reset-password"> Reset Password </a>
+          </li>
+        </ul>
+        {% endif %}
       </div>
     </nav>
     </div>
