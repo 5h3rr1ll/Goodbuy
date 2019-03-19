@@ -27,6 +27,9 @@ class LoginRequireMiddleware:
         if path == reverse("Alogout").lstrip("/"):
             logout(request)
 
+        if path == reverse("reset_password").lstrip("/"):
+            logout(request)
+
         if request.user.is_authenticated and url_is_exempt:
             return redirect(settings.LOGIN_REDIRECT_URL)
         elif request.user.is_authenticated or  url_is_exempt:
