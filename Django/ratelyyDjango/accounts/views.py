@@ -39,6 +39,8 @@ def register(request):
         args = {"form": form}
         return render(request, "accounts/reg_form.html", args)
 
+# This is a decorator, you can place them infront of a function to e.g. require
+# that a user needed to be logged in to use that function
 # @login_required
 def view_profile(request):
     args = {"user": request.user}
