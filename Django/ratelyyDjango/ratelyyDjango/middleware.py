@@ -24,10 +24,10 @@ class LoginRequireMiddleware:
 
         url_is_exempt = any(url.match(path) for url in EXEMPT_URLS)
 
-        if path == reverse("Alogout").lstrip("/"):
+        if path == reverse("accounts:logout").lstrip("/"):
             logout(request)
 
-        if path == reverse("reset_password").lstrip("/"):
+        if path == reverse("accounts:reset_password").lstrip("/"):
             logout(request)
 
         if request.user.is_authenticated and url_is_exempt:
