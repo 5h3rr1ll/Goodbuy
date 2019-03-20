@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from mvpLogoGrab.forms import RegistrationForm
-from django.contrib.auth.forms import UserChangeForm
+from mvpLogoGrab.forms import (
+    RegistrationForm, 
+    EditProfileForm, 
+)
+from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 # Create your views here.
 def home(request):
     numbers = [25,5,6,8]
@@ -30,11 +34,26 @@ def profile(request):
 
 def edit_profile(request):
     if request.method == 'POST':
-        form = UserChangeForm(request.POST, instane=request.user)
+        form = EditProfileForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
             return redirect('/mvpLogoGrab/profile')
     else:
-        form = UserChangeForm(instance=request.user)
+        form = EditProfileForm(instance=request.user)
         args = {"form": form}
         return render(request, 'mvpLogoGrab/edit_profile.html', args)
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect('/mvpLogoGrab/profile')
+        else:
+            return redirect('/mvpLogoGrab/change-password')
+    else:
+        form = PasswordChangeForm(user=request.user)
+
+        args = {"form": form}
+        return render(request, 'mvpLogoGrab/change_password.html', args)
