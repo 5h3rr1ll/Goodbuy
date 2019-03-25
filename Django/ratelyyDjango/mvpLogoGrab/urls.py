@@ -1,13 +1,15 @@
 from django.conf.urls import url
 from mvpLogoGrab import views
 from django.contrib.auth.views import(
-    LoginView, 
+    LoginView,
     LogoutView,
     PasswordResetView,
     PasswordResetDoneView,
     PasswordResetConfirmView,
     PasswordResetCompleteView,
-) 
+)
+
+app_name = "mvpLogoGrab" 
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
