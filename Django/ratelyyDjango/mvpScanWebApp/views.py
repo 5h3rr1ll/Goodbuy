@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-def home(request):
+def gtin(request):
     numbers = [1,2,3,4,5]
     name = "Anthony Sherrill"
 
@@ -9,4 +9,4 @@ def home(request):
     # dict is the variable within this function
     # args takes all variabels you want to display on the rendered site
     args = {"myName": name, "numbers": numbers}
-    return render(request, "accounts/home.html", args)
+    return render(request, "mvpScanWebApp/home.html", args)

@@ -1,8 +1,8 @@
-from django.conf.urls import url
+from django.urls import path
 from mvpScanWebApp import views
 
 app_name = "mvpScanWebApp"
 
 urlpatterns = [
-    url(r'^$', views.home, name='home'),
+    path('', views.gtin, name='gtin'),
 ]
