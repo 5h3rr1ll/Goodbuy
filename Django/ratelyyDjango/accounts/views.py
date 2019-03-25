@@ -76,7 +76,7 @@ def change_password(request):
         return render(request, "accounts/change_password.html", args)
 
 def logo_grap(request):
-    return redirect("/mvpLogoGrab/")
+    return redirect("/mvpLogoGrab")
 
 def gtin(request):
-    return redirect("/gtin/")
+    return redirect("/gtin")
