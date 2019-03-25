@@ -4,5 +4,5 @@ from mvpScanWebApp import views
 app_name = "mvpScanWebApp"
 
 urlpatterns = [
-    path('', views.gtin, name='gtin'),
+    path('', views.home, name='gtin'),
 ]
