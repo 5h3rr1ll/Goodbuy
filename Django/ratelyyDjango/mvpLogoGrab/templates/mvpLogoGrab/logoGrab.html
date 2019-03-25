@@ -1,0 +1,40 @@
+{% extends "foundation.html" %}
+{% block head %}
+<title>LogoGrab WebScanner</title>
+<link rel="stylesheet" href="mvpLogoGrab/static/logoStyle.css">
+{% endblock %}
+{% block body %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+  </script>
+  <script src="https://www.logograb.com/webscanners/js/jquery-logograb.webscanner.min.js">
+  </script>
+
+  <div class="wrapper">
+  <div id="stage_grab">
+  <div id="logoGrabWebScannerButton">
+  <button>Tap to grab</button>
+  </div>
+  </div>
+  <br/><br/>
+  <div id="stage_result">
+  </div>
+  </div>
+  <script>
+  $('#logoGrabWebScannerButton').logoGrabWebScanner({
+   developerKey: 'YOUR-LOGOGRAB-DEVELOPER-KEY',
+   onInputImage: function(imageData) {
+    // Callback invoked after the image has been uploaded to the device
+   },
+   onStart: function() {
+    // Callback invoked before the image is uploaded to the server
+   },
+   onEnd: function(response) {
+    // Callback invoked when the response JSON is returned
+    if (!response.logoName)
+     $('#stage_result').html("No result");
+    else
+     $('#stage_result').html(response.logoName);
+   }
+  });
+  </script>
+{% endblock %}

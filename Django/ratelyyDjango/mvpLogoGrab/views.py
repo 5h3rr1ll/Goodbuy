@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from mvpLogoGrab.forms import (
-    RegistrationForm, 
-    EditProfileForm, 
+    RegistrationForm,
+    EditProfileForm,
 )
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -11,7 +11,7 @@ def home(request):
     numbers = [25,5,6,8]
     name = "Darjusch Schrand"
     args = {'myName' : name, 'numbers' : numbers}
-    return render(request, 'mvpLogoGrab/login.html', args)
+    return render(request, 'mvpLogoGrab/home.html', args)
 
 def register(request):
     if request.method == "POST":
@@ -57,3 +57,6 @@ def change_password(request):
 
         args = {"form": form}
         return render(request, 'mvpLogoGrab/change_password.html', args)
+
+def logo_grab(request):
+    return render(request, 'mvpLogoGrab/logoGrab.html')
