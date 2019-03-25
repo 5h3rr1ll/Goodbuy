@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from mvpScanWebApp import views
 # Create your views here.
-def home(request):
+
+def gtin(request):
     numbers = [1,2,3,4,5]
     name = "Anthony Sherrill"
 

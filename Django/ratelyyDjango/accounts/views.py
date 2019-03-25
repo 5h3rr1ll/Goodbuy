@@ -79,4 +79,4 @@ def logo_grap(request):
     return render(request, "mvpLogoGrab/home.html")
 
 def gtin(request):
-    return render(request, "mvpScanWebApp/home.html")
+    return render(request, "mvpScanWebApp/gtin.html")
