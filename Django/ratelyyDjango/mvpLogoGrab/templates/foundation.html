@@ -31,7 +31,7 @@
              <a class="nav-link" href="{% url 'accounts:view_profile' %}"> Profile </a>
           </li>
           <li class="nav-item">
-             <a class="nav-link" href="{%url 'accounts:edit_profile' %}"> Edit Profile </a>
+             <a class="nav-link" href="{% url 'accounts:edit_profile' %}"> Edit Profile </a>
           </li>
           <li class="nav-item">
              <a class="nav-link" href="{% url 'accounts:change_password' %}"> Change Password </a>
@@ -40,10 +40,10 @@
              <a class="nav-link" href="{% url 'accounts:reset_password' %}"> Reset Password </a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="{% url 'mvpScanWebApp:gtin' %}"> Barcode Scanner </a>
+              <a class="nav-link" href="{% url 'mvpScanWebApp:home' %}"> Barcode Scanner </a>
            </li>
            <li class="nav-item">
-              <a class="nav-link" href="{% url 'mvpLogoGrab:logo_grab' %}"> Logo Grab </a>
+              <a class="nav-link" href="{% url 'mvpLogoGrab:home' %}"> Logo Grab </a>
            </li>
         </ul>
         {% else %}
