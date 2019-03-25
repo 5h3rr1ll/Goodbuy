@@ -22,4 +22,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r"^accounts/", include(("accounts.urls","accounts"),namespace="accounts")),
     url(r'^mvpLogoGrab/', include('mvpLogoGrab.urls')),
+    url(r'^gtin/', include('mvpScanWebApp.urls')),
+
 ]

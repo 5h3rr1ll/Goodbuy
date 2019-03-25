@@ -74,3 +74,9 @@ def change_password(request):
         form = PasswordChangeForm(user = request.user)
         args = {"form": form}
         return render(request, "accounts/change_password.html", args)
+
+def logo_grap(request):
+    return redirect("/mvpLogoGrab/")
+
+def gtin(request):
+    return redirect("/gtin/")
