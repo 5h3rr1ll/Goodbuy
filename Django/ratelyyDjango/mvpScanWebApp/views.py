@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from mvpScanWebApp import views
 # Create your views here.
 def gtin(request):
     numbers = [1,2,3,4,5]

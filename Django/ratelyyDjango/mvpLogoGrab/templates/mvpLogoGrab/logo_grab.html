@@ -1,14 +1,13 @@
 {% extends "foundation.html" %}
 {% block head %}
 <title>LogoGrab WebScanner</title>
-<link rel="stylesheet" href="mvpLogoGrab/static/logoStyle.css">
+<link rel="stylesheet" href="mvpLogoGrab/static/logoStyle.class">
 {% endblock %}
 {% block body %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
   </script>
   <script src="https://www.logograb.com/webscanners/js/jquery-logograb.webscanner.min.js">
   </script>
-
   <div class="wrapper">
   <div id="stage_grab">
   <div id="logoGrabWebScannerButton">
@@ -21,7 +20,7 @@
   </div>
   <script>
   $('#logoGrabWebScannerButton').logoGrabWebScanner({
-   developerKey: 'YOUR-LOGOGRAB-DEVELOPER-KEY',
+   developerKey: 'nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr',
    onInputImage: function(imageData) {
     // Callback invoked after the image has been uploaded to the device
    },
@@ -37,4 +36,5 @@
    }
   });
   </script>
+
 {% endblock %}
