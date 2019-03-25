@@ -12,7 +12,7 @@ from django.contrib.auth.views import(
 app_name = "mvpLogoGrab" 
 
 urlpatterns = [
-    url(r'^$', views.home, name='home'),
+    url(r'^$', views.logo_grab, name='home'),
     url(r'^login/$', LoginView.as_view(template_name='mvpLogoGrab/login.html'), name='login'),
     url(r'^logout/$', LogoutView.as_view(template_name='mvpLogoGrab/logout.html'), name='logout'),
     url(r'^register/$', views.register, name='register'),
@@ -24,5 +24,4 @@ urlpatterns = [
     url(r'^reset-password/done$', PasswordResetDoneView.as_view(), name='password_reset_done'),
     url(r'^reset-password/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     url(r'^reset-password/complete/$', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
-    url(r'^logo_grab/$', views.logo_grab, name='logo_grab'),
 ]
