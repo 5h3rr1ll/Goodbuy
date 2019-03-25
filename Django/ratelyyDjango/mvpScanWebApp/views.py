@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from mvpScanWebApp import views
 # Create your views here.
 def home(request):
     numbers = [1,2,3,4,5]
@@ -10,3 +10,6 @@ def home(request):
     # args takes all variabels you want to display on the rendered site
     args = {"myName": name, "numbers": numbers}
     return render(request, "accounts/home.html", args)
+
+def gtin(request):
+    return render(request, 'mvpScanWebApp/gtin.html')

@@ -5,4 +5,5 @@ app_name = "mvpScanWebApp"
 
 urlpatterns = [
     url(r'^$', views.home, name='home'),
+    url(r'gtin/', views.gtin, name='gtin'),
 ]

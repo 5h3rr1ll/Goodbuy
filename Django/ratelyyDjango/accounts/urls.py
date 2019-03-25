@@ -25,7 +25,7 @@ urlpatterns = [
     path("reset-password/done/", PasswordResetDoneView.as_view(), name="password_reset_done"),
     path("reset-password/confirm/(<uidb64>[0-9A-Za-z]+)-(<token>.+)/", PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
     path("reset-password/complete/", PasswordResetCompleteView.as_view(), name="password_reset_complete"),
-    path("reset-password/logoscanner/", views.logo_grap, name="logo_grap"),
-    path("reset-password/logoscanner/", views.gtin, name="gtin"),
+    path("logoscanner/", views.logo_grab, name="logo_grab"),
+    path("gtinscanner/", views.gtin, name="gtin"),
 
 ]

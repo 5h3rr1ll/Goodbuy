@@ -75,8 +75,8 @@ def change_password(request):
         args = {"form": form}
         return render(request, "accounts/change_password.html", args)
 
-def logo_grap(request):
+def logo_grab(request):
     return redirect("/mvpLogoGrab")
 
 def gtin(request):
-    return redirect("/gtin")
+    return render(request, 'mvpScanWebApp/gtin.html')

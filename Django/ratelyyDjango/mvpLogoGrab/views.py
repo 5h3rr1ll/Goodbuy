@@ -59,4 +59,4 @@ def change_password(request):
         return render(request, 'mvpLogoGrab/change_password.html', args)
 
 def logo_grab(request):
-    return render(request, 'mvpLogoGrab/logoGrab.html')
+    return render(request, 'mvpLogoGrab/logo_grab.html')
