@@ -6,6 +6,8 @@ from mvpLogoGrab.forms import (
 )
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+import requests
+
 # Create your views here.
 def home(request):
     numbers = [25,5,6,8]
@@ -59,4 +61,12 @@ def change_password(request):
         return render(request, 'mvpLogoGrab/change_password.html', args)
 
 def logo_grab(request):
-    return render(request, 'mvpLogoGrab/logo_grab.html')
+
+    url = "https://api.logograb.com/detect"
+
+    querystring = {"mediaUrl":"http://s3.logograb.com/pub/test.png","developerKey":"nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr"}
+
+    response = requests.request("POST", url, params=querystring)
+
+    args = {"response": response}
+    return render(request, 'mvpLogoGrab/logo_grab.html', args)
