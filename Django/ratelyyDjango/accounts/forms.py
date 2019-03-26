@@ -29,7 +29,6 @@ class RegistrationFrom(UserCreationForm):
         return user
 
 class EditProfileForm(UserChangeForm):
-
     class Meta:
         model = User
         fields = {

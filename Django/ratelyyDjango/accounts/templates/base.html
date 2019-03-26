@@ -25,9 +25,6 @@
         {% if user.is_authenticated %}
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'accounts:logout' %}"> Log Out </a>
-          </li>
-          <li class="nav-item">
              <a class="nav-link" href="{% url 'accounts:view_profile' %}"> Profile </a>
           </li>
           <li class="nav-item">
@@ -46,16 +43,23 @@
              <a class="nav-link" href="{% url 'mvpScanWebApp:home' %}"> Barcode Scanner </a>
           </li>
         </ul>
+        <ul class="nav nvabar-nav navbar-right">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:logout' %}"> Log Out </a>
+          </li>
+        </ul>
         {% else %}
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <a class="nav-link" href="{% url 'accounts:register'%}"> Register <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'accounts:login' %}"> Login </a>
-          </li>
-          <li class="nav-item">
              <a class="nav-link" href="{% url 'accounts:reset_password' %}"> Reset Password </a>
+          </li>
+        </ul>
+        <ul class="nav nvabar-nav navbar-right">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:login' %}"> Login </a>
           </li>
         </ul>
         {% endif %}

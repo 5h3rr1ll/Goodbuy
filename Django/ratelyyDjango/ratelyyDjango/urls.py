@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from ratelyyDjango import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r"^$", views.login_redirect, name="login.redirect"),
@@ -23,5 +25,5 @@ urlpatterns = [
     url(r"^accounts/", include(("accounts.urls","accounts"),namespace="accounts")),
     url(r'^mvpLogoGrab/', include('mvpLogoGrab.urls')),
     url(r'^gtin/', include('mvpScanWebApp.urls')),
-
-]
+    url(r"^home/", include(("home.urls","home"),namespace="home")),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['ratelyyDjangoEnv.p5j68a2z24.eu-central-1.elasticbeanstalk.com'
 # Application definition
 
 INSTALLED_APPS = [
+    "home",
     'mvpLogoGrab',
     "accounts",
     "mvpScanWebApp",
@@ -135,6 +136,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "ratelyyDjango/media")
+
 STATIC_ROOT = 'static'
 
 LOGIN_URL = "/accounts/login"
@@ -143,6 +148,9 @@ LOGIN_EXEMPT_URLS = (
     r"^accounts/logout/$",
     r"^accounts/register/$",
     r"^accounts/reset-password/$",
+    r"^accounts/password_reset_done/$",
+    r"^accounts/reset-password/confirm/(<uidb64>[0-9A-Za-z]+)-(<token>.+)/$",
+    r"^accounts/reset-password/complete/$",
 )
 
 # TODO: Need to set up a propper email server here
