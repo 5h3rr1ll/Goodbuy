@@ -7,10 +7,11 @@ from mvpLogoGrab.forms import (
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 import requests
+from ratelyyDatabase.models import Product
 
 # Create your views here.
 def home(request):
-    numbers = [25,5,6,8]
+    numbers = [25, 5, 6, 8]
     name = "Darjusch Schrand"
     args = {'myName' : name, 'numbers' : numbers}
     return render(request, 'mvpLogoGrab/home.html', args)
@@ -61,12 +62,13 @@ def change_password(request):
         return render(request, 'mvpLogoGrab/change_password.html', args)
 
 def logo_grab(request):
-
     url = "https://api.logograb.com/detect"
-
-    querystring = {"mediaUrl":"http://s3.logograb.com/pub/test.png","developerKey":"nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr"}
-
+    querystring = {"mediaUrl":"http://s3.logograb.com/pub/test.png", "developerKey":"nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr"}
     response = requests.request("POST", url, params=querystring)
+    product_name = {"response": response}
+    product_data = load_data(response["name"])    
+    return render(request, 'mvpLogoGrab/logo_grab.html', product_data)
 
-    args = {"response": response}
-    return render(request, 'mvpLogoGrab/logo_grab.html', args)
+def load_data(product_name):
+    product_data = Product.objects.get(product_name)
+    return product_data

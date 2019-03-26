@@ -17,11 +17,23 @@
       <div id="stage_result"></div>
   </div>
   <br/><br/>
- 
   </div>
   </div>
-
-
+{% for product in products %}
+  <p>{{product.id}}</p>
+  <p>{{product.name}}</p>
+  <p>{{product.logo}}</p>
+  <p>{{product.wiki}}</p>
+  <p>{{product.gtin}}</p>
+  <p>{{product.image}}</p>
+  <p>{{product.group}}</p>
+  <p>{{product.brand}}</p>
+  <p>{{product.concern}}</p>
+  <p>{{product.main_category}}</p>
+  <p>{{product.sub_category}}</p>
+  <p>{{product.created}}</p>
+  <p>{{product.updated}}</p>
+{% endfor %}
   <script>
   $('#logoGrabWebScannerButton').logoGrabWebScanner({
    developerKey: 'nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr',
