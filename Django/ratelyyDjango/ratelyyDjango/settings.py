@@ -25,7 +25,7 @@ SECRET_KEY = 'f81ef2_sh7+)vg+&#nrxjo%@xa1mbep#mofsnvcob&9$uu9jb4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ratelyyDjangoEnv.p5j68a2z24.eu-central-1.elasticbeanstalk.com',"127.0.0.1","localhost"]
+ALLOWED_HOSTS = ['ratelyyDjangoEnv.p5j68a2z24.eu-central-1.elasticbeanstalk.com',"127.0.0.1","localhost",'10.0.4.48']
 
 
 # Application definition

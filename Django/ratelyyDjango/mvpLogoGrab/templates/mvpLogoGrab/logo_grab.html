@@ -1,23 +1,39 @@
 {% extends "foundation.html" %}
 {% block head %}
 <title>LogoGrab WebScanner</title>
-<link rel="stylesheet" href="mvpLogoGrab/static/logoStyle.class">
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}" type="text/css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+</script>
+<script src="https://www.logograb.com/webscanners/js/jquery-logograb.webscanner.min.js">
+</script>
 {% endblock %}
 {% block body %}
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
-  </script>
-  <script src="https://www.logograb.com/webscanners/js/jquery-logograb.webscanner.min.js">
-  </script>
+
   <div class="wrapper">
   <div id="stage_grab">
-  <div id="logoGrabWebScannerButton">
-  <button>Tap to grab</button>
-  </div>
+  <div class="container">
+      <button id="logoGrabWebScannerButton">Tap to grab</button>
+      <div id="stage_result"></div>
   </div>
   <br/><br/>
-  <div id="stage_result">
   </div>
   </div>
+{% for product in products %}
+  <p>{{product.id}}</p>
+  <p>{{product.name}}</p>
+  <p>{{product.logo}}</p>
+  <p>{{product.wiki}}</p>
+  <p>{{product.gtin}}</p>
+  <p>{{product.image}}</p>
+  <p>{{product.group}}</p>
+  <p>{{product.brand}}</p>
+  <p>{{product.concern}}</p>
+  <p>{{product.main_category}}</p>
+  <p>{{product.sub_category}}</p>
+  <p>{{product.created}}</p>
+  <p>{{product.updated}}</p>
+{% endfor %}
   <script>
   $('#logoGrabWebScannerButton').logoGrabWebScanner({
    developerKey: 'nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr',
@@ -33,8 +49,20 @@
      $('#stage_result').html("No result");
     else
      $('#stage_result').html(response.logoName);
+    }
    }
-  });
-  </script>
+  );
+  print("hello")
+     // + response.logoName
 
-{% endblock %}
+  fetch("http://127.0.0.1:8000//mvpLogoGrab/data/?name=Barilla",{
+        method: "GET", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json",
+            // "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: JSON.stringify(response.logoName), // body data type must match "Content-Type" header
+    })
+    .then(response => response.json()); // parses JSON response into native Javascript objects 
+  </script>
+{% endblock %}  
