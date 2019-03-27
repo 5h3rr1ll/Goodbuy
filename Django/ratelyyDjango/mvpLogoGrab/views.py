@@ -65,10 +65,10 @@ def logo_grab(request):
     url = "https://api.logograb.com/detect"
     querystring = {"mediaUrl":"http://s3.logograb.com/pub/test.png", "developerKey":"nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr"}
     response = requests.request("POST", url, params=querystring)
-    product_name = {"response": response}
-    product_data = load_data(response["name"])    
-    return render(request, 'mvpLogoGrab/logo_grab.html', product_data)
+    products = Product.objects.all()
+    product_name = {"response": response, "products": products}    
+    return render(request, 'mvpLogoGrab/logo_grab.html', product_name)
 
-def load_data(product_name):
-    product_data = Product.objects.get(product_name)
-    return product_data
+#def load_data(product_name):
+#    product_data = Product.objects.get(name=product_name)
+#    return product_data
