@@ -6,7 +6,6 @@ from mvpLogoGrab.forms import (
 )
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
-import requests
 from ratelyyDatabase.models import Product, Concern
 from django.template import RequestContext
 
@@ -67,7 +66,7 @@ def logo_grab(request):
     querystring = {"mediaUrl":"http://s3.logograb.com/pub/test.png", "developerKey":"nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr"}
     response = requests.request("POST", url, params=querystring)
     products = Product.objects.all()
-    product_name = {"response": response, "products": products}    
+    product_name = {"response": response, "products": products}
     return render(request, 'mvpLogoGrab/logo_grab.html', product_name)
 
 #def load_data(product_name):
