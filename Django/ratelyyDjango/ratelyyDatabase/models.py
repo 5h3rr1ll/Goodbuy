@@ -18,12 +18,12 @@ class Concern(models.Model):
         ('Ethical','Ethical'),
         ('Unethical','Unethical'),
     )
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45,verbose_name="Concern Name",unique=True)
-    logo = models.URLField(null=True,blank=True)
-    wiki = models.URLField(null=True,blank=True)
-    rating = models.CharField(max_length=45,choices=RATINGS,null=True,blank=True)
-    origin = models.ForeignKey(Country,models.SET_NULL,null=True,blank=True)
+    id = models.AutoField(primary_key = True)
+    name = models.CharField(max_length = 45, verbose_name = "Concern Name", unique=True)
+    logo = models.URLField(null = True, blank = True)
+    wiki = models.URLField(null =True, blank = True)
+    rating = models.CharField(max_length = 45, choices = RATINGS, null=True, blank=True)
+    origin = models.ForeignKey(Country, models.SET_NULL, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

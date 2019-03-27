@@ -7,7 +7,8 @@ from mvpLogoGrab.forms import (
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 import requests
-from ratelyyDatabase.models import Product
+from ratelyyDatabase.models import Product, Concern
+from django.template import RequestContext
 
 # Create your views here.
 def home(request):
@@ -72,3 +73,20 @@ def logo_grab(request):
 #def load_data(product_name):
 #    product_data = Product.objects.get(name=product_name)
 #    return product_data
+
+def get_data(request):
+#http://127.0.0.1:8000/mvpLogoGrab/data/?name=whatever
+    product_name = request.GET.get("name", "Not found")
+    product_data = Product.objects.get(name=product_name)
+    concern_data = Concern.objects.get(name=product_data.concern)
+
+    args = {
+        "id" : product_data.id,
+        "name" : product_data.name,
+        "brand" : product_data.brand,
+        "concern" : product_data.concern,
+        "image" : product_data.image,
+        "rating" : concern_data.rating,
+    }
+
+    return render(request, 'mvpLogoGrab/data.html', args)

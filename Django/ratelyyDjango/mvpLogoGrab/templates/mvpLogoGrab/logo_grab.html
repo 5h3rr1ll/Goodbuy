@@ -49,9 +49,14 @@
      $('#stage_result').html("No result");
     else
      $('#stage_result').html(response.logoName);
-    /* fetch("http://127.0.0.1:8000/mvpLogoGrab/", {
-        method: "POST", // *GET, POST, PUT, DELETE, etc.
-        mode: "cors", // no-cors, cors, *same-origin
+    }
+   }
+  );
+  print("hello")
+     // + response.logoName
+
+  fetch("http://127.0.0.1:8000//mvpLogoGrab/data/?name=Barilla",{
+        method: "GET", // *GET, POST, PUT, DELETE, etc.
         headers: {
             "Content-Type": "application/json",
             // "Content-Type": "application/x-www-form-urlencoded",
@@ -59,8 +64,5 @@
         body: JSON.stringify(response.logoName), // body data type must match "Content-Type" header
     })
     .then(response => response.json()); // parses JSON response into native Javascript objects 
-*/}
-   }
-  );
   </script>
-{% endblock %}
+{% endblock %}  
