@@ -55,3 +55,4 @@ admin.site.register(Concern, ConcernAdmin,)
 admin.site.register(Company, CompanyAdmin,)
 admin.site.register(Brand, BrandAdmin,)
 admin.site.register(Product, ProductAdmin,)
+admin.site.site_header = "Goodbuy Database"
