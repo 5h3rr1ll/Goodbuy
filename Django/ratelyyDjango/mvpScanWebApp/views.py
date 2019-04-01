@@ -10,4 +10,4 @@ def gtin(request):
     # dict is the variable within this function
     # args takes all variabels you want to display on the rendered site
     args = {"myName": name, "numbers": numbers}
-    return render(request, "mvpScanWebApp/home.html", args)
+    return render(request, "mvpScanWebApp/gtin.html", args)

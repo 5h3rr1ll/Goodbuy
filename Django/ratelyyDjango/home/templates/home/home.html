@@ -28,6 +28,7 @@
           </a>
         {% endif %}
       {% endfor %}
+      {% if friends %}
       <h2>Friends</h2>
       {% for friend in friends %}
       <a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
@@ -37,6 +38,7 @@
         <button type="button" class="btn btn-outline-secondary">Remove</button>
       </a>
       {% endfor %}
+      {% endif %}
     </div>
   </div>
 {% endblock %}

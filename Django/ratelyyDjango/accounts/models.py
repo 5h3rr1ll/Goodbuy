@@ -18,7 +18,9 @@ class UserProfile(models.Model):
     phone = models.IntegerField(default=0)
     image = models.ImageField(upload_to="profile_image", blank=True)
 
-    berlin = UserProfileManager()
+    # this UserProfileManager instance cause a error by creating profile when creating
+    # new user
+    # berlin = UserProfileManager()
 
     def __str__(self):
         return self.user.username

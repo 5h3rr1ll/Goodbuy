@@ -16,13 +16,14 @@ class HomeView(TemplateView):
         users = User.objects.exclude(id=request.user.id)
         # TODO: next query needs to make sure to retrun an object in case user
         # has no friends, otherwise site crashes
-        friend = Friend.objects.get(current_user=request.user)
-        friends = friend.users.all()
-
-        args = {
-            "form":form, "posts":posts, "users":users, "friends":friends
-        }
-        return render(request, self.template_name, args)
+        friend = Friend.objects.get_or_create(current_user=request.user)
+        try:
+            friends = friend.users.all()
+            args = {"form":form,"posts":posts,"users":users,"friends":friends}
+        except:
+            friends = ()
+            args = {"form":form,"posts":posts,"users":users,"friends":friends}
+            return render(request, self.template_name, args)
 
     def post(self, request):
         form = HomeForm(request.POST)
