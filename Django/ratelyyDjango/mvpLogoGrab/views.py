@@ -4,6 +4,7 @@ from mvpLogoGrab.forms import (
     RegistrationForm,
     EditProfileForm,
 )
+import requests
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from ratelyyDatabase.models import Product, Concern
