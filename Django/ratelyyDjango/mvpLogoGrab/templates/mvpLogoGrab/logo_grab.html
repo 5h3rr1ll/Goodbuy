@@ -9,7 +9,11 @@
 </script>
 {% endblock %}
 {% block body %}
-
+<div class="container">        
+    <video autoplay="true" id="videoElement"></video>
+    <canvas width="364" height="204">
+        
+    </div>
   <div class="wrapper">
   <div id="stage_grab">
   <div class="container">
@@ -34,7 +38,19 @@
   <p>{{product.created}}</p>
   <p>{{product.updated}}</p>
 {% endfor %}
+
   <script>
+      var video = document.querySelector("#videoElement");
+
+if (navigator.mediaDevices.getUserMedia) {
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function (stream) {
+      video.srcObject = stream;
+    })
+    .catch(function (err0r) {
+      console.log("Something went wrong!");
+    });
+}
   $('#logoGrabWebScannerButton').logoGrabWebScanner({
    developerKey: 'nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr',
    onInputImage: function(imageData) {
@@ -49,20 +65,45 @@
      $('#stage_result').html("No result");
     else
      $('#stage_result').html(response.logoName);
+
+     function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+    var csrftoken = getCookie('csrftoken');
+ 
+    const url = "http://127.0.0.1:8000/mvpLogoGrab/data/?name="+ response.logoName;
+    fetch(url,{
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json",
+            'X-CSRFToken': csrftoken
+            // "Content-Type": "application/x-www-form-urlencoded",
+        },
+        credentials: "include",
+        body: JSON.stringify(response.logoName), // body data type must match "Content-Type" header
+    })
+    .then(response => response.json() // parses JSON response into native Javascript objects 
+    ).then(
+    html => console.log(html)
+);
+    window.location.replace(url);
+
     }
    }
   );
-  print("hello")
-     // + response.logoName
-
-  fetch("http://127.0.0.1:8000//mvpLogoGrab/data/?name=Barilla",{
-        method: "GET", // *GET, POST, PUT, DELETE, etc.
-        headers: {
-            "Content-Type": "application/json",
-            // "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: JSON.stringify(response.logoName), // body data type must match "Content-Type" header
-    })
-    .then(response => response.json()); // parses JSON response into native Javascript objects 
+  
   </script>
+  
 {% endblock %}  
+
