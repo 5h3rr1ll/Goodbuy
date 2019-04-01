@@ -143,7 +143,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "ratelyyDjango/media")
 STATIC_ROOT = 'static'
 
 LOGIN_URL = "/accounts/login"
-LOGIN_REDIRECT_URL = "/accounts/profile"
+LOGIN_REDIRECT_URL = "/home"
 LOGIN_EXEMPT_URLS = (
     r"^accounts/logout/$",
     r"^accounts/register/$",

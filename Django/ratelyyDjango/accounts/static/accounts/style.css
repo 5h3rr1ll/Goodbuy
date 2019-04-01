@@ -1,7 +1,16 @@
-body {
-  background-color: #00FFFF;
+.container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
 }
-
-.navbar-toggler {
-  color: green;
+.header {
+  grid-column: span 12;
+}
+.navigation-menu {
+  grid-column: span 4;
+}
+.main-content {
+  grid-column: span 8;
+}
+.footer {
+  grid-column: span 12;
 }

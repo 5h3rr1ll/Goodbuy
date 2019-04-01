@@ -16,7 +16,9 @@
         <p>Phone: {{ user.userprofile.phone }}</p>
         <p>City: {{ user.userprofile.city }}</p>
         <p>Website: {{ user.userprofile.website }}</p>
+        {% if user.userprofile.image %}
         <img src="{{ user.userprofile.image.url }}" alt="" with="100" height="200">
+        {% endif %}
   </div>
 
   {% endblock %}
