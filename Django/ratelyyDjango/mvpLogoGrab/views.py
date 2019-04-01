@@ -70,12 +70,7 @@ def logo_grab(request):
     product_name = {"response": response, "products": products}    
     return render(request, 'mvpLogoGrab/logo_grab.html', product_name)
 
-#def load_data(product_name):
-#    product_data = Product.objects.get(name=product_name)
-#    return product_data
-
 def get_data(request):
-#http://127.0.0.1:8000/mvpLogoGrab/data/?name=whatever
     product_name = request.GET.get("name", "Not found")
     product_data = Product.objects.get(name=product_name)
     concern_data = Concern.objects.get(name=product_data.concern)
