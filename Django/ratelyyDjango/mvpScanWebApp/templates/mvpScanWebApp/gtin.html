@@ -1,22 +1,7 @@
 {% extends "base.html" %}
 
-  <h1>gtin</h1>}
-  {% block head %}
-    <title>gtin</title>
-    <script src="https://cdn.jsdelivr.net/npm/scandit-sdk@4.1.1"></script>
-    {% block css %}
-      {% load static %}
-      <link rel="stylesheet" href="{% static 'mvpScanWebApp/static/style.css' %}" type="text/css">
-    {% endblock %}
-  {% endblock %}
+{% block head %}
 
-  <div class="container">
-    <h1>gtin! not accounts</h1>
-    <div id="scandit-barcode-picker" style="max-width: 1280px; max-height: 80%;">
-    </div>
-  </div>
-
-<head>
     <meta charset="UTF-8">
     <title>Scandit Web SDK</title>
 
@@ -33,68 +18,20 @@
     <!-- or -->
     <!-- <script src="/node_modules/scandit-sdk/build/browser/index.min.js"></script> -->
 
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: black;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            font-size: 3vh;
-            font-family: 'Open Sans', sans-serif;
-            width: 100vw;
-            height: 100vh;
-        }
-        #scandit-barcode-picker {
-            width: 100%;
-            height: 100%;
-            max-height: 70vh;
-        }
-        #scandit-barcode-result {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex: 1;
-            width: 100%;
-        }
-        button,
-        button:active,
-        button[disabled]:hover {
-            --webkit-appearance: none;
-            border: none;
-            border-radius: none;
-            outline: none;
-            font-size: 0.7em;
-            padding: 0.4em 0.6em;
-            margin: 20px;
-            text-transform: uppercase;
-            font-family: 'Open Sans', sans-serif;
-            background: #2ec0cc;
-            color: white;
-        }
-        button:hover {
-            background: #30d0d8;
-        }
-        button[disabled] {
-            opacity: 0.4;
-        }
-        #continue-scanning-button {
-            margin-bottom: 10vh;
-        }
-    </style>
-</head>
+    {% block css %}
+      {% load static %}
+      <link rel="stylesheet" href="{% static 'mvpScanWebApp/style.css' %}" type="text/css">
+    {% endblock %}
+
+{% endblock %}
 
 {% block body %}
 <div class="container">
-  <body>
     <!-- Containers for the picker and the results -->
     <div id="scandit-barcode-picker"></div>
     <div id="scandit-barcode-result">No codes scanned yet</div>
     <!-- Button to continue scanning after a barcode was scanned -->
-    <button id="continue-scanning-button" onclick="continueScanning()">Continue Scanning</button>
+    <button class="btn btn-outline-primary" id="continue-scanning-button" onclick="continueScanning()">Continue Scanning</button>
 
     <script>
         // Helper function called when the "Continue Scanning" button is clicked
@@ -152,7 +89,5 @@
                 alert(error);
             });
     </script>
-</body>
 </div>
-
 {% endblock %}
