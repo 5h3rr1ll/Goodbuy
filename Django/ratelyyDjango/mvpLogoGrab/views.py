@@ -1,14 +1,12 @@
+import requests
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from mvpLogoGrab.forms import (
     RegistrationForm,
     EditProfileForm,
 )
-import requests
-from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from ratelyyDatabase.models import Product, Concern
-from django.template import RequestContext
 
 # Create your views here.
 def home(request):
@@ -64,7 +62,10 @@ def change_password(request):
 
 def logo_grab(request):
     url = "https://api.logograb.com/detect"
-    querystring = {"mediaUrl":"http://s3.logograb.com/pub/test.png", "developerKey":"nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr"}
+    querystring = {
+        "mediaUrl":"http://s3.logograb.com/pub/test.png",
+        "developerKey":"nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr"
+        }
     response = requests.request("POST", url, params=querystring)
     products = Product.objects.all()
     product_name = {"response": response, "products": products}

@@ -1,5 +1,12 @@
 from django.db import models
 
+class Rating(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(unique=True, max_length=20)
+
+    def __str__(self):
+        return self.name
+        
 class Country(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=50)
@@ -15,23 +22,20 @@ class Country(models.Model):
         return self.name
 
 class Concern(models.Model):
-    RATINGS = (
-        ('Ethical','Ethical'),
-        ('Unethical','Unethical'),
-    )
-    id = models.AutoField(primary_key = True)
-    name = models.CharField(max_length = 45, verbose_name = "Concern Name", unique=True)
-    logo = models.URLField(null = True, blank = True)
-    wiki = models.URLField(null =True, blank = True)
-    rating = models.CharField(max_length = 45, choices = RATINGS, null=True, blank=True)
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=45, verbose_name="Concern Name", unique=True)
+    logo = models.URLField(null=True, blank=True)
+    wiki = models.URLField(null=True, blank=True)
+    rating = models.ForeignKey(Rating, models.SET_NULL, null=True, blank=True)
     origin = models.ForeignKey(Country, models.SET_NULL, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-            managed = True
-            db_table = 'concerns'
-            ordering = ("name",)
+        managed = True
+        db_table = 'concerns'
+        ordering = ("name",)
 
     def __str__(self):
         return self.name
@@ -39,10 +43,10 @@ class Concern(models.Model):
 
 class Company(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45,unique=True)
-    logo = models.URLField(null=True,blank=True)
-    wiki = models.URLField(null=True,blank=True)
-    concern = models.ForeignKey(Concern,models.SET_NULL,db_column="concern",null=True,blank=True)
+    name = models.CharField(max_length=45, unique=True)
+    logo = models.URLField(null=True, blank=True)
+    wiki = models.URLField(null=True, blank=True)
+    concern = models.ForeignKey(Concern, models.SET_NULL, db_column="concern", null=True, blank=True)
     origin = models.ForeignKey(Country, models.SET_NULL, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -60,10 +64,10 @@ class Company(models.Model):
 class Brand(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=45,)
-    logo = models.URLField(null=True,blank=True)
-    wiki = models.URLField(null=True,blank=True)
-    company = models.ForeignKey(Company,models.SET_NULL,null=True,blank=True)
-    concern = models.ForeignKey(Concern,models.SET_NULL,null=True,blank=True)
+    logo = models.URLField(null=True, blank=True)
+    wiki = models.URLField(null=True, blank=True)
+    company = models.ForeignKey(Company, models.SET_NULL, null=True, blank=True)
+    concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -91,7 +95,7 @@ class MainCategoryOfProduct(models.Model):
 class SubCategoryOfProduct(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=45)
-    main_category = models.ForeignKey(MainCategoryOfProduct,models.CASCADE)
+    main_category = models.ForeignKey(MainCategoryOfProduct, models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -105,15 +109,15 @@ class SubCategoryOfProduct(models.Model):
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=45)
-    logo = models.URLField(null=True,blank=True)
-    wiki = models.URLField(null=True,blank=True)
-    gtin = models.PositiveIntegerField(null=True,blank=True,verbose_name="GTIN")
-    image = models.URLField(null=True,blank=True)
-    group = models.CharField(max_length=45,null=True,blank=True)
-    brand = models.ForeignKey(Brand, models.SET_NULL,null=True,blank=True)
-    concern = models.ForeignKey(Concern, models.SET_NULL,null=True,blank=True)
-    main_category = models.ForeignKey(MainCategoryOfProduct, models.SET_NULL,null=True,blank=True)
-    sub_category = models.ForeignKey(SubCategoryOfProduct, models.SET_NULL,null=True,blank=True)
+    logo = models.URLField(null=True, blank=True)
+    wiki = models.URLField(null=True, blank=True)
+    gtin = models.PositiveIntegerField(null=True, blank=True, verbose_name="GTIN")
+    image = models.URLField(null=True, blank=True)
+    group = models.CharField(max_length=45, null=True, blank=True)
+    brand = models.ForeignKey(Brand, models.SET_NULL, null=True, blank=True)
+    concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
+    main_category = models.ForeignKey(MainCategoryOfProduct, models.SET_NULL, null=True, blank=True)
+    sub_category = models.ForeignKey(SubCategoryOfProduct, models.SET_NULL, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
