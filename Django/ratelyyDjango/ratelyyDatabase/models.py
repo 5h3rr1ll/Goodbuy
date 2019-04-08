@@ -3,6 +3,7 @@ from django.db import models
 class Country(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=50)
+    code = models.CharField(unique=True, max_length=8)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -42,9 +43,9 @@ class Company(models.Model):
     logo = models.URLField(null=True,blank=True)
     wiki = models.URLField(null=True,blank=True)
     concern = models.ForeignKey(Concern,models.SET_NULL,db_column="concern",null=True,blank=True)
+    origin = models.ForeignKey(Country, models.SET_NULL, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    origin = models.CharField(max_length=56,null=True,blank=True)
 
     class Meta:
         managed = True
