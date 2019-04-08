@@ -1,12 +1,15 @@
 import requests
 from django.shortcuts import render, redirect
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from mvpLogoGrab.forms import (
     RegistrationForm,
     EditProfileForm,
 )
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
-from ratelyyDatabase.models import Product, Concern
+from ratelyyDatabase.models import (
+    Product,
+    Concern,
+    )
 
 # Create your views here.
 def home(request):
@@ -61,28 +64,30 @@ def change_password(request):
         return render(request, 'mvpLogoGrab/change_password.html', args)
 
 def logo_grab(request):
-    url = "https://api.logograb.com/detect"
-    querystring = {
-        "mediaUrl":"http://s3.logograb.com/pub/test.png",
-        "developerKey":"nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr"
-        }
-    response = requests.request("POST", url, params=querystring)
-    products = Product.objects.all()
-    product_name = {"response": response, "products": products}
-    return render(request, 'mvpLogoGrab/logo_grab.html', product_name)
+    args = {"empty" : "empty"}
+    return render(request, 'mvpLogoGrab/logo_grab.html', args)
 
 def get_data(request):
     product_name = request.GET.get("name", "Not found")
     product_data = Product.objects.get(name=product_name)
     concern_data = Concern.objects.get(name=product_data.concern)
-
+   
     args = {
         "id" : product_data.id,
         "name" : product_data.name,
+        "logo" : product_data.logo,
+        "wiki" : product_data.wiki,
+        "gtin" : product_data.gtin,
+        "group" : product_data.name,
         "brand" : product_data.brand,
         "concern" : product_data.concern,
+        "main_category" : product_data.main_category,
+        "sub_category" : product_data.sub_category,
         "image" : product_data.image,
+        "created" : product_data.created,
+        "updated" : product_data.updated,
         "rating" : concern_data.rating,
-    }
+        "concern_origin" : concern_data.origin,
 
+    }
     return render(request, 'mvpLogoGrab/data.html', args)

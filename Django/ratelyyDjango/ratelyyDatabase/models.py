@@ -110,6 +110,9 @@ class ProductGroup(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=25)
 
+    def __str__(self):
+        return self.name
+
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=45)

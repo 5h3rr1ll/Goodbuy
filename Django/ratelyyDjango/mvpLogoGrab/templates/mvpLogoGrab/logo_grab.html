@@ -23,21 +23,7 @@
   <br/><br/>
   </div>
   </div>
-{% for product in products %}
-  <p>{{product.id}}</p>
-  <p>{{product.name}}</p>
-  <p>{{product.logo}}</p>
-  <p>{{product.wiki}}</p>
-  <p>{{product.gtin}}</p>
-  <p>{{product.image}}</p>
-  <p>{{product.group}}</p>
-  <p>{{product.brand}}</p>
-  <p>{{product.concern}}</p>
-  <p>{{product.main_category}}</p>
-  <p>{{product.sub_category}}</p>
-  <p>{{product.created}}</p>
-  <p>{{product.updated}}</p>
-{% endfor %}
+
 
   <script>
       var video = document.querySelector("#videoElement");
@@ -75,10 +61,8 @@ var canvas = document.querySelector('canvas');
 			// Define the size of the rectangle that will be filled (basically the entire element)
 			context.fillRect(0, 0, w, h);
 			// Grab the image from the video
-            var pic = context.drawImage(video, 0, 0, w, h); 
-            return pic
-		}
-		 
+            var pic = context.drawImage(video, 0, 0, w, h);
+        }
   $('#logoGrabWebScannerButton').logoGrabWebScanner({
    developerKey: 'nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr',
    onInputImage: function(imageData) {
@@ -93,8 +77,7 @@ var canvas = document.querySelector('canvas');
      $('#stage_result').html("No result");
     else
      $('#stage_result').html(response.logoName);
-
-     function getCookie(name) {
+    function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
         var cookies = document.cookie.split(';');
@@ -130,10 +113,6 @@ var canvas = document.querySelector('canvas');
     }
    }
   );
-  
-		
-
-	
   </script>
   
 {% endblock %}  
