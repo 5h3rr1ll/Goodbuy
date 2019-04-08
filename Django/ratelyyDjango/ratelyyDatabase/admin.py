@@ -1,14 +1,22 @@
 from django.contrib import admin
-from .models import Concern, Company, Brand, Product, Country, Rating
+from .models import (
+    Concern, Company, Brand,
+    Product, Country, Rating,
+    ProductGroup,
+    )
 # Register your models here.
+class ProdudGroupAdmin(admin.ModelAdmin):
+    list_display = ("id", "name",)
+    list_display_links = ("id", "name",)
+
 class RatingAdmin(admin.ModelAdmin):
-    list_display = ("id", "name")
-    list_display_links = ("id", "name")
+    list_display = ("id", "name",)
+    list_display_links = ("id", "name",)
 
 class CountryAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "code", "created", "updated")
-    list_display_links = ("id", "name")
-    search_field = ["id", "name", "code", "created", "updated"]
+    list_display = ("id", "name", "code", "created", "updated",)
+    list_display_links = ("id", "name",)
+    search_field = ["id", "name", "code", "created", "updated",]
 
 class ConcernAdmin(admin.ModelAdmin):
     list_display = (
@@ -16,7 +24,10 @@ class ConcernAdmin(admin.ModelAdmin):
         "origin_code", "created", "updated",
         )
     list_display_links = ("id", "name")
-    search_fields = ["id", "name", "logo", "wiki", "rating", "origin_code", "created", "updated",]
+    search_fields = [
+        "id", "name", "logo", "wiki", "rating",
+        "origin_code", "created", "updated",
+        ]
 
     def origin_code(self, obj):
         if obj.origin is not None:
@@ -90,10 +101,11 @@ class ProductAdmin(admin.ModelAdmin):
     concern_rating.short_description = "Rating of associated Concern"
     concern_rating.admin_order_field = "rating"
 
+admin.site.site_header = "Goodbuy Database"
 admin.site.register(Concern, ConcernAdmin,)
 admin.site.register(Company, CompanyAdmin,)
 admin.site.register(Brand, BrandAdmin,)
 admin.site.register(Product, ProductAdmin,)
 admin.site.register(Country, CountryAdmin,)
 admin.site.register(Rating, RatingAdmin,)
-admin.site.site_header = "Goodbuy Database"
+admin.site.register(ProductGroup, ProdudGroupAdmin,)

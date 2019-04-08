@@ -6,7 +6,7 @@ class Rating(models.Model):
 
     def __str__(self):
         return self.name
-        
+
 class Country(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=50)
@@ -106,6 +106,10 @@ class SubCategoryOfProduct(models.Model):
     def __str__(self):
         return self.name
 
+class ProductGroup(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(unique=True, max_length=25)
+
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=45)
@@ -113,7 +117,7 @@ class Product(models.Model):
     wiki = models.URLField(null=True, blank=True)
     gtin = models.PositiveIntegerField(null=True, blank=True, verbose_name="GTIN")
     image = models.URLField(null=True, blank=True)
-    group = models.CharField(max_length=45, null=True, blank=True)
+    group = models.ForeignKey(ProductGroup, models.SET_NULL, null=True, blank=True)
     brand = models.ForeignKey(Brand, models.SET_NULL, null=True, blank=True)
     concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
     main_category = models.ForeignKey(MainCategoryOfProduct, models.SET_NULL, null=True, blank=True)
