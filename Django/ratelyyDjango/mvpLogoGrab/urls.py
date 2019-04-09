@@ -25,4 +25,6 @@ urlpatterns = [
     url(r'^reset-password/confirm/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     url(r'^reset-password/complete/$', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     url(r'^data/$', views.get_data, name='get_data'),
+    url(r'^post/$', views.post, name='post'),
+
 ]
