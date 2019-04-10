@@ -2,12 +2,12 @@ from django.conf.urls import url
 from django.urls import path, reverse_lazy
 from . import views
 from django.contrib.auth.views import (
-LoginView,
-LogoutView,
-PasswordResetView,
-PasswordResetDoneView,
-PasswordResetConfirmView,
-PasswordResetCompleteView,
+    LoginView,
+    LogoutView,
+    PasswordResetView,
+    PasswordResetDoneView,
+    PasswordResetConfirmView,
+    PasswordResetCompleteView,
 )
 from django.shortcuts import redirect
 from mvpScanWebApp import views as gtin_views

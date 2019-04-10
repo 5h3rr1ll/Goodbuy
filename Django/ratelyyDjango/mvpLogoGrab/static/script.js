@@ -37,28 +37,31 @@ developerKey: 'nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr',
         $('#stage_result').html("No result");
         else
         $('#stage_result').html(response.logoName);
-        
-        //Post request -> give me all data associated with the logoname 
-        var csrftoken = getCookie('csrftoken');
-        const url = "http://127.0.0.1:8000/mvpLogoGrab/data/?name="+ response.logoName;
-        fetch(url,{
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
-            headers: {
-                "Content-Type": "application/json",
-                'X-CSRFToken': csrftoken
-            },
-            credentials: "include",
-            body: JSON.stringify(response.logoName), // body data type must match "Content-Type" header
-        })
-        .then(response => response.json() // parses JSON response into native Javascript objects 
-        ).then(
-        html => console.log(html)
-        );
-        window.location.replace(url);
-        
+        requestLogonameData(response.logoName);
     }
     }
 );
+
+//Post request -> give me all data associated with the logoname 
+function requestLogonameData(logoName){
+    var csrftoken = getCookie('csrftoken');
+    const url = "http://127.0.0.1:8000/mvpLogoGrab/data/?name="+ logoName;
+    fetch(url,{
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+            "Content-Type": "application/json",
+            'X-CSRFToken': csrftoken
+        },
+        credentials: "include",
+        body: JSON.stringify(logoName), // body data type must match "Content-Type" header
+    })
+    .then(response => response.json() // parses JSON response into native Javascript objects 
+    ).then(
+    html => console.log(html)
+    );
+    window.location.replace(url);
+}
+
 //Creates a video stream
 var video = document.querySelector("#videoElement");
 if (navigator.mediaDevices.getUserMedia) {
@@ -70,6 +73,7 @@ if (navigator.mediaDevices.getUserMedia) {
     console.log("Something went wrong!");
     });
 }
+
 var canvas = document.querySelector('canvas');
 // Get a handle on the 2d context of the canvas element
 var context = canvas.getContext('2d');
@@ -94,16 +98,17 @@ function snap() {
     // Define the size of the rectangle that will be filled (basically the entire element)
     context.fillRect(0, 0, w, h);
     // Grab the image from the video
-    var pic = context.drawImage(video, 0, 0, w, h);
+    var snap = context.drawImage(video, 0, 0, w, h);
+    sendSnapToServer(snap);
 };
 //Post request -> Sends the picture to the server/api no defined yet
-document.getElementById("POST").addEventListener("click", function(){
+function sendSnapToServer(snap){
         alert("POST clicked");
         var csrftoken = getCookie('csrftoken');
         const url = "http://127.0.0.1:8000/mvpLogoGrab/post/"
         fetch(url,{
                     method: 'POST', 
-                    body: JSON.stringify({text: 'bacon'}), 
+                    body: JSON.stringify({snap}), 
                     headers: {
                             'Content-Type': 'application/json',
                             'X-CSRFToken': csrftoken,
@@ -111,6 +116,6 @@ document.getElementById("POST").addEventListener("click", function(){
                     credentials: "include",
         })
         .then(res => res.json())
-        .then(console.log)
- });       
+        .then(console.log);
+ };       
  
