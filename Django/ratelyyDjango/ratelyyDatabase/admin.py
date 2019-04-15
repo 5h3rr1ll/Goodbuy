@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import (
     Concern, Company, Brand,
     Product, Country, Rating,
-    ProductGroup,
+    ProductGroup, Store, ProductPriceInStore,
     )
 # Register your models here.
 class ProdudGroupAdmin(admin.ModelAdmin):
@@ -101,6 +101,19 @@ class ProductAdmin(admin.ModelAdmin):
     concern_rating.short_description = "Rating of associated Concern"
     concern_rating.admin_order_field = "rating"
 
+class StoreAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "country",)
+    search_fields = [
+        "id", "name",
+    ]
+    autocomplete_fields = ()
+
+class ProdcutPriceInStoreAdmin(admin.ModelAdmin):
+    list_display = ("id","store","product","price")
+    search_fields = [
+        "id","store__name","product__name","price"
+    ]
+
 admin.site.site_header = "Goodbuy Database"
 admin.site.register(Concern, ConcernAdmin,)
 admin.site.register(Company, CompanyAdmin,)
@@ -109,3 +122,5 @@ admin.site.register(Product, ProductAdmin,)
 admin.site.register(Country, CountryAdmin,)
 admin.site.register(Rating, RatingAdmin,)
 admin.site.register(ProductGroup, ProdudGroupAdmin,)
+admin.site.register(Store, StoreAdmin,)
+admin.site.register(ProductPriceInStore, ProdcutPriceInStoreAdmin,)

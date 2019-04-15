@@ -98,17 +98,27 @@ function snap() {
     // Define the size of the rectangle that will be filled (basically the entire element)
     context.fillRect(0, 0, w, h);
     // Grab the image from the video
-    var snap = context.drawImage(video, 0, 0, w, h);
-    sendSnapToServer(snap);
+    context.drawImage(video, 0, 0, w, h);
+    document.getElementById("canvas");
+    sendSnapToServer(canvas);
 };
-//Post request -> Sends the picture to the server/api no defined yet
-function sendSnapToServer(snap){
+/*
+function to_image(){
+    alert("to_image")
+    var canvas = document.getElementById("btn-snap");
+    document.getElementById("btn-snap").src = canvas.toDataURL();
+    Canvas2Image.saveAsPNG(canvas);
+    alert("Check")
+}
+*/
+//Post request -> Sends the picture to the server/api not defined yet
+function sendSnapToServer(canvas){
         alert("POST clicked");
         var csrftoken = getCookie('csrftoken');
         const url = "http://127.0.0.1:8000/mvpLogoGrab/post/"
         fetch(url,{
                     method: 'POST', 
-                    body: JSON.stringify({snap}), 
+                    body: JSON.stringify(canvas), 
                     headers: {
                             'Content-Type': 'application/json',
                             'X-CSRFToken': csrftoken,
@@ -117,5 +127,6 @@ function sendSnapToServer(snap){
         })
         .then(res => res.json())
         .then(console.log);
+        window.location.replace(url);
  };       
  

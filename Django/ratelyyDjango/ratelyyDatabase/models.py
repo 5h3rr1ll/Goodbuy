@@ -17,6 +17,15 @@ class Country(models.Model):
     class Meta:
         managed = True
         db_table = "countries"
+        verbose_name_plural = "Countries"
+
+    def __str__(self):
+        return self.name
+
+class Store(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(unique=True, max_length=50)
+    country = models.ForeignKey(Country, models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -134,3 +143,12 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+class ProductPriceInStore(models.Model):
+    id = models.AutoField(primary_key=True)
+    store = models.ForeignKey(Store, models.CASCADE)
+    product = models.ForeignKey(Product, models.CASCADE)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
+
+    # def __str__(self):
+    #     return sel
