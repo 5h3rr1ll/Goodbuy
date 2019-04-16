@@ -25,12 +25,16 @@ SECRET_KEY = 'f81ef2_sh7+)vg+&#nrxjo%@xa1mbep#mofsnvcob&9$uu9jb4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ratelyyDjangoEnv.p5j68a2z24.eu-central-1.elasticbeanstalk.com',"127.0.0.1","localhost"]
+ALLOWED_HOSTS = ['ratelyyDjangoEnv.p5j68a2z24.eu-central-1.elasticbeanstalk.com',"127.0.0.1","localhost",'10.0.4.116','*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    "home",
+    'mvpLogoGrab',
+    "accounts",
+    "mvpScanWebApp",
     'ratelyyDatabase',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "ratelyyDjango.middleware.LoginRequireMiddleware",
 ]
 
 ROOT_URLCONF = 'ratelyyDjango.urls'
@@ -131,4 +136,23 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "ratelyyDjango/media")
+
 STATIC_ROOT = 'static'
+
+LOGIN_URL = "/accounts/login"
+LOGIN_REDIRECT_URL = "/home"
+LOGIN_EXEMPT_URLS = (
+    r"^accounts/logout/$",
+    r"^accounts/register/$",
+    r"^accounts/reset-password/$",
+    r"^accounts/password_reset_done/$",
+    r"^accounts/reset-password/confirm/(<uidb64>[0-9A-Za-z]+)-(<token>.+)/$",
+    r"^accounts/reset-password/complete/$",
+)
+
+# TODO: Need to set up a propper email server here
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025

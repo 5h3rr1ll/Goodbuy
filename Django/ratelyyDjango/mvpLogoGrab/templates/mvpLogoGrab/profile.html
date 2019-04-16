@@ -1,0 +1,16 @@
+{% extends "foundation.html" %}
+{% block head %}
+<title>Profile</title>
+{% endblock %}
+{% block body %}
+<div class="container">
+<h1>Welcome to your Profile, {{ user }}!</h1>
+<h2>Your details are:</h2>
+<ul>
+        <li><p>Username: {{ user }}</p></li>
+        <li><p>First name: {{ user.first_name }}</p></li>
+        <li><p>Last name: {{ user.last_name }}</p></li>
+        <li><p>Email: {{ user.email }}</p></li>
+</ul>
+</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+
+  <link rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+  crossorigin="anonymous">
+
+      {% block css %}
+      {% endblock %}
+      
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  {% block head %}
+  <title>Base</title>
+  {% endblock %}
+</head>
+<body>
+<br>
+{% block navbar %}
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/"> Goodbuy </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {% if user.is_authenticated %}
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+             <a class="nav-link" href="{% url 'accounts:view_profile' %}"> Profile </a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="{%url 'accounts:edit_profile' %}"> Edit Profile </a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="{% url 'accounts:change_password' %}"> Change Password </a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="{% url 'accounts:reset_password' %}"> Reset Password </a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="{% url 'mvpLogoGrab:home' %}"> Logo Grab </a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="{% url 'mvpScanWebApp:home' %}"> Barcode Scanner </a>
+          </li>
+        </ul>
+        <ul class="nav nvabar-nav navbar-right">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:logout' %}"> Log Out </a>
+          </li>
+        </ul>
+        {% else %}
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'accounts:register'%}"> Register <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="{% url 'accounts:reset_password' %}"> Reset Password </a>
+          </li>
+        </ul>
+        <ul class="nav nvabar-nav navbar-right">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:login' %}"> Login </a>
+          </li>
+        </ul>
+        {% endif %}
+      </div>
+    </nav>
+    </div>
+    {% endblock %}
+    {% block body %}
+      <h1>Anthony Base</h1>
+    {% endblock %}
+  </body>
+  <script
+    src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous">
+  </script>
+  <script
+    src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous">
+  </script>
+</html>

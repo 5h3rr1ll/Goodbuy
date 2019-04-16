@@ -1,0 +1,12 @@
+{% extends "foundation.html" %}
+{% block body %}
+<div class="container">
+    <h1>Register</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <button class="button" id="register-btn">Submit</button>
+    </form>
+</div>
+
+{% endblock %}
