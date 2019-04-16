@@ -1,2 +1,5 @@
-Django==2.1.5
-mysqlclient==1.4.1
+Django==2.1.7
+Python==3.7.3
+mysqlclient==1.4.2.
+Pillow==5.4.1
+requests==2.21.0
