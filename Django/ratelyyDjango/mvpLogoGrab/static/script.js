@@ -99,7 +99,7 @@ function snap() {
     context.fillRect(0, 0, w, h);
     // Grab the image from the video
     context.drawImage(video, 0, 0, w, h);
-    document.getElementById("canvas");
+    var canvas = document.getElementById("canvas");
     sendSnapToServer(canvas);
 };
 /*
@@ -118,9 +118,9 @@ function sendSnapToServer(canvas){
         const url = "http://127.0.0.1:8000/mvpLogoGrab/post/"
         fetch(url,{
                     method: 'POST', 
-                    body: JSON.stringify(canvas), 
+                    body: canvas, 
                     headers: {
-                            'Content-Type': 'application/json',
+                            'Content-Type': 'image/jpeg',
                             'X-CSRFToken': csrftoken,
                     },
                     credentials: "include",

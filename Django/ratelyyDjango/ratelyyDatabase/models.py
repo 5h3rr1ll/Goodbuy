@@ -7,6 +7,10 @@ class Rating(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        managed = True
+        db_table = "ratings"
+
 class Country(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=50)
@@ -29,6 +33,10 @@ class Store(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        managed = True
+        db_table = "stores"
 
 class Concern(models.Model):
 
@@ -115,13 +123,6 @@ class SubCategoryOfProduct(models.Model):
     def __str__(self):
         return self.name
 
-class ProductGroup(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=25)
-
-    def __str__(self):
-        return self.name
-
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=45)
@@ -129,7 +130,6 @@ class Product(models.Model):
     wiki = models.URLField(null=True, blank=True)
     gtin = models.PositiveIntegerField(null=True, blank=True, verbose_name="GTIN")
     image = models.URLField(null=True, blank=True)
-    group = models.ForeignKey(ProductGroup, models.SET_NULL, null=True, blank=True)
     brand = models.ForeignKey(Brand, models.SET_NULL, null=True, blank=True)
     concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
     main_category = models.ForeignKey(MainCategoryOfProduct, models.SET_NULL, null=True, blank=True)
@@ -149,6 +149,12 @@ class ProductPriceInStore(models.Model):
     store = models.ForeignKey(Store, models.CASCADE)
     product = models.ForeignKey(Product, models.CASCADE)
     price = models.DecimalField(max_digits=5, decimal_places=2)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
-    # def __str__(self):
-    #     return sel
+    class Meta:
+        managed = True
+        db_table = 'product_price_in_store'
+
+    def __str__(self):
+        return str(self.price)
