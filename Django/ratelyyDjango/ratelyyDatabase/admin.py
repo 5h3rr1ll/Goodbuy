@@ -98,13 +98,13 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name", "logo", "wiki", "gtin",
         "image", "brand", "concern",
-        "concern_rating", "created", "updated",
+        "concern_rating", "stat_counter" ,"created", "updated",
         )
     list_display_links = ("id", "name")
     search_fields = [
         "id", "name", "logo", "wiki", "gtin",
         "image", "brand", "concern",
-        "concern_rating", "created", "updated",
+        "concern_rating", "stat_counter" ,"created", "updated",
         ]   
     autocomplete_fields = ("brand", "concern",)
 

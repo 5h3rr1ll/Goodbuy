@@ -136,6 +136,7 @@ class Product(models.Model):
     sub_category = models.ForeignKey(SubCategoryOfProduct, models.SET_NULL, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    stat_counter = models.IntegerField(null=True, blank=True)
 
     class Meta:
         managed = True
