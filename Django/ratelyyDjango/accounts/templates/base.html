@@ -42,10 +42,10 @@
              <a class="nav-link" href="{% url 'accounts:reset_password' %}"> Reset Password </a>
           </li>
           <li class="nav-item">
-             <a class="nav-link" href="{% url 'mvpLogoGrab:home' %}"> Logo Grab </a>
+             <a class="nav-link" href="{% url 'logograb:home' %}"> Logo Grab </a>
           </li>
           <li class="nav-item">
-             <a class="nav-link" href="{% url 'mvpScanWebApp:home' %}"> Barcode Scanner </a>
+             <a class="nav-link" href="{% url 'gtin:home' %}"> Barcode Scanner </a>
           </li>
           {% if user.is_superuser %}
           <li class="nav-item">

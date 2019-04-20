@@ -92,8 +92,8 @@ class ProdcutPriceInStoreAdmin(admin.ModelAdmin):
 
 class PriceInline(admin.StackedInline):
     max_num = 1
-    model = ProductPriceInStore  
-    
+    model = ProductPriceInStore
+
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name", "logo", "wiki", "gtin",
@@ -105,7 +105,9 @@ class ProductAdmin(admin.ModelAdmin):
         "id", "name", "logo", "wiki", "gtin",
         "image", "brand", "concern",
         "concern_rating", "stat_counter" ,"created", "updated",
-        ]   
+        ]
+    exclude = ("stat_counter",)
+
     autocomplete_fields = ("brand", "concern",)
 
     def concern_rating(self, obj):

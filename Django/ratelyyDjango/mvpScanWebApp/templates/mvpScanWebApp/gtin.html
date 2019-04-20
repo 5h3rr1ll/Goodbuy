@@ -74,10 +74,10 @@
                 picker.onScan(scanResult => {
                     continueButton.hidden = false;
                     continueButton.disabled = false;
+                    sendGtin(scanResult.barcodes[0].data);
                     picker.pauseScanning();
                     resultContainer.innerHTML = scanResult.barcodes.reduce((string, barcode) =>
-                        string +
-                        `${ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology)}: ${barcode.data}<br>`,
+                        string + `${ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology)}: ${barcode.data}<br>`,
                         '');
                 });
                 picker.onScanError(error => {
@@ -106,10 +106,10 @@
         function sendGtin(barcode){
             alert(barcode);
             var csrftoken = getCookie('csrftoken');
-            const url = "http://127.0.0.1:8000/mvpLogoGrab/post/"
+            const url = "http://127.0.0.1:8000/gtin/add/" + barcode
         fetch(url,{
-                    method: 'POST', 
-                    body: JSON.stringify(barcode), 
+                    method: 'POST',
+                    body: JSON.stringify(barcode),
                     headers: {
                             'Content-Type': 'json/application',
                             'X-CSRFToken': csrftoken,
@@ -119,7 +119,7 @@
         .then(res => res.json())
         .then(console.log);
         window.location.replace(url);
-        };       
+        };
     </script>
 </div>
 {% endblock %}

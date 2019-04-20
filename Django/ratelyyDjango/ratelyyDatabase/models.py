@@ -145,6 +145,10 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+class OrganicCertification(models.Model):
+
+    pass
+
 class ProductPriceInStore(models.Model):
     id = models.AutoField(primary_key=True)
     store = models.ForeignKey(Store, models.CASCADE)
