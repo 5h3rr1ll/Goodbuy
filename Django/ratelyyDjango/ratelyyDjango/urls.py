@@ -21,7 +21,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r"^$", views.login_redirect, name="login.redirect"),
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls, name="admin"),
     url(r"^accounts/", include(("accounts.urls","accounts"),namespace="accounts")),
     url(r'^mvpLogoGrab/', include('mvpLogoGrab.urls')),
     url(r'^gtin/', include('mvpScanWebApp.urls')),
