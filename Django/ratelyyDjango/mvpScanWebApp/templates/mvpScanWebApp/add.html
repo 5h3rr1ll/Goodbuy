@@ -1,10 +1,17 @@
 {% extends "base.html" %}
 
+{% block head %}
+  <title>Add Product</title>
+{% endblock %}
+
 {% block body %}
 <div class="container">
-  
-  <h1>Hallo Add!</h1>
-  <h1>{{ text }}</h1>
-  <h1>{{ code }}</h1>
+
+  <h1>Add Product</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" name="Login">Submit</button>
+  </form>
 </div>
 {% endblock %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from mvpScanWebApp import views
 from ratelyyDatabase.models import Product
+from mvpScanWebApp.forms import AddNewProduct
 # Create your views here.
 
 def gtin(request):
@@ -16,11 +17,10 @@ def gtin(request):
     return render(request, "mvpScanWebApp/gtin.html", args)
 
 def add(request, code):
-    text = "Here should become something added"
-    print(request)
+    form = AddNewProduct(initial={"gtin":code})
     args = {
-        "text":text,
         "code":code,
+        "form":form,
     }
     return render(request, "mvpScanWebApp/add.html",args)
 
