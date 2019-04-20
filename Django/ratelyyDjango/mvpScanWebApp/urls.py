@@ -6,4 +6,5 @@ app_name = "gtin"
 urlpatterns = [
     path('', views.gtin, name='home'),
     path("add/<code>", views.add, name="add"),
+    path("show/<code>", views.show, name="show"),
 ]

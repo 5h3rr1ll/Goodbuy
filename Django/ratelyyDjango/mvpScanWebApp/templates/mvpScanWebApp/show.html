@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <title>Show Product Details</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <h1>Show Product Details</h1>
+  <p>Name: {{ product.name }}</p>
+  <p>GTIN: {{ product.gtin }}</p>
+</div>
+{% endblock %}

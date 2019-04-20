@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from mvpScanWebApp import views
+from ratelyyDatabase.models import Product
 # Create your views here.
 
 def gtin(request):
@@ -22,3 +23,10 @@ def add(request, code):
         "code":code,
     }
     return render(request, "mvpScanWebApp/add.html",args)
+
+def show(request, code):
+    product = Product.objects.get(gtin=code)
+    args = {
+        "product":product
+    }
+    return render(request, "mvpScanWebApp/show.html",args)
