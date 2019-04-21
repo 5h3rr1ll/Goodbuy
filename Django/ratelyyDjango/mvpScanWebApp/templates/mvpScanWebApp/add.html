@@ -8,10 +8,11 @@
 <div class="container">
 
   <h1>Add Product</h1>
-  <form method="post">
+  <form method="post" action="/gtin/add/{{code}}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" name="Login">Submit</button>
+    <input type="submit" value="Submit">
+    <!-- <button type="submit" name="Login" value="OK">Submit</button> -->
   </form>
 </div>
 {% endblock %}

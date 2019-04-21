@@ -58,7 +58,7 @@ class Concern(models.Model):
 
 class Company(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45, unique=True)
+    name = models.CharField(max_length=50, unique=True)
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     concern = models.ForeignKey(Concern, models.SET_NULL, db_column="concern", null=True, blank=True)

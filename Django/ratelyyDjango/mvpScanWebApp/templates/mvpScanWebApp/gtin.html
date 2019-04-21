@@ -108,7 +108,7 @@
             var csrftoken = getCookie('csrftoken');
             const url = "http://127.0.0.1:8000/gtin/add/" + barcode
         fetch(url,{
-                    method: 'POST',
+                    method: 'GET',
                     body: JSON.stringify(barcode),
                     headers: {
                             'Content-Type': 'json/application',
