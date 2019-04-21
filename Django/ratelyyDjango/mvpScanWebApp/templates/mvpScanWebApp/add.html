@@ -13,6 +13,13 @@
     {{ form.as_p }}
     <button type="submit" name="submit">Submit</button>
   </form>
+
+  <!-- {{products}} -->
+  <!-- {{lst}} -->
+
+  {% for product in products %}
+    <p>{{ product }}</p>
+  {% endfor%}
 </div>
 
 {% endblock %}

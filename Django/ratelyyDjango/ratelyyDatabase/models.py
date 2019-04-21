@@ -124,7 +124,7 @@ class Product(models.Model):
     name = models.CharField(unique=True, max_length=45,verbose_name="Product Name")
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
-    gtin = models.IntegerField(null=True, blank=True, verbose_name="GTIN",max_length=15)
+    gtin = models.IntegerField(null=True, blank=True, verbose_name="GTIN",max_length=20, unique=True)
     image = models.URLField(null=True, blank=True)
     brand = models.ForeignKey(Brand, models.SET_NULL, null=True, blank=True)
     concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
