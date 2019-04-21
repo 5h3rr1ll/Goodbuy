@@ -20,22 +20,26 @@ def add(request, code):
             # TODO: need a better logic for too long codes inserted
             return HttpResponse("Something went wrong")
     else:
-        products = Product.objects.filter(gtin__contains=code)
-        form = AddNewProductForm(initial={"gtin":code})
-        # products = Product.objects.all()
-        lst = []
-        for x in products:
-            lst.append(x)
-        args = {
-            "form": form,
-            "products":products,
-            "lst":lst,
+        if Product.objects.filter(gtin__contains=code).count() > 0:
+            products = Product.objects.filter(gtin__contains=code)
+            args = {
+                "products":products,
             }
-        return render(request, "mvpScanWebApp/add.html", args)
+            return render(request,"mvpScanWebApp/show_already_exists.html",args)
+        else:
+            form = AddNewProductForm(initial={"gtin":code})
+
+            args = {
+                "form": form,
+                "products":products,
+                "lst":lst,
+                }
+            return render(request, "mvpScanWebApp/add.html", args)
 
 def show(request, code):
-
+    products = Product.objects.filter(gtin__contains=code)
+    print(products)
     args = {
-        "product":product,
+        "products":products,
     }
     return render(request, "mvpScanWebApp/show.html",args)
