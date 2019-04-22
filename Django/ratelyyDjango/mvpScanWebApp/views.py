@@ -28,11 +28,8 @@ def add(request, code):
             return render(request,"mvpScanWebApp/show_already_exists.html",args)
         else:
             form = AddNewProductForm(initial={"gtin":code})
-
             args = {
                 "form": form,
-                "products":products,
-                "lst":lst,
                 }
             return render(request, "mvpScanWebApp/add.html", args)
 

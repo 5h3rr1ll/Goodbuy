@@ -142,7 +142,6 @@ class Product(models.Model):
         return self.name
 
 class OrganicCertification(models.Model):
-
     pass
 
 class ProductPriceInStore(models.Model):
