@@ -5,21 +5,29 @@
 {% endblock %}
 
 {% block body %}
-
 <div class="container">
   <h1>Add Product</h1>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" name="submit">Submit</button>
+    <button type="submit" name="Add">Submit</button>
   </form>
+</div>
+{% endblock %}
+
+
+<!-- <div class="container">
+  <h1>Add Product</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" name="submit">Submit</button>
+  </form> -->
 
   <!-- {{products}} -->
   <!-- {{lst}} -->
 
-  {% for product in products %}
-    <p>{{ product }}</p>
-  {% endfor%}
-</div>
-
-{% endblock %}
+  <!-- {% for product in products %} -->
+    <!-- <p>{{ product }}</p> -->
+  <!-- {% endfor%} -->
+<!-- </div> -->

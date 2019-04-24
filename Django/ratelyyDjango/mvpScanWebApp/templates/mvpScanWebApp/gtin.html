@@ -76,7 +76,6 @@
                     sendGtin(scanResult.barcodes[0].data);
                     picker.pauseScanning();
                     console.log(scanResult.barcodes[0].data)
-                    alert("Alter")
                     sendGtin(scanResult.barcodes[0].data)
                     resultContainer.innerHTML = scanResult.barcodes.reduce((string, barcode) =>
                         string + `${ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology)}: ${barcode.data}<br>`,
