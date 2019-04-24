@@ -1,17 +1,42 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from mvpScanWebApp import views
+from ratelyyDatabase.models import Product
+from mvpScanWebApp.forms import AddNewProductForm
+from django.contrib import messages
+from django.http import HttpResponse
+
 # Create your views here.
 
-def searchResult(request):
-    print(request)
-    numbers = [1,2,3,4,5]
-    name = "Anthony Sherrill"
-
-    # myname is the name we will use in the template and the value in the
-    # dict is the variable within this function
-    # args takes all variabels you want to display on the rendered site
-    args = {"myName": name, "numbers": numbers}
-    return render(request, "mvpScanWebApp/result.html", args)
-
 def gtin(request):
-    return render(request,"mvpScanWebApp/gtin.html")
+    return render(request, "mvpScanWebApp/gtin.html")
+
+def add(request, code):
+    if request.method == "POST":
+        form = AddNewProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("/gtin")
+        else:
+            # TODO: need a better logic for too long codes inserted
+            return HttpResponse("Something went wrong")
+    else:
+        if Product.objects.filter(code__contains=code).count() > 0:
+            products = Product.objects.filter(code__contains=code)
+            args = {
+                "products":products,
+            }
+            return render(request,"mvpScanWebApp/show_already_exists.html",args)
+        else:
+            form = AddNewProductForm(initial={"code":code})
+            args = {
+                "form": form,
+                }
+            return render(request, "mvpScanWebApp/add.html", args)
+
+def show(request, code):
+    products = Product.objects.filter(code__contains=code)
+    print(products)
+    args = {
+        "products":products,
+    }
+    return render(request, "mvpScanWebApp/show.html",args)

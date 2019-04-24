@@ -32,7 +32,6 @@
     <div id="scandit-barcode-result">No codes scanned yet</div>
     <!-- Button to continue scanning after a barcode was scanned -->
     <button class="btn btn-outline-primary" id="continue-scanning-button" onclick="continueScanning()">Continue Scanning</button>
-    <button class="result" onclick="sendGtin()">Result</button>
     <script>
         // Helper function called when the "Continue Scanning" button is clicked
         function continueScanning() {
@@ -74,13 +73,13 @@
                 picker.onScan(scanResult => {
                     continueButton.hidden = false;
                     continueButton.disabled = false;
+                    sendGtin(scanResult.barcodes[0].data);
                     picker.pauseScanning();
                     console.log(scanResult.barcodes[0].data)
                     alert("Alter")
                     sendGtin(scanResult.barcodes[0].data)
                     resultContainer.innerHTML = scanResult.barcodes.reduce((string, barcode) =>
-                        string +
-                        `${ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology)}: ${barcode.data}<br>`,
+                        string + `${ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology)}: ${barcode.data}<br>`,
                         '');
                 });
                 picker.onScanError(error => {
@@ -107,12 +106,12 @@
         return cookieValue;
         }
         function sendGtin(barcode){
-            console.log(barcode);
+            // alert(barcode);
             var csrftoken = getCookie('csrftoken');
-            const url = "http://127.0.0.1:8000/mvpScanWebApp/search/"
+            const url = "http://127.0.0.1:8000/gtin/add/" + barcode
         fetch(url,{
-                    method: 'POST', 
-                    body: JSON.stringify(barcode), 
+                    method: 'GET',
+                    body: JSON.stringify(barcode),
                     headers: {
                             'Content-Type': 'json/application',
                             'X-CSRFToken': csrftoken,
@@ -122,7 +121,7 @@
         .then(res => res.json())
         .then(console.log);
         window.location.replace(url);
-        };       
+        };
     </script>
 </div>
 {% endblock %}

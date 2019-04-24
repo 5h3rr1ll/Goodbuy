@@ -1,10 +1,10 @@
 from django.urls import path, re_path
 from mvpScanWebApp import views
 
-
-app_name = "mvpScanWebApp"
+app_name = "gtin"
 
 urlpatterns = [
-    path('', views.gtin, name='home'),
-    path('search', views.searchResult, name='searchResult'),
+    path('', views.gtin, name='gtin'),
+    path("add/<code>", views.add, name="add"),
+    path("show/<code>", views.show, name="show"),
 ]

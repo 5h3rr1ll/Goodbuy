@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['ratelyyDjangoEnv.p5j68a2z24.eu-central-1.elasticbeanstalk.com'
 # Application definition
 
 INSTALLED_APPS = [
+    "sslserver",
     "home",
     'mvpLogoGrab',
     "accounts",

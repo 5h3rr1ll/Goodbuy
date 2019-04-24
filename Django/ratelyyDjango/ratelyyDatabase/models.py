@@ -39,7 +39,6 @@ class Store(models.Model):
         db_table = "stores"
 
 class Concern(models.Model):
-
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=45, verbose_name="Concern Name", unique=True)
     logo = models.URLField(null=True, blank=True)
@@ -57,10 +56,9 @@ class Concern(models.Model):
     def __str__(self):
         return self.name
 
-
 class Company(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45, unique=True)
+    name = models.CharField(max_length=50, unique=True)
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     concern = models.ForeignKey(Concern, models.SET_NULL, db_column="concern", null=True, blank=True)
@@ -76,7 +74,6 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class Brand(models.Model):
     id = models.AutoField(primary_key=True)
@@ -94,7 +91,6 @@ class Brand(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class MainCategoryOfProduct(models.Model):
     id = models.AutoField(primary_key=True)
@@ -125,10 +121,10 @@ class SubCategoryOfProduct(models.Model):
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=45)
+    name = models.CharField(unique=True, max_length=45,verbose_name="Product Name")
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
-    gtin = models.PositiveIntegerField(null=True, blank=True, verbose_name="GTIN")
+    code = models.IntegerField(null=True,blank=True,unique=True)
     image = models.URLField(null=True, blank=True)
     brand = models.ForeignKey(Brand, models.SET_NULL, null=True, blank=True)
     concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
@@ -144,6 +140,9 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+class OrganicCertification(models.Model):
+    pass
 
 class ProductPriceInStore(models.Model):
     id = models.AutoField(primary_key=True)

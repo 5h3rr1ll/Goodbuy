@@ -25,7 +25,6 @@ class RegistrationFrom(UserCreationForm):
 
         if commit:
             user.save()
-
         return user
 
 class EditProfileForm(UserChangeForm):

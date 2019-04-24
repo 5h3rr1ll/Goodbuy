@@ -9,7 +9,7 @@
 
       {% block css %}
       {% endblock %}
-      
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   {% block head %}
@@ -42,11 +42,16 @@
              <a class="nav-link" href="{% url 'accounts:reset_password' %}"> Reset Password </a>
           </li>
           <li class="nav-item">
-             <a class="nav-link" href="{% url 'mvpLogoGrab:home' %}"> Logo Grab </a>
+             <a class="nav-link" href="{% url 'logograb:home' %}"> Logo Grab </a>
           </li>
           <li class="nav-item">
-             <a class="nav-link" href="{% url 'mvpScanWebApp:home' %}"> Barcode Scanner </a>
+             <a class="nav-link" href="{% url 'gtin:gtin' %}"> Code Scanner </a>
           </li>
+          {% if user.is_superuser %}
+          <li class="nav-item">
+             <a class="nav-link" href="/admin"> Admin Panel </a>
+          </li>
+          {% endif %}
         </ul>
         <ul class="nav nvabar-nav navbar-right">
           <li class="nav-item">

@@ -9,7 +9,7 @@ from django.contrib.auth.views import(
     PasswordResetCompleteView,
 )
 
-app_name = "mvpLogoGrab"
+app_name = "logograb"
 
 urlpatterns = [
     url(r'^$', views.logo_grab, name='home'),
