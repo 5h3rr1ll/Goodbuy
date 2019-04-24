@@ -89,6 +89,8 @@ def logo_grab(request):
     concern_data = Concern.objects.get(name=product_data.concern)
     #Updating Statcounter
     print(product_data.stat_counter)
+    product_data.stat_counter += 1
+    product_data.save()
     #Saving the data into a dict to display it on the html page
     args = {
         "id" : product_data.id,
@@ -110,7 +112,7 @@ def logo_grab(request):
     }
     #to get a result change to return render(request, 'mvpLogoGrab/data.html', args)
 
-    return render(request, 'mvpLogoGrab/data.html', args)
+    return render(request, 'mvpLogoGrab/logo_grab.html', args)
 
 #Recieving the logoname of an uploaded picture and requesting the database to give associated data
 def get_data(request):
@@ -143,6 +145,7 @@ def get_data(request):
 def post(request):
     print("function post")
     print(request)
+    body = request.body
     args = {
         "Post" : "Post"
     }

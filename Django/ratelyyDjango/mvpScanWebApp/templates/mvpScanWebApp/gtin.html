@@ -75,6 +75,9 @@
                     continueButton.hidden = false;
                     continueButton.disabled = false;
                     picker.pauseScanning();
+                    console.log(scanResult.barcodes[0].data)
+                    alert("Alter")
+                    sendGtin(scanResult.barcodes[0].data)
                     resultContainer.innerHTML = scanResult.barcodes.reduce((string, barcode) =>
                         string +
                         `${ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology)}: ${barcode.data}<br>`,
@@ -104,9 +107,9 @@
         return cookieValue;
         }
         function sendGtin(barcode){
-            alert(barcode);
+            console.log(barcode);
             var csrftoken = getCookie('csrftoken');
-            const url = "http://127.0.0.1:8000/mvpLogoGrab/post/"
+            const url = "http://127.0.0.1:8000/mvpScanWebApp/search/"
         fetch(url,{
                     method: 'POST', 
                     body: JSON.stringify(barcode), 

@@ -2,7 +2,8 @@ from django.shortcuts import render
 from mvpScanWebApp import views
 # Create your views here.
 
-def gtin(request):
+def searchResult(request):
+    print(request)
     numbers = [1,2,3,4,5]
     name = "Anthony Sherrill"
 
@@ -10,4 +11,7 @@ def gtin(request):
     # dict is the variable within this function
     # args takes all variabels you want to display on the rendered site
     args = {"myName": name, "numbers": numbers}
-    return render(request, "mvpScanWebApp/gtin.html", args)
+    return render(request, "mvpScanWebApp/result.html", args)
+
+def gtin(request):
+    return render(request,"mvpScanWebApp/gtin.html")

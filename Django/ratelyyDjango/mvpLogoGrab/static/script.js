@@ -73,8 +73,6 @@ if (navigator.mediaDevices.getUserMedia) {
     console.log("Something went wrong!");
     });
 }
-
-var canvas = document.querySelector('canvas');
 // Get a handle on the 2d context of the canvas element
 var context = canvas.getContext('2d');
 // Define some vars required later
@@ -95,32 +93,31 @@ video.addEventListener('loadedmetadata', function() {
 
 // Takes a snapshot of the video
 function snap() {
+
     // Define the size of the rectangle that will be filled (basically the entire element)
     context.fillRect(0, 0, w, h);
     // Grab the image from the video
     context.drawImage(video, 0, 0, w, h);
     var canvas = document.getElementById("canvas");
-    sendSnapToServer(canvas);
+    var dataUrl = canvas.toDataURL();
+    var img = new Image
+    img.src = dataUrl
+    console.log(dataUrl);
+    console.log(img)
+    alert("test")
+    sendSnapToServer(dataUrl)
 };
-/*
-function to_image(){
-    alert("to_image")
-    var canvas = document.getElementById("btn-snap");
-    document.getElementById("btn-snap").src = canvas.toDataURL();
-    Canvas2Image.saveAsPNG(canvas);
-    alert("Check")
-}
-*/
+
 //Post request -> Sends the picture to the server/api not defined yet
-function sendSnapToServer(canvas){
+function sendSnapToServer(dataUrl){
         alert("POST clicked");
         var csrftoken = getCookie('csrftoken');
         const url = "http://127.0.0.1:8000/mvpLogoGrab/post/"
         fetch(url,{
                     method: 'POST', 
-                    body: canvas, 
+                    body: dataUrl, 
                     headers: {
-                            'Content-Type': 'image/jpeg',
+                            'Content-Type': 'image/png',
                             'X-CSRFToken': csrftoken,
                     },
                     credentials: "include",
