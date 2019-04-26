@@ -8,6 +8,7 @@ from django.contrib.auth.views import(
     PasswordResetConfirmView,
     PasswordResetCompleteView,
 )
+from django.urls import path
 
 app_name = "logograb"
 
@@ -26,5 +27,6 @@ urlpatterns = [
     url(r'^reset-password/complete/$', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     url(r'^data/$', views.get_data, name='get_data'),
     url(r'^post/$', views.post, name='post'),
+    path('dataUrl/<dataurl>', views.dataUrl, name="dataurl"),
 
 ]

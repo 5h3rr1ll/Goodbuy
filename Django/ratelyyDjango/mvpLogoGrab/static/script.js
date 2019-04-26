@@ -87,43 +87,54 @@ video.addEventListener('loadedmetadata', function() {
     // Calculate the height based on the video's width and the ratio
     h = parseInt(w / ratio, 10);
     // Set the canvas width and height to the values just calculated
-    canvas.width = w;
-    canvas.height = h;			
+    canvas.width = w / 4;
+    canvas.height = h / 4;			
 }, false);
 
 // Takes a snapshot of the video
 function snap() {
-
+    //var image = new Image();
+    //image.src = canvas.toDataURL();
+    //document.getElementById('canvas').appendChild(image);
     // Define the size of the rectangle that will be filled (basically the entire element)
     context.fillRect(0, 0, w, h);
     // Grab the image from the video
-    context.drawImage(video, 0, 0, w, h);
+    context.drawImage(video, 0, 0, w / 4, h / 4);
     var canvas = document.getElementById("canvas");
     var dataUrl = canvas.toDataURL();
-    var img = new Image
-    img.src = dataUrl
     console.log(dataUrl);
-    console.log(img)
-    alert("test")
-    sendSnapToServer(dataUrl)
+    alert("test");
+    sendSnapToServerTwo(dataUrl);
 };
-
+function sendSnapToServerTwo(picture){
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://api.logograb.com/detect?mediaUrl="+ picture +"&developerKey=nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr",
+        "method": "POST",
+        "headers": {}
+      }
+    
+    
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+    });
+}
 //Post request -> Sends the picture to the server/api not defined yet
-function sendSnapToServer(dataUrl){
+function sendSnapToServer(canvas){
         alert("POST clicked");
         var csrftoken = getCookie('csrftoken');
         const url = "http://127.0.0.1:8000/mvpLogoGrab/post/"
         fetch(url,{
                     method: 'POST', 
-                    body: dataUrl, 
+                    body: JSON.stringify(canvas), 
                     headers: {
-                            'Content-Type': 'image/png',
+                            'Content-Type': "application/json",
                             'X-CSRFToken': csrftoken,
                     },
                     credentials: "include",
         })
         .then(res => res.json())
         .then(console.log);
-        window.location.replace(url);
- };       
- 
+       // window.location.replace(url);
+ };

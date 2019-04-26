@@ -150,3 +150,10 @@ def post(request):
         "Post" : "Post"
     }
     return render(request, 'mvpLogoGrab/post.html', args)
+
+def dataUrl(request, dataurl):
+    print("we print here" + len(dataurl))
+    args = {
+        "test" : "test"
+    }
+    return render(request, 'mvpLogoGrab/post.html', args)
