@@ -124,7 +124,7 @@ class Product(models.Model):
     name = models.CharField(unique=True, max_length=45,verbose_name="Product Name")
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
-    code = models.IntegerField(null=True,blank=True,unique=True)
+    code = models.CharField(null=True,blank=True,unique=True, max_length=13)
     image = models.URLField(null=True, blank=True)
     brand = models.ForeignKey(Brand, models.SET_NULL, null=True, blank=True)
     concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
