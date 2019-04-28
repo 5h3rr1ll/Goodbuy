@@ -41,5 +41,4 @@ urlpatterns = [
     path("reset-password/done/", PasswordResetDoneView2.as_view(), name="password_reset_done"),
     path("reset-password/confirm/(<uidb64>[0-9A-Za-z]+)-(<token>.+)/", PasswordResetConfirmView2.as_view(), name="password_reset_confirm"),
     path("reset-password/complete/", PasswordResetCompleteView2.as_view(), name="password_reset_complete"),
-    path("logograb/", lg_views.logo_grab, name="home"),
 ]
