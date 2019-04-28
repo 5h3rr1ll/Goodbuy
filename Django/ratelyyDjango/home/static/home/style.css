@@ -7,6 +7,35 @@ logo {
     height: auto;
 }
 
-/* body {
-  color: red;
-} */
+.home-title {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.home-text {
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-bottom: 100px;
+
+  text-align: center;
+}
+
+.col-sm-6 {
+  text-align: center;
+}
+
+#env {
+  background: red;
+}
+
+#ani {
+  background: blue;
+}
+
+#hum {
+  background: green;
+}
+
+.col-sm-4 {
+  text-align: center;
+}

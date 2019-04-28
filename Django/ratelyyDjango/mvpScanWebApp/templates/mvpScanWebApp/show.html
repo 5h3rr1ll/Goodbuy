@@ -1,15 +1,73 @@
 {% extends "base.html" %}
 
+{% block css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'home/style.css' %}" type="text/css">
+{% endblock %}
+
 {% block head %}
-  <title>Show Product Details</title>
+  <title>Product Details</title>
 {% endblock %}
 
 {% block body %}
 <div class="container">
-  <h1>Show Product Details</h1>
   {% for product in products %}
+    <h1>{{ product.name }}</h1>
     <p>Name: {{ product.name }}</p>
-    <p>GTIN: {{ product.gtin }}</p>
+    <p>Code: {{ product.code }}</p>
   {% endfor %}
+
+    <div class="">
+      
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4" id="envtitle">
+        <img src="http://sherrill.de/goodbuy/images/Earth1.svg" alt="">
+      </div>
+      <div class="col-sm-4" id="anititle">
+        <img src="http://sherrill.de/goodbuy/images/Chicken1.svg" alt="">
+      </div>
+      <div class="col-sm-4" id="humtitle">
+        <img src="http://sherrill.de/goodbuy/images/Child1.svg" alt="">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4" id="envsym">
+        <p>Envirement</p>
+      </div>
+      <div class="col-sm-4" id="anisym">
+        <p>Animals</p>
+      </div>
+      <div class="col-sm-4" id="humsym">
+        <p>Humans</p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-4" id="envtxt">
+        <p>
+          Envirement Envirement Envirement Envirement Envirement Envirement
+          Envirement Envirement Envirement Envirement Envirement Envirement
+          Envirement Envirement Envirement Envirement Envirement Envirement
+        </p>
+      </div>
+      <div class="col-sm-4" id="anitxt">
+        <p>
+          Animals Animals Animals Animals Animals Animals Animals Animals
+          Animals Animals Animals Animals Animals Animals Animals Animals
+          Animals Animals Animals Animals Animals Animals Animals Animals
+        </p>
+      </div>
+      <div class="col-sm-4" id="humtxt">
+        <p>
+          Humans Humans Humans Humans Humans Humans Humans Humans Humans Humans
+          Humans Humans Humans Humans Humans Humans Humans Humans Humans Humans
+          Humans Humans Humans Humans Humans Humans Humans Humans Humans Humans
+        </p>
+      </div>
+    </div>
+
 </div>
 {% endblock %}

@@ -18,14 +18,14 @@ def add(request, code):
             return redirect("/gtin")
         else:
             # TODO: need a better logic for too long codes inserted
-            return HttpResponse("Something went wrong")
+            return render(request,"mvpScanWebApp/error.html")
     else:
         if Product.objects.filter(code__contains=code).count() > 0:
             products = Product.objects.filter(code__contains=code)
             args = {
                 "products":products,
             }
-            return render(request,"mvpScanWebApp/show_already_exists.html",args)
+            return render(request,"mvpScanWebApp/show.html",args)
         else:
             form = AddNewProductForm(initial={"code":code})
             args = {

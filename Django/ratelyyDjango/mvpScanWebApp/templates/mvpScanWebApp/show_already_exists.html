@@ -9,7 +9,7 @@
   <h1>Thanks that product already exists</h1>
   {% for product in products %}
     <p>Name: {{ product.name }}</p>
-    <p>GTIN: {{ product.gtin }}</p>
+    <p>GTIN: {{ product.code }}</p>
   {% endfor %}
   <form class="" action="{% url 'gtin:gtin' %}" method="post">
     {% csrf_token %}

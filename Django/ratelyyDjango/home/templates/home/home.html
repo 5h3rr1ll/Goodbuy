@@ -5,45 +5,34 @@
 <link rel="stylesheet" href="{% static 'home/style.css' %}" type="text/css">
 {% endblock %}
 
+{% block head %}
+  <title>Goodbuy - Consume for a better World</title>
+{% endblock %}
+
 {% block body %}
   <div class="container">
-    <div class="col-md-8">
-      <h2>Home</h2>
-      <form method="post">
-        {% csrf_token %}
-        {{ form.post }}
-        <br>
-        <button type="submit">Submit</button>
-      </form>
-      <h2>{{ text }}</h2>
-      {% for post in posts %}
-        <h1>{{ post.post }}</h1>
-        <p>Posted by {{ post.user.get_full_name }} on {{ post.created }}</p>
-      {% endfor %}
+    <div class="home-title">
+      <h1>Welcome to Goodbuy</h1>
     </div>
-    <div class="col-md-4">
-      <h2>Other Poeple</h2>
-      {% for user in users %}
-      <a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
-        <h3>{{ user.username }}</h3>
-      </a>
-        {% if user not in friends %}
-          <a href="{% url 'home:change_friends' operation='add' pk=user.pk %}">
-            <button type="button" class="btn btn-outline-success">Add Friend</button>
+    <div class="home-text">
+      <p>
+        We want to change the ethical consumption system. We want you too
+        consume ethical and sustaibable at the most convenience.
+      </p>
+    </div>
+    <div class="scan-logos">
+      <div class="row">
+        <div class="col-sm-6">
+          <a href="{% url 'gtin:gtin' %}">
+            <img src="http://sherrill.de/goodbuy/images/capture.jpg" alt="" height="128" width="128">
           </a>
-        {% endif %}
-      {% endfor %}
-      {% if friends %}
-      <h2>Friends</h2>
-      {% for friend in friends %}
-      <a href="{% url 'accounts:view_profile_with_pk' pk=user.pk %}">
-        <h3>{{ friend.username }}</h3>
-      </a>
-      <a href="{% url 'home:change_friends' operation='remove' pk=friend.pk %}">
-        <button type="button" class="btn btn-outline-secondary">Remove</button>
-      </a>
-      {% endfor %}
-      {% endif %}
+        </div>
+        <div class="col-sm-6">
+          <a href="{% url 'logograb:home' %}">
+            <img src="http://sherrill.de/goodbuy/images/capture.jpg" alt="" height="128" width="128">
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock %}
