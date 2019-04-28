@@ -146,14 +146,14 @@ def post(request):
     print("function post")
     print(request)
     body = request.body
-    payload = {"image" : body}
-    url = "https://api.imgur.com/3/upload"
-    client_id = "121963ba11eb969"
+ #   payload = {"image" : body}
+ #   url = "https://api.imgur.com/3/upload"
+ #   client_id = "121963ba11eb969"
 
 
-    p = requests.post(url, payload, client_id)
+  #  p = requests.post(url, payload, client_id)
 
-    print(p)
+   # print(p)
 
     args = {
         "Post" : "Post"

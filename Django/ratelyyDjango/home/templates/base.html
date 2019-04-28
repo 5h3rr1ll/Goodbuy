@@ -2,14 +2,18 @@
 <html lang="en" dir="ltr">
 <head>
 
+
+  {% block css %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'mvpScanWebApp/style.css' %}" type="text/css">
+  {% endblock%}
+
   <link rel="stylesheet"
   href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
   integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
   crossorigin="anonymous">
 
-{% block css %}
 
-{% endblock %}
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
