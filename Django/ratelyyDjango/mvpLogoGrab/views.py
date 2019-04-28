@@ -146,13 +146,22 @@ def post(request):
     print("function post")
     print(request)
     body = request.body
+    payload = {"image" : body}
+    url = "https://api.imgur.com/3/upload"
+    client_id = "121963ba11eb969"
+
+
+    p = requests.post(url, payload, client_id)
+
+    print(p)
+
     args = {
         "Post" : "Post"
     }
     return render(request, 'mvpLogoGrab/post.html', args)
 
-def dataUrl(request, dataurl):
-    print("we print here" + len(dataurl))
+def dataUrl(request, dataUrl):
+    print("we print here" + len(dataUrl))
     args = {
         "test" : "test"
     }

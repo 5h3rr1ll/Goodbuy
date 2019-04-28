@@ -87,30 +87,47 @@ video.addEventListener('loadedmetadata', function() {
     // Calculate the height based on the video's width and the ratio
     h = parseInt(w / ratio, 10);
     // Set the canvas width and height to the values just calculated
-    canvas.width = w / 4;
-    canvas.height = h / 4;			
+    canvas.width = w / 20;
+    canvas.height = h / 20;			
 }, false);
 
 // Takes a snapshot of the video
 function snap() {
-    //var image = new Image();
-    //image.src = canvas.toDataURL();
-    //document.getElementById('canvas').appendChild(image);
-    // Define the size of the rectangle that will be filled (basically the entire element)
     context.fillRect(0, 0, w, h);
     // Grab the image from the video
-    context.drawImage(video, 0, 0, w / 4, h / 4);
+    context.drawImage(video, 0, 0, w / 20, h / 20);
     var canvas = document.getElementById("canvas");
     var dataUrl = canvas.toDataURL();
     console.log(dataUrl);
     alert("test");
+    //uploadAndGetImgurLink(dataUrl);
     sendSnapToServerTwo(dataUrl);
 };
-function sendSnapToServerTwo(picture){
+/*
+function sendToBackEnd(dataUrl){
+    alert("POST clicked");
+    var csrftoken = getCookie('csrftoken');
+    const url = "http://127.0.0.1:8000/mvpLogoGrab/post/"
+    fetch(url,{
+                method: 'POST', 
+                body: JSON.stringify(dataUrl), 
+                headers: {
+                        'Content-Type': "application/json",
+                        'X-CSRFToken': csrftoken,
+                },
+                credentials: "include",
+    })
+    .then(response => response.json())
+    .then(console.log);
+   // window.location.replace(url);
+};
+*/
+
+function sendSnapToServerTwo(dataUrl){
     var settings = {
         "async": true,
         "crossDomain": true,
-        "url": "https://api.logograb.com/detect?mediaUrl="+ picture +"&developerKey=nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr",
+        "url": "https://api.logograb.com/detect?mediaUrl="+ dataUrl +"&developerKey=nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr",
         "method": "POST",
         "headers": {}
       }
@@ -120,6 +137,7 @@ function sendSnapToServerTwo(picture){
         console.log(response);
     });
 }
+
 //Post request -> Sends the picture to the server/api not defined yet
 function sendSnapToServer(canvas){
         alert("POST clicked");
@@ -134,7 +152,7 @@ function sendSnapToServer(canvas){
                     },
                     credentials: "include",
         })
-        .then(res => res.json())
+        .then(response => response.json())
         .then(console.log);
        // window.location.replace(url);
  };
