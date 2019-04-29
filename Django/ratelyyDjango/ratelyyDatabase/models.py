@@ -54,7 +54,11 @@ class Rating(models.Model):
     environment_description = models.TextField(null=True)
     animals = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
     animals_description = models.TextField(null=True)
-    concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
+    concern = models.ForeignKey(
+        Concern, models.SET_NULL,
+        null=True,blank=True,
+        unique=True
+        )
 
     class Meta:
         managed = True
