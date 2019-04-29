@@ -23,6 +23,10 @@ class CountryAdmin(admin.ModelAdmin):
     list_display_links = ("id", "name",)
     search_field = ["id", "name", "code", "created", "updated",]
 
+class RatingInline(admin.StackedInline):
+    max_num = 1
+    model = Rating
+
 class ConcernAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name", "logo", "wiki",
@@ -39,7 +43,9 @@ class ConcernAdmin(admin.ModelAdmin):
             return obj.origin.code
         else:
             return None
-
+    inlines = [
+        Rating,
+    ]
 class CompanyAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name", "logo", "wiki", "concern",
