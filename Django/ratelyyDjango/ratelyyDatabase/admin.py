@@ -15,8 +15,15 @@ class SubCategoryOfProductAdmin(admin.ModelAdmin):
     list_display_links = ("id", "name", "created", "updated",)
 
 class RatingAdmin(admin.ModelAdmin):
-    list_display = ("id", "humans", "environment", "animals")
-    list_display_links = ("id", "humans", "environment", "animals")
+    list_display = ("id", "concern" , "humans", "environment", "animals")
+    list_display_links = ("id", "concern",  "humans", "environment", "animals")
+
+    def concern(self, obj):
+        if obj.concern is not None:
+            return obj.concern.name
+        else:
+            return None
+    concern.short_description = "Rating of associated Concern"
 
 class CountryAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "code", "created", "updated",)
