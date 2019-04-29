@@ -42,5 +42,20 @@ logo {
 
 #total_rating h1 {
   text-align: center;
-  font-size: 150px;
+  font-size: 185px;
+  color: white;
+}
+#product_name {
+  font-size: 80px;
+}
+
+
+#body_block_happy {
+  background-color: #3EC300;
+}
+#body_block_hurt {
+  background-color: #FFB20F ;
+}
+#body_block_dead {
+  background-color: #F42B03;
 }
