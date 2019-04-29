@@ -20,10 +20,10 @@ def add(request, code):
             # TODO: need a better logic for too long codes inserted
             return render(request,"mvpScanWebApp/error.html")
     else:
-        if Product.objects.get(code__contains=code).count() > 0:
-            products = Product.objects.filter(code__contains=code)
+        if Product.objects.filter(code__contains=code).count() > 0:
+            product = Product.objects.get(code=code)
             args = {
-                "products":products,
+                "product":product,
             }
             return render(request,"mvpScanWebApp/show.html",args)
         else:
