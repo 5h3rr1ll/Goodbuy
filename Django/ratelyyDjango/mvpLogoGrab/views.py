@@ -124,7 +124,7 @@ def get_data(request):
     animals = rating.animals
     environment = rating.environment
     humans = rating.humans
-    rating_result = int(animals) + int(environment) + int(humans) / 3
+    rating_result = round(((int(animals) + int(environment) + int(humans)) / 3) * 10)
     #Saving the data into a dict to display it on the html page
     #love
     args = {
