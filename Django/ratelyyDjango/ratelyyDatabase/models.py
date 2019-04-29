@@ -81,6 +81,7 @@ class Rating(models.Model):
     class Meta:
         managed = True
         db_table = "ratings"
+        ordering = ("concern","id",)
 
     def __str__(self):
         return self.concern.name
