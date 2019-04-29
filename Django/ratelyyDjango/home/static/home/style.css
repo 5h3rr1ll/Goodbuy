@@ -13,10 +13,9 @@ logo {
 }
 
 .home-text {
-  margin-left: 100px;
+  margin-left: 120px;
   margin-right: 100px;
   margin-bottom: 100px;
-
   text-align: center;
 }
 
@@ -47,6 +46,8 @@ logo {
 }
 #product_name {
   font-size: 80px;
+  padding-top: 3%;
+  padding-left: 3%;
 }
 
 
@@ -58,4 +59,8 @@ logo {
 }
 #body_block_dead {
   background-color: #F42B03;
+}
+
+#text-row{
+  padding-left:1  %;
 }
