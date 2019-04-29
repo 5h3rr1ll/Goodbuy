@@ -32,6 +32,7 @@ def add(request, code):
                 "product":product,
                 "rating_result":total_rating,
                 "rating":rating,
+                "concern":concern,
             }
             return render(request,"mvpScanWebApp/show.html",args)
         else:
@@ -43,7 +44,16 @@ def add(request, code):
 
 def show(request, code):
     product = Product.objects.get(code=code)
+    concern = Concern.objects.get(name=product.concern)
+    rating = Rating.objects.get(concern=concern.id)
+    if rating.animals == None or rating.humans == None  or rating.environment == None:
+        total_rating = 0
+    else:
+        total_rating = round((rating.animals+rating.humans+rating.environment)/3)*10
     args = {
         "product":product,
+        "rating_result":total_rating,
+        "rating":rating,
+        "concern":concern,
     }
     return render(request, "mvpScanWebApp/show.html",args)
