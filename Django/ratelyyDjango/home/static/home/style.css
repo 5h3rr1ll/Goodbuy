@@ -23,16 +23,8 @@ logo {
   text-align: center;
 }
 
-#env {
-  background: red;
-}
-
-#ani {
-  background: blue;
-}
-
-#hum {
-  background: green;
+h1 {
+  text-align: center;
 }
 
 .col-sm-4 {
