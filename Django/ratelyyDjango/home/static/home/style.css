@@ -48,9 +48,14 @@ logo {
   font-size: 80px;
   padding-top: 3%;
   padding-left: 3%;
+  color:white;
 }
-
-
+#text-row {
+  color:white;
+}
+#picture-title {
+  color: white;
+}
 #body_block_happy {
   background-color: #3EC300;
 }
@@ -61,6 +66,3 @@ logo {
   background-color: #F42B03;
 }
 
-#text-row{
-  padding-left:1  %;
-}
