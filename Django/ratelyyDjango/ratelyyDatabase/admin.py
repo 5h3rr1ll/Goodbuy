@@ -15,7 +15,8 @@ class SubCategoryOfProductAdmin(admin.ModelAdmin):
     list_display_links = ("id", "name", "created", "updated",)
 
 class RatingAdmin(admin.ModelAdmin):
-    list_display = ("id", "concern" , "humans", "environment", "animals")
+    list_display = ("id", "concern" , "humans", "environment", "animals",
+     "animals_description", "environment_description", "humans_description")
     list_display_links = ("id", "concern",  "humans", "environment", "animals")
 
     def concern(self, obj):

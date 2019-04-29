@@ -121,8 +121,11 @@ def get_data(request):
     product = Product.objects.get(name=product_name)
     concern = Concern.objects.get(name=product.concern)
     rating = Rating.objects.get(concern=concern.id)
+    animal_des = rating.animals_description
     animals = rating.animals
+    environment_des = rating.environment_description
     environment = rating.environment
+    human_des = rating.humans_description
     humans = rating.humans
     rating_result = round(((int(animals) + int(environment) + int(humans)) / 3) * 10)
     #Saving the data into a dict to display it on the html page

@@ -77,20 +77,20 @@
     <div class="row" id="text-row">
       <div class="col-sm-4" id="envtxt">
         <p>
-          Here is a text about how the environment is treated.
+          {{ rating.environment_description }}
         </p>
         <h3>Rating environment: {{ rating.environment }}</h3>
       </div>
       <div class="col-sm-4" id="anitxt">
         <p>
-          Here is a text about how animals are beeing treated.
-        </p>
+            {{ rating.animals_description }}
+          </p>
         <h3>Rating Animals: {{ rating.animals }}</h3>
       </div>
       <div class="col-sm-4" id="humtxt">
         <p>
-        Here is a text about how humany are treated in there associated concern.        
-      </p>
+            {{ rating.humans_description }}
+          </p>
         <h3>Rating Humans: {{ rating.humans }}</h3>
       </div>
     </div>
