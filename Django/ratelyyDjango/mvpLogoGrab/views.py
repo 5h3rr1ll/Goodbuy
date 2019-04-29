@@ -85,27 +85,27 @@ def logo_grab(request):
     product_name = json_response["data"]["detections"][0]["name"]
     product_name = product_name.replace("-", " ")
     #Requesting data from the database with the logoname
-    product_data = Product.objects.get(name=product_name)
-    concern_data = Concern.objects.get(name=product_data.concern)
+    product = Product.objects.get(name=product_name)
+    concern_data = Concern.objects.get(name=product.concern)
     #Updating Statcounter
-    print(product_data.stat_counter)
-    product_data.stat_counter += 1
-    product_data.save()
+    print(product.stat_counter)
+    product.stat_counter += 1
+    product.save()
     #Saving the data into a dict to display it on the html page
     args = {
-        "id" : product_data.id,
-        "name" : product_data.name,
-        "logo" : product_data.logo,
-        "wiki" : product_data.wiki,
-        "code" : product_data.code,
-        "group" : product_data.name,
-        "brand" : product_data.brand,
-        "concern" : product_data.concern,
-        "main_category" : product_data.main_category,
-        "sub_category" : product_data.sub_category,
-        "image" : product_data.image,
-        "created" : product_data.created,
-        "updated" : product_data.updated,
+        "id" : product.id,
+        "name" : product.name,
+        "logo" : product.logo,
+        "wiki" : product.wiki,
+        "code" : product.code,
+        "group" : product.name,
+        "brand" : product.brand,
+        "concern" : product.concern,
+        "main_category" : product.main_category,
+        "sub_category" : product.sub_category,
+        "image" : product.image,
+        "created" : product.created,
+        "updated" : product.updated,
         "rating" : concern_data.rating,
         "concern_origin" : concern_data.origin,
 
@@ -118,29 +118,16 @@ def logo_grab(request):
 def get_data(request):
     print("function get_data")
     product_name = request.GET.get("name", "Not found")
-    product_data = Product.objects.get(name=product_name)
-    concern_data = Concern.objects.get(name=product_data.concern)
+    product = Product.objects.get(name=product_name)
+    concern = Concern.objects.get(name=product.concern)
 
     #Saving the data into a dict to display it on the html page
     args = {
-        "id" : product_data.id,
-        "name" : product_data.name,
-        "logo" : product_data.logo,
-        "wiki" : product_data.wiki,
-        "code" : product_data.code,
-        "group" : product_data.name,
-        "brand" : product_data.brand,
-        "concern" : product_data.concern,
-        "main_category" : product_data.main_category,
-        "sub_category" : product_data.sub_category,
-        "image" : product_data.image,
-        "created" : product_data.created,
-        "updated" : product_data.updated,
-        "rating" : concern_data.rating,
-        "concern_origin" : concern_data.origin,
+        "product": product,
+        "concern": concern,
 
     }
-    return render(request, 'mvpLogoGrab/data.html', args)
+    return render(request, 'mvpScanWebApp/show.html', args)
 #Testing post request for client to server data will be deleted later.
 def post(request):
     print("function post")
