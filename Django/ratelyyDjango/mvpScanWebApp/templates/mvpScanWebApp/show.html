@@ -27,16 +27,25 @@
       <div class="col-sm-4" id="envtitle">
         {% if rating.environment >= 7 %}
         <img src="http://sherrill.de/goodbuy/images/Earth%20Rainbow.png" alt="" height="150">
+        {% elif rating.environment >= 4 %}
+        {% elif rating.environment >= 1 %}
+        {% else %}
         {% endif %}
       </div>
       <div class="col-sm-4" id="anititle">
         {% if rating.animals >= 7 %}
         <img src="http://sherrill.de/goodbuy/images/Happy%20bird.png" alt="" height="150">
+        {% elif rating.animals >= 4 %}
+        {% elif rating.animals >= 1 %}
+        {% else %}
         {% endif %}
       </div>
       <div class="col-sm-4" id="humtitle">
         {% if rating.humans >= 7 %}
         <img src="http://sherrill.de/goodbuy/images/girl.png" alt="" height="150">
+        {% elif rating.humans >= 4 %}
+        {% elif rating.humans >= 1 %}
+        {% else %}
         {% endif %}
       </div>
     </div>
