@@ -16,6 +16,7 @@ from mvpLogoGrab.forms import (
 from ratelyyDatabase.models import (
     Product,
     Concern,
+    Rating,
 )
 # Create your views here.
 def home(request):
@@ -120,11 +121,12 @@ def get_data(request):
     product_name = request.GET.get("name", "Not found")
     product = Product.objects.get(name=product_name)
     concern = Concern.objects.get(name=product.concern)
-
+    rating = Rating.objects.get(id=concern.rating)
     #Saving the data into a dict to display it on the html page
     args = {
         "product": product,
         "concern": concern,
+        "rating": rating,
 
     }
     return render(request, 'mvpScanWebApp/show.html', args)
