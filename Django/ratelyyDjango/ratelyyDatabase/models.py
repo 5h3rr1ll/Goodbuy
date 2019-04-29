@@ -53,10 +53,8 @@ class Rating(models.Model):
     animals = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
     concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
 
-
-
     class Meta:
-        managed = True  
+        managed = True
         db_table = "ratings"
 
 class Company(models.Model):

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from mvpScanWebApp import views
-from ratelyyDatabase.models import Product
+from ratelyyDatabase.models import Product, Concern, Rating
 from mvpScanWebApp.forms import AddNewProductForm
 from django.contrib import messages
 from django.http import HttpResponse
@@ -22,8 +22,13 @@ def add(request, code):
     else:
         if Product.objects.filter(code__contains=code).count() > 0:
             product = Product.objects.get(code=code)
+            concern = Concern.objects.get(name=product.concern)
+            rating = Rating.objects.get(concern=concern.id)
+            total_rating = round((rating.animals+rating.humans+rating.environment)/3)*10
             args = {
                 "product":product,
+                "rating_result":total_rating,
+                "rating":rating,
             }
             return render(request,"mvpScanWebApp/show.html",args)
         else:
