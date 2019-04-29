@@ -45,13 +45,14 @@ class Concern(models.Model):
 
     def __str__(self):
         return self.name
-        
+
 class Rating(models.Model):
     id = models.AutoField(primary_key=True)
     humans = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
     environment = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
     animals = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
     concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
+
 
 
     class Meta:
