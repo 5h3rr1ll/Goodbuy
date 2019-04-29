@@ -49,8 +49,11 @@ class Concern(models.Model):
 class Rating(models.Model):
     id = models.AutoField(primary_key=True)
     humans = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
+    humans_description = models.TextField(null=True)
     environment = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
+    environment_description = models.TextField(null=True)
     animals = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
+    animals_description = models.TextField(null=True)
     concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
 
     class Meta:
