@@ -107,7 +107,6 @@ def logo_grab(request):
         "image" : product.image,
         "created" : product.created,
         "updated" : product.updated,
-        "rating" : concern_data.rating,
         "concern_origin" : concern_data.origin,
 
     }
@@ -121,7 +120,7 @@ def get_data(request):
     product_name = request.GET.get("name", "Not found")
     product = Product.objects.get(name=product_name)
     concern = Concern.objects.get(name=product.concern)
-    rating = Rating.objects.get(id=concern.rating)
+    rating = Rating.objects.get(concern_id=concern.id)
     #Saving the data into a dict to display it on the html page
     args = {
         "product": product,

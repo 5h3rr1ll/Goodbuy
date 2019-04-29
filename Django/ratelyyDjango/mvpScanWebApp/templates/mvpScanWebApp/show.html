@@ -14,7 +14,10 @@
     <h1>{{ product.name }}</h1>
     <p>Name: {{ product.name }}</p>
     <p>Code: {{ product.code }}</p>
-    <h1>{{ concern.rating.humans }}</h1>
+
+    <h1>Rating environment: {{ rating.environment }}</h1>
+    <h1>Rating Animals: {{ rating.animals }}</h1>
+    <h1>Rating Humans: {{ rating.humans }}</h1>
 
     <div class="">
 
@@ -22,13 +25,19 @@
 
     <div class="row">
       <div class="col-sm-4" id="envtitle">
+        {% if rating.environment >= 7 %}
         <img src="http://sherrill.de/goodbuy/images/Earth%20Rainbow.png" alt="" height="150">
+        {% endif %}
       </div>
       <div class="col-sm-4" id="anititle">
+        {% if rating.animals >= 7 %}
         <img src="http://sherrill.de/goodbuy/images/Happy%20bird.png" alt="" height="150">
+        {% endif %}
       </div>
       <div class="col-sm-4" id="humtitle">
+        {% if rating.humans >= 7 %}
         <img src="http://sherrill.de/goodbuy/images/girl.png" alt="" height="150">
+        {% endif %}
       </div>
     </div>
 
