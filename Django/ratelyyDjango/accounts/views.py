@@ -11,20 +11,6 @@ from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
-# All logic goes thru the views. If you want to access e.g. data from a database
-# you do it here in the view.py in the functions
-# @login_required
-# def home(request):
-#     numbers = [1,2,3,4,5]
-#     name = "Anthony Sherrill"
-#
-#     # myname is the name we will use in the template and the value in the
-#     # dict is the variable within this function
-#     # args takes all variabels you want to display on the rendered site
-#     args = {"myName": name, "numbers": numbers}
-#     return render(request, "accounts/home.html", args)
-
 def register(request):
     if request.method == "POST":
         form = RegistrationFrom(request.POST)
@@ -78,9 +64,3 @@ def change_password(request):
         form = PasswordChangeForm(user = request.user)
         args = {"form": form}
         return render(request, "accounts/change_password.html", args)
-
-def logo_grap(request):
-    return render(request, "mvpLogoGrab/home.html")
-
-def gtin(request):
-    return render(request, "mvpScanWebApp/gtin.html")
