@@ -39,3 +39,8 @@ logo {
 .col-sm-4 {
   text-align: center;
 }
+
+#total_rating h1 {
+  text-align: center;
+  font-size: 150px;
+}

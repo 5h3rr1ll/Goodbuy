@@ -24,12 +24,11 @@ def add(request, code):
             product = Product.objects.get(code=code)
             concern = Concern.objects.get(name=product.concern)
             rating = Rating.objects.get(concern=concern.id)
-            total_rating = (rating.animals+rating.humans+rating.environment)/3
+            total_rating = round((rating.animals+rating.humans+rating.environment)/3)*10
             args = {
                 "product":product,
-                "concern":concern,
+                "rating_result":total_rating,
                 "rating":rating,
-                "total":total_rating,
             }
             return render(request,"mvpScanWebApp/show.html",args)
         else:
