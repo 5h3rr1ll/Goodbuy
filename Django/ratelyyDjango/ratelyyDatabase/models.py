@@ -41,7 +41,7 @@ class Concern(models.Model):
     class Meta:
         managed = True
         db_table = 'concerns'
-        ordering = ("name",)
+        ordering = ("name","id",)
 
     def __str__(self):
         return self.name

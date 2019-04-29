@@ -10,9 +10,11 @@ class MainCategoryOfProductAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "created", "updated",)
     list_display_links = ("id", "name", "created", "updated",)
 
+
 class SubCategoryOfProductAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "created", "updated",)
     list_display_links = ("id", "name", "created", "updated",)
+
 
 class RatingAdmin(admin.ModelAdmin):
     list_display = ("id", "concern" , "humans", "environment", "animals",
@@ -26,14 +28,17 @@ class RatingAdmin(admin.ModelAdmin):
             return None
     concern.short_description = "Rating of associated Concern"
 
+
 class CountryAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "code", "created", "updated",)
     list_display_links = ("id", "name",)
-    search_field = ["id", "name", "code", "created", "updated",]
+    search_fields = ["id", "name", "code", "created", "updated",]
+
 
 class RatingInline(admin.StackedInline):
     max_num = 1
     model = Rating
+
 
 class ConcernAdmin(admin.ModelAdmin):
     list_display = (
@@ -45,15 +50,19 @@ class ConcernAdmin(admin.ModelAdmin):
         "id", "name", "logo", "wiki",
         "origin_code", "created", "updated",
         ]
+    autocomplete_fields = ("origin",)
+    inlines = [
+        RatingInline,
+    ]
+
 
     def origin_code(self, obj):
         if obj.origin is not None:
             return obj.origin.code
         else:
             return None
-    inlines = [
-        RatingInline,
-    ]
+
+
 class CompanyAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name", "logo", "wiki", "concern",
@@ -79,6 +88,7 @@ class CompanyAdmin(admin.ModelAdmin):
     #         return None
     # concern_rating.short_description = "Rating of associated Concern"
 
+
 class BrandAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name", "logo", "wiki", "company",
@@ -98,15 +108,18 @@ class BrandAdmin(admin.ModelAdmin):
     #         return None
     # concern_rating.short_description = "Rating of associated Concern"
 
+
 class ProdcutPriceInStoreAdmin(admin.ModelAdmin):
     list_display = ("id","store","product","price")
     search_fields = [
         "id","store__name","product__name","price"
     ]
 
+
 class PriceInline(admin.StackedInline):
     max_num = 1
     model = ProductPriceInStore
+
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
@@ -135,12 +148,15 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [
         PriceInline,
     ]
+
+
 class StoreAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "country",)
     search_fields = [
         "id", "name",
     ]
     autocomplete_fields = ()
+
 
 admin.site.site_header = "Goodbuy Database"
 admin.site.register(Concern, ConcernAdmin,)
