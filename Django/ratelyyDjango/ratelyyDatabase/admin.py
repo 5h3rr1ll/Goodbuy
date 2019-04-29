@@ -44,7 +44,7 @@ class ConcernAdmin(admin.ModelAdmin):
         else:
             return None
     inlines = [
-        Rating,
+        RatingInline,
     ]
 class CompanyAdmin(admin.ModelAdmin):
     list_display = (
