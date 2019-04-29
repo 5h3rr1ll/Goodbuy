@@ -120,12 +120,18 @@ def get_data(request):
     product_name = request.GET.get("name", "Not found")
     product = Product.objects.get(name=product_name)
     concern = Concern.objects.get(name=product.concern)
-    rating = Rating.objects.get(concern_id=concern.id)
+    rating = Rating.objects.get(concern=concern.id)
+    animals = rating.animals
+    environment = rating.environment
+    humans = rating.humans
+    rating_result = int(animals) + int(environment) + int(humans) / 3
     #Saving the data into a dict to display it on the html page
+    #love
     args = {
         "product": product,
         "concern": concern,
         "rating": rating,
+        "rating_result": rating_result,
 
     }
     return render(request, 'mvpScanWebApp/show.html', args)
