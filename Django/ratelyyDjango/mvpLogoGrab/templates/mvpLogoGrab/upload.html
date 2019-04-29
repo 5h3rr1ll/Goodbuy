@@ -1,6 +1,6 @@
 {% extends "foundation.html" %}
 {% block head %}
-<title>LogoGrab WebScanner</title>
+<title>Upload</title>
 {% load static %}
 <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
@@ -9,18 +9,10 @@
 </script>
 {% endblock %}
 {% block body %}
-<div class="container">  
-    <button id="btn-snap" onclick="snap()">Take screenshot</button>      
-    <video autoplay="true" id="videoElement"></video>
-    <canvas id="canvas" width="364" height="204"></canvas>
-</div>
-
 <div id="stage_grab">    
     <button id="logoGrabWebScannerButton">Tap to grab</button>
 </div>
 <div id="stage_result"></div>
-<script src="{% static 'script.js' %}">
+<script src="{% static 'upload.js' %}">
 </script>
-  
 {% endblock %}  
-

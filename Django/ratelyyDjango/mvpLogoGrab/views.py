@@ -94,25 +94,13 @@ def logo_grab(request):
     product.save()
     #Saving the data into a dict to display it on the html page
     args = {
-        "id" : product.id,
-        "name" : product.name,
-        "logo" : product.logo,
-        "wiki" : product.wiki,
-        "code" : product.code,
-        "group" : product.name,
-        "brand" : product.brand,
-        "concern" : product.concern,
-        "main_category" : product.main_category,
-        "sub_category" : product.sub_category,
-        "image" : product.image,
-        "created" : product.created,
-        "updated" : product.updated,
+        "product": product,
         "concern_origin" : concern_data.origin,
 
     }
     #to get a result change to return render(request, 'mvpLogoGrab/data.html', args)
 
-    return render(request, 'mvpLogoGrab/logo_grab.html', args)
+    return render(request, 'mvpLogoGrab/snap.html', args)
 
 #Recieving the logoname of an uploaded picture and requesting the database to give associated data
 def get_data(request):
@@ -121,11 +109,8 @@ def get_data(request):
     product = Product.objects.get(name=product_name)
     concern = Concern.objects.get(name=product.concern)
     rating = Rating.objects.get(concern=concern.id)
-    animal_des = rating.animals_description
     animals = rating.animals
-    environment_des = rating.environment_description
     environment = rating.environment
-    human_des = rating.humans_description
     humans = rating.humans
     rating_result = round(((int(animals) + int(environment) + int(humans)) / 3) * 10)
     #Saving the data into a dict to display it on the html page
@@ -163,3 +148,9 @@ def dataUrl(request, dataUrl):
         "test" : "test"
     }
     return render(request, 'mvpLogoGrab/post.html', args)
+
+def snap(request):
+    return render(request, 'mvpLogoGrab/snap.html')
+
+def upload(request):
+    return render(request, 'mvpLogoGrab/upload.html')

@@ -8,3 +8,14 @@
 #stage_result {
   margin: auto;
 }
+
+#wrapper {
+  margin-left: 25%;
+}
+#btn-container {
+  text-align: center;
+}
+#btn-snap{
+  max-height: 5%;
+  margin-left: 25%;
+}

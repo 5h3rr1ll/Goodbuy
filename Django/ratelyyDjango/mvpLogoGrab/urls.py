@@ -13,7 +13,7 @@ from django.urls import path
 app_name = "logograb"
 
 urlpatterns = [
-    url(r'^$', views.logo_grab, name='home'),
+    url(r'^$', views.snap, name='home'),
     url(r'^login/$', LoginView.as_view(template_name='mvpLogoGrab/login.html'), name='login'),
     url(r'^logout/$', LogoutView.as_view(template_name='mvpLogoGrab/logout.html'), name='logout'),
     url(r'^register/$', views.register, name='register'),
@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^reset-password/complete/$', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     url(r'^data/$', views.get_data, name='get_data'),
     url(r'^post/$', views.post, name='post'),
+    url(r'^upload/$', views.upload, name='upload'),
     path('dataUrl/<dataurl>', views.dataUrl, name="dataurl"),
 
 ]

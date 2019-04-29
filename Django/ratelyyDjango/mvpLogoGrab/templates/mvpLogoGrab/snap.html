@@ -1,0 +1,22 @@
+{% extends "foundation.html" %}
+{% block head %}
+<title>Snap</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}" type="text/css">
+
+{% endblock %}
+{% block body %}
+<div class="container" id="wrapper">
+<div class="container">  
+        <video autoplay="true" id="videoElement"></video>
+        <canvas id="canvas" width="364" height="204"></canvas>
+</div>
+<div class="container" id="btn-container">
+        <button id="btn-snap" onclick="snap()">Take screenshot</button> 
+</div>
+</div>
+<script src="{% static 'snap.js' %}">
+</script>
+  
+{% endblock %}  
+
