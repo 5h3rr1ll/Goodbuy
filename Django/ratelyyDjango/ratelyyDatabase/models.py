@@ -1,11 +1,11 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Rating(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=20)
-    
-    def __str__(self):
-        return self.name
+    humans = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
+    environment = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
+    animals = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
 
     class Meta:
         managed = True
@@ -125,7 +125,7 @@ class Product(models.Model):
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     code = models.CharField(null=True,blank=True,unique=True, max_length=13)
-    image = models.URLField(null=True, blank=True)
+    image = models.URLField(null=True, blank=True, max_length=300)
     brand = models.ForeignKey(Brand, models.SET_NULL, null=True, blank=True)
     concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
     main_category = models.ForeignKey(MainCategoryOfProduct, models.SET_NULL, null=True, blank=True)

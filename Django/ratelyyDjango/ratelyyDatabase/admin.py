@@ -15,8 +15,8 @@ class SubCategoryOfProductAdmin(admin.ModelAdmin):
     list_display_links = ("id", "name", "created", "updated",)
 
 class RatingAdmin(admin.ModelAdmin):
-    list_display = ("id", "name",)
-    list_display_links = ("id", "name",)
+    list_display = ("id", "humans", "environment", "animals")
+    list_display_links = ("id", "humans", "environment", "animals")
 
 class CountryAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "code", "created", "updated",)
