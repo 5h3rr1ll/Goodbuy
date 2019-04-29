@@ -25,12 +25,12 @@ class CountryAdmin(admin.ModelAdmin):
 
 class ConcernAdmin(admin.ModelAdmin):
     list_display = (
-        "id", "name", "logo", "wiki", "rating",
+        "id", "name", "logo", "wiki",
         "origin_code", "created", "updated",
         )
     list_display_links = ("id", "name")
     search_fields = [
-        "id", "name", "logo", "wiki", "rating",
+        "id", "name", "logo", "wiki",
         "origin_code", "created", "updated",
         ]
 
@@ -43,11 +43,11 @@ class ConcernAdmin(admin.ModelAdmin):
 class CompanyAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name", "logo", "wiki", "concern",
-        "concern_rating", "origin_code", "created", "updated",
+        "origin_code", "created", "updated",
         )
     list_display_links = ("id", "name")
     search_fields = [
-        "id", "name", "logo", "concern", "concern_rating",
+        "id", "name", "logo", "concern",
         "origin_code", "created", "updated",
         ]
     autocomplete_fields = ("concern",)
@@ -58,31 +58,31 @@ class CompanyAdmin(admin.ModelAdmin):
         else:
             return None
 
-    def concern_rating(self, obj):
-        if obj.concern is not None:
-            return obj.concern.rating
-        else:
-            return None
-    concern_rating.short_description = "Rating of associated Concern"
+    # def concern_rating(self, obj):
+    #     if obj.concern is not None:
+    #         return obj.concern.rating
+    #     else:
+    #         return None
+    # concern_rating.short_description = "Rating of associated Concern"
 
 class BrandAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name", "logo", "wiki", "company",
-        "concern", "concern_rating", "created", "updated",
+        "concern", "created", "updated",
         )
     list_display_links = ("id", "name")
     search_fields = [
         "id", "name", "logo", "wiki", "company",
-        "concern", "concern_rating", "created", "updated",
+        "concern", "created", "updated",
         ]
     autocomplete_fields = ("concern", "company",)
 
-    def concern_rating(self, obj):
-        if obj.concern is not None:
-            return obj.concern.rating
-        else:
-            return None
-    concern_rating.short_description = "Rating of associated Concern"
+    # def concern_rating(self, obj):
+    #     if obj.concern is not None:
+    #         return obj.concern.rating
+    #     else:
+    #         return None
+    # concern_rating.short_description = "Rating of associated Concern"
 
 class ProdcutPriceInStoreAdmin(admin.ModelAdmin):
     list_display = ("id","store","product","price")
@@ -98,25 +98,25 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name", "logo", "wiki", "code",
         "image", "brand", "concern",
-        "concern_rating", "stat_counter" ,"created", "updated",
+        "stat_counter" ,"created", "updated",
         )
     list_display_links = ("id", "name")
     search_fields = [
         "id", "name", "logo", "wiki", "code",
         "image", "brand", "concern",
-        "concern_rating", "stat_counter" ,"created", "updated",
+        "stat_counter" ,"created", "updated",
         ]
     exclude = ("stat_counter",)
 
     autocomplete_fields = ("brand", "concern",)
 
-    def concern_rating(self, obj):
-        if obj.concern is not None:
-            return obj.concern.rating
-        else:
-            return None
-    concern_rating.short_description = "Rating of associated Concern"
-    concern_rating.admin_order_field = "rating"
+    # def concern_rating(self, obj):
+    #     if obj.concern is not None:
+    #         return obj.concern.rating
+    #     else:
+    #         return None
+    # concern_rating.short_description = "Rating of associated Concern"
+    # concern_rating.admin_order_field = "rating"
 
     inlines = [
         PriceInline,

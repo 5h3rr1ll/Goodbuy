@@ -1,15 +1,6 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-class Rating(models.Model):
-    id = models.AutoField(primary_key=True)
-    humans = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
-    environment = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
-    animals = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
-
-    class Meta:
-        managed = True
-        db_table = "ratings"
 
 class Country(models.Model):
     id = models.AutoField(primary_key=True)
@@ -43,7 +34,6 @@ class Concern(models.Model):
     name = models.CharField(max_length=45, verbose_name="Concern Name", unique=True)
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
-    rating = models.ForeignKey(Rating, models.SET_NULL, null=True, blank=True)
     origin = models.ForeignKey(Country, models.SET_NULL, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -55,6 +45,18 @@ class Concern(models.Model):
 
     def __str__(self):
         return self.name
+        
+class Rating(models.Model):
+    id = models.AutoField(primary_key=True)
+    humans = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
+    environment = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
+    animals = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True)
+    concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
+
+
+    class Meta:
+        managed = True  
+        db_table = "ratings"
 
 class Company(models.Model):
     id = models.AutoField(primary_key=True)
