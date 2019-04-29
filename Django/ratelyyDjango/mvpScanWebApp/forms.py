@@ -3,6 +3,7 @@ from ratelyyDatabase.models import Product, Brand
 
 class AddNewProductForm(forms.ModelForm):
     code = forms.IntegerField(required = True)
+    name = forms.CharField(required=True)
 
     class Meta:
         model = Product
