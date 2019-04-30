@@ -47,15 +47,15 @@ function getCookie(name) {
         // Calculate the height based on the video's width and the ratio
         h = parseInt(w / ratio, 10);
         // Set the canvas width and height to the values just calculated
-        canvas.width = w / 20;
-        canvas.height = h / 20;			
+        canvas.width = w / 4;
+        canvas.height = h /4;			
     }, false);
     
     // Takes a snapshot of the video
     function snap() {
-        context.fillRect(0, 0, w, h);
+        context.fillRect(0, 0, w / 4, h / 4);
         // Grab the image from the video
-        context.drawImage(video, 0, 0, w / 20, h / 20);
+        context.drawImage(video, 0, 0, w / 4, h / 4);
         var canvas = document.getElementById("canvas");
         var dataUrl = canvas.toDataURL();
         console.log(dataUrl);
