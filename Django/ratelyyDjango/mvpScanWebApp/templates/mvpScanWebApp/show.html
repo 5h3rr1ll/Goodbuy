@@ -2,7 +2,7 @@
 
 {% block css %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'home/style.css' %}" type="text/css">
+<link rel="stylesheet" href="{% static 'mvpScanWebApp/show.css' %}" type="text/css">
 {% endblock %}
 
 {% block head %}
@@ -20,12 +20,12 @@
 <div class="container">
 {% endif %}
     <h1 id="product_name">{{ product.name }}</h1>
-    <h1>{{ concern }}</h1>
+    <h1 id="concern_name">{{ concern }}</h1>
     <div class="" id="total_rating">
       <h1>{{rating_result}}%</h1>
     </div>
 
-    <div class="row">
+    <div class="row" id="rating_pics">
       <div class="col-sm-4" id="envtitle">
         {% if rating.environment >= 7 %}
         <img src="http://sherrill.de/goodbuy/images/earth_happy.png" alt="" height="150">
