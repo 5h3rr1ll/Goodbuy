@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.contrib.auth.models import User
+
 
 
 class Country(models.Model):
@@ -8,7 +10,7 @@ class Country(models.Model):
     code = models.CharField(unique=True, max_length=8)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-
+ 
     class Meta:
         managed = True
         db_table = "countries"
@@ -170,6 +172,7 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     stat_counter = models.IntegerField(null=True, blank=True)
+    added_by = models.CharField(max_length=45, null=True, blank=True)
 
     class Meta:
         managed = True

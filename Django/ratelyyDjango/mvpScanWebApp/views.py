@@ -28,6 +28,9 @@ def add(request, code):
                 total_rating = 0
             else:
                 total_rating = round((rating.animals+rating.humans+rating.environment)/3)*10
+            user = request.META['USER']
+            product.added_by = user
+            product.save()
             args = {
                 "product":product,
                 "rating_result":total_rating,
