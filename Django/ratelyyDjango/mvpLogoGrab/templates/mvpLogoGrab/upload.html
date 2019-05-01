@@ -10,7 +10,8 @@
 {% endblock %}
 {% block body %}
 <div id="stage_grab">    
-    <button id="logoGrabWebScannerButton">Tap to grab</button>
+    {% load static %}
+    <a id="logoGrabWebScannerButton"><img src="{% static 'pics/Upload.png' %}"></a>
 </div>
 <div id="stage_result"></div>
 <script src="{% static 'upload.js' %}">

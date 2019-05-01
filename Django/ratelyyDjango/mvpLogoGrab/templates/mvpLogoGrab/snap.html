@@ -12,7 +12,8 @@
         <canvas id="canvas" height="300px" width="300px"></canvas>
 </div>
 <div class="container" id="btn-container">
-        <button id="btn-snap" onclick="snap()">Take a screenshot</button>
+        {% load static %}
+        <a id="btn-snap" onclick="snap()"><img src="{% static 'pics/Snap.png' %}"></a>
 </div>
 </div>
 <script src="{% static 'snap.js' %}">
