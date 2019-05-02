@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-
+import django_heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -25,13 +25,12 @@ SECRET_KEY = 'f81ef2_sh7+)vg+&#nrxjo%@xa1mbep#mofsnvcob&9$uu9jb4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ratelyyDjangoEnv.p5j68a2z24.eu-central-1.elasticbeanstalk.com',"127.0.0.1","localhost",'10.0.4.116','*']
+ALLOWED_HOSTS = ["127.0.0.1","localhost","0.0.0.0","goodbuy-env.vzwyre2ehk.us-east-1.elasticbeanstalk.com",]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    "sslserver",
     "home",
     'mvpLogoGrab',
     "accounts",
@@ -157,3 +156,6 @@ LOGIN_EXEMPT_URLS = (
 # TODO: Need to set up a propper email server here
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
