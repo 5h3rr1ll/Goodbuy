@@ -8,6 +8,7 @@
   {% if form.errors %}
       {% for field in form %}
           {% for error in field.errors %}
+          <h1>ERROR</h1>
               <div class="alert alert-danger">
                   <strong>{{ error|escape }}</strong>
               </div>
