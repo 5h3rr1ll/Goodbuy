@@ -105,7 +105,7 @@
             var csrftoken = getCookie('csrftoken');
             const url = "add/" + barcode
         fetch(url,{
-                    method: 'POST',
+                    method: 'GET',
                     body: JSON.stringify(barcode),
                     headers: {
                             'Content-Type': 'json/application',
