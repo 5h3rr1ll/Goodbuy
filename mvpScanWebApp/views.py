@@ -11,8 +11,13 @@ def gtin(request):
     return render(request, "mvpScanWebApp/gtin.html")
 
 def add(request, code):
-    if request.method == "POST":
-        print("IT'S A POST")
+    try:
+        product = Product.objects.get(code=code)
+        args = {
+            "product": product,
+            }
+        return render(request, "mvpScanWebApp/show_already_exists.html",args)
+    except:
         form = AddNewProductForm(request.POST)
         if form.is_valid():
             form.save()
@@ -20,13 +25,6 @@ def add(request, code):
         else:
             # TODO: need a better logic for too long codes inserted
             return render(request,"mvpScanWebApp/error.html")
-    else:
-        print("IN ELSE")
-        form = AddNewProductForm(initial={"code":code})
-        args = {
-            "form": form,
-            }
-        return render(request, "mvpScanWebApp/show_already_exists.html", args)
 
 def show(request, code):
     product = Product.objects.get(code=code)

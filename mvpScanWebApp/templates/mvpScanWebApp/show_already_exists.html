@@ -7,10 +7,8 @@
 {% block body %}
 <div class="container">
   <h1>Thanks that product already exists</h1>
-  {% for product in products %}
     <p>Name: {{ product.name }}</p>
     <p>GTIN: {{ product.code }}</p>
-  {% endfor %}
   <form class="" action="{% url 'gtin:gtin' %}" method="post">
     {% csrf_token %}
     <input type="submit" name="" value="scan next">
