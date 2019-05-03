@@ -103,7 +103,7 @@
         function sendGtin(barcode){
             // alert(barcode);
             var csrftoken = getCookie('csrftoken');
-            const url = "gtin/add/" + barcode
+            const url = "add/" + barcode
         fetch(url,{
                     method: 'GET',
                     body: JSON.stringify(barcode),
