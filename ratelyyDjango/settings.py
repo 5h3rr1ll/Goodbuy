@@ -86,15 +86,26 @@ DATABASES = {
    # },
 
    'default': {
-       'ENGINE': 'django.db.backends.mysql',
-       'USER': 'd025764e',
-       'NAME': 'd025764e',
-       'PASSWORD': 'r4tl3yy',
-       'HOST': '85.13.154.99',
-       'PORT': '3306',
-       'OPTIONS': {
-           'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-           }
+       'ENGINE': 'django.db.backends.postgresql_psycopg2',
+       'USER': 'ffkwpwqtzxbima',
+       'NAME': 'd4nrr7l4qpaf3k',
+       'PASSWORD': '3984cec527a183e34a95835f8aaf0162763a3c05138e585ecbff943a9f840020',
+       'HOST': 'ec2-23-21-129-125.compute-1.amazonaws.com',
+       'PORT': '5432',
+       # 'OPTIONS': {
+       #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+       #     }
+
+   # 'default': {
+   #     'ENGINE': 'django.db.backends.mysql',
+   #     'USER': 'd025764e',
+   #     'NAME': 'd025764e',
+   #     'PASSWORD': 'r4tl3yy',
+   #     'HOST': '85.13.154.99',
+   #     'PORT': '3306',
+   #     'OPTIONS': {
+   #         'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+   #         }
    },
 }
 
