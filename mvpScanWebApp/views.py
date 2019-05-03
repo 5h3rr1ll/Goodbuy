@@ -20,7 +20,7 @@ def add(request, code):
             # TODO: need a better logic for too long codes inserted
             return render(request,"mvpScanWebApp/error.html")
     else:
-        if len(Product.objects.get(code=code).name)>0:
+        if Product.objects.get(code=code) != None:
             product = Product.objects.get(code=code)
             concern = Concern.objects.get(name=product.concern)
             rating = Rating.objects.get(concern=concern.id)
