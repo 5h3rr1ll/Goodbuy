@@ -11,7 +11,7 @@ Main backend programming language is Python3. The web framework is Django versio
 ## Get the project
 First, go to Github https://github.com/5h3rr1ll/ratelyyGitHub and clone the project.
 ## Required software and packages
-Note: Make sure you have pip3 and homebrew (homebrew on mac, if you or windows equivalent installed.
+Note: Make sure you have pip3 and homebrew (homebrew on Mac, if you use windows use an equivalent)
 ## Packages: Django 2.1.7 , Python 3.7.3 , mysqlclient 1.4.2. , Pillow 5.4.1 , requests 2.21.0 , django-ssl
 Run the server
 Go in the terminal to the ratelyyDjango folder inside ratelyyGitHub-Master.
