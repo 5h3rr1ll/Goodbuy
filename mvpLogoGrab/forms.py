@@ -23,13 +23,12 @@ class RegistrationForm(UserCreationForm):
 
         if commit:
             user.save()
-        
+
         return user
 
 class EditProfileForm(UserChangeForm):
     class Meta:
         model = User
-        
         fields = (
             'email',
             'first_name',
