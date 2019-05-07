@@ -10,17 +10,16 @@ class MainCategoryOfProductAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "created", "updated",)
     list_display_links = ("id", "name", "created", "updated",)
 
-
 class SubCategoryOfProductAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "created", "updated",)
     list_display_links = ("id", "name", "created", "updated",)
-
 
 class RatingAdmin(admin.ModelAdmin):
     list_display = ("id", "concern" , "humans", "environment", "animals",
      "animals_description", "environment_description", "humans_description")
     list_display_links = ("id", "concern",  "humans", "environment", "animals")
 
+    @classmethod
     def concern(self, obj):
         if obj.concern is not None:
             return obj.concern.name
@@ -28,17 +27,14 @@ class RatingAdmin(admin.ModelAdmin):
             return None
     concern.short_description = "Rating of associated Concern"
 
-
 class CountryAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "code", "created", "updated",)
     list_display_links = ("id", "name",)
     search_fields = ["id", "name", "code", "created", "updated",]
 
-
 class RatingInline(admin.StackedInline):
     max_num = 1
     model = Rating
-
 
 class ConcernAdmin(admin.ModelAdmin):
     list_display = (
@@ -55,13 +51,11 @@ class ConcernAdmin(admin.ModelAdmin):
         RatingInline,
     ]
 
-
     def origin_code(self, obj):
         if obj.origin is not None:
             return obj.origin.code
         else:
             return None
-
 
 class CompanyAdmin(admin.ModelAdmin):
     list_display = (
@@ -81,14 +75,6 @@ class CompanyAdmin(admin.ModelAdmin):
         else:
             return None
 
-    # def concern_rating(self, obj):
-    #     if obj.concern is not None:
-    #         return obj.concern.rating
-    #     else:
-    #         return None
-    # concern_rating.short_description = "Rating of associated Concern"
-
-
 class BrandAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name", "logo", "wiki", "company",
@@ -101,25 +87,15 @@ class BrandAdmin(admin.ModelAdmin):
         ]
     autocomplete_fields = ("concern", "company",)
 
-    # def concern_rating(self, obj):
-    #     if obj.concern is not None:
-    #         return obj.concern.rating
-    #     else:
-    #         return None
-    # concern_rating.short_description = "Rating of associated Concern"
-
-
 class ProdcutPriceInStoreAdmin(admin.ModelAdmin):
     list_display = ("id","store","product","price")
     search_fields = [
         "id","store__name","product__name","price"
     ]
 
-
 class PriceInline(admin.StackedInline):
     max_num = 1
     model = ProductPriceInStore
-
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
@@ -137,18 +113,9 @@ class ProductAdmin(admin.ModelAdmin):
 
     autocomplete_fields = ("brand", "concern",)
 
-    # def concern_rating(self, obj):
-    #     if obj.concern is not None:
-    #         return obj.concern.rating
-    #     else:
-    #         return None
-    # concern_rating.short_description = "Rating of associated Concern"
-    # concern_rating.admin_order_field = "rating"
-
     inlines = [
         PriceInline,
     ]
-
 
 class StoreAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "country",)
@@ -156,7 +123,6 @@ class StoreAdmin(admin.ModelAdmin):
         "id", "name",
     ]
     autocomplete_fields = ()
-
 
 admin.site.site_header = "Goodbuy Database"
 admin.site.register(Concern, ConcernAdmin,)
