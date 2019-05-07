@@ -36,7 +36,7 @@ developerKey: 'nb9n3ra9fpmrk0u0binh2b03jr3acq510tqhldmr',
 
 //Post request -> give me all data associated with the logoname 
 function requestLogonameData(logoName){
-    var csrftoken = getCookie('csrftoken');
+    var csrftoken = getCookie("csrftoken");
     const url = "http://127.0.0.1:8000/mvpLogoGrab/data/?name="+ logoName;
     fetch(url,{
         method: "POST", // *GET, POST, PUT, DELETE, etc.
