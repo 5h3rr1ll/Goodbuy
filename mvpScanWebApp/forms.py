@@ -1,5 +1,5 @@
 from django import forms
-from ratelyyDatabase.models import Product, Brand
+from ratelyyDatabase.models import Product
 
 class AddNewProductForm(forms.ModelForm):
     code = forms.IntegerField(required = True)

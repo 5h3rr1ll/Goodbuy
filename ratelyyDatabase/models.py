@@ -1,8 +1,5 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.contrib.auth.models import User
-
-
 
 class Country(models.Model):
     id = models.AutoField(primary_key=True)
@@ -10,7 +7,7 @@ class Country(models.Model):
     code = models.CharField(unique=True, max_length=8)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
- 
+
     class Meta:
         managed = True
         db_table = "countries"
@@ -19,7 +16,6 @@ class Country(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class Store(models.Model):
     id = models.AutoField(primary_key=True)
@@ -33,7 +29,6 @@ class Store(models.Model):
         managed = True
         db_table = "stores"
         ordering = ("name","id",)
-
 
 class Concern(models.Model):
     id = models.AutoField(primary_key=True)
@@ -51,7 +46,6 @@ class Concern(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class Rating(models.Model):
     id = models.AutoField(primary_key=True)
@@ -88,7 +82,6 @@ class Rating(models.Model):
     def __str__(self):
         return self.concern.name
 
-
 class Company(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, unique=True)
@@ -108,7 +101,6 @@ class Company(models.Model):
     def __str__(self):
         return self.name
 
-
 class Brand(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=45,)
@@ -124,10 +116,8 @@ class Brand(models.Model):
         db_table = 'brands'
         ordering = ("name","id",)
 
-
     def __str__(self):
         return self.name
-
 
 class MainCategoryOfProduct(models.Model):
     id = models.AutoField(primary_key=True)
@@ -141,8 +131,6 @@ class MainCategoryOfProduct(models.Model):
 
     def __str__(self):
         return self.name
-
-
 class SubCategoryOfProduct(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=45)
@@ -156,7 +144,6 @@ class SubCategoryOfProduct(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
@@ -182,10 +169,8 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-
 class OrganicCertification(models.Model):
     pass
-
 
 class ProductPriceInStore(models.Model):
     id = models.AutoField(primary_key=True)

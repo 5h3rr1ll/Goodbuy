@@ -1,4 +1,3 @@
-from django.conf.urls import url
 from django.urls import path, reverse_lazy
 from . import views
 from django.contrib.auth.views import (
@@ -9,9 +8,6 @@ from django.contrib.auth.views import (
     PasswordResetConfirmView,
     PasswordResetCompleteView,
 )
-from django.shortcuts import redirect
-from mvpScanWebApp import views as gtin_views
-from mvpLogoGrab import views as lg_views
 
 app_name = "accounts"
 
@@ -26,8 +22,6 @@ class PasswordResetConfirmView2(PasswordResetConfirmView):
 
 class PasswordResetCompleteView2(PasswordResetCompleteView):
     template_name = 'accounts/password_reset_complete.html'
-
-
 
 urlpatterns = [
     path("login/", LoginView.as_view(template_name="accounts/login.html"), name="login"),

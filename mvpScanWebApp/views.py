@@ -1,9 +1,6 @@
 from django.shortcuts import render, redirect
-from mvpScanWebApp import views
 from ratelyyDatabase.models import Product, Concern, Rating
 from mvpScanWebApp.forms import AddNewProductForm
-from django.contrib import messages
-from django.http import HttpResponse
 
 # Create your views here.
 
