@@ -9,7 +9,7 @@
 //CSRF-Token
 function getCookie(name) {
     var cookieValue = null;
-    if (document.cookie && document.cookie !== "") {
+    if (document.cookie && document.cookie !== ""   ) {
         var cookies = document.cookie.split(";");
         for (var i = 0; i < cookies.length; i++) {
             var cookie = jQuery.trim(cookies[i]);
@@ -30,16 +30,15 @@ function getCookie(name) {
         video.srcObject = stream;
         })
         .catch(function (err0r) {
-        console.log("Something went wrong!");
         });
     }
     // Get a handle on the 2d context of the canvas element
-    var context = canvas.getContext('2d');
+    var context = canvas.getContext("2d");
     // Define some vars required later
     var w, h, ratio;
     
     // Add a listener to wait for the 'loadedmetadata' state so the video's dimensions can be read
-    video.addEventListener('loadedmetadata', function() {
+    video.addEventListener("loadedmetadata", function() {
         // Calculate the ratio of the video's width to height
         ratio = video.videoWidth / video.videoHeight;
         // Define the required width as 100 pixels smaller than the actual video's width
@@ -58,8 +57,6 @@ function getCookie(name) {
         context.drawImage(video, 0, 0, w / 4, h / 4);
         var canvas = document.getElementById("canvas");
         var dataUrl = canvas.toDataURL();
-        console.log(dataUrl);
-        alert("test");
         //uploadAndGetImgurLink(dataUrl);
         sendSnapToServerTwo(dataUrl);
     };
@@ -94,25 +91,23 @@ function getCookie(name) {
         
         
         $.ajax(settings).done(function (response) {
-            console.log(response);
         });
     }
     
     //Post request -> Sends the picture to the server/api not defined yet
     function sendSnapToServer(canvas){
             alert("POST clicked");
-            var csrftoken = getCookie('csrftoken');
-            const url = "http://127.0.0.1:8000/mvpLogoGrab/post/"
+            var csrftoken = getCookie("csrftoken");
+            const url = "http://127.0.0.1:8000/mvpLogoGrab/post/";
             fetch(url,{
-                        method: 'POST', 
+                        method: "POST", 
                         body: JSON.stringify(canvas), 
                         headers: {
-                                'Content-Type': "application/json",
-                                'X-CSRFToken': csrftoken,
+                                "Content-Type": "application/json",
+                                "X-CSRFToken": csrftoken,
                         },
                         credentials: "include",
             })
-            .then(response => response.json())
-            .then(console.log);
+            .then((response) => response.json())
            // window.location.replace(url);
      };
