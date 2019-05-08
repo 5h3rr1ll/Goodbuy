@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     "home",
     'mvpLogoGrab',
     "accounts",
-    "mvpScanWebApp",
+    "codeScanner",
     'ratelyyDatabase',
     'django.contrib.admin',
     'django.contrib.auth',

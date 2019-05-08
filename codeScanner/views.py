@@ -1,21 +1,21 @@
 from django.shortcuts import render, redirect
 from ratelyyDatabase.models import Product, Concern, Rating
-from mvpScanWebApp.forms import AddNewProductForm
+from codeScanner.forms import AddNewProductForm
 
 # Create your views here.
 
-def gtin(request):
-    return render(request, "mvpScanWebApp/gtin.html")
+def scanCode(request):
+    return render(request, "codeScanner/code.html")
 
 def add(request, code):
     if request.method == "POST":
         form = AddNewProductForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("/gtin")
+            return redirect("/code")
         else:
             # TODO: need a better logic for too long codes inserted
-            return render(request,"mvpScanWebApp/error.html")
+            return render(request,"codeScanner/error.html")
     else:
         try:
             print("In Try", code, Product.objects.get(code=code))
@@ -23,14 +23,14 @@ def add(request, code):
             args = {
                 "product":product,
             }
-            return render(request,"mvpScanWebApp/show_already_exists.html",args)
+            return render(request,"codeScanner/show_already_exists.html",args)
         except Exception as e:
             print("type error: " + str(e))
             form = AddNewProductForm(initial={"code":code})
             args = {
                 "form": form,
                 }
-            return render(request, "mvpScanWebApp/add.html", args)
+            return render(request, "codeScanner/add.html", args)
 
 def show(request, code):
     product = Product.objects.get(code=code)
@@ -46,4 +46,4 @@ def show(request, code):
         "rating":rating,
         "concern":concern,
     }
-    return render(request, "mvpScanWebApp/show.html",args)
+    return render(request, "codeScanner/show.html",args)

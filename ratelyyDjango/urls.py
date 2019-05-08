@@ -24,6 +24,6 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r"^accounts/", include(("accounts.urls","accounts"),namespace="accounts")),
     url(r'^mvpLogoGrab/', include(('mvpLogoGrab.urls',"logograb"),namespace="logograb")),
-    url(r'^gtin/', include(('mvpScanWebApp.urls',"gtin"),namespace="gtin")),
+    url(r'^code/', include(('codeScanner.urls',"codeScanner"),namespace="codeScanner")),
     url(r"^home/", include(("home.urls","home"),namespace="home")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

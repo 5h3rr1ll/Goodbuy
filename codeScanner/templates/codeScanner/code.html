@@ -69,10 +69,10 @@
                 picker.onScan(scanResult => {
                     continueButton.hidden = false;
                     continueButton.disabled = false;
-                    sendGtin(scanResult.barcodes[0].data);
+                    sendCode(scanResult.barcodes[0].data);
                     picker.pauseScanning();
                     console.log(scanResult.barcodes[0].data)
-                    sendGtin(scanResult.barcodes[0].data)
+                    sendCode(scanResult.barcodes[0].data)
                     resultContainer.innerHTML = scanResult.barcodes.reduce((string, barcode) =>
                         string + `${ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology)}: ${barcode.data}<br>`,
                         '');
@@ -100,7 +100,7 @@
         }
         return cookieValue;
         }
-        function sendGtin(barcode){
+        function sendCode(barcode){
             // alert(barcode);
             var csrftoken = getCookie('csrftoken');
             const url = "add/" + barcode

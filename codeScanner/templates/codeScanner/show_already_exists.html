@@ -8,8 +8,8 @@
 <div class="container">
   <h1>Thanks that product already exists</h1>
     <p>Name: {{ product.name }}</p>
-    <p>GTIN: {{ product.code }}</p>
-  <form class="" action="{% url 'gtin:gtin' %}" method="post">
+    <p>Code: {{ product.code }}</p>
+  <form class="" action="{% url 'codeScanner:codeScanner' %}" method="post">
     {% csrf_token %}
     <input type="submit" name="" value="scan next">
   </form>

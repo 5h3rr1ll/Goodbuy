@@ -48,7 +48,7 @@
           <li class="nav-item dropdown">
              <a class="nav-link dropdown-toggle" href="{% url 'accounts:view_profile' %}" id="navbarDropdownProfile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Scan</a>
              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-               <a class="dropdown-item" href="{% url 'gtin:gtin' %}"> Code Scanner </a>
+               <a class="dropdown-item" href="{% url 'codeScanner:codeScanner' %}"> Code Scanner </a>
                <a class="dropdown-item" href="{% url 'logograb:home' %}"> Logo Grab </a>
           </li>
           {% if user.is_superuser %}
