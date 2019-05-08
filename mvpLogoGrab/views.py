@@ -79,17 +79,13 @@ def logo_grab(request):
         }
     #Accessing the logoname of the product inside the JSON
     response = requests.request("POST", url, params=querystring)
-    print("function logo_grab")
-    print(response)
     json_response = response.json()
-    print(json_response["data"]["detections"][0]["name"])
     product_name = json_response["data"]["detections"][0]["name"]
     product_name = product_name.replace("-", " ")
     #Requesting data from the database with the logoname
     product = Product.objects.get(name=product_name)
     concern_data = Concern.objects.get(name=product.concern)
     #Updating Statcounter
-    print(product.stat_counter)
     product.stat_counter += 1
     product.save()
     #Saving the data into a dict to display it on the html page
@@ -104,7 +100,6 @@ def logo_grab(request):
 
 #Recieving the logoname of an uploaded picture and requesting the database to give associated data
 def get_data(request):
-    print("function get_data")
     product_name = request.GET.get("name", "Not found")
     product = Product.objects.get(name=product_name)
     concern = Concern.objects.get(name=product.concern)
@@ -125,9 +120,7 @@ def get_data(request):
     return render(request, 'mvpScanWebApp/show.html', args)
 #Testing post request for client to server data will be deleted later.
 def post(request):
-    print("function post")
-    print(request)
-    body = request.body
+ #   body = request.body
  #   payload = {"image" : body}
  #   url = "https://api.imgur.com/3/upload"
  #   client_id = "121963ba11eb969"
@@ -143,7 +136,6 @@ def post(request):
     return render(request, 'mvpLogoGrab/post.html', args)
 
 def dataUrl(request, dataUrl):
-    print("we print here" + len(dataUrl))
     args = {
         "test" : "test"
     }
