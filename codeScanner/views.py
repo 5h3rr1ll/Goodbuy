@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from ratelyyDatabase.models import Product, Concern, Rating
 from codeScanner.forms import AddNewProductForm
 
@@ -9,13 +9,14 @@ def scanCode(request):
 
 def add(request, code):
     if request.method == "POST":
-        form = AddNewProductForm(request.POST)
+        form = AddNewProductForm(request.POST or None, request.FILES or None)
         if form.is_valid():
             form.save()
             return redirect("/code")
-        else:
-            # TODO: need a better logic for too long codes inserted
-            return render(request,"codeScanner/error.html")
+        return render_to_response('codeScanner/add.html', {'form': form})
+        # else:
+        #     # TODO: need a better logic for too long codes inserted
+        #     return render(request,"codeScanner/error.html")
     else:
         try:
             print("In Try", code, Product.objects.get(code=code))
@@ -28,7 +29,8 @@ def add(request, code):
             print("type error: " + str(e))
             form = AddNewProductForm(initial={"code":code})
             args = {
-                "form": form,
+                "form":form,
+                "error":e,
                 }
             return render(request, "codeScanner/add.html", args)
 
