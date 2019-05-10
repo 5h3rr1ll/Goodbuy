@@ -110,6 +110,7 @@ def get_data(request):
     rating_result = round(((int(animals) + int(environment) + int(humans)) / 3) * 10)
     #Saving the data into a dict to display it on the html page
     #love
+    #comment
     args = {
         "product": product,
         "concern": concern,
