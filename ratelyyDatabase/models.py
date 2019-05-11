@@ -32,7 +32,11 @@ class Store(models.Model):
 
 class Concern(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45, verbose_name="Concern Name", unique=True)
+    name = models.CharField(
+        max_length=45,
+        verbose_name="Concern Name",
+        unique=True,
+        )
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     origin = models.ForeignKey(Country, models.SET_NULL, null=True, blank=True)
@@ -68,10 +72,11 @@ class Rating(models.Model):
         blank=True,
         )
     animals_description = models.TextField(null=True,blank=True,)
-    concern = models.ForeignKey(
-        Concern, models.SET_NULL,
-        null=True,blank=True,
-        unique=True
+    concern = models.OneToOneField(
+        Concern,
+        models.SET_NULL,
+        null=True,
+        blank=True,
         )
 
     class Meta:
@@ -87,7 +92,12 @@ class Company(models.Model):
     name = models.CharField(max_length=50, unique=True)
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
-    concern = models.ForeignKey(Concern, models.SET_NULL, db_column="concern", null=True, blank=True)
+    concern = models.ForeignKey(Concern,
+        models.SET_NULL,
+        db_column="concern",
+        null=True,
+        blank=True
+        )
     origin = models.ForeignKey(Country, models.SET_NULL, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -147,15 +157,26 @@ class SubCategoryOfProduct(models.Model):
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=45,verbose_name="Product Name")
+    name = models.CharField(unique=True,
+        max_length=45,
+        verbose_name="Product Name"
+        )
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     code = models.CharField(null=True,blank=True,unique=True, max_length=13)
     image = models.URLField(null=True, blank=True, max_length=300)
     brand = models.ForeignKey(Brand, models.SET_NULL, null=True, blank=True)
     concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
-    main_category = models.ForeignKey(MainCategoryOfProduct, models.SET_NULL, null=True, blank=True)
-    sub_category = models.ForeignKey(SubCategoryOfProduct, models.SET_NULL, null=True, blank=True)
+    main_category = models.ForeignKey(MainCategoryOfProduct,
+        models.SET_NULL,
+        null=True,
+        blank=True,
+        )
+    sub_category = models.ForeignKey(SubCategoryOfProduct,
+        models.SET_NULL,
+        null=True,
+        blank=True,
+        )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     stat_counter = models.IntegerField(null=True, blank=True)
