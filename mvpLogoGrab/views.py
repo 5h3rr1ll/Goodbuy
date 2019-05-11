@@ -101,9 +101,10 @@ def logo_grab(request):
 #Recieving the logoname of an uploaded picture and requesting the database to give associated data
 def get_data(request):
     product_name = request.GET.get("name", "Not found")
-    product = Product.objects.get(name=product_name)
+    product = Product.objects.get(name=product_name,)
     concern = Concern.objects.get(name=product.concern)
     rating = Rating.objects.get(concern=concern.id)
+    
     animals = rating.animals
     environment = rating.environment
     humans = rating.humans
@@ -118,7 +119,7 @@ def get_data(request):
         "rating_result": rating_result,
 
     }
-    return render(request, 'mvpScanWebApp/show.html', args)
+    return render(request, 'codeScanner/show.html', args)
 #Testing post request for client to server data will be deleted later.
 def post(request):
  #   body = request.body

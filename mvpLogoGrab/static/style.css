@@ -1,7 +1,9 @@
 #logoGrabWebScannerButton {
-    max-height: 3%;
+    max-height: 5%;
     margin: 25% 45%;
-  }
+    border-radius: 27px;
+    background-color: lightblue;
+}
 #stage_result {
   margin: auto;
 }
