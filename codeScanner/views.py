@@ -7,19 +7,19 @@ from codeScanner.forms import AddNewProductForm
 def scanCode(request):
     return render(request, "codeScanner/code.html")
 
-def add(request, code):
+def add(request,code):
     if request.method == "POST":
-        form = AddNewProductForm(request.POST or None, request.FILES or None)
+        form = AddNewProductForm(request.POST)
         if form.is_valid():
-            form.save()
+            '''commit=False allows you to modify the resulting object before it is
+            actually saved to the database. Source: https://stackoverflow.com/questions/2218930/django-save-user-id-with-model-save?noredirect=1&lq=1'''
+            product = form.save(commit=False)
+            product.added_by = request.user
+            product.save()
             return redirect("/code")
         return render_to_response('codeScanner/add.html', {'form': form})
-        # else:
-        #     # TODO: need a better logic for too long codes inserted
-        #     return render(request,"codeScanner/error.html")
     else:
         try:
-            print("In Try", code, Product.objects.get(code=code))
             product = Product.objects.get(code=code)
             args = {
                 "product":product,

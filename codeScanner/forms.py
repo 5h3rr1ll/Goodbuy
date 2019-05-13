@@ -15,13 +15,3 @@ class AddNewProductForm(forms.ModelForm):
             "main_category",
             "sub_category",
         ]
-
-
-        def save(self, commit=True):
-            product = super(RegistrationFrom, self).save(commit=False)
-            product.code = self.cleaned_data["code"]
-            product.name = self.cleaned_data["name"]
-            poduct.added_by = request.user
-            if commit:
-                product.save()
-            return product
