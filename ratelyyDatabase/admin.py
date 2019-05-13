@@ -64,7 +64,7 @@ class CompanyAdmin(admin.ModelAdmin):
         )
     list_display_links = ("id", "name")
     search_fields = [
-        "id", "name", "logo", "concern",
+        "id", "name", "logo", "concern__name",
         "origin_code", "created", "updated",
         ]
     autocomplete_fields = ("concern",)
@@ -82,8 +82,8 @@ class BrandAdmin(admin.ModelAdmin):
         )
     list_display_links = ("id", "name")
     search_fields = [
-        "id", "name", "logo", "wiki", "company",
-        "concern", "created", "updated",
+        "id", "name", "logo", "wiki", "company__name",
+        "concern__name", "created", "updated",
         ]
     autocomplete_fields = ("concern", "company",)
 
@@ -99,14 +99,14 @@ class PriceInline(admin.StackedInline):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-        "id", "name", "logo", "wiki", "code",
+        "id", "name","added_by", "logo", "wiki", "code",
         "image", "brand", "concern",
         "stat_counter" ,"created", "updated",
         )
     list_display_links = ("id", "name")
     search_fields = [
         "id", "name", "logo", "wiki", "code",
-        "image", "brand", "concern",
+        "image", "brand__name", "concern__name",
         "stat_counter" ,"created", "updated",
         ]
     exclude = ("stat_counter",)
