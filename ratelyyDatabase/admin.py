@@ -4,6 +4,7 @@ from .models import (
     Product, Country, Rating,
     Store, ProductPriceInStore,
     MainCategoryOfProduct, SubCategoryOfProduct,
+    Certificate,
     )
 # Register your models here.
 class MainCategoryOfProductAdmin(admin.ModelAdmin):
@@ -110,9 +111,7 @@ class ProductAdmin(admin.ModelAdmin):
         "scanned_counter" ,"created", "updated",
         ]
     exclude = ()
-
     autocomplete_fields = ("brand", "concern",)
-
     inlines = [
         PriceInline,
     ]
@@ -123,6 +122,13 @@ class StoreAdmin(admin.ModelAdmin):
         "id", "name",
     ]
     autocomplete_fields = ()
+
+class CertificateAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "wiki", "created", "updated",)
+    list_display_links = ("id", "name")
+    search_fields = [
+        "id", "name", "product__name", "created", "updated",]
+    autocomplete_fields = ("product",)
 
 admin.site.site_header = "Goodbuy Database"
 admin.site.register(Concern, ConcernAdmin,)
@@ -135,3 +141,4 @@ admin.site.register(MainCategoryOfProduct, MainCategoryOfProductAdmin,)
 admin.site.register(SubCategoryOfProduct, SubCategoryOfProductAdmin,)
 admin.site.register(Store, StoreAdmin,)
 admin.site.register(ProductPriceInStore, ProdcutPriceInStoreAdmin,)
+admin.site.register(Certificate,CertificateAdmin,)

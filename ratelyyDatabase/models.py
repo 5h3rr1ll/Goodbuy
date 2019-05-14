@@ -191,8 +191,20 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
-class OrganicCertification(models.Model):
-    pass
+class Certificate(models.Model):
+    name = models.CharField(unique=True, max_length=45,)
+    wiki = models.URLField(null=True, blank=True)
+    product = models.ManyToManyField(Product)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = True
+        db_table = 'certificates'
+        ordering = ("name","id",)
+
+    def __str__(self):
+        return self.name
 
 class ProductPriceInStore(models.Model):
     id = models.AutoField(primary_key=True)
