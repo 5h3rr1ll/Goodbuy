@@ -156,6 +156,20 @@ class SubCategoryOfProduct(models.Model):
     def __str__(self):
         return self.name
 
+class Certificate(models.Model):
+    name = models.CharField(unique=True, max_length=45,)
+    wiki = models.URLField(null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = True
+        db_table = 'certificates'
+        ordering = ("name","id",)
+
+    def __str__(self):
+        return self.name
+
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True,
@@ -178,6 +192,7 @@ class Product(models.Model):
         null=True,
         blank=True,
         )
+    certificate = models.ManyToManyField(Certificate)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     scanned_counter = models.IntegerField(default=1, null=True, blank=True)
@@ -186,21 +201,6 @@ class Product(models.Model):
     class Meta:
         managed = True
         db_table = 'products'
-        ordering = ("name","id",)
-
-    def __str__(self):
-        return self.name
-
-class Certificate(models.Model):
-    name = models.CharField(unique=True, max_length=45,)
-    wiki = models.URLField(null=True, blank=True)
-    product = models.ManyToManyField(Product)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        managed = True
-        db_table = 'certificates'
         ordering = ("name","id",)
 
     def __str__(self):

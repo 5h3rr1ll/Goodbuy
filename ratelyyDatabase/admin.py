@@ -98,6 +98,12 @@ class PriceInline(admin.StackedInline):
     max_num = 1
     model = ProductPriceInStore
 
+class CertificateAdmin(admin.ModelAdmin):
+    list_display = ("id", "name", "wiki", "created", "updated",)
+    list_display_links = ("id", "name")
+    search_fields = ["id", "name", "created", "updated",]
+    autocomplete_fields = ("product",)
+
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name","added_by", "logo", "wiki", "code",
@@ -110,11 +116,9 @@ class ProductAdmin(admin.ModelAdmin):
         "image", "brand__name", "concern__name",
         "scanned_counter" ,"created", "updated",
         ]
-    exclude = ()
+    exclude = ("scanned_counter","added_by")
     autocomplete_fields = ("brand", "concern",)
-    inlines = [
-        PriceInline,
-    ]
+    inlines = [ PriceInline, ]
 
 class StoreAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "country",)
@@ -122,13 +126,6 @@ class StoreAdmin(admin.ModelAdmin):
         "id", "name",
     ]
     autocomplete_fields = ()
-
-class CertificateAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "wiki", "created", "updated",)
-    list_display_links = ("id", "name")
-    search_fields = [
-        "id", "name", "product__name", "created", "updated",]
-    autocomplete_fields = ("product",)
 
 admin.site.site_header = "Goodbuy Database"
 admin.site.register(Concern, ConcernAdmin,)
