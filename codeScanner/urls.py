@@ -6,5 +6,5 @@ app_name = "codeScanner"
 urlpatterns = [
     path('', views.scanCode, name='codeScanner'),
     path("add/<code>", views.add, name="add"),
-    path("show/<code>", views.show, name="show"),
+    path("rating/<code>", views.rating, name="rating"),
 ]

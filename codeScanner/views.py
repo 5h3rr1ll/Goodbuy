@@ -34,7 +34,7 @@ def add(request,code):
                 }
             return render(request, "codeScanner/add.html", args)
 
-def show(request, code):
+def rating(request, code):
     product = Product.objects.get(code=code)
     concern = Concern.objects.get(name=product.concern)
     rating = Rating.objects.get(concern=concern.id)
@@ -48,4 +48,4 @@ def show(request, code):
         "rating":rating,
         "concern":concern,
     }
-    return render(request, "codeScanner/show.html",args)
+    return render(request, "codeScanner/rating.html",args)
