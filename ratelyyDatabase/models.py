@@ -196,7 +196,13 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     scanned_counter = models.IntegerField(default=1, null=True, blank=True)
-    added_by = models.ForeignKey(User,models.SET_NULL, null=True, blank=True)
+    added_by = models.ForeignKey(
+        User,models.SET_NULL, null=True, blank=True, related_name="creator"
+        )
+    checked = models.BooleanField(null=True)
+    checked_by = models.ForeignKey(
+        User,models.SET_NULL, null=True, blank=True, related_name="inspector"
+        )
 
     class Meta:
         managed = True

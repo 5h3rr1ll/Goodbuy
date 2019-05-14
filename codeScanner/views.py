@@ -15,6 +15,7 @@ def add(request, code):
             actually saved to the database. Source: https://stackoverflow.com/questions/2218930/django-save-user-id-with-model-save?noredirect=1&lq=1'''
             product = form.save(commit=False)
             product.added_by = request.user
+
             product.save()
             return redirect("/code")
         return render_to_response('codeScanner/add.html', {'form': form})
