@@ -180,7 +180,7 @@ class Product(models.Model):
         )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    stat_counter = models.IntegerField(null=True, blank=True)
+    scanned_counter = models.IntegerField(null=True, blank=True)
     added_by = models.ForeignKey(User,models.SET_NULL, null=True, blank=True)
 
     class Meta:

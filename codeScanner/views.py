@@ -7,7 +7,7 @@ from codeScanner.forms import AddNewProductForm
 def scanCode(request):
     return render(request, "codeScanner/code.html")
 
-def add(request,code):
+def add(request, code):
     if request.method == "POST":
         form = AddNewProductForm(request.POST)
         if form.is_valid():

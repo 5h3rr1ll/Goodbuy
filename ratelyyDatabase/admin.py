@@ -101,15 +101,15 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name","added_by", "logo", "wiki", "code",
         "image", "brand", "concern",
-        "stat_counter" ,"created", "updated",
+        "scanned_counter" ,"created", "updated",
         )
     list_display_links = ("id", "name")
     search_fields = [
         "id", "name", "logo", "wiki", "code",
         "image", "brand__name", "concern__name",
-        "stat_counter" ,"created", "updated",
+        "scanned_counter" ,"created", "updated",
         ]
-    exclude = ("stat_counter",)
+    exclude = ("scanned_counter",)
 
     autocomplete_fields = ("brand", "concern",)
 
