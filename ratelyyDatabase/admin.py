@@ -109,7 +109,7 @@ class ProductAdmin(admin.ModelAdmin):
         "image", "brand__name", "concern__name",
         "scanned_counter" ,"created", "updated",
         ]
-    exclude = ("scanned_counter",)
+    exclude = ()
 
     autocomplete_fields = ("brand", "concern",)
 

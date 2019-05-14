@@ -21,6 +21,8 @@ def add(request, code):
     else:
         try:
             product = Product.objects.get(code=code)
+            product.scanned_counter += 1
+            product.save()
             args = {
                 "product":product,
             }
