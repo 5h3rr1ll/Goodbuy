@@ -1,1 +1,1 @@
-web: gunicorn ratelyyDjango.wsgi
+web: gunicorn goodbuy.wsgi

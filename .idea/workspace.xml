@@ -92,12 +92,12 @@
         <subPane>
           <expand>
             <path>
-              <item name="ratelyyDjango" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ratelyyDjango" type="462c0819:PsiDirectoryNode" />
+              <item name="goodbuy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="goodbuy" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="ratelyyDjango" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ratelyyDjango" type="462c0819:PsiDirectoryNode" />
+              <item name="goodbuy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="goodbuy" type="462c0819:PsiDirectoryNode" />
               <item name="ratelyyDatabase" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -123,7 +123,7 @@
   </component>
   <component name="RunManager">
     <configuration name="server" type="PythonConfigurationType" factoryName="Python">
-      <module name="ratelyyDjango" />
+      <module name="goodbuy" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
