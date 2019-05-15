@@ -6,10 +6,11 @@ from django.shortcuts import render, redirect
 from home.forms import HomeForm
 from home.models import Post, Friend
 from django.contrib.auth.models import User
+from goodbuyDatabase.models import Product, Corporation, Rating
 
 def rating(request, code):
     product = Product.objects.get(code=code)
-    corporation = Concern.objects.get(name=product.corporation)
+    corporation = Corporation.objects.get(name=product.corporation)
     rating = Rating.objects.get(corporation=corporation.id)
     if rating.animals == None or rating.humans == None  or rating.environment == None:
         total_rating = 0
@@ -21,7 +22,7 @@ def rating(request, code):
         "rating":rating,
         "corporation":corporation,
     }
-    return render(request, "codeScanner/rating.html",args)
+    return render(request, "home/rating.html",args)
 
 class HomeView(TemplateView):
     template_name = "home/home.html"
