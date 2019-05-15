@@ -13,7 +13,7 @@ from mvpLogoGrab.forms import (
     RegistrationForm,
     EditProfileForm,
 )
-from ratelyyDatabase.models import (
+from goodbuyDatabase.models import (
     Product,
     Corporation,
     Rating,

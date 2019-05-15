@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, render_to_response
-from ratelyyDatabase.models import Product, Corporation, Rating
+from goodbuyDatabase.models import Product, Corporation, Rating
 from codeScanner.forms import AddNewProductForm
 from django.contrib.auth.models import User, Group
 

@@ -37,7 +37,7 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ratelyyDatabase/models.py">
+        <entry file="file://$PROJECT_DIR$/goodbuyDatabase/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
               <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
@@ -55,12 +55,12 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ratelyyDatabase/apps.py">
+        <entry file="file://$PROJECT_DIR$/goodbuyDatabase/apps.py">
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ratelyyDatabase/admin.py">
+        <entry file="file://$PROJECT_DIR$/goodbuyDatabase/admin.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="45">
               <caret line="4" column="57" selection-start-line="4" selection-start-column="57" selection-end-line="4" selection-end-column="57" />
@@ -98,7 +98,7 @@
             <path>
               <item name="goodbuy" type="b2602c69:ProjectViewProjectNode" />
               <item name="goodbuy" type="462c0819:PsiDirectoryNode" />
-              <item name="ratelyyDatabase" type="462c0819:PsiDirectoryNode" />
+              <item name="goodbuyDatabase" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -184,17 +184,17 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/ratelyyDatabase/models.py">
+    <entry file="file://$PROJECT_DIR$/goodbuyDatabase/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ratelyyDatabase/apps.py">
+    <entry file="file://$PROJECT_DIR$/goodbuyDatabase/apps.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/ratelyyDatabase/admin.py">
+    <entry file="file://$PROJECT_DIR$/goodbuyDatabase/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="4" column="57" selection-start-line="4" selection-start-column="57" selection-end-line="4" selection-end-column="57" />
