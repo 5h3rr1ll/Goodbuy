@@ -12,7 +12,7 @@ class UserProfileManager(models.Manager):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User,models.CASCADE)
-    description = models.CharField(max_length=100, default="")
+    description = models.TextField(max_length=140, default="")
     city = models.CharField(max_length=100, default="")
     website = models.URLField(default="")
     phone = models.IntegerField(default=0)
