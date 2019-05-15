@@ -106,7 +106,7 @@ class CertificateAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-        "id", "name","added_by", "logo", "wiki", "code",
+        "id", "name","added_by","checked","checked_by","logo", "wiki", "code",
         "image", "brand", "corporation",
         "scanned_counter" ,"created", "updated",
         )
@@ -114,7 +114,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = [
         "id", "name", "logo", "wiki", "code",
         "image", "brand__name", "corporation__name",
-        "scanned_counter" ,"created", "updated",
+        "scanned_counter" ,"created", "updated", "checked_by__name",
         ]
     exclude = ("scanned_counter","added_by")
     autocomplete_fields = ("brand", "corporation",)
