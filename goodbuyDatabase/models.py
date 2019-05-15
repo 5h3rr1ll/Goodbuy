@@ -118,7 +118,9 @@ class Brand(models.Model):
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     company = models.ForeignKey(Company, models.SET_NULL, null=True, blank=True)
-    corporation = models.ForeignKey(Corporation, models.SET_NULL, null=True, blank=True)
+    corporation = models.ForeignKey(
+        Corporation, models.SET_NULL, null=True, blank=True
+        )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -180,9 +182,11 @@ class Product(models.Model):
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     code = models.CharField(null=True,blank=True,unique=True, max_length=13)
-    image = models.ImageField(null=True, blank=True, max_length=300)
+    image = models.ImageField(upload_to="product_image", null=True, blank=True)
     brand = models.ForeignKey(Brand, models.SET_NULL, null=True, blank=True)
-    corporation = models.ForeignKey(Corporation, models.SET_NULL, null=True, blank=True)
+    corporation = models.ForeignKey(
+        Corporation, models.SET_NULL, null=True, blank=True
+        )
     main_category = models.ForeignKey(MainCategoryOfProduct,
         models.SET_NULL,
         null=True,
