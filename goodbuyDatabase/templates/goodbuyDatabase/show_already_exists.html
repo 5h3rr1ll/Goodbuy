@@ -11,7 +11,7 @@
     <p>Code: {{ product.code }}</p>
   <form class="" action="{% url 'codeScanner:codeScanner' %}" method="post">
     {% csrf_token %}
-    <input type="submit" name="" value="scan next">
+    <input class="btn btn-outline-primary" type="submit" name="" value="scan next">
   </form>
 </div>
 {% endblock %}
