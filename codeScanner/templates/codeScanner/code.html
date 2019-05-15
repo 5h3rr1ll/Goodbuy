@@ -103,7 +103,7 @@
         function sendCode(barcode){
             // alert(barcode);
             var csrftoken = getCookie('csrftoken');
-            const url = "add/" + barcode
+            const url = "/goodbuyDatabase/add/" + barcode
         fetch(url,{
                     method: 'GET',
                     body: JSON.stringify(barcode),

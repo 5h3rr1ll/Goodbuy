@@ -22,8 +22,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r"^$", views.login_redirect, name="login.redirect"),
     url(r'^admin/', admin.site.urls),
-    url(r"^accounts/", include(("accounts.urls","accounts"),namespace="accounts")),
-    url(r'^mvpLogoGrab/', include(('mvpLogoGrab.urls',"logograb"),namespace="logograb")),
-    url(r'^code/', include(('codeScanner.urls',"codeScanner"),namespace="codeScanner")),
     url(r"^home/", include(("home.urls","home"),namespace="home")),
+    url(r"^accounts/", include(("accounts.urls","accounts"),namespace="accounts")),
+    url(r'^code/', include(('codeScanner.urls',"codeScanner"),namespace="codeScanner")),
+    url(r'^mvpLogoGrab/', include(('mvpLogoGrab.urls',"logograb"),namespace="logograb")),
+    url(r'^goodbuyDatabase/', include(('goodbuyDatabase.urls',"goodbuyDatabase"),namespace="goodbuyDatabase")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
