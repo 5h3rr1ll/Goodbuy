@@ -12,10 +12,10 @@ class UserProfileManager(models.Manager):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User,models.CASCADE)
-    description = models.TextField(max_length=140, default="")
-    city = models.CharField(max_length=100, default="")
-    website = models.URLField(default="")
-    phone = models.IntegerField(default=0)
+    description = models.TextField(max_length=140, null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    website = models.URLField(default="",null=True, blank=True)
+    phone = models.CharField(max_length=17, null=True, blank=True)
     image = models.ImageField(upload_to="profile_image", blank=True)
 
     # this UserProfileManager instance cause a error by creating profile when creating
