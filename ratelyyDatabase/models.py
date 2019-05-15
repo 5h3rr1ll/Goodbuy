@@ -31,11 +31,11 @@ class Store(models.Model):
         db_table = "stores"
         ordering = ("name","id",)
 
-class Concern(models.Model):
+class Corporation(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(
         max_length=45,
-        verbose_name="Concern Name",
+        verbose_name="Corporation Name",
         unique=True,
         )
     logo = models.URLField(null=True, blank=True)
@@ -46,7 +46,7 @@ class Concern(models.Model):
 
     class Meta:
         managed = True
-        db_table = 'concerns'
+        db_table = 'corporations'
         ordering = ("name","id",)
 
     def __str__(self):
@@ -73,8 +73,8 @@ class Rating(models.Model):
         blank=True,
         )
     animals_description = models.TextField(null=True,blank=True,)
-    concern = models.OneToOneField(
-        Concern,
+    corporation = models.OneToOneField(
+        Corporation,
         models.SET_NULL,
         null=True,
         blank=True,
@@ -83,19 +83,19 @@ class Rating(models.Model):
     class Meta:
         managed = True
         db_table = "ratings"
-        ordering = ("concern","id",)
+        ordering = ("corporation","id",)
 
     def __str__(self):
-        return self.concern.name
+        return self.corporation.name
 
 class Company(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, unique=True)
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
-    concern = models.ForeignKey(Concern,
+    corporation = models.ForeignKey(Corporation,
         models.SET_NULL,
-        db_column="concern",
+        db_column="corporation",
         null=True,
         blank=True
         )
@@ -118,7 +118,7 @@ class Brand(models.Model):
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     company = models.ForeignKey(Company, models.SET_NULL, null=True, blank=True)
-    concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
+    corporation = models.ForeignKey(Corporation, models.SET_NULL, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -181,7 +181,7 @@ class Product(models.Model):
     code = models.CharField(null=True,blank=True,unique=True, max_length=13)
     image = models.URLField(null=True, blank=True, max_length=300)
     brand = models.ForeignKey(Brand, models.SET_NULL, null=True, blank=True)
-    concern = models.ForeignKey(Concern, models.SET_NULL, null=True, blank=True)
+    corporation = models.ForeignKey(Corporation, models.SET_NULL, null=True, blank=True)
     main_category = models.ForeignKey(MainCategoryOfProduct,
         models.SET_NULL,
         null=True,

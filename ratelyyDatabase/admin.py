@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (
-    Concern, Company, Brand,
+    Corporation, Company, Brand,
     Product, Country, Rating,
     Store, ProductPriceInStore,
     MainCategoryOfProduct, SubCategoryOfProduct,
@@ -16,17 +16,17 @@ class SubCategoryOfProductAdmin(admin.ModelAdmin):
     list_display_links = ("id", "name", "created", "updated",)
 
 class RatingAdmin(admin.ModelAdmin):
-    list_display = ("id", "concern" , "humans", "environment", "animals",
+    list_display = ("id", "corporation" , "humans", "environment", "animals",
      "animals_description", "environment_description", "humans_description")
-    list_display_links = ("id", "concern",  "humans", "environment", "animals")
+    list_display_links = ("id", "corporation",  "humans", "environment", "animals")
 
     @classmethod
-    def concern(self, obj):
-        if obj.concern is not None:
-            return obj.concern.name
+    def corporation(self, obj):
+        if obj.corporation is not None:
+            return obj.corporation.name
         else:
             return None
-    concern.short_description = "Rating of associated Concern"
+    corporation.short_description = "Rating of associated Concern"
 
 class CountryAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "code", "created", "updated",)
@@ -37,7 +37,7 @@ class RatingInline(admin.StackedInline):
     max_num = 1
     model = Rating
 
-class ConcernAdmin(admin.ModelAdmin):
+class CorporationAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name", "logo", "wiki",
         "origin_code", "created", "updated",
@@ -60,15 +60,15 @@ class ConcernAdmin(admin.ModelAdmin):
 
 class CompanyAdmin(admin.ModelAdmin):
     list_display = (
-        "id", "name", "logo", "wiki", "concern",
+        "id", "name", "logo", "wiki", "corporation",
         "origin_code", "created", "updated",
         )
     list_display_links = ("id", "name")
     search_fields = [
-        "id", "name", "logo", "concern__name",
+        "id", "name", "logo", "corporation__name",
         "origin_code", "created", "updated",
         ]
-    autocomplete_fields = ("concern",)
+    autocomplete_fields = ("corporation",)
 
     def origin_code(self, obj):
         if obj.origin is not None:
@@ -79,14 +79,14 @@ class CompanyAdmin(admin.ModelAdmin):
 class BrandAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name", "logo", "wiki", "company",
-        "concern", "created", "updated",
+        "corporation", "created", "updated",
         )
     list_display_links = ("id", "name")
     search_fields = [
         "id", "name", "logo", "wiki", "company__name",
-        "concern__name", "created", "updated",
+        "corporation__name", "created", "updated",
         ]
-    autocomplete_fields = ("concern", "company",)
+    autocomplete_fields = ("corporation", "company",)
 
 class ProdcutPriceInStoreAdmin(admin.ModelAdmin):
     list_display = ("id","store","product","price")
@@ -107,17 +107,17 @@ class CertificateAdmin(admin.ModelAdmin):
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name","added_by", "logo", "wiki", "code",
-        "image", "brand", "concern",
+        "image", "brand", "corporation",
         "scanned_counter" ,"created", "updated",
         )
     list_display_links = ("id", "name")
     search_fields = [
         "id", "name", "logo", "wiki", "code",
-        "image", "brand__name", "concern__name",
+        "image", "brand__name", "corporation__name",
         "scanned_counter" ,"created", "updated",
         ]
     exclude = ("scanned_counter","added_by")
-    autocomplete_fields = ("brand", "concern",)
+    autocomplete_fields = ("brand", "corporation",)
     inlines = [ PriceInline, ]
 
 class StoreAdmin(admin.ModelAdmin):
@@ -128,7 +128,7 @@ class StoreAdmin(admin.ModelAdmin):
     autocomplete_fields = ()
 
 admin.site.site_header = "Goodbuy Database"
-admin.site.register(Concern, ConcernAdmin,)
+admin.site.register(Corporation, CorporationAdmin,)
 admin.site.register(Company, CompanyAdmin,)
 admin.site.register(Brand, BrandAdmin,)
 admin.site.register(Product, ProductAdmin,)

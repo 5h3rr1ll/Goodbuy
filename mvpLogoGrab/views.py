@@ -15,7 +15,7 @@ from mvpLogoGrab.forms import (
 )
 from ratelyyDatabase.models import (
     Product,
-    Concern,
+    Corporation,
     Rating,
 )
 # Create your views here.
@@ -84,14 +84,14 @@ def logo_grab(request):
     product_name = product_name.replace("-", " ")
     #Requesting data from the database with the logoname
     product = Product.objects.get(name=product_name)
-    concern_data = Concern.objects.get(name=product.concern)
+    corporation_data = Concern.objects.get(name=product.corporation)
     #Updating Statcounter
     product.stat_counter += 1
     product.save()
     #Saving the data into a dict to display it on the html page
     args = {
         "product": product,
-        "concern_origin" : concern_data.origin,
+        "corporation_origin" : corporation_data.origin,
 
     }
     #to get a result change to return render(request, 'mvpLogoGrab/data.html', args)
@@ -102,8 +102,8 @@ def logo_grab(request):
 def get_data(request):
     product_name = request.GET.get("name", "Not found")
     product = Product.objects.get(name=product_name,)
-    concern = Concern.objects.get(name=product.concern)
-    rating = Rating.objects.get(concern=concern.id)
+    corporation = Concern.objects.get(name=product.corporation)
+    rating = Rating.objects.get(corporation=corporation.id)
 
     animals = rating.animals
     environment = rating.environment
@@ -114,7 +114,7 @@ def get_data(request):
     #comment
     args = {
         "product": product,
-        "concern": concern,
+        "corporation": corporation,
         "rating": rating,
         "rating_result": rating_result,
 

@@ -11,7 +11,7 @@ class AddNewProductForm(forms.ModelForm):
             "code",
             "name",
             "brand",
-            "concern",
+            "corporation",
             "main_category",
             "sub_category",
         ]

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, render_to_response
-from ratelyyDatabase.models import Product, Concern, Rating
+from ratelyyDatabase.models import Product, Corporation, Rating
 from codeScanner.forms import AddNewProductForm
 from django.contrib.auth.models import User, Group
 
@@ -50,8 +50,8 @@ def add(request, code):
 
 def rating(request, code):
     product = Product.objects.get(code=code)
-    concern = Concern.objects.get(name=product.concern)
-    rating = Rating.objects.get(concern=concern.id)
+    corporation = Concern.objects.get(name=product.corporation)
+    rating = Rating.objects.get(corporation=corporation.id)
     if rating.animals == None or rating.humans == None  or rating.environment == None:
         total_rating = 0
     else:
@@ -60,6 +60,6 @@ def rating(request, code):
         "product":product,
         "rating_result":total_rating,
         "rating":rating,
-        "concern":concern,
+        "corporation":corporation,
     }
     return render(request, "codeScanner/rating.html",args)
