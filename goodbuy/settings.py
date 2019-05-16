@@ -152,8 +152,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_URL = "/media/"
+# Here you define where Django shoul save uploaded files
 MEDIA_ROOT = os.path.join(BASE_DIR, "goodbuy/media")
+
+#define how Django serve the files back, means: what to type in to the URL
+MEDIA_URL = "/media/"
 
 STATIC_ROOT = 'static'
 
