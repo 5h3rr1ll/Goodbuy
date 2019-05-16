@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load crispy_forms_tags %}
+
 {% block head %}
   <title>Add Product</title>
 {% endblock %}
@@ -15,7 +17,7 @@
     </p>
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
-      {{ form.as_p }}
+      {{ form|crispy }}
       <button class="btn btn-outline-primary" type="submit" name="Add">Submit</button>
       <a class="btn btn-outline-danger" href="/code">Cancel</a>
     </form>
