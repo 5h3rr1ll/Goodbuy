@@ -14,15 +14,28 @@
         <th>Name</th>
         <th>Brand</th>
         <th>Corporation</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
       {% for product in products%}
       <tr>
-        <td>{{ product.image}}</td>
+        <td>
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" style="height:100px">
+          {% else %}
+            <span>No Image</span>
+          {% endif %}
+        </td>
         <td>{{ product.name}}</td>
         <td>{{ product.brand}}</td>
         <td>{{ product.corporation}}</td>
+        <td>
+          <form class="" action="{% url 'goodbuyDatabase:delete_product' product.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit" name="submit" class='btn btn-danger btn-small'>Delete</button>
+          </form>
+        </td>
       </tr>
       {% endfor %}
     </tbody>

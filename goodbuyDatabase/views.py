@@ -41,20 +41,14 @@ def add(request, code):
                 }
             return render(request, "goodbuyDatabase/add.html", args)
 
-def model_form_upload(request):
-    if request.method == 'POST':
-        form = DocumentForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    else:
-        form = DocumentForm()
-    return render(request, 'core/model_form_upload.html', {
-        'form': form
-    })
-
 def product_list(request):
     products = Product.objects.all()
     return render(request, "goodbuyDatabase/product_list.html", {
         "products":products
     })
+
+def delete_product(request, pk):
+    if request.method == "POST":
+        product = Product.objects.get(pk=pk)
+        product.delete()
+    return redirect("goodbuyDatabase:product_list")
