@@ -4,7 +4,7 @@ from goodbuyDatabase.models import Product
 
 def add(request, code):
     if request.method == "POST":
-        form = AddNewProductForm(request.POST)
+        form = AddNewProductForm(request.POST, request.FILES)
         if form.is_valid():
             '''commit=False allows you to modify the resulting object before it
             is actually saved to the database. Source:
@@ -40,3 +40,15 @@ def add(request, code):
                 "error":e,
                 }
             return render(request, "goodbuyDatabase/add.html", args)
+
+def model_form_upload(request):
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = DocumentForm()
+    return render(request, 'core/model_form_upload.html', {
+        'form': form
+    })

@@ -13,44 +13,28 @@
       But don't stress yourself. If you don't know or can't find certain
       information, just skip it. 😉<br>
     </p>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form.as_p }}
       <button class="btn btn-outline-primary" type="submit" name="Add">Submit</button>
       <a class="btn btn-outline-danger" href="/code">Cancel</a>
     </form>
+    <br>
 
     {% if form.errors %}
-    {% for field in form %}
-        {% for error in field.errors %}
-            <div class="alert alert-danger">
-                <strong>{{ error|escape }}</strong>
-            </div>
-        {% endfor %}
-    {% endfor %}
-    {% for error in form.non_field_errors %}
-        <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
-        </div>
-    {% endfor %}
-{% endif %}
+      {% for field in form %}
+          {% for error in field.errors %}
+              <div class="alert alert-danger">
+                  <strong>{{ error|escape }}</strong>
+              </div>
+          {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+          <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+          </div>
+      {% endfor %}
+    {% endif %}
 
   </div>
 {% endblock %}
-
-
-<!-- <div class="container">
-  <h1>Add Product</h1>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" name="submit">Submit</button>
-  </form> -->
-
-  <!-- {{products}} -->
-  <!-- {{lst}} -->
-
-  <!-- {% for product in products %} -->
-    <!-- <p>{{ product }}</p> -->
-  <!-- {% endfor%} -->
-<!-- </div> -->

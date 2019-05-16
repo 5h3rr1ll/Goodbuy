@@ -1,5 +1,7 @@
 from django import forms
+
 from goodbuyDatabase.models import Product
+
 
 class AddNewProductForm(forms.ModelForm):
     code = forms.IntegerField(required=True)
