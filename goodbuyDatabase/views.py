@@ -52,3 +52,9 @@ def model_form_upload(request):
     return render(request, 'core/model_form_upload.html', {
         'form': form
     })
+
+def product_list(request):
+    products = Product.objects.all()
+    return render(request, "goodbuyDatabase/product_list.html", {
+        "products":products
+    })

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <title>Products | GoodbuyDatabase</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <h2>All Products in GoodbuyDatabase</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Brand</th>
+        <th>Corporation</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in products%}
+      <tr>
+        <td>{{ product.image}}</td>
+        <td>{{ product.name}}</td>
+        <td>{{ product.brand}}</td>
+        <td>{{ product.corporation}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
