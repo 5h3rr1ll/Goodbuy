@@ -22,7 +22,7 @@
       <tr>
         <td>
           {% if product.image %}
-            <img src="{{ product.image.url }}" alt="{{ product.name }}" style="height:100px">
+            <a href="{{ product.image.url }}"><img src="{{ product.image.url }}" alt="{{ product.name }}" style="height:100px"></a>
           {% else %}
             <span>No Image</span>
           {% endif %}
