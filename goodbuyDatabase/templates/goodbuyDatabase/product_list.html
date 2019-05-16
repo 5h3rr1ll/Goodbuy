@@ -7,25 +7,32 @@
     crossorigin="anonymous">
   </script>
 
-  <title>Products | GoodbuyDatabase</title>
+  <title>Products | Goodbuy Database</title>
 {% endblock %}
 
 {% block body %}
 <div class="container">
-  <h2>All Products in GoodbuyDatabase</h2>
+  <h2>All Products in Goodbuy Database</h2>
   <table class="table">
     <thead>
       <tr>
+        <th>ID</th>
         <th>Image</th>
+        <th>Code</th>
         <th>Name</th>
         <th>Brand</th>
         <th>Corporation</th>
-        <th></th>
+        <th>Main Category</th>
+        <th>Sub Category</th>
+        <th>Checked</th>
+        <th>Checked By</th>
+        <th><!--Delete--></th>
       </tr>
     </thead>
     <tbody>
       {% for product in products%}
       <tr>
+        <td>{{ product.id}}</td>
         <td>
           {% if product.image %}
             <a href="{{ product.image.url }}"><img src="{{ product.image.url }}" alt="{{ product.name }}" style="height:100px"></a>
@@ -33,9 +40,14 @@
             <span>No Image</span>
           {% endif %}
         </td>
+        <td>{{ product.code}}</td>
         <td>{{ product.name}}</td>
         <td>{{ product.brand}}</td>
         <td>{{ product.corporation}}</td>
+        <td>{{ product.main_category}}</td>
+        <td>{{ product.sub_category}}</td>
+        <td>{{ product.checked}}</td>
+        <td>{{ product.checked_by}}</td>
         <td>
           <form class="" action="{% url 'goodbuyDatabase:delete_product' product.pk %}" method="post">
             {% csrf_token %}
