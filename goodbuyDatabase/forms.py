@@ -1,6 +1,6 @@
 from django import forms
 
-from goodbuyDatabase.models import Product
+from .models import Product
 
 
 class AddNewProductForm(forms.ModelForm):

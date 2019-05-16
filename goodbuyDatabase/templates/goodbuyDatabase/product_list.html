@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
 {% block head %}
+  <script
+    defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js"
+    integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH"
+    crossorigin="anonymous">
+  </script>
+
   <title>Products | GoodbuyDatabase</title>
 {% endblock %}
 
@@ -14,7 +20,7 @@
         <th>Name</th>
         <th>Brand</th>
         <th>Corporation</th>
-        <th>Delete</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -33,7 +39,7 @@
         <td>
           <form class="" action="{% url 'goodbuyDatabase:delete_product' product.pk %}" method="post">
             {% csrf_token %}
-            <button type="submit" name="submit" class='btn btn-danger btn-small'>Delete</button>
+            <button type="submit" name="submit" class='btn btn-outline-danger btn-small'>Delete</button>
           </form>
         </td>
       </tr>
