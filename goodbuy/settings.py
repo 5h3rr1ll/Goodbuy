@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 import django_heroku
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -43,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'crispy_forms',
+    "crispy_forms",
+    "storages",
 ]
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
@@ -171,9 +174,23 @@ LOGIN_EXEMPT_URLS = (
     r"^accounts/reset-password/complete/$",
 )
 
-# TODO: Need to set up a propper email server here
+# TODO: Need to set up a proper email server here
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+# Get's the values from the system environment
+# TODO: save them in environment variables
+AWS_ACCESS_KEY_ID = "AKIAWBG3MAK36552E7BR"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "goodbuystorage"
+
+# Same diles don't overwrite eachother
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+# This setting prevented adding access infomrations to the file urls
+AWS_QUERYSTRING_AUTH = False
+
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
