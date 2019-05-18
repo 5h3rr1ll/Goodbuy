@@ -17,7 +17,7 @@ class UserProfile(models.Model):
     website = models.URLField(default="",null=True, blank=True)
     phone = models.CharField(max_length=17, null=True, blank=True)
     image = models.ImageField(
-        default="default.jpg",
+        default="default.svg",
         upload_to="profile_image",
         blank=True)
 
@@ -31,9 +31,3 @@ class UserProfile(models.Model):
     class Meta:
         managed = True
         db_table = 'user_profiles'
-
-def create_profile(sender, **kwargs):
-    if kwargs['created']:
-        user_profile = UserProfile.objects.create(user=kwargs["instance"])
-
-post_save.connect(create_profile, sender=User)
