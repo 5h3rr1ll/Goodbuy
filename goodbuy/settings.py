@@ -183,9 +183,9 @@ django_heroku.settings(locals())
 
 # Get's the values from the system environment
 # TODO: save them in environment variables
-AWS_ACCESS_KEY_ID = "AKIAWBG3MAK36552E7BR"
-AWS_SECRET_ACCESS_KEY = "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"
-AWS_STORAGE_BUCKET_NAME = "goodbuystorage"
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME")
 
 # Same diles don't overwrite eachother
 AWS_S3_FILE_OVERWRITE = False
