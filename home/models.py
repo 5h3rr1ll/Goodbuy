@@ -3,14 +3,20 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
-# Create your models here.
 
 class Post(models.Model):
+    title = models.CharField(max_length=100, null=True)
+    content = models.TextField(null=True)
+    date_posted = models.DateTimeField(default=timezone.now, null=True)
     post = models.CharField(max_length=500)
     user = models.ForeignKey(User, models.DO_NOTHING)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
 
 class Friend(models.Model):
     users = models.ManyToManyField(User)
