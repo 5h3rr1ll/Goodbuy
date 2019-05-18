@@ -7,8 +7,6 @@
   {% endblock %}
 
   {% block body %}
-
-  <div class="container">
     <h1>Edit Profile</h1>
       <form method="post">
         {% csrf_token %}
@@ -16,6 +14,4 @@
         <button type="submit" name="submit">Submit</button>
       </form>
       <br>
-  </div>
-
   {% endblock %}

@@ -3,7 +3,6 @@
 {% load crispy_forms_tags %}
 
 {% block body %}
-<div class="container">
   <h1>Welcome</h1>
   <p>
     You can log in here!
@@ -14,6 +13,4 @@
     {{ form|crispy }}
     <button type="submit" name="Login">Login</button>
   </form>
-</div>
-
 {% endblock %}

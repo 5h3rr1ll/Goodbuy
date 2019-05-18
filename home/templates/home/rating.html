@@ -2,7 +2,10 @@
 
 {% block css %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'codeScanner/rating.css' %}" type="text/css">
+<link
+  rel="stylesheet"
+  href="{% static 'codeScanner/rating.css' %}"
+  type="text/css">
 {% endblock %}
 
 {% block head %}
@@ -17,7 +20,6 @@
 {% elif rating_result >= 0 %}
 <div class="container" id="body_block_dead">
 {% else %}
-<div class="container">
 {% endif %}
     <h1 id="product_name">{{ product.name }}</h1>
     <h1 id="corporation_name">{{ corporation }}</h1>
@@ -28,35 +30,71 @@
     <div class="row" id="rating_pics">
       <div class="col-sm-4" id="envtitle">
         {% if rating.environment >= 7 %}
-        <img src="http://sherrill.de/goodbuy/images/earth_happy.png" alt="" height="150">
+        <img
+          src="http://sherrill.de/goodbuy/images/earth_happy.png"
+          alt=""
+          height="150">
         {% elif rating.environment >= 4 %}
-        <img src="http://sherrill.de/goodbuy/images/earth_hurt.png" alt="" height="150">
+        <img
+          src="http://sherrill.de/goodbuy/images/earth_hurt.png"
+          alt=""
+          height="150">
         {% elif rating.environment >= 1 %}
-        <img src="http://sherrill.de/goodbuy/images/earth_dead.png" alt="" height="150">
+        <img
+          src="http://sherrill.de/goodbuy/images/earth_dead.png"
+          alt=""
+          height="150">
         {% else %}
-        <img src="http://sherrill.de/goodbuy/images/no_rating.png" alt="" height="150">
+        <img
+          src="http://sherrill.de/goodbuy/images/no_rating.png"
+          alt=""
+          height="150">
         {% endif %}
       </div>
       <div class="col-sm-4" id="anititle">
         {% if rating.animals >= 7 %}
-        <img src="http://sherrill.de/goodbuy/images/bird_happy.png" alt="" height="150">
+        <img
+          src="http://sherrill.de/goodbuy/images/bird_happy.png"
+          alt=""
+          height="150">
         {% elif rating.animals >= 4 %}
-        <img src="http://sherrill.de/goodbuy/images/bird_hurt.png" alt="" height="150">
+        <img
+          src="http://sherrill.de/goodbuy/images/bird_hurt.png"
+          alt=""
+          height="150">
         {% elif rating.animals >= 1 %}
-        <img src="http://sherrill.de/goodbuy/images/bird_dead.png" alt="" height="150">
+        <img
+          src="http://sherrill.de/goodbuy/images/bird_dead.png"
+          alt=""
+          height="150">
         {% else %}
-        <img src="http://sherrill.de/goodbuy/images/no_rating.png" alt="" height="150">
+        <img
+          src="http://sherrill.de/goodbuy/images/no_rating.png"
+          alt=""
+          height="150">
         {% endif %}
       </div>
       <div class="col-sm-4" id="humtitle">
         {% if rating.humans >= 7 %}
-        <img src="http://sherrill.de/goodbuy/images/girl_happy.png" alt="" height="150">
+        <img
+          src="http://sherrill.de/goodbuy/images/girl_happy.png"
+          alt=""
+          height="150">
         {% elif rating.humans >= 4 %}
-        <img src="http://sherrill.de/goodbuy/images/girl_hurt.png" alt="" height="150">
+        <img
+          src="http://sherrill.de/goodbuy/images/girl_hurt.png"
+          alt=""
+          height="150">
         {% elif rating.humans >= 1 %}
-        <img src="http://sherrill.de/goodbuy/images/girl_dead.png" alt="" height="150">
+        <img
+          src="http://sherrill.de/goodbuy/images/girl_dead.png"
+          alt=""
+          height="150">
         {% else %}
-        <img src="http://sherrill.de/goodbuy/images/no_rating.png" alt="" height="150">
+        <img
+          src="http://sherrill.de/goodbuy/images/no_rating.png"
+          alt=""
+          height="150">
         {% endif %}
       </div>
     </div>
@@ -93,6 +131,4 @@
         <h3>Rating Humans: {{ rating.humans }}</h3>
       </div>
     </div>
-
-</div>
 {% endblock %}

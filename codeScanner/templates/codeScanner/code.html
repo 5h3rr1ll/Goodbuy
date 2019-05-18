@@ -22,12 +22,15 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
     <!-- Containers for the picker and the results -->
     <div id="scandit-barcode-picker"></div>
     <div id="scandit-barcode-result">No codes scanned yet</div>
     <!-- Button to continue scanning after a barcode was scanned -->
-    <button class="btn btn-outline-primary" id="continue-scanning-button" onclick="continueScanning()">Continue Scanning</button>
+    <button
+      class="btn btn-outline-primary"
+      id="continue-scanning-button"
+      onclick="continueScanning()">Continue Scanning
+    </button>
     <script>
         // Helper function called when the "Continue Scanning" button is clicked
         function continueScanning() {
@@ -118,5 +121,4 @@
         window.location.replace(url);
         };
     </script>
-</div>
 {% endblock %}

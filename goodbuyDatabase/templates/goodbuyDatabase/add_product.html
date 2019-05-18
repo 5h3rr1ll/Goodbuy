@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block body %}
-  <div class="container">
     <h1>Add Product</h1>
     <p>
       Hey! There we have a new product for the Database!<br>
@@ -18,11 +17,14 @@
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
       {{ form|crispy }}
-      <button class="btn btn-outline-primary" type="submit" name="Add">Submit</button>
+      <button
+        class="btn btn-outline-primary"
+        type="submit"
+        name="Add">Submit
+      </button>
       <a class="btn btn-outline-danger" href="/code">Cancel</a>
     </form>
     <br>
-
     {% if form.errors %}
       {% for field in form %}
           {% for error in field.errors %}
@@ -37,6 +39,4 @@
           </div>
       {% endfor %}
     {% endif %}
-
-  </div>
 {% endblock %}

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-
-
   {% block css %}
   {% load static %}
   <link rel="stylesheet" href="{% static 'home/home.css' %}" type="text/css">
@@ -21,10 +19,8 @@
   <title>Base</title>
 {% endblock %}
 </head>
+
 <body>
-<br>
-{% block navbar %}
-<div class="container">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a href="/" class="logo">
       <img src="https://sherrill.de/goodbuy/images/logo+name.png" alt="Goodbuy Logo">
@@ -82,11 +78,11 @@
         {% endif %}
       </div>
     </nav>
-    </div>
-    {% endblock %}
+  <div class="container">
     {% block body %}
       <h1>Anthony Base</h1>
     {% endblock %}
+  </div>
   </body>
   <script
     src="https://code.jquery.com/jquery-3.3.1.min.js"

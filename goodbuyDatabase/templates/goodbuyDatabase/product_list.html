@@ -35,7 +35,12 @@
         <td>{{ product.id}}</td>
         <td>
           {% if product.image %}
-            <a href="{{ product.image.url }}"><img src="{{ product.image.url }}" alt="{{ product.name }}" style="height:100px"></a>
+            <a href="{{ product.image.url }}">
+              <img
+                src="{{ product.image.url }}"
+                alt="{{ product.name }}"
+                style="height:100px">
+            </a>
           {% else %}
             <span>No Image</span>
           {% endif %}
@@ -49,9 +54,15 @@
         <td>{{ product.checked}}</td>
         <td>{{ product.checked_by}}</td>
         <td>
-          <form class="" action="{% url 'goodbuyDatabase:delete_product' product.pk %}" method="post">
+          <form
+            class=""
+            action="{% url 'goodbuyDatabase:delete_product' product.pk %}"
+            method="post">
             {% csrf_token %}
-            <button type="submit" name="submit" class='btn btn-outline-danger btn-small'>Delete</button>
+            <button
+              type="submit"
+              name="submit"
+              class='btn btn-outline-danger btn-small'>Delete</button>
           </form>
         </td>
       </tr>
