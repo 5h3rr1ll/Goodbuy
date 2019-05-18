@@ -3,10 +3,12 @@ from __future__ import unicode_literals
 
 from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
-from home.forms import HomeForm
-from home.models import Post, Friend
 from django.contrib.auth.models import User
+
+from .forms import HomeForm
+from .models import Post, Friend
 from goodbuyDatabase.models import Product, Corporation, Rating
+
 
 def rating(request, code):
     product = Product.objects.get(code=code)
@@ -24,8 +26,11 @@ def rating(request, code):
     }
     return render(request, "home/rating.html",args)
 
-class HomeView(TemplateView):
-    template_name = "home/home.html"
+def start_screen(request):
+    return render(request,"home/start.html")
+
+class PostView(TemplateView):
+    template_name = "home/posts.html"
 
     def get(self, request):
         form = HomeForm()
@@ -52,7 +57,7 @@ class HomeView(TemplateView):
             # like a SQL injection
             text = form.cleaned_data["post"]
             form = HomeForm()
-            return redirect("home:home")
+            return redirect("home:posts")
 
         args = {"form":form, "text":text}
         return render(request, self.template_name, args)
@@ -63,4 +68,4 @@ def change_friends(request, operation, pk):
         Friend.make_friend(request.user, friend)
     elif operation == "remove":
         Friend.lose_friend(request.user, friend)
-    return redirect("home:home")
+    return redirect("home:posts")

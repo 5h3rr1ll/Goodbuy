@@ -1,11 +1,13 @@
 from django.urls import path
-from home.views import HomeView
+
 from . import views
+
 
 app_name = "home"
 
 urlpatterns = [
-    path("", HomeView.as_view(), name="home"),
-    path("connect/(?P<operation>.*)/(?P<pk>\d+)/", views.change_friends, name="change_friends"),
+    path("", views.start_screen, name="start_screen"),
+    path("posts/", views.PostView.as_view(), name="posts"),
+    path("connect/<operation>/<pk>/", views.change_friends, name="change_friends"),
     path("rating/<code>", views.rating, name="rating"),
 ]
