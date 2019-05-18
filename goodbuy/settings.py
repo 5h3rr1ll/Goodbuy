@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     "home.apps.HomeConfig",
     "accounts.apps.AccountsConfig",
     "codeScanner.apps.CodeScannerConfig",
-    'goodbuyDatabase.apps.GoodbuyDatabaseConfig',
+    "goodbuyDatabase.apps.GoodbuyDatabaseConfig",
 
     'mvpLogoGrab',
 
@@ -61,7 +61,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "goodbuy.middleware.LoginRequireMiddleware",
+    # TODO: Not sure if this middleware is really helpful, things like
+    # /?next=/ -functionality <-- is missing then
+    # "goodbuy.middleware.LoginRequireMiddleware",
 ]
 
 ROOT_URLCONF = 'goodbuy.urls'
@@ -165,8 +167,10 @@ MEDIA_URL = "/media/"
 
 STATIC_ROOT = 'static'
 
-LOGIN_URL = "/accounts/login"
-LOGIN_REDIRECT_URL = "/home"
+LOGIN_URL = "login"
+
+LOGIN_REDIRECT_URL = "home"
+
 LOGIN_EXEMPT_URLS = (
     r"^accounts/logout/$",
     r"^accounts/register/$",

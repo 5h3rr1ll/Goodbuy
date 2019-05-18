@@ -1,32 +1,26 @@
-"""Goodbuy URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.11/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
+from django.contrib.auth import views as auth_views
+from django.conf.urls.static import static
 from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
-from django.conf.urls.static import static
 
-from goodbuy import views
+from accounts import views as acccount_views
+from . import views as goodbuy_views
+from home import views as home_views
 
 
 urlpatterns = [
-    path("", views.login_redirect, name="login.redirect"),
     path('admin/', admin.site.urls),
-    path("home/", include(("home.urls","home"),namespace="home")),
+    path("", home_views.start_screen, name="home"),
+    path("login/", auth_views.LoginView.as_view(template_name="accounts/login.html"), name="login"),
+    path("logout/", auth_views.LogoutView.as_view(template_name="accounts/logout.html"), name="logout"),
+    path("register/", acccount_views.register, name="register"),
+    path('profile/', acccount_views.view_profile, name="profile"),
     path("accounts/", include(("accounts.urls","accounts"),namespace="accounts")),
     path('code/', include(('codeScanner.urls',"codeScanner"),namespace="codeScanner")),
     path('mvpLogoGrab/', include(('mvpLogoGrab.urls',"logograb"),namespace="logograb")),
     path('goodbuyDatabase/', include(('goodbuyDatabase.urls',"goodbuyDatabase"),namespace="goodbuyDatabase")),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if settings.DEBUG == True:
+    urlpatterns +=  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
