@@ -2,7 +2,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-class RegistrationFrom(UserCreationForm):
+
+class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(required = True)
     # password1 = forms.CharField(min_length=7)
 
@@ -18,7 +19,7 @@ class RegistrationFrom(UserCreationForm):
             "password2",
         )
     def save(self, commit=True):
-        user = super(RegistrationFrom, self).save(commit=False)
+        user = super(UserRegisterForm, self).save(commit=False)
         user.first_name = self.cleaned_data["first_name"]
         user.last_name = self.cleaned_data["last_name"]
         user.email = self.cleaned_data["email"]

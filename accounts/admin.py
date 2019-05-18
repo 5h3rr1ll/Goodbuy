@@ -4,7 +4,6 @@ from django.db import models
 from accounts.models import UserProfile
 from django.contrib import admin
 
-# Register your models here.
 
 class UserProfileManager(models.Manager):
     pass

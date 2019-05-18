@@ -16,14 +16,17 @@ class UserProfile(models.Model):
     city = models.CharField(max_length=100, null=True, blank=True)
     website = models.URLField(default="",null=True, blank=True)
     phone = models.CharField(max_length=17, null=True, blank=True)
-    image = models.ImageField(upload_to="profile_image", blank=True)
+    image = models.ImageField(
+        default="default.jpg",
+        upload_to="profile_image",
+        blank=True)
 
     # this UserProfileManager instance cause a error by creating profile when creating
     # new user
     # berlin = UserProfileManager()
 
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username} Profile"
 
     class Meta:
         managed = True

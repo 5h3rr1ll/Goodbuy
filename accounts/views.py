@@ -2,32 +2,31 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
-from accounts.forms import (
-    RegistrationFrom,
-    EditProfileForm,
-)
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+
+from .forms import UserRegisterForm, EditProfileForm
+
 
 def register(request):
     if request.method == "POST":
-        form = RegistrationFrom(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("/accounts/profile")
-        else:
-            return redirect("/accounts/register")
+            username = form.cleaned_data.get("username")
+            messages.success(request, f"Your account has been created! Your are now able to log in.")
+            return redirect("login")
     else:
-        form = RegistrationFrom()
-
-        args = {"form": form}
-        return render(request, "accounts/reg_form.html", args)
+        form = UserRegisterForm()
+    return render(request, "accounts/register.html", {"form":form})
 
 # This is a decorator, you can place them infront of a function to e.g. require
 # that a user needed to be logged in to use that function
-# @login_required
+@login_required
 def view_profile(request, pk=None):
     if pk:
         user = User.objects.get(pk=pk)
@@ -36,11 +35,10 @@ def view_profile(request, pk=None):
     args = {"user": user}
     return render(request, "accounts/profile.html", args)
 
-# @login_required
+@login_required
 def edit_profile(request):
     if request.method == "POST":
         form = EditProfileForm(request.POST, instance=request.user)
-
         if form.is_valid():
             form.save()
             return redirect("/accounts/profile")
@@ -49,7 +47,7 @@ def edit_profile(request):
         args = {"form": form}
         return render(request, "accounts/edit_profile.html", args)
 
-# @login_required
+@login_required
 def change_password(request):
     if request.method == "POST":
         form = PasswordChangeForm(data = request.POST, user = request.user)
