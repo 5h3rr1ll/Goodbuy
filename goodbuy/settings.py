@@ -33,11 +33,13 @@ ALLOWED_HOSTS = ["127.0.0.1","localhost",]
 # Application definition
 
 INSTALLED_APPS = [
-    "home",
+    "home.apps.HomeConfig",
+    "accounts.apps.AccountsConfig",
+    "codeScanner.apps.CodeScannerConfig",
+    'goodbuyDatabase.apps.GoodbuyDatabaseConfig',
+
     'mvpLogoGrab',
-    "accounts",
-    "codeScanner",
-    'goodbuyDatabase',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
