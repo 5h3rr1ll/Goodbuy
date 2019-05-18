@@ -195,7 +195,7 @@ class Product(models.Model):
         null=True,
         blank=True,
         )
-    certificate = models.ManyToManyField(Certificate, null=True, blank=True)
+    certificate = models.ManyToManyField(Certificate, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     scanned_counter = models.IntegerField(default=1, null=True, blank=True)
