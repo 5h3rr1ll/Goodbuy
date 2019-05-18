@@ -13,18 +13,21 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.conf.urls import include
+from django.urls import path
 from django.contrib import admin
-from goodbuy import views
 from django.conf import settings
 from django.conf.urls.static import static
 
+from goodbuy import views
+
+
 urlpatterns = [
-    url(r"^$", views.login_redirect, name="login.redirect"),
-    url(r'^admin/', admin.site.urls),
-    url(r"^home/", include(("home.urls","home"),namespace="home")),
-    url(r"^accounts/", include(("accounts.urls","accounts"),namespace="accounts")),
-    url(r'^code/', include(('codeScanner.urls',"codeScanner"),namespace="codeScanner")),
-    url(r'^mvpLogoGrab/', include(('mvpLogoGrab.urls',"logograb"),namespace="logograb")),
-    url(r'^goodbuyDatabase/', include(('goodbuyDatabase.urls',"goodbuyDatabase"),namespace="goodbuyDatabase")),
+    path("", views.login_redirect, name="login.redirect"),
+    path('admin/', admin.site.urls),
+    path("home/", include(("home.urls","home"),namespace="home")),
+    path("accounts/", include(("accounts.urls","accounts"),namespace="accounts")),
+    path('code/', include(('codeScanner.urls',"codeScanner"),namespace="codeScanner")),
+    path('mvpLogoGrab/', include(('mvpLogoGrab.urls',"logograb"),namespace="logograb")),
+    path('goodbuyDatabase/', include(('goodbuyDatabase.urls',"goodbuyDatabase"),namespace="goodbuyDatabase")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
