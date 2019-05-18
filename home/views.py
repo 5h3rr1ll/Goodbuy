@@ -29,6 +29,12 @@ def rating(request, code):
 def start_screen(request):
     return render(request,"home/start.html")
 
+def home(request):
+    context = {
+        "posts": Post.objects.all(),
+    }
+    return render(request, "home/home.html", context)
+
 class PostView(TemplateView):
     template_name = "home/posts.html"
 
