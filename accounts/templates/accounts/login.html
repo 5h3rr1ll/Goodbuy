@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load crispy_forms_tags %}
+
 {% block body %}
 <div class="container">
   <h1>Welcome</h1>
@@ -9,7 +11,7 @@
   <h2>Login</h2>
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
     <button type="submit" name="Login">Login</button>
   </form>
 </div>
