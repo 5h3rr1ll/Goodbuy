@@ -26,6 +26,7 @@
         <th>Sub Category</th>
         <th>Checked</th>
         <th>Checked By</th>
+        <th><!--Edit--></th>
         <th><!--Delete--></th>
       </tr>
     </thead>
@@ -54,14 +55,16 @@
         <td>{{ product.checked}}</td>
         <td>{{ product.checked_by}}</td>
         <td>
+          <a class="btn btn-outline-warning btn-small" href="{% url "goodbuyDatabase:product_update" product.pk %}">Update</a>
+        </td>
+        <td>
           <form
             class=""
-            action="{% url 'goodbuyDatabase:delete_product' product.pk %}"
+            action="{% url 'goodbuyDatabase:product_delete' product.pk %}"
             method="post">
             {% csrf_token %}
             <button
               type="submit"
-              name="submit"
               class='btn btn-outline-danger btn-small'>Delete</button>
           </form>
         </td>

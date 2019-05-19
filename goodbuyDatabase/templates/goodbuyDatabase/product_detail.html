@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'home/blog.css' %}" type="text/css">
+{% endblock css%}
+{% block body %}
+  <article class="media content-section">
+    <img
+      class="rounded-circle" src="{{ object.added_by.userprofile.image.url }}"
+      alt="Pircture of User {{ user.first_name }}"
+      style="height:150px">
+    <div class="media-body ml-3">
+      <div class="article-metadata">
+        <a class="mr-2" href="#">{{ object.name }}</a>
+        <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+        {% if object.author == user %}
+          <div class="">
+            <a class="btn btn-secondardy btn-sm mt-1 mb-1" href="{% url "product_update" object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url "product_delete" object.id %}">Delete</a>
+          </div>
+        {% endif %}
+      </div>
+      <h2 class="article-title">{{ object.title }}</h2>
+      <p class="article-content">{{ object.content }}</p>
+    </div>
+  </article>
+{% endblock body %}

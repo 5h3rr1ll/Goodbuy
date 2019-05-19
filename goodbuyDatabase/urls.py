@@ -1,13 +1,13 @@
 from django.urls import path
 
-from goodbuyDatabase import views
+from . import views as goodbuyDatabase_views
 
 app_name = "goodbuyDatabase"
 
 urlpatterns = [
-    path("add/<code>/", views.add_product, name="add_product"),
-    # TODO: 
-    # path("products/update/<int:pk>/", views.update_product, name="product_update"),
-    path("products/<int:pk>/", views.delete_product, name="delete_product"),
-    path("products/", views.product_list, name="product_list"),
+    path("add/<code>/", goodbuyDatabase_views.add_product, name="product_create"),
+    path("products/<int:pk>/update/", goodbuyDatabase_views.ProductUpdateView.as_view(), name="product_update"),
+    path("products/<int:pk>/", goodbuyDatabase_views.delete_product, name="product_delete"),
+    path("products/", goodbuyDatabase_views.product_list, name="product_list"),
+    path("product/<int:pk>/", goodbuyDatabase_views.ProductDetailView.as_view(), name="product_detail"),
 ]

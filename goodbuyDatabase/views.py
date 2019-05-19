@@ -1,5 +1,7 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required
+from django.views.generic import UpdateView, DetailView
 
 from .forms import AddNewProductForm
 from .models import Product
@@ -45,9 +47,22 @@ def add_product(request, code):
                 }
             return render(request, "goodbuyDatabase/add_product.html", args)
 
-# TODO:
-# def updated_product(request):
-#     return
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Product
+    fields = [
+        "name","code","image","brand","corporation","main_category",
+        "sub_category","certificate",
+        ]
+
+    def form_valid(self, form):
+        form.instance.added_by = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user == post.added_by:
+            return True
+        return False
 
 @login_required
 def delete_product(request, pk):
@@ -62,3 +77,6 @@ def product_list(request):
     return render(request, "goodbuyDatabase/product_list.html", {
         "products":products
     })
+
+class ProductDetailView(DetailView):
+    model = Product
