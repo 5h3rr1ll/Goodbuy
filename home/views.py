@@ -16,6 +16,7 @@ from .models import Post, Friend
 from .forms import HomeForm
 
 
+@login_required
 def rating(request, code):
     product = Product.objects.get(code=code)
     corporation = Corporation.objects.get(name=product.corporation)
@@ -36,6 +37,7 @@ def rating(request, code):
 def start_screen(request):
     return render(request,"home/start.html")
 
+@login_required
 def posts(request):
     context = {
         "posts": Post.objects.all(),
