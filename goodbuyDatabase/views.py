@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect, render_to_response
+from django.contrib.auth.decorators import login_required
 
 from .forms import AddNewProductForm
 from .models import Product
 
+
+@login_required
 def add_product(request, code):
     if request.method == "POST":
         form = AddNewProductForm(request.POST, request.FILES)
@@ -46,13 +49,14 @@ def add_product(request, code):
 # def updated_product(request):
 #     return
 
+@login_required
 def delete_product(request, pk):
     if request.method == "POST":
         product = Product.objects.get(pk=pk)
         product.delete()
     return redirect("goodbuyDatabase:product_list")
 
-
+@login_required
 def product_list(request):
     products = Product.objects.all()
     return render(request, "goodbuyDatabase/product_list.html", {

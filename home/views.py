@@ -8,6 +8,7 @@ from django.views.generic import (
     )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from goodbuyDatabase.models import Product, Corporation, Rating
@@ -31,6 +32,7 @@ def rating(request, code):
     }
     return render(request, "home/rating.html",args)
 
+@login_required
 def start_screen(request):
     return render(request,"home/start.html")
 
@@ -127,6 +129,7 @@ class PostView(TemplateView):
         args = {"form":form, "text":text}
         return render(request, self.template_name, args)
 
+@login_required
 def change_friends(request, operation, pk):
     friend = User.objects.get(pk=pk)
     if operation == "add":
@@ -135,5 +138,6 @@ def change_friends(request, operation, pk):
         Friend.lose_friend(request.user, friend)
     return redirect("home:posts")
 
+@login_required
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
