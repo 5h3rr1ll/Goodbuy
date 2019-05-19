@@ -105,7 +105,7 @@ class PostView(TemplateView):
         form = HomeForm()
         posts = Post.objects.all().order_by("-created")
         users = User.objects.exclude(id=request.user.id)
-        # TODO: next query needs to make sure to retrun an object in case user
+        # TODO: next query needs to make sure to returns an object in case user
         # has no friends, otherwise site crashes
         friend = Friend.objects.get_or_create(current_user=request.user)
         try:
