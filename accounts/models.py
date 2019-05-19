@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
 
+# from PIL import Image
+
 # Create your models here.
 class UserProfileManager(models.Manager):
     def get_queryset(self):
@@ -21,12 +23,18 @@ class UserProfile(models.Model):
         upload_to="profile_image",
         blank=True)
 
-    # this UserProfileManager instance cause a error by creating profile when creating
-    # new user
-    # berlin = UserProfileManager()
-
     def __str__(self):
-        return f"{self.user.username} Profile"
+        return f"{self.user.username}'s Profile"
+
+# TODO: Find another way to resize to big user profile images
+    # def save(self):
+    #     super().save()
+    #     print("\n HIER",Image.open(self.image),"\n")
+    #     img = Image.open(self.image.path)
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path)
 
     class Meta:
         managed = True

@@ -9,7 +9,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
-from .forms import UserRegisterForm, EditProfileForm
+from .forms import (
+    UserRegisterForm,
+    EditProfileForm,
+    UserPorfileUpdateForm,
+    UserUpdateForm,)
 
 
 def register(request):
@@ -27,16 +31,31 @@ def register(request):
 # This is a decorator, you can place them infront of a function to e.g. require
 # that a user needed to be logged in to use that function
 @login_required
-def view_profile(request, pk=None):
-    if pk:
-        user = User.objects.get(pk=pk)
+def user_profile(request):
+    if request.method == "POST":
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = UserPorfileUpdateForm(
+            request.POST,
+            request.FILES,
+            instance=request.user.userprofile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f"Your account has been updated!")
+            return redirect("user_profile")
     else:
-        user = request.user
-    args = {"user": user}
-    return render(request, "accounts/profile.html", args)
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = UserPorfileUpdateForm(instance=request.user.userprofile)
+
+    context = {
+    "u_form": u_form,
+    "p_form": p_form
+    }
+
+    return render(request, "accounts/user_profile.html", context)
 
 @login_required
-def edit_profile(request):
+def edit_user_profile(request):
     if request.method == "POST":
         form = EditProfileForm(request.POST, instance=request.user)
         if form.is_valid():
