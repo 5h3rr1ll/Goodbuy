@@ -14,11 +14,11 @@
 
     {% block css %}
     <link rel="stylesheet" href="{% static 'home/home.css' %}" type="text/css">
-    {% endblock%}
+    {% endblock css %}
 
 {% block head %}
   <title>Base</title>
-{% endblock %}
+{% endblock head %}
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -34,15 +34,15 @@
         {% if user.is_authenticated %}
         <ul class="navbar-nav mr-auto">
           <li class="nav-item dropdown">
-             <a class="nav-link dropdown-toggle" href="{% url 'accounts:view_profile' %}" id="navbarDropdownProfile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
+             <a class="nav-link dropdown-toggle" href="{% url 'accounts:user_profile' %}" id="navbarDropdownProfile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-               <a class="dropdown-item" href="{% url 'accounts:view_profile' %}"> Show Profile </a>
-               <a class="dropdown-item" href="{%url 'accounts:edit_profile' %}"> Edit Profile </a>
+               <a class="dropdown-item" href="{% url 'accounts:user_profile' %}"> Show Profile </a>
+               <a class="dropdown-item" href="{%url 'accounts:edit_user_profile' %}"> Edit Profile </a>
                <a class="dropdown-item" href="{% url 'accounts:change_password' %}"> Change Password </a>
              </div>
           </li>
           <li class="nav-item dropdown">
-             <a class="nav-link dropdown-toggle" href="{% url 'accounts:view_profile' %}" id="navbarDropdownProfile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Scan</a>
+             <a class="nav-link dropdown-toggle" href="{% url 'accounts:user_profile' %}" id="navbarDropdownProfile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Scan</a>
              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                <a class="dropdown-item" href="{% url 'codeScanner:codeScanner' %}"> Code Scanner </a>
                <a class="dropdown-item" href="{% url 'logograb:home' %}"> Logo Grab </a>
@@ -72,7 +72,7 @@
             <a class="nav-link" href="{% url 'register'%}"> Register <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-             <a class="nav-link" href="{% url 'accounts:reset_password' %}"> Reset Password </a>
+             <a class="nav-link" href="{% url 'accounts:password_reset' %}"> Reset Password </a>
           </li>
         </ul>
         {% endif %}
@@ -88,7 +88,7 @@
     {% endif %}
     {% block body %}
       <h1>Anthony Base</h1>
-    {% endblock %}
+    {% endblock body %}
   </div>
   </body>
   <script
