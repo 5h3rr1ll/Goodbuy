@@ -1,11 +1,8 @@
 {% extends "base.html" %}
-{% load static %}
-{% block css %}
-<link rel="stylesheet" href="{% static 'home/blog.css' %}" type="text/css">
-{% endblock css%}
+
 {% block body %}
     {% for post in posts %}
-        <article class="media content-section">
+        <article class="media content-section mt-4">
           {% if post.author.userprofile.image %}
           <img
             class="rounded-circle article-img"
@@ -13,10 +10,10 @@
           {% endif %}
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="{% url "home:user-posts" post.author.username %}">{{ post.author }}</a>
+              <a class="mr-2" href="{% url "home:user_posts" post.author.username %}">{{ post.author }}</a>
               <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
             </div>
-            <h2><a class="article-title" href="{% url 'home:post-detail' post.id %}">{{ post.title }}</a></h2>
+            <h2><a class="article-title" href="{% url 'home:post_detail' post.id %}">{{ post.title }}</a></h2>
             <p class="article-content">{{ post.content }}</p>
           </div>
         </article>

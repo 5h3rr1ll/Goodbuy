@@ -1,24 +1,24 @@
 * {
     font-family: "Avenir";
   }
-  
-  logo {
-      width: 100%;
-      height: auto;
-  }
-  
-  .home-title {
-    margin-top: 100px;
-    text-align: center;
-  }
-  
-  .home-text {
-    margin-left: 17%;
-    margin-right: 17%;
-    margin-bottom: 100px;
-    text-align: center;
-  }
-  .col-sm-6 {
-    text-align: center;
-  }
-  
+
+logo {
+    width: 100%;
+    height: auto;
+}
+
+.home-title {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.home-text {
+  margin-left: 17%;
+  margin-right: 17%;
+  margin-bottom: 100px;
+  text-align: center;
+}
+
+.col-sm-6 {
+  text-align: center;
+}

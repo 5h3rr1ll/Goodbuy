@@ -42,11 +42,11 @@ def posts(request):
     context = {
         "posts": Post.objects.all(),
     }
-    return render(request, "home/posts.html", context)
+    return render(request, "home/post_list.html", context)
 
 class PostListView(ListView):
     model = Post
-    template_name = "home/posts.html"
+    template_name = "home/post_list.html"
     context_object_name = "posts"
     # the minus infront of date_posted bringst the newst post to the top
     ordering = ["-date_posted"]
@@ -63,9 +63,6 @@ class UserPostListView(ListView):
         user = get_object_or_404(User, username=self.kwargs.get("username"))
         return Post.objects.filter(author=user).order_by("-date_posted")
 
-class PostDetailView(DetailView):
-    model = Post
-
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ["title","content"]
@@ -73,6 +70,9 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+class PostDetailView(DetailView):
+    model = Post
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post

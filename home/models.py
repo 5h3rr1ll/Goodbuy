@@ -8,7 +8,7 @@ class Post(models.Model):
     title = models.CharField(max_length=100, null=True)
     content = models.TextField(null=True)
     date_posted = models.DateTimeField(default=timezone.now, null=True)
-    author = models.ForeignKey(User, models.DO_NOTHING)
+    author = models.ForeignKey(User, models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -16,7 +16,7 @@ class Post(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("home:post-detail", kwargs={"pk":self.pk})
+        return reverse("home:post_detail", kwargs={"pk":self.pk})
 
 class Friend(models.Model):
     users = models.ManyToManyField(User)
