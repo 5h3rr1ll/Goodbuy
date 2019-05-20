@@ -1,7 +1,6 @@
+from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import User
-from django.urls import reverse
-from django.db import models
 
 
 class Country(models.Model):
@@ -215,9 +214,6 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
-
-    def get_absolute_url(self):
-        return reverse("goodbuyDatabase:product_detail", kwargs={"pk":self.pk})
 
     def delete(self, *args, **kwargs):
         self.image.delete()

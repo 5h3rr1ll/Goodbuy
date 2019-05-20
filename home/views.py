@@ -17,6 +17,23 @@ from .forms import HomeForm
 
 
 @login_required
+def rating(request, code):
+    product = Product.objects.get(code=code)
+    corporation = Corporation.objects.get(name=product.corporation)
+    rating = Rating.objects.get(corporation=corporation.id)
+    if rating.animals == None or rating.humans == None  or rating.environment == None:
+        total_rating = 0
+    else:
+        total_rating = round((rating.animals+rating.humans+rating.environment)/3)*10
+    args = {
+        "product":product,
+        "rating_result":total_rating,
+        "rating":rating,
+        "corporation":corporation,
+    }
+    return render(request, "home/rating.html",args)
+
+@login_required
 def start_screen(request):
     return render(request,"home/start.html")
 
@@ -25,11 +42,11 @@ def posts(request):
     context = {
         "posts": Post.objects.all(),
     }
-    return render(request, "home/post_list.html", context)
+    return render(request, "home/posts.html", context)
 
 class PostListView(ListView):
     model = Post
-    template_name = "home/post_list.html"
+    template_name = "home/posts.html"
     context_object_name = "posts"
     # the minus infront of date_posted bringst the newst post to the top
     ordering = ["-date_posted"]
@@ -46,6 +63,9 @@ class UserPostListView(ListView):
         user = get_object_or_404(User, username=self.kwargs.get("username"))
         return Post.objects.filter(author=user).order_by("-date_posted")
 
+class PostDetailView(DetailView):
+    model = Post
+
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ["title","content"]
@@ -53,9 +73,6 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
-
-class PostDetailView(DetailView):
-    model = Post
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
@@ -126,20 +143,3 @@ def change_friends(request, operation, pk):
 @login_required
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
-
-@login_required
-def rating(request, code):
-    product = Product.objects.get(code=code)
-    corporation = Corporation.objects.get(name=product.corporation)
-    rating = Rating.objects.get(corporation=corporation.id)
-    if rating.animals == None or rating.humans == None  or rating.environment == None:
-        total_rating = 0
-    else:
-        total_rating = round((rating.animals+rating.humans+rating.environment)/3)*10
-    args = {
-        "product":product,
-        "rating_result":total_rating,
-        "rating":rating,
-        "corporation":corporation,
-    }
-    return render(request, "home/rating.html",args)

@@ -1,13 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required
-from django.views.generic import (
-    ListView,
-    CreateView,
-    UpdateView,
-    DeleteView,
-    DetailView,
-    )
+from django.views.generic import UpdateView, DetailView
 
 from .forms import AddNewProductForm
 from .models import Product
@@ -53,14 +47,6 @@ def add_product(request, code):
                 }
             return render(request, "goodbuyDatabase/add_product.html", args)
 
-class ProductCreatView(LoginRequiredMixin, CreateView):
-    model = Product
-    fields = ["name","code"]
-
-    def form_valid(self, form):
-        form.instance.added_by = self.request.user
-        return super().form_valid(form)
-
 class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Product
     fields = [
@@ -78,22 +64,12 @@ class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
-# @login_required
-# def delete_product(request, pk):
-#     if request.method == "POST":
-#         product = Product.objects.get(pk=pk)
-#         product.delete()
-#     return redirect("goodbuyDatabase:product_list")
-
-class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Product
-    success_url = "/"
-
-    def test_func(self):
-        product = self.get_object()
-        if self.request.user == product.added_by:
-            return True
-        return False
+@login_required
+def delete_product(request, pk):
+    if request.method == "POST":
+        product = Product.objects.get(pk=pk)
+        product.delete()
+    return redirect("goodbuyDatabase:product_list")
 
 @login_required
 def product_list(request):
@@ -102,24 +78,5 @@ def product_list(request):
         "products":products
     })
 
-class ProductListView(ListView):
-    model = Product
-    template_name = "goodbuyDatabase/product_list.html"
-    context_object_name = "products"
-    # the minus infront of date_posted bringst the newst post to the top
-    ordering = ["-created"]
-    paginate_by = 10
-
 class ProductDetailView(DetailView):
     model = Product
-
-class UserProductListView(ListView):
-    model = Product
-    template_name = "goodbuyDatabase/user_products.html"
-    context_object_name = "products"
-    # the minus infront of date_posted bringst the newst post to the top
-    paginate_by = 10
-
-    def get_queryset(self):
-        user = get_object_or_404(User, username=self.kwargs.get("username"))
-        return Product.objects.filter(added_by=user).order_by("-date_posted")

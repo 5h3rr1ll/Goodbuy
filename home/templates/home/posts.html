@@ -4,7 +4,6 @@
 <link rel="stylesheet" href="{% static 'home/blog.css' %}" type="text/css">
 {% endblock css%}
 {% block body %}
-  <h1 class="mb-3">Posts by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
     {% for post in posts %}
         <article class="media content-section">
           {% if post.author.userprofile.image %}

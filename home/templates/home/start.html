@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 
+{% block css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'home/home.css' %}" type="text/css">
+{% endblock %}
+
 {% block head %}
   <title>Goodbuy - Consume for a better World</title>
 {% endblock %}
