@@ -1,5 +1,4 @@
 {% load static %}
-{% load home_extras %}
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -48,11 +47,32 @@
                <a class="dropdown-item" href="{% url 'logograb:home' %}"> Logo Grab </a>
           </li>
           {% if request.user.is_staff %}
-          <li class="nav-item">
-             <a class="nav-link" href="/admin"> Admin Panel </a>
-          </li>
-          <li class="nav-item">
-             <a class="nav-link" href="/goodbuyDatabase/products"> Product List </a>
+          <li class="nav-item dropdown">
+             <a class="nav-link dropdown-toggle" href="{% url 'accounts:user_profile' %}" id="navbarDropdownProfile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Views</a>
+             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+               <h5>admin</h5>
+               <a class="dropdown-item" href="/admin">admin</a>
+               <h5>accounts</h5>
+               <a class="dropdown-item" href="{% url 'accounts:login' %}">login</a>
+               <a class="dropdown-item" href="{% url 'accounts:logout' %}">logout</a>
+               <a class="dropdown-item" href="{% url 'accounts:register' %}">register</a>
+               <a class="dropdown-item" href="{% url 'accounts:user_profile' %}">user_profile</a>
+               <a class="dropdown-item" href="{% url 'accounts:edit_user_profile' %}">edit_user_profile</a>
+               <a class="dropdown-item" href="{% url 'accounts:change_password' %}">change_password</a>
+               <a class="dropdown-item" href="{% url 'accounts:password_reset' %}">password_reset</a>
+               <h5>goodbuyDatabase</h5>
+               <a class="dropdown-item" href="{% url 'goodbuyDatabase:product_create' 1 %}">product_create</a>
+               <a class="dropdown-item" href="{% url 'goodbuyDatabase:product_update' 99 %}">product_update</a>
+               <a class="dropdown-item" href="{% url 'goodbuyDatabase:product_list' %}">product_list</a>
+               <a class="dropdown-item" href="{% url 'goodbuyDatabase:product_detail' 99 %}">product_detail</a>
+               <h5>Home</h5>
+               <a class="dropdown-item" href="{% url 'home:home' %}">home</a>
+               <a class="dropdown-item" href="{% url 'home:posts' %}">posts</a>
+               <a class="dropdown-item" href="{% url 'home:post-detail' 36 %}">post-detail</a>
+               <a class="dropdown-item" href="{% url 'home:post-update' 36 %}">post-update</a>
+               <a class="dropdown-item" href="{% url 'home:post-create' %}">post-create</a>
+               <a class="dropdown-item" href="{% url 'home:rating' 362230003815 %}">rating</a>
+               <a class="dropdown-item" href="{% url 'home:user-posts' 'anthony' %}">user-posts</a>
           </li>
           {% endif %}
         </ul>

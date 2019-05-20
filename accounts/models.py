@@ -1,13 +1,10 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-from django.db import models
+from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.signals import post_save
 
 # from PIL import Image
 
-# Create your models here.
+
 class UserProfileManager(models.Manager):
     def get_queryset(self):
         return super(UserProfileManager, self).get_queryset().filter(city="Berlin")
