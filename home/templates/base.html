@@ -1,4 +1,5 @@
 {% load static %}
+{% load home_extras %}
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -46,7 +47,7 @@
                <a class="dropdown-item" href="{% url 'codeScanner:codeScanner' %}"> Code Scanner </a>
                <a class="dropdown-item" href="{% url 'logograb:home' %}"> Logo Grab </a>
           </li>
-          {% if user.is_superuser %}
+          {% if request.user.is_staff %}
           <li class="nav-item">
              <a class="nav-link" href="/admin"> Admin Panel </a>
           </li>
