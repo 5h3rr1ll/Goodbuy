@@ -1,19 +1,24 @@
 {% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'home/blog.css' %}" type="text/css">
+{% endblock css%}
 {% block head %}
-  <title>List of Products</title>
+  <title>{{ user }}'s Products'</title>
 {% endblock %}
 {% block body %}
+  <h1 class="mb-3">Products by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
     {% for product in products %}
-        <article class="media content-section mt-4">
+        <article class="media content-section">
           {% if product.added_by.userprofile.image %}
           <img
             class="rounded-circle article-img"
-            src="{{ product.image.url }}">
+            src="{{ product.added_by.userprofile.image.url }}">
           {% endif %}
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="#">{{ product.added_by }}</a>
-              <small class="text-muted">{{ product.created|date:"F d, Y" }}</small>
+              <a class="mr-2" href="#"></a>
+              <small class="text-muted">{{ post.created|date:"F d, Y" }}</small>
             </div>
             <h2><a class="article-title" href="{% url 'goodbuyDatabase:product_detail' product.id %}">{{ product.name }}</a></h2>
           </div>

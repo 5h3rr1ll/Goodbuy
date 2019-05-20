@@ -3,25 +3,28 @@
 {% block css %}
 <link rel="stylesheet" href="{% static 'home/blog.css' %}" type="text/css">
 {% endblock css%}
+{% block head %}
+  <title>Product Detail</title>
+{% endblock %}
 {% block body %}
-  <article class="media content-section">
+  <article class="media content-section mt-4">
     <img
-      class="rounded-circle" src="{{ object.added_by.userprofile.image.url }}"
+      class="rounded-circle" src="{{ object.image.url }}"
       alt="Pircture of User {{ user.first_name }}"
       style="height:150px">
     <div class="media-body ml-3">
       <div class="article-metadata">
         <a class="mr-2" href="#">{{ object.name }}</a>
-        <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
-        {% if object.author == user %}
+        <small class="text-muted">{{ object.created|date:"F d, Y" }}</small>
+        {% if object.added_by == user %}
           <div class="">
-            <a class="btn btn-secondardy btn-sm mt-1 mb-1" href="{% url "product_update" object.id %}">Update</a>
-            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url "product_delete" object.id %}">Delete</a>
+            <a class="btn btn-outline-warning btn-sm mt-1 mb-1" href="{% url "goodbuyDatabase:product_update" object.id %}">Update</a>
+            <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url "goodbuyDatabase:product_delete" object.id %}">Delete</a>
           </div>
         {% endif %}
       </div>
-      <h2 class="article-title">{{ object.title }}</h2>
-      <p class="article-content">{{ object.content }}</p>
+      <h2 class="article-title">{{ object.name }}</h2>
+      <p class="article-content">Code: {{ object.code }}</p>
     </div>
   </article>
 {% endblock body %}
