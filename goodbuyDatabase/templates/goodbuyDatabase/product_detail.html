@@ -8,10 +8,12 @@
 {% endblock %}
 {% block body %}
   <article class="media content-section mt-4">
+    {% if object.image %}
     <img
       class="rounded-circle" src="{{ object.image.url }}"
       alt="Pircture of User {{ user.first_name }}"
       style="height:150px">
+    {% endif %}
     <div class="media-body ml-3">
       <div class="article-metadata">
         <a class="mr-2" href="#">{{ object.name }}</a>

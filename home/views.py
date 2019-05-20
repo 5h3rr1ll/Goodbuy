@@ -17,23 +17,6 @@ from .forms import HomeForm
 
 
 @login_required
-def rating(request, code):
-    product = Product.objects.get(code=code)
-    corporation = Corporation.objects.get(name=product.corporation)
-    rating = Rating.objects.get(corporation=corporation.id)
-    if rating.animals == None or rating.humans == None  or rating.environment == None:
-        total_rating = 0
-    else:
-        total_rating = round((rating.animals+rating.humans+rating.environment)/3)*10
-    args = {
-        "product":product,
-        "rating_result":total_rating,
-        "rating":rating,
-        "corporation":corporation,
-    }
-    return render(request, "home/rating.html",args)
-
-@login_required
 def start_screen(request):
     return render(request,"home/start.html")
 
@@ -143,3 +126,20 @@ def change_friends(request, operation, pk):
 @login_required
 def about(request):
     return render(request, 'blog/about.html', {'title': 'About'})
+
+@login_required
+def rating(request, code):
+    product = Product.objects.get(code=code)
+    corporation = Corporation.objects.get(name=product.corporation)
+    rating = Rating.objects.get(corporation=corporation.id)
+    if rating.animals == None or rating.humans == None  or rating.environment == None:
+        total_rating = 0
+    else:
+        total_rating = round((rating.animals+rating.humans+rating.environment)/3)*10
+    args = {
+        "product":product,
+        "rating_result":total_rating,
+        "rating":rating,
+        "corporation":corporation,
+    }
+    return render(request, "home/rating.html",args)
