@@ -6,4 +6,4 @@ from django.contrib.auth.models import User, Group
 
 @login_required
 def scanCode(request):
-    return render(request, "codeScanner/code.html")
+    return render(request, "codeScanner/code_scanner.html")
