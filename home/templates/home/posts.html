@@ -1,8 +1,4 @@
 {% extends "base.html" %}
-{% load static %}
-{% block css %}
-<link rel="stylesheet" href="{% static 'home/blog.css' %}" type="text/css">
-{% endblock css%}
 {% block body %}
     {% for post in posts %}
         <article class="media content-section">
