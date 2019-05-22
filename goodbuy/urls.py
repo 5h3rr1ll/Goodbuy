@@ -5,7 +5,6 @@ from django.contrib import admin
 from django.conf import settings
 
 from accounts import views as acccount_views
-from . import views as goodbuy_views
 from home import views as home_views
 
 
@@ -36,7 +35,7 @@ urlpatterns = [
         template_name="accounts/password_reset_complete.html"),
         name="password_reset_complete"),
     path("home/", include(("home.urls","home"),namespace="home")),
-    path('code/', include(
+    path('code_scanner/', include(
         ('codeScanner.urls',"codeScanner"),
         namespace="codeScanner")),
     path('mvpLogoGrab/', include(
