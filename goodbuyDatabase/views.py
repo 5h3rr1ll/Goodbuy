@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required
-from django.views.generic import UpdateView, DetailView
+from django.views.generic import UpdateView, DetailView, ListView
 
 from .forms import AddNewProductForm
 from .models import Product
@@ -74,9 +74,23 @@ def delete_product(request, pk):
 @login_required
 def product_list(request):
     products = Product.objects.all()
-    return render(request, "goodbuyDatabase/product_list.html", {
-        "products":products
-    })
+    return render(
+        request,
+        "goodbuyDatabase/product_list.html",
+        { "products":products })
+
+@login_required
+def show_list_of_codes(request, list):
+    lst2 = list.split(",")
+    lst3 = []
+    for x in lst2:
+        if x not in lst3:
+            lst3.append(x)
+    args = {
+        "list":lst3,
+        }
+    return render(request, "goodbuyDatabase/list_of_product_codes.html", args)
+
 
 class ProductDetailView(DetailView):
     model = Product
