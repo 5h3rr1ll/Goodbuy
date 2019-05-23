@@ -26,12 +26,17 @@
     <a href="/" class="logo">
       <img src="https://sherrill.de/goodbuy/images/logo+name.png" alt="Goodbuy Logo">
     </a>
-    <!-- <a class="navbar-brand" href="/"> Goodbuy </a> -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+         <a class="nav-link dropdown-toggle" href="{% url 'accounts:user_profile' %}" id="navbarDropdownProfile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Database</a>
+         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+           <a class="dropdown-item" href="{% url 'codeScanner:codeScanner' %}"> Add Product </a>
+           <a class="dropdown-item" href="{% url 'goodbuyDatabase:product_list' %}"> Show All Products in Database </a>
+         </div>
+      </li>
+    </ul>
+
         {% if user.is_authenticated %}
         <ul class="navbar-nav mr-auto">
           <li class="nav-item dropdown">
@@ -69,12 +74,12 @@
                <a class="dropdown-item" href="{% url 'goodbuyDatabase:product_detail' 99 %}">product_detail</a>
                <h5>Home</h5>
                <a class="dropdown-item" href="{% url 'home:home' %}">home</a>
-               <a class="dropdown-item" href="{% url 'home:posts' %}">posts</a>
-               <a class="dropdown-item" href="{% url 'home:post-detail' 36 %}">post-detail</a>
-               <a class="dropdown-item" href="{% url 'home:post-update' 36 %}">post-update</a>
-               <a class="dropdown-item" href="{% url 'home:post-create' %}">post-create</a>
+               <a class="dropdown-item" href="{% url 'home:posts_list' %}">posts</a>
+               <a class="dropdown-item" href="{% url 'home:post_detail' 36 %}">post_detail</a>
+               <a class="dropdown-item" href="{% url 'home:post_update' 36 %}">post_update</a>
+               <a class="dropdown-item" href="{% url 'home:post_create' %}">post_create</a>
                <a class="dropdown-item" href="{% url 'home:rating' 362230003815 %}">rating</a>
-               <a class="dropdown-item" href="{% url 'home:user-posts' 'anthony' %}">user-posts</a>
+               <a class="dropdown-item" href="{% url 'home:user_posts' 'anthony' %}">user_posts</a>
           </li>
           {% endif %}
         </ul>
@@ -85,6 +90,7 @@
         </ul>
         {% else %}
         <ul class="navbar-nav mr-auto">
+
         </ul>
         <ul class="nav nvabar-nav navbar-right">
           <li class="nav-item">
