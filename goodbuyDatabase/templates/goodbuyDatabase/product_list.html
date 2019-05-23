@@ -11,12 +11,13 @@
           <div class="media-body">
             <div class="article-metadata">
               <a class="mr-2" href="#">Added by {{ product.added_by }}</a>
-              <small class="text-muted">{{ product.created|date:"F d, Y" }}</small>
+              <small class="text-muted">{{ product.created }}</small>
             </div>
             <h2><a class="article-title" href="{% url 'goodbuyDatabase:product_detail' product.id %}">{{ product.name }}</a></h2>
             <p class="article-content">{{ product.certificate }}</p>
           </div>
         </article>
+
     {% endfor %}
     {% if is_paginated %}
 
