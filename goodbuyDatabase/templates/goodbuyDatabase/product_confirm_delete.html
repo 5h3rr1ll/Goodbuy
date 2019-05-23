@@ -6,7 +6,9 @@
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Delete Product</legend>
                 <div class="">
-                  <img class="rounded-circle article-img" src="{{ object.image.url }}" style="height:150px">
+                  {% if object.image %}
+                  <img class="rounded-circle" src="{{ object.image.url }}" style="height:150px">
+                  {% endif %}
                   <h2>Are you sure you want to delete the product "{{ object.name }}"</h2>
                 </div>
             </fieldset>

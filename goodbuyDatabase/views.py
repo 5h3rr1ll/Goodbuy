@@ -1,8 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
-from django.views.generic import UpdateView, DetailView, ListView
+from django.views.generic import UpdateView, DetailView, ListView, DeleteView
 
 from .forms import AddNewProductForm
 from .models import Product
@@ -65,12 +65,15 @@ class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
-@staff_member_required
-def delete_product(request, pk):
-    if request.method == "POST":
-        product = Product.objects.get(pk=pk)
-        product.delete()
-    return redirect("goodbuyDatabase:product_list")
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Product
+    success_url = "/goodbuyDatabase/list_all/"
+
+    def test_func(self):
+        product = self.get_object()
+        if self.request.user.is_staff:
+            return True
+        return False
 
 @staff_member_required
 def product_list(request):
@@ -90,7 +93,6 @@ def show_list_of_codes(request, list):
         "list":lst3,
         }
     return render(request, "goodbuyDatabase/list_of_product_codes.html", args)
-
 
 class ProductDetailView(DetailView):
     model = Product
