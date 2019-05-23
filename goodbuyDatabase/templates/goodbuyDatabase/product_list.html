@@ -1,76 +1,42 @@
 {% extends "base.html" %}
 
-{% block head %}
-  <script
-    defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js"
-    integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH"
-    crossorigin="anonymous">
-  </script>
-
-  <title>Products | Goodbuy Database</title>
-{% endblock %}
-
 {% block body %}
-<div class="container">
-  <h2>All Products in Goodbuy Database</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Image</th>
-        <th>Code</th>
-        <th>Name</th>
-        <th>Brand</th>
-        <th>Corporation</th>
-        <th>Main Category</th>
-        <th>Sub Category</th>
-        <th>Checked</th>
-        <th>Checked By</th>
-        <th><!--Edit--></th>
-        <th><!--Delete--></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for product in products%}
-      <tr>
-        <td>{{ product.id}}</td>
-        <td>
+    {% for product in products %}
+        <article class="media content-section mt-4">
           {% if product.image %}
-            <a href="{{ product.image.url }}">
-              <img
-                src="{{ product.image.url }}"
-                alt="{{ product.name }}"
-                style="height:100px">
-            </a>
-          {% else %}
-            <span>No Image</span>
+          <img
+            class="rounded-circle article-img"
+            src="{{ product.image.url }}">
           {% endif %}
-        </td>
-        <td>{{ product.code}}</td>
-        <td>{{ product.name}}</td>
-        <td>{{ product.brand}}</td>
-        <td>{{ product.corporation}}</td>
-        <td>{{ product.main_category}}</td>
-        <td>{{ product.sub_category}}</td>
-        <td>{{ product.checked}}</td>
-        <td>{{ product.checked_by}}</td>
-        <td>
-          <a class="btn btn-outline-warning btn-small" href="{% url "goodbuyDatabase:product_update" product.pk %}">Update</a>
-        </td>
-        <td>
-          <form
-            class=""
-            action="{% url 'goodbuyDatabase:product_delete' product.pk %}"
-            method="post">
-            {% csrf_token %}
-            <button
-              type="submit"
-              class='btn btn-outline-danger btn-small'>Delete</button>
-          </form>
-        </td>
-      </tr>
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">Added by {{ product.added_by }}</a>
+              <small class="text-muted">{{ product.created|date:"F d, Y" }}</small>
+            </div>
+            <h2><a class="article-title" href="{% url 'goodbuyDatabase:product_detail' product.id %}">{{ product.name }}</a></h2>
+            <p class="article-content">{{ product.certificate }}</p>
+          </div>
+        </article>
+    {% endfor %}
+    {% if is_paginated %}
+
+      {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% elif num > page_obj.number|add:"-3" and num < page_obj.number|add:"3" %}
+          <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
       {% endfor %}
-    </tbody>
-  </table>
-</div>
-{% endblock %}
+
+      {% if page_obj.has_next %}
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+
+    {% endif %}
+{% endblock body %}
