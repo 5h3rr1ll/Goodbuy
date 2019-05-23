@@ -33,7 +33,6 @@ def rating(request, code):
     }
     return render(request, "home/rating.html",args)
 
-@login_required
 def start_screen(request):
     return render(request,"home/start.html")
 
