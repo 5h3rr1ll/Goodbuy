@@ -180,7 +180,11 @@ class Product(models.Model):
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     code = models.CharField(null=True,blank=True,unique=True, max_length=13)
-    image = models.ImageField(upload_to="product_image", null=True, blank=True)
+    image = models.ImageField(
+        default="default.svg",
+        upload_to="product_image",
+        null=True, 
+        blank=True)
     brand = models.ForeignKey(Brand, models.SET_NULL, null=True, blank=True)
     corporation = models.ForeignKey(
         Corporation, models.SET_NULL, null=True, blank=True
