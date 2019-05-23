@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic import UpdateView, DetailView, ListView
 
 from .forms import AddNewProductForm
@@ -60,18 +61,18 @@ class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         post = self.get_object()
-        if self.request.user == post.added_by:
+        if self.request.user.is_staff == post.added_by.is_staff:
             return True
         return False
 
-@login_required
+@staff_member_required
 def delete_product(request, pk):
     if request.method == "POST":
         product = Product.objects.get(pk=pk)
         product.delete()
     return redirect("goodbuyDatabase:product_list")
 
-@login_required
+@staff_member_required
 def product_list(request):
     products = Product.objects.all()
     return render(
@@ -79,7 +80,6 @@ def product_list(request):
         "goodbuyDatabase/product_list.html",
         { "products":products })
 
-@login_required
 def show_list_of_codes(request, list):
     lst2 = list.split(",")
     lst3 = []
