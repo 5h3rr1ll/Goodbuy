@@ -75,7 +75,6 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-@staff_member_required
 def product_list(request):
     products = Product.objects.all()
     return render(
