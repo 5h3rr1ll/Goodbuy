@@ -12,11 +12,11 @@
         </article>
     {% endfor %}
   {% else %}
-    <h1>All scanned products are alread in the Database! Thanks for you effort!</h1>
+    <h1 class="mt-4">All scanned products are alread in the Database! Thanks for you effort!</h1>
   {% endif %}
 
   {% if allready_in_db %}
-    <h2>Code(s) Already in Database!</h2>
+    <h2 class="mt-4">Code(s) Already in Database!</h2>
     {% for product in allready_in_db %}
           <article class="media content-section mt-4">
             {% if product.image %}
