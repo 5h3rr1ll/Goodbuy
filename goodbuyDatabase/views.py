@@ -83,13 +83,25 @@ def product_list(request):
         { "products":products })
 
 def show_list_of_codes(request, list):
-    lst2 = list.split(",")
-    lst3 = []
-    for x in lst2:
-        if x not in lst3:
-            lst3.append(x)
+    single_codes = list.split(",")
+    cleans_list = []
+    in_db = []
+    not_in_db = []
+
+    for x in single_codes:
+        if x not in cleans_list:
+            cleans_list.append(x)
+
+    for code in cleans_list:
+        try:
+            product = Product.objects.get(code=code)
+            in_db.append(product)
+        except:
+            not_in_db.append(code)
+
     args = {
-        "list":lst3,
+        "allready_in_db":in_db,
+        "not_in_db":not_in_db,
         }
     return render(request, "goodbuyDatabase/list_of_product_codes.html", args)
 
