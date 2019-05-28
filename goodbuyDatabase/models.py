@@ -224,7 +224,10 @@ class Product(models.Model):
         return reverse("goodbuyDatabase:product_list")
 
     def delete(self, *args, **kwargs):
-        self.image.delete()
+        # So the default image not get deleted
+        if self.image != "default.svg":
+            print("image:",type(self.image))
+            self.image.delete()
         super().delete(*args, **kwargs)
 
 class ProductPriceInStore(models.Model):
