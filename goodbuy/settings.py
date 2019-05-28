@@ -103,21 +103,19 @@ DATABASES = {
        'PASSWORD': os.environ.get("DATABASEPW"),
        'HOST': os.environ.get("DATABASEHOST"),
        'PORT': '5432',
-       # 'OPTIONS': {
-       #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-       #     }
+       },
 
    # 'default': {
    #     'ENGINE': 'django.db.backends.mysql',
-   #     'USER': 'd025764e',
-   #     'NAME': 'd025764e',
-   #     'PASSWORD': 'r4tl3yy',
-   #     'HOST': '85.13.154.99',
+   #     'USER': 'root',
+   #     # 'NAME': 'root',
+   #     'PASSWORD': 'Nix123456',
+   #     'HOST': 'localhost',
    #     'PORT': '3306',
-   #     'OPTIONS': {
-   #         'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-   #         }
-   },
+       # 'OPTIONS': {
+       #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+       #     }
+       # },
 }
 
 
