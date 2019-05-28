@@ -5,9 +5,11 @@
 {% endblock css%}
 {% block body %}
   <article class="media content-section">
+    {% if object.author.userprofile.image %}
     <img
       class="rounded-circle article-img" src="{{ object.author.userprofile.image.url }}"
       alt="Pircture of User {{ user.first_name }}">
+    {% endif %}
     <div class="media-body">
       <div class="article-metadata">
         <a class="mr-2" href="{% url "home:user_posts" object.author.username %}">{{ object.author }}</a>
