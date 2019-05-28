@@ -13,7 +13,6 @@ def add_product(request, code):
     if request.method == "POST":
         form = AddNewProductForm(request.POST, request.FILES)
         image = request.FILES["image"]
-        print("Image Infos= Name:",image.name,"size:",image.size)
         if form.is_valid():
             '''commit=False allows you to modify the resulting object before it
             is actually saved to the database. Source:
