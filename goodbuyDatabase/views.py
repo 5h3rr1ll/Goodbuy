@@ -23,11 +23,11 @@ def add_product(request, code):
                 product.checked = True
                 product.checked_by = request.user
                 product.save()
-                return redirect("/code")
+                return redirect("/code_scanner/")
             else:
                 product.checked = False
                 product.save()
-                return redirect("/code")
+                return redirect("/code_scanner/")
         return render_to_response('goodbuyDatabase/add_product.html', {'form': form})
     else:
         try:
