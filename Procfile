@@ -1,1 +1,1 @@
-web: gunicorn goodbuy.wsgi
+web: gunicorn goodbuy.wsgi --log-file -
