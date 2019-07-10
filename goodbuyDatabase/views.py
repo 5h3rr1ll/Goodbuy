@@ -3,16 +3,31 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.views.generic import UpdateView, DetailView, ListView, DeleteView
+from django.http import HttpResponse
 
 from .forms import AddNewProductForm
 from .models import Product
 
+def create_product(request):
+    print("\n In create_product \n")
+    if request.method == "POST":
+        name = request.POST["name"]
+        code = request.POST["code"]
+        # TODO: use get_or_create() to add Brand or corporation
+        # product.name = request.POST["name"]
+
+        Product.objects.create(
+            name = name,
+            code = code,
+        )
+    else:
+        print("\n!!! error !!!\n")
+    return HttpResponse("")
 
 @login_required
 def add_product(request, code):
     if request.method == "POST":
         form = AddNewProductForm(request.POST, request.FILES)
-        image = request.FILES["image"]
         if form.is_valid():
             '''commit=False allows you to modify the resulting object before it
             is actually saved to the database. Source:
@@ -81,28 +96,40 @@ def product_list(request):
         "goodbuyDatabase/product_list.html",
         { "products":products })
 
-def show_list_of_codes(request, list):
-    single_codes = list.split(",")
-    cleans_list = []
-    in_db = []
-    not_in_db = []
+def show_list_of_codes(request, list, *args, **kwargs):
+    if request.method == "POST":
+        form = AddNewProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            '''commit=False allows you to modify the resulting object before it
+            is actually saved to the database. Source:
+            https://stackoverflow.com/questions/2218930/django-save-user-id-with-model-save?noredirect=1&lq=1'''
+            product = form.save(commit=False)
+            product.added_by = request.user
+            if request.user.groups.filter(name="ProductGroup").exists():
+                product.checked = True
+                product.checked_by = request.user
+                product.save()
+                return redirect("/code_scanner/")
+            else:
+                product.checked = False
+                product.save()
+        # return render_to_response('goodbuyDatabase/add_product.html', {'form': form})
+    else:
+        single_codes = list.split(",")
+        product_in_db = []
+        product_not_in_db = []
 
-    for x in single_codes:
-        if x not in cleans_list:
-            cleans_list.append(x)
+        for code in single_codes:
+            try:
+                product = Product.objects.get(code=code)
+                product_in_db.append(product)
+            except:
+                form = AddNewProductForm(initial={"code":code})
+                product_not_in_db.append(form)
 
-    for code in cleans_list:
-        try:
-            product = Product.objects.get(code=code)
-            in_db.append(product)
-        except:
-            not_in_db.append(code)
-
-    args = {
-        "allready_in_db":in_db,
-        "not_in_db":not_in_db,
-        }
-    return render(request, "goodbuyDatabase/list_of_product_codes.html", args)
-
-class ProductDetailView(DetailView):
-    model = Product
+        args = {
+            "allready_in_db":product_in_db,
+            "product_not_in_db":product_not_in_db,
+            }
+        print(product_not_in_db)
+        return render(request, "goodbuyDatabase/list_of_product_codes.html", args)
