@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = (os.environ.get("DEBUG_VALUE") == "True")
 
 ALLOWED_HOSTS = ["127.0.0.1","localhost",]
 
@@ -154,16 +154,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
+STATIC_ROOT = os.path.join(BASE_DIR, "goodbuy/staticfiles")
 STATIC_URL = '/static/'
 
 # Here you define where Django shoul save uploaded files
 MEDIA_ROOT = os.path.join(BASE_DIR, "goodbuy/media")
-
 #define how Django serve the files back, means: what to type in to the URL
 MEDIA_URL = "/media/"
-
-STATIC_ROOT = 'static'
 
 LOGIN_URL = "login"
 
