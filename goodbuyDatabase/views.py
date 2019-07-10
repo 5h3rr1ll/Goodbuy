@@ -9,7 +9,6 @@ from .forms import AddNewProductForm
 from .models import Product
 
 def create_product(request):
-    print("\n In create_product \n")
     if request.method == "POST":
         name = request.POST["name"]
         code = request.POST["code"]
@@ -21,7 +20,7 @@ def create_product(request):
             code = code,
         )
     else:
-        print("\n!!! error !!!\n")
+        print("\n!!! error While creating Product !!!\n")
     return HttpResponse("")
 
 @login_required
@@ -131,5 +130,7 @@ def show_list_of_codes(request, list, *args, **kwargs):
             "allready_in_db":product_in_db,
             "product_not_in_db":product_not_in_db,
             }
-        print(product_not_in_db)
         return render(request, "goodbuyDatabase/list_of_product_codes.html", args)
+
+class ProductDetailView(DetailView):
+    model = Product
