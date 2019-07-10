@@ -8,13 +8,13 @@
     <!--
         Add the library, as explained on http://docs.scandit.com/stable/web/index.html
     -->
-    <script src="https://unpkg.com/scandit-sdk"></script>
+    <!-- <script src="https://unpkg.com/scandit-sdk"></script> -->
     <!-- or -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/scandit-sdk"></script> -->
     <!-- or -->
     <!-- <script src="https://unpkg.com/scandit-sdk@1.0.5"></script> -->
     <!-- or -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/scandit-sdk@1.0.5"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/scandit-sdk@4.2.2"></script>
     <!-- or -->
     <!-- <script src="/node_modules/scandit-sdk/build/browser/index.min.js"></script> -->
 
@@ -42,7 +42,7 @@
         }
 
         // list of barcodes which become send to the django backend
-        var codeArray = []
+        var codeSet = new Set();
 
         // Configure the library and activate it with a license key
         const licenseKey = "AUwt5greF5/yPiJAfDUxxJ0RXTI1JkVRulhTJ2Vls1IoXp5Arm4nPIVVHo2vGQB0gHn6bQc1yd3/ekrdqB6Su8NEDEKlUpLyJnAn5jgFbASwRGngxGo1a8NLEiEHDz4kAhViXPQJlPEZsWj7yIUtIVcEgQfF/oe6Nsf1vsnZRZJ+2GYiGQ+G4gMQd4Ff/pzMaO0U7aCkR03HU2UEmzWOFEMwZKw/+xmiM92P+t69iIt9E364pd1mE/naoqoVAZk6SMGaBIPS7luMhFjMPVjzCkC3P9XFG6mV+om7nf8UX9UcADJtjWBCDDVIl0DncfuIUy7m4FylgmZ1RZ6bb7Fb0aOy9nCPAvpqca6IjVC8c65mIJQml9tUUcXyPjNxk6zISYkn139Ve1xrzze5HZn9rpbaXFbzWm9Zpc5a9tfRj2bRrUz2oGNBk1BYZsteicBoccvJfJ7gemc44dOzwXmECM2Z4UvFUbbnmBXCeZ17XU7c6Eeh9+m4D5Lk5y0yiWJzwno5IDkO9Pgd+TwBzeSmZ5ddn9PdlZBkVw0mnf/Yq59EqoMGrOhGaGWi9TOR81jFncTnPZg+1OWLZmTw31Hwk0nKjk85yN2eHOhsKiviST1MLxGaIiP1IHWn7k8EF/ujMC2RuLnxPUeE2c3wVbfJ9jK7ZshXmLaiJ2+zRv7GhlDyomN3EvSUFlCCWBYRoFt258QyNUwJfhyjHbgU563hFr/DPpmURAUusSY+G4yZ/BsPwZqrLYW3S1cUsgWer4y6x8opiMh01mXP/bDs/9L8z3OBAE3wlWMkYqVZcI026ux65Y4dDTXd";
@@ -81,8 +81,8 @@
                     // Function is disabled so user can scan several codes one
                     // after anither
                     // picker.pauseScanning();
-                    codeArray.push(scanResult.barcodes[0].data)
-                    console.log(codeArray)
+                    codeSet.add(scanResult.barcodes[0].data)
+                    console.log(codeSet.values())
                     resultContainer.innerHTML = scanResult.barcodes.reduce((string, barcode) =>
                         string + `${ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology)}: ${barcode.data}<br>`,
                         '');
@@ -97,41 +97,43 @@
             });
         //CSRF-Token
         function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
+          var cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              var cookies = document.cookie.split(';');
+              for (var i = 0; i < cookies.length; i++) {
+                  var cookie = jQuery.trim(cookies[i]);
+                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
         }
 
         function sendCodeToListView(){
-            // alert(barcode);
-            var csrftoken = getCookie('csrftoken');
-            const url = "/goodbuyDatabase/list_codes/" + codeArray + "/"
-        fetch(url,{
-                    method: 'POST',
-                    body: JSON.stringify(codeArray),
-                    headers: {
-                            'Content-Type': 'json/application',
-                            'X-CSRFToken': csrftoken,
-                    },
-                    credentials: "include",
-        })
-        .then(res => res.json())
-        .then(console.log);
-        window.location.replace(url);
+          alert(codeSet.values().next().value)
+          // alert(barcode);
+          var csrftoken = getCookie('csrftoken');
+          const url = "/goodbuyDatabase/list_codes/" + Array.from(codeSet).join(",") + "/"
+          fetch(url,{
+            method: 'GET',
+            body: JSON.stringify(codeSet),
+            headers: {
+              'Content-Type': 'json/application',
+              'X-CSRFToken': csrftoken,
+              },
+            credentials: "include",
+            })
+          .then(res => res.json())
+          .then(console.log);
+          window.location.replace(url);
         };
     </script>
     <button
       class="btn btn-outline-primary"
       id="done-scanning-button"
-      onclick="sendCodeToListView()">Done
+      onclick="sendCodeToListView()">
+      Done
     </button>
 {% endblock %}
