@@ -79,6 +79,7 @@
                <a class="dropdown-item" href="{% url 'home:post_create' %}">post_create</a>
                <a class="dropdown-item" href="{% url 'home:rating' 362230003815 %}">rating</a>
                <a class="dropdown-item" href="{% url 'home:user_posts' 'anthony' %}">user_posts</a>
+             </div>
           </li>
           {% endif %}
         </ul>
@@ -103,29 +104,29 @@
           </li>
         </ul>
         {% endif %}
-      </div>
     </nav>
-  <div class="container">
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-          {{ message }}
-        </div>
-      {% endfor %}
-    {% endif %}
-    {% block body %}
-      <h1>Anthony Base</h1>
-    {% endblock body %}
-  </div>
+    <div class="container">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+      {% block body %}
+        <h1>Anthony Base</h1>
+      {% endblock body %}
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous">
+    </script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous">
+    </script>
   </body>
-  <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous">
-  </script>
-  <script
-    src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous">
-  </script>
 </html>
