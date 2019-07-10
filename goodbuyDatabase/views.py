@@ -12,12 +12,14 @@ def create_product(request):
     if request.method == "POST":
         name = request.POST["name"]
         code = request.POST["code"]
+        image = request.FILES["image"]
         # TODO: use get_or_create() to add Brand or corporation
         # product.name = request.POST["name"]
 
         Product.objects.create(
             name = name,
             code = code,
+            image = image,
         )
     else:
         print("\n!!! error While creating Product !!!\n")
@@ -27,6 +29,7 @@ def create_product(request):
 def add_product(request, code):
     if request.method == "POST":
         form = AddNewProductForm(request.POST, request.FILES)
+        image = request.FILES["image"]
         if form.is_valid():
             '''commit=False allows you to modify the resulting object before it
             is actually saved to the database. Source:
