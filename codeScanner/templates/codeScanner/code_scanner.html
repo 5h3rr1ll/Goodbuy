@@ -112,12 +112,10 @@
         }
 
         function sendCodeToListView(){
-          alert(codeSet.values().next().value)
-          // alert(barcode);
           var csrftoken = getCookie('csrftoken');
           const url = "/goodbuyDatabase/list_codes/" + Array.from(codeSet).join(",") + "/"
           fetch(url,{
-            method: 'GET',
+            method: 'POST',
             body: JSON.stringify(codeSet),
             headers: {
               'Content-Type': 'json/application',
