@@ -4,19 +4,16 @@
 <html lang="en" dir="ltr">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="stylesheet" href="{% static 'home/blog.css' %}" type="text/css">
-
   <link
     rel="stylesheet"
     href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
     crossorigin="anonymous">
-
+  <link rel="shortcut icon" type="image/png" href="https://goodbuystorage.s3.eu-central-1.amazonaws.com/favicos/favicon.ico"/>
     {% block css %}
     <link rel="stylesheet" href="{% static 'home/home.css' %}" type="text/css">
     {% endblock css %}
-
 {% block head %}
   <title>Goodbuy</title>
 {% endblock head %}
@@ -24,7 +21,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a href="/" class="logo">
-      <img src="https://sherrill.de/goodbuy/images/logo+name.png" alt="Goodbuy Logo">
+      <img src="https://goodbuystorage.s3.eu-central-1.amazonaws.com/logo%2Bname.png" alt="Goodbuy Logo">
     </a>
 
     <ul class="navbar-nav mr-auto">
