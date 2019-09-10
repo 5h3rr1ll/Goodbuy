@@ -6,6 +6,7 @@ app_name = "goodbuyDatabase"
 
 urlpatterns = [
     path("new/product/", goodbuyDatabase_views.create_product, name="create_product"),
+    path("add/product/<str:code>/", goodbuyDatabase_views.add_product, name="add_product"),
     path("product/<int:pk>/update/", goodbuyDatabase_views.ProductUpdateView.as_view(), name="product_update"),
     path("product/<int:pk>/", goodbuyDatabase_views.ProductDeleteView.as_view(), name="product_delete"),
     path("list_all/", goodbuyDatabase_views.product_list, name="product_list"),

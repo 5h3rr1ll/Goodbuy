@@ -9,18 +9,27 @@ from .forms import AddNewProductForm
 from .models import Product
 
 def create_product(request):
-    if request.method == "POST":
-        name = request.POST["name"]
-        code = request.POST["code"]
-        image = request.FILES["image"]
-        # TODO: use get_or_create() to add Brand or corporation
-        # product.name = request.POST["name"]
+    if request.method == "POST" and request.is_ajax():
+        form = AddNewProductForm(request.POST, request.FILES)
+        print(request.POST)
+        print(request.FILES)
+        image = request.POST["image"].replace("C:\\fakepath\\","product_image/")
+        print("Image path:",image)
+        if form.is_valid():
+            print(request.POST)
+            name = request.POST["name"]
+            code = request.POST["code"]
+            # TODO: use get_or_create() to add Brand or corporation
+            # product.name = request.POST["name"]
 
-        Product.objects.create(
-            name = name,
-            code = code,
-            image = image,
-        )
+            Product.objects.create(
+                name = name,
+                code = code,
+                image = image,
+            )
+        else:
+            print("\n!!! error While creating Product !!!\n")
+        return HttpResponse("")
     else:
         print("\n!!! error While creating Product !!!\n")
     return HttpResponse("")
@@ -29,7 +38,9 @@ def create_product(request):
 def add_product(request, code):
     if request.method == "POST":
         form = AddNewProductForm(request.POST, request.FILES)
-        image = request.FILES["image"]
+        print(request.FILES["image"])
+        print(request.POST)
+        print(request.FILES)
         if form.is_valid():
             '''commit=False allows you to modify the resulting object before it
             is actually saved to the database. Source:
