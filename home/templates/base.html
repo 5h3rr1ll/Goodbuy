@@ -48,7 +48,6 @@
              <a class="nav-link dropdown-toggle" href="{% url 'accounts:user_profile' %}" id="navbarDropdownProfile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Scan</a>
              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                <a class="dropdown-item" href="{% url 'codeScanner:codeScanner' %}"> Code Scanner </a>
-               <a class="dropdown-item" href="{% url 'logograb:home' %}"> Logo Grab </a>
           </li>
           {% if request.user.is_staff %}
           <li class="nav-item dropdown">

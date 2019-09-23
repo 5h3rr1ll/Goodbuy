@@ -3,4 +3,4 @@ heroku/brew/heroku
 mysql-connector-c
 pkg-config
 postgresql
-python
+python3

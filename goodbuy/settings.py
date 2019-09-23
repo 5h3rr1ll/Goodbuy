@@ -38,8 +38,6 @@ INSTALLED_APPS = [
     "codeScanner.apps.CodeScannerConfig",
     "goodbuyDatabase.apps.GoodbuyDatabaseConfig",
 
-    'mvpLogoGrab',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

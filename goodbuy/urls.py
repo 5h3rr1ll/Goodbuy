@@ -38,9 +38,6 @@ urlpatterns = [
     path('code_scanner/', include(
         ('codeScanner.urls',"codeScanner"),
         namespace="codeScanner")),
-    path('mvpLogoGrab/', include(
-        ('mvpLogoGrab.urls',"logograb"),
-        namespace="logograb")),
     path('goodbuyDatabase/', include(
         ('goodbuyDatabase.urls',"goodbuyDatabase"),
         namespace="goodbuyDatabase")),
