@@ -38,9 +38,7 @@ def create_product(request):
 def add_product(request, code):
     if request.method == "POST":
         form = AddNewProductForm(request.POST, request.FILES)
-        print(request.FILES["image"])
-        print(request.POST)
-        print(request.FILES)
+
         if form.is_valid():
             '''commit=False allows you to modify the resulting object before it
             is actually saved to the database. Source:
