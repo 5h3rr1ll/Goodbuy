@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'home/home.css' %}" type="text/css">
+{% endblock %}
+
+{% block head %}
+  <title>Goodbuy - Consume for a better World</title>
+{% endblock %}
+
+{% block body %}
+    <div class="home-title">
+      <h1>Welcome to Goodbuy</h1>
+    </div>
+    <div class="home-text">
+      <p>
+        We want to change the ethical consumption system. We want you too
+        consume ethical and sustaibable at the most convenience.
+      </p>
+    </div>
+    <div class="scan-logos">
+      <div class="row">
+        <div class="col-sm-12">
+          <a href="{% url 'codeScanner:codeScanner' %}">
+            <img
+              src="https://goodbuystorage.s3.eu-central-1.amazonaws.com/scan.png"
+              alt="scan a product"
+              height="128"
+              width="128">
+          </a>
+        </div>
+      </div>
+    </div>
+{% endblock %}

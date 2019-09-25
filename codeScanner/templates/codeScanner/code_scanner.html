@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+    <meta charset="UTF-8">
+    <title>Scandit Web SDK</title>
+
+    <!--
+        Add the library, as explained on http://docs.scandit.com/stable/web/index.html
+    -->
+    <!-- <script src="https://unpkg.com/scandit-sdk"></script> -->
+    <!-- or -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/scandit-sdk"></script> -->
+    <!-- or -->
+    <!-- <script src="https://unpkg.com/scandit-sdk@1.0.5"></script> -->
+    <!-- or -->
+    <!-- Used to use the next line, because the scanner just worked on a certaint version 4.2.2-->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/scandit-sdk@4.2.2"></script> -->
+    <script src="https://unpkg.com/scandit-sdk"></script>
+    <!-- or -->
+    <!-- <script src="/node_modules/scandit-sdk/build/browser/index.min.js"></script> -->
+
+
+{% endblock %}
+
+{% block body %}
+    <!-- Containers for the picker and the results -->
+    <div id="scandit-barcode-picker"></div>
+    <div id="scandit-barcode-result">No codes scanned yet</div>
+    <!-- Button to continue scanning after a barcode was scanned -->
+    <button
+      class="btn btn-outline-primary"
+      id="continue-scanning-button"
+      onclick="continueScanning()">Continue Scanning
+    </button>
+    <script>
+        // Helper function called when the "Continue Scanning" button is clicked
+        function continueScanning() {
+            if (picker) {
+                continueButton.disabled = true;
+                // Resume scanning
+                picker.resumeScanning();
+            }
+        }
+
+        // list of barcodes which become send to the django backend
+        var codeSet = new Set();
+
+        // Configure the library and activate it with a license key
+        const licenseKey = "Ad893V3eQHr8EvzGyRmkYKc2d4cODT7sW3CimtUzc9aJCP+fkkpr7ItlUA6KFjngPmU0G2VgDUKwcrZruE1qTsdY4CXGRbF9NmjH2nIrpr2HQz407UtsuN9y3m+OPvd7vQDtRwwiHGvBUDUQjlyymG338KpDq36Eli8wvVRHHxuoFgybH32QNPIh8mq6tp2kezn+Vo5loMWAJ3pmBqP26zzgVF7VOZvJrZ5NYgzasj5pTQ9sdjXdtjjTbPA6IIEqZh4W1S+6tBwkTCMSwTZ49AEc8TJDpXxiplgpSMT1p3VsVCUl7a+GybDp+u1eIt3GNSzTIP9oFi/tI5nQvlHV9MsfvRj2iPU3q2FQyT8Ljhfiw9jhggSfwAYNZS/VELLMPo0Sgwj6u6MTNZbSIHqqDwC+1d/jFOhqTtYj996OCkISdfqgg8J12vZS5mUfmWvIJO4tMN7/XGH8wK0de+f0xsDIgfYDiD3gUAsVrDhLcwohGTxtSlBX6YHP5tVUCMHXFHCacEqdPvvK5cEWS/pKgxdvgMkjMhdZyUZFFwRIx3uT/RQz/vZwzMCUTkStcvnkpeyZHcaeslAA7XGD0zXfFc4Yc6HURD5EUCFyVwgX+L7P5jL7YXFlzbU0CiK9VK78vgNE7oOkN7bVWis4DqHMJywngTsVZWjTh+zWZAMBqtalw66vx4OQn9AcWvP7Vk/mjFKfqPN/na4JXFKxBOCJ5Q0XxtBfqzaeMMq3/UKpbIGn382mEjEi4nhBG/m51E23NZEtuGZAHWf+l4wwSTjLmylAj4xYAWhpPjgced9vANu/UL4lr/q9KVY=";
+        // const engineLocation = "build"; // the folder containing the engine
+        // or, if using a CDN,
+        const engineLocation = "https://unpkg.com/scandit-sdk/build"
+        ScanditSDK.configure(licenseKey, { engineLocation: engineLocation });
+        const scannerContainer = document.getElementById("scandit-barcode-picker");
+        const resultContainer = document.getElementById("scandit-barcode-result");
+        const continueButton = document.getElementById("continue-scanning-button");
+        continueButton.disabled = true;
+        continueButton.hidden = true;
+        let picker;
+        // Create & start the picker
+        ScanditSDK.BarcodePicker.create(scannerContainer, {
+                playSoundOnScan: true,
+                vibrateOnScan: true
+            })
+            .then(barcodePicker => {
+                picker = barcodePicker;
+                // Create the settings object to be applied to the scanner
+                const scanSettings = new ScanditSDK.ScanSettings({
+                    enabledSymbologies: ["ean8", "ean13", "upca", "upce", "code128", "code39", "code93",
+                        "itf"
+                    ],
+                    codeDuplicateFilter: 1000
+                });
+                picker.applyScanSettings(scanSettings);
+                // If a barcode is scanned, show it to the user and pause scanning
+                // (scanning is resumed when the user clicks "Continue Scanning")
+                picker.onScan(scanResult => {
+                    // pauseScanning is dissable so the button is not needed
+                    // continueButton.hidden = false;
+                    // continueButton.disabled = false;
+
+                    // Function is disabled so user can scan several codes one
+                    // after anither
+                    // picker.pauseScanning();
+                    codeSet.add(scanResult.barcodes[0].data)
+                    console.log(codeSet.values())
+                    resultContainer.innerHTML = scanResult.barcodes.reduce((string, barcode) =>
+                        string + `${ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology)}: ${barcode.data}<br>`,
+                        '');
+                });
+                picker.onScanError(error => {
+                    console.error(error.message);
+                });
+                picker.resumeScanning();
+            })
+            .catch(error => {
+                alert(error);
+            });
+        //CSRF-Token
+        function getCookie(name) {
+          var cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              var cookies = document.cookie.split(';');
+              for (var i = 0; i < cookies.length; i++) {
+                  var cookie = jQuery.trim(cookies[i]);
+                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+        }
+
+        function sendCodeToListView(){
+          var csrftoken = getCookie('csrftoken');
+          const url = "/goodbuyDatabase/add/product/" + Array.from(codeSet).join(",") + "/"
+          fetch(url,{
+            method: 'POST',
+            body: JSON.stringify(codeSet),
+            headers: {
+              'Content-Type': 'json/application',
+              'X-CSRFToken': csrftoken,
+              },
+            credentials: "include",
+            })
+          .then(res => res.json())
+          .then(console.log);
+          window.location.replace(url);
+        };
+    </script>
+    <button
+      class="btn btn-outline-primary"
+      id="done-scanning-button"
+      onclick="sendCodeToListView()">
+      Done
+    </button>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <script
+    defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js"
+    integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH"
+    crossorigin="anonymous">
+  </script>
+
+  <title>Products | Goodbuy Database</title>
+{% endblock %}
+{% block head %}
+  <title>Old Product List</title>
+{% endblock %}
+{% block body %}
+<div class="container">
+  <h2>All Products in Goodbuy Database</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Image</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Brand</th>
+        <th>Corporation</th>
+        <th>Main Category</th>
+        <th>Sub Category</th>
+        <th>Checked</th>
+        <th>Checked By</th>
+        <th><!--Edit--></th>
+        <th><!--Delete--></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for product in products%}
+      <tr>
+        <td>{{ product.id}}</td>
+        <td>
+          {% if product.image %}
+            <a href="{{ product.image.url }}">
+              <img
+                src="{{ product.image.url }}"
+                alt="{{ product.name }}"
+                style="height:100px">
+            </a>
+          {% else %}
+            <span>No Image</span>
+          {% endif %}
+        </td>
+        <td>{{ product.code}}</td>
+        <td>{{ product.name}}</td>
+        <td>{{ product.brand}}</td>
+        <td>{{ product.corporation}}</td>
+        <td>{{ product.main_category}}</td>
+        <td>{{ product.sub_category}}</td>
+        <td>{{ product.checked}}</td>
+        <td>{{ product.checked_by}}</td>
+        <td>
+          <a class="btn btn-outline-warning btn-small" href="{% url "goodbuyDatabase:product_update" product.pk %}">Update</a>
+        </td>
+        <td>
+          <form
+            class=""
+            action="{% url 'goodbuyDatabase:product_delete' product.pk %}"
+            method="post">
+            {% csrf_token %}
+            <button
+              type="submit"
+              class='btn btn-outline-danger btn-small'>Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

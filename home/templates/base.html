@@ -1,0 +1,128 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'home/blog.css' %}" type="text/css">
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+    crossorigin="anonymous">
+  <link rel="shortcut icon" type="image/png" href="https://goodbuystorage.s3.eu-central-1.amazonaws.com/favicos/favicon.ico"/>
+    {% block css %}
+    <link rel="stylesheet" href="{% static 'home/home.css' %}" type="text/css">
+    {% endblock css %}
+{% block head %}
+  <title>Goodbuy</title>
+{% endblock head %}
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a href="/" class="logo">
+      <img src="https://goodbuystorage.s3.eu-central-1.amazonaws.com/logo%2Bname.png" alt="Goodbuy Logo">
+    </a>
+
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+         <a class="nav-link dropdown-toggle" href="{% url 'accounts:user_profile' %}" id="navbarDropdownProfile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Database</a>
+         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+           <a class="dropdown-item" href="{% url 'codeScanner:codeScanner' %}"> Add Product </a>
+           <a class="dropdown-item" href="{% url 'goodbuyDatabase:product_list' %}"> Show All Products in Database </a>
+         </div>
+      </li>
+    </ul>
+
+        {% if user.is_authenticated %}
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item dropdown">
+             <a class="nav-link dropdown-toggle" href="{% url 'accounts:user_profile' %}" id="navbarDropdownProfile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
+             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+               <a class="dropdown-item" href="{% url 'accounts:user_profile' %}"> Show Profile </a>
+               <a class="dropdown-item" href="{%url 'accounts:edit_user_profile' %}"> Edit Profile </a>
+               <a class="dropdown-item" href="{% url 'accounts:change_password' %}"> Change Password </a>
+             </div>
+          </li>
+          <li class="nav-item dropdown">
+             <a class="nav-link dropdown-toggle" href="{% url 'accounts:user_profile' %}" id="navbarDropdownProfile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Scan</a>
+             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+               <a class="dropdown-item" href="{% url 'codeScanner:codeScanner' %}"> Code Scanner </a>
+          </li>
+          {% if request.user.is_staff %}
+          <li class="nav-item dropdown">
+             <a class="nav-link dropdown-toggle" href="{% url 'accounts:user_profile' %}" id="navbarDropdownProfile" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Views</a>
+             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+               <h5>admin</h5>
+               <a class="dropdown-item" href="/admin">admin</a>
+               <h5>accounts</h5>
+               <a class="dropdown-item" href="{% url 'accounts:login' %}">login</a>
+               <a class="dropdown-item" href="{% url 'accounts:logout' %}">logout</a>
+               <a class="dropdown-item" href="{% url 'accounts:register' %}">register</a>
+               <a class="dropdown-item" href="{% url 'accounts:user_profile' %}">user_profile</a>
+               <a class="dropdown-item" href="{% url 'accounts:edit_user_profile' %}">edit_user_profile</a>
+               <a class="dropdown-item" href="{% url 'accounts:change_password' %}">change_password</a>
+               <a class="dropdown-item" href="{% url 'accounts:password_reset' %}">password_reset</a>
+               <h5>goodbuyDatabase</h5>
+               <a class="dropdown-item" href="{% url 'goodbuyDatabase:product_update' 99 %}">product_update</a>
+               <a class="dropdown-item" href="{% url 'goodbuyDatabase:product_list' %}">product_list</a>
+               <a class="dropdown-item" href="{% url 'goodbuyDatabase:product_detail' 99 %}">product_detail</a>
+               <h5>Home</h5>
+               <a class="dropdown-item" href="{% url 'home:home' %}">home</a>
+               <a class="dropdown-item" href="{% url 'home:posts_list' %}">posts</a>
+               <a class="dropdown-item" href="{% url 'home:post_detail' 36 %}">post_detail</a>
+               <a class="dropdown-item" href="{% url 'home:post_update' 36 %}">post_update</a>
+               <a class="dropdown-item" href="{% url 'home:post_create' %}">post_create</a>
+               <a class="dropdown-item" href="{% url 'home:rating' 362230003815 %}">rating</a>
+               <a class="dropdown-item" href="{% url 'home:user_posts' 'anthony' %}">user_posts</a>
+             </div>
+          </li>
+          {% endif %}
+        </ul>
+        <ul class="nav nvabar-nav navbar-right">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}"> Log Out </a>
+          </li>
+        </ul>
+        {% else %}
+        <ul class="navbar-nav mr-auto">
+
+        </ul>
+        <ul class="nav nvabar-nav navbar-right">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}"> Login </a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'register'%}"> Register <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+             <a class="nav-link" href="{% url 'accounts:password_reset' %}"> Reset Password </a>
+          </li>
+        </ul>
+        {% endif %}
+    </nav>
+    <div class="container">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+      {% block body %}
+        <h1>Anthony Base</h1>
+      {% endblock body %}
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous">
+    </script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous">
+    </script>
+  </body>
+</html>

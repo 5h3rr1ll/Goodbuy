@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <title>Show Product Details</title>
+{% endblock %}
+
+{% block body %}
+  <h1>Thanks that product already exists</h1>
+    <p>Name: {{ product.name }}</p>
+    <p>Code: {{ product.code }}</p>
+  <form class="" action="{% url 'codeScanner:codeScanner' %}" method="post">
+    {% csrf_token %}
+    <input
+      class="btn btn-outline-primary"
+      type="submit"
+      name=""
+      value="scan next">
+  </form>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html"%}
+{% load crispy_forms_tags %}
+{% block body %}
+  <div class="content-section mt-4">
+    <form class="" action="" method="post">
+      {% csrf_token %}
+      <fieldset class="form-group">
+        <legend class="border-bottom mb-4">Update Product</legend>
+        {{ form|crispy }}
+      </fieldset>
+      <div class="form-group">
+        <button type="submit" class="btn btn-outline-info" name="button">Update</button>
+        <a class="btn btn-outline-danger" href="{% url 'goodbuyDatabase:product_detail' object.id %}">Cancel</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}

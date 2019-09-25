@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block css %}
+{% load static %}
+<link
+  rel="stylesheet"
+  href="{% static 'codeScanner/rating.css' %}"
+  type="text/css">
+{% endblock %}
+
+{% block head %}
+  <title>Product Details</title>
+{% endblock %}
+
+{% block body %}
+{% if rating_result >= 66 %}
+<div class="container" id="body_block_happy">
+{% elif rating_result >= 33 %}
+<div class="container" id="body_block_hurt">
+{% elif rating_result >= 0 %}
+<div class="container" id="body_block_dead">
+{% else %}
+{% endif %}
+    <h1 id="product_name">{{ product.name }}</h1>
+    <h1 id="corporation_name">{{ corporation }}</h1>
+    <div class="" id="total_rating">
+      <h1>{{rating_result}}%</h1>
+    </div>
+
+    <div class="row" id="rating_pics">
+      <div class="col-sm-4" id="envtitle">
+        {% if rating.environment >= 7 %}
+        <img
+          src="https://goodbuystorage.s3.eu-central-1.amazonaws.com/earth_happy.png"
+          alt=""
+          height="150">
+        {% elif rating.environment >= 4 %}
+        <img
+          src="https://goodbuystorage.s3.eu-central-1.amazonaws.com/earth_hurt.png"
+          alt=""
+          height="150">
+        {% elif rating.environment >= 1 %}
+        <img
+          src="https://goodbuystorage.s3.eu-central-1.amazonaws.com/earth_dead.png"
+          alt=""
+          height="150">
+        {% else %}
+        <img
+          src="https://goodbuystorage.s3.eu-central-1.amazonaws.com/no_rating.png"
+          alt=""
+          height="150">
+        {% endif %}
+      </div>
+      <div class="col-sm-4" id="anititle">
+        {% if rating.animals >= 7 %}
+        <img
+          src="https://goodbuystorage.s3.eu-central-1.amazonaws.com/bird_happy.png"
+          alt=""
+          height="150">
+        {% elif rating.animals >= 4 %}
+        <img
+          src="https://goodbuystorage.s3.eu-central-1.amazonaws.com/bird_hurt.png"
+          alt=""
+          height="150">
+        {% elif rating.animals >= 1 %}
+        <img
+          src="https://goodbuystorage.s3.eu-central-1.amazonaws.com/bird_dead.png"
+          alt=""
+          height="150">
+        {% else %}
+        <img
+          src="https://goodbuystorage.s3.eu-central-1.amazonaws.com/no_rating.png"
+          alt=""
+          height="150">
+        {% endif %}
+      </div>
+      <div class="col-sm-4" id="humtitle">
+        {% if rating.humans >= 7 %}
+        <img
+          src="https://goodbuystorage.s3.eu-central-1.amazonaws.com/girl_happy.png"
+          alt=""
+          height="150">
+        {% elif rating.humans >= 4 %}
+        <img
+          src="https://goodbuystorage.s3.eu-central-1.amazonaws.com/girl_happy.png"
+          alt=""
+          height="150">
+        {% elif rating.humans >= 1 %}
+        <img
+          src="https://goodbuystorage.s3.eu-central-1.amazonaws.com/girl_dead.png"
+          alt=""
+          height="150">
+        {% else %}
+        <img
+          src="https://goodbuystorage.s3.eu-central-1.amazonaws.com/no_rating.png"
+          alt=""
+          height="150">
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="row" id="picture-title">
+      <div class="col-sm-4" id="envsym">
+        <p>Envirement</p>
+      </div>
+      <div class="col-sm-4" id="anisym">
+        <p>Animals</p>
+      </div>
+      <div class="col-sm-4" id="humsym">
+        <p>Humans</p>
+      </div>
+    </div>
+
+    <div class="row" id="text-row">
+      <div class="col-sm-4" id="envtxt">
+        <p>
+          {{ rating.environment_description }}
+        </p>
+        <h3>Rating environment: {{ rating.environment }}</h3>
+      </div>
+      <div class="col-sm-4" id="anitxt">
+        <p>
+            {{ rating.animals_description }}
+          </p>
+        <h3>Rating Animals: {{ rating.animals }}</h3>
+      </div>
+      <div class="col-sm-4" id="humtxt">
+        <p>
+            {{ rating.humans_description }}
+          </p>
+        <h3>Rating Humans: {{ rating.humans }}</h3>
+      </div>
+    </div>
+{% endblock %}
