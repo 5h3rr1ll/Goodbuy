@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect, render_to_response
-from goodbuyDatabase.models import Product, Corporation, Rating
+from django.shortcuts import render, redirect
+from goodbuyDatabase.models import Product, Rating
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 
 
 @login_required

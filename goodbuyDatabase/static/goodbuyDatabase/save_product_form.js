@@ -1,17 +1,17 @@
 $(".product_form").on("submit", function(event){
   alert("js wird ausgeführt");
-  var productCode = $(event.target).attr("id")
+  var productCode = $(event.target).attr("id");
   alert(productCode);
   event.preventDefault();
   console.log("form submitted!");  // sanity check
-  create_product(productCode);
+  createProduct(productCode);
   });
 
-  function create_product(productCode) {
-    alert(`Produkt ${productCode} wird erstellt`)
+  function createProduct(productCode) {
+    alert(`Produkt ${productCode} wird erstellt`);
     console.log("create product is working!") // sanity check
-    alert($(event.target).find('#id_code').val())
-    alert($(event.target).find('#id_name').val())
+    alert($(event.target).find("#id_code").val())
+    alert($(event.target).find("#id_name").val())
       $.ajax({
           url : "/goodbuyDatabase/new/product/", // the endpoint
           type : "POST", // http method
@@ -23,20 +23,20 @@ $(".product_form").on("submit", function(event){
           // handle a successful response
           success : function(json) {
               // TODO: insert code to remove subbmited div
-              $('#post-text').val(''); // remove the value from the input
+              $("#post-text").val(""); // remove the value from the input
               console.log(json); // log the returned json to the console
               console.log("success, code:{{ form.code.value }}",); // another sanity check
           },
 
           // handle a non-successful response
           error : function(xhr,errmsg,err) {
-              $('#results').html("<div class='alert-box alert radius'"+
+              $("#results").html("<div class='alert-box alert radius'"+
               "data-alert>Oops! We have encountered an error: "+errmsg+
               "<a href='#' class='close'>&times;</a></div>"); // add the error to the dom
               console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
           }
       });
-  };
+  }
 
   $(function() {
 
@@ -44,12 +44,12 @@ $(".product_form").on("submit", function(event){
       // This function gets cookie with a given name
       function getCookie(name) {
           var cookieValue = null;
-          if (document.cookie && document.cookie != '') {
-              var cookies = document.cookie.split(';');
+          if (document.cookie && document.cookie != "") {
+              var cookies = document.cookie.split(";");
               for (var i = 0; i < cookies.length; i++) {
                   var cookie = jQuery.trim(cookies[i]);
                   // Does this cookie string begin with the name we want?
-                  if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                  if (cookie.substring(0, name.length + 1) == (name + "=")) {
                       cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                       break;
                   }
@@ -57,7 +57,7 @@ $(".product_form").on("submit", function(event){
           }
           return cookieValue;
       }
-      var csrftoken = getCookie('csrftoken');
+      var csrftoken = getCookie("csrftoken");
 
       /*
       The functions below will create a header with csrftoken

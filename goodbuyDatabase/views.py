@@ -1,8 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required
-from django.views.generic import UpdateView, DetailView, ListView, DeleteView
+from django.views.generic import UpdateView, DetailView, DeleteView
 from django.http import HttpResponse
 
 from .forms import AddNewProductForm
@@ -95,7 +94,6 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = "/goodbuyDatabase/list_all/"
 
     def test_func(self):
-        product = self.get_object()
         if self.request.user.is_staff:
             return True
         return False
@@ -111,9 +109,11 @@ def show_list_of_codes(request, list, *args, **kwargs):
     if request.method == "POST":
         form = AddNewProductForm(request.POST, request.FILES)
         if form.is_valid():
-            '''commit=False allows you to modify the resulting object before it
+            '''
+            commit=False allows you to modify the resulting object before it
             is actually saved to the database. Source:
-            https://stackoverflow.com/questions/2218930/django-save-user-id-with-model-save?noredirect=1&lq=1'''
+            https://stackoverflow.com/questions/2218930/django-save-user-id-with-model-save?noredirect=1&lq=1
+            '''
             product = form.save(commit=False)
             product.added_by = request.user
             if request.user.groups.filter(name="ProductGroup").exists():
@@ -124,7 +124,6 @@ def show_list_of_codes(request, list, *args, **kwargs):
             else:
                 product.checked = False
                 product.save()
-        # return render_to_response('goodbuyDatabase/add_product.html', {'form': form})
     else:
         single_codes = list.split(",")
         product_in_db = []
