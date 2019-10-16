@@ -89,31 +89,29 @@ WSGI_APPLICATION = 'goodbuy.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-   # ‘sqlite3’: {
-   #     ‘ENGINE’: ‘django.db.backends.sqlite3’,
-   #     ‘NAME’: os.path.join(BASE_DIR, ‘db.sqlite3’),
-   # },
-
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql_psycopg2',
-       'USER': os.environ.get("DATABASEUSER"),
-       'NAME': os.environ.get("DATABASENAME"),
-       'PASSWORD': os.environ.get("DATABASEPW"),
-       'HOST': os.environ.get("DATABASEHOST"),
-       'PORT': '5432',
-       },
-
-   # 'default': {
-   #     'ENGINE': 'django.db.backends.mysql',
-   #     'USER': 'root',
-   #     # 'NAME': 'root',
-   #     'PASSWORD': 'Nix123456',
-   #     'HOST': 'localhost',
-   #     'PORT': '3306',
-       # 'OPTIONS': {
-       #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-       #     }
-       # },
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': os.environ.get("DATABASEUSER"),
+        'NAME': os.environ.get("DATABASENAME"),
+        'PASSWORD': os.environ.get("DATABASEPW"),
+        'HOST': os.environ.get("DATABASEHOST"),
+        'PORT': '5432',
+    },
+    'test_database': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': os.environ.get("TestDATABASEUSER"),
+        'NAME': os.environ.get("TestDATABASENAME"),
+        'PASSWORD': os.environ.get("TestDATABASEPW"),
+        'HOST': os.environ.get("TestDATABASEHOST"),
+        'PORT': '5432',
+    },
+    'local_database': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get("LocalDATABASENAME"),
+        'PASSWORD': os.environ.get("LocalDATABASEPW"),
+        'HOST': os.environ.get("LocalDATABASEHOST"),
+        'PORT': '5432',
+    },
 }
 
 
