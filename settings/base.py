@@ -31,7 +31,6 @@ ALLOWED_HOSTS = ["127.0.0.1","localhost",]
 
 
 # Application definition
-
 INSTALLED_APPS = [
     "home.apps.HomeConfig",
     "accounts.apps.AccountsConfig",
@@ -84,38 +83,27 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'goodbuy.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-   # ‘sqlite3’: {
-   #     ‘ENGINE’: ‘django.db.backends.sqlite3’,
-   #     ‘NAME’: os.path.join(BASE_DIR, ‘db.sqlite3’),
-   # },
-
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql_psycopg2',
-       'USER': os.environ.get("DATABASEUSER"),
-       'NAME': os.environ.get("DATABASENAME"),
-       'PASSWORD': os.environ.get("DATABASEPW"),
-       'HOST': os.environ.get("DATABASEHOST"),
-       'PORT': '5432',
-       },
-
-   # 'default': {
-   #     'ENGINE': 'django.db.backends.mysql',
-   #     'USER': 'root',
-   #     # 'NAME': 'root',
-   #     'PASSWORD': 'Nix123456',
-   #     'HOST': 'localhost',
-   #     'PORT': '3306',
-       # 'OPTIONS': {
-       #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-       #     }
-       # },
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': os.environ.get("DATABASEUSER"),
+        'NAME': os.environ.get("DATABASENAME"),
+        'PASSWORD': os.environ.get("DATABASEPW"),
+        'HOST': os.environ.get("DATABASEHOST"),
+        'PORT': '5432',
+    },
+    'test_database': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': "bgwvoxvzwbfeog",
+        'NAME': "d5u4p788nmhdm",
+        'PASSWORD': "8ec85dfdb4c4116fc4bdf80e613bbba3042970f7b6b7ade6fdce511d9b5481cf",
+        'HOST': "ec2-54-246-100-246.eu-west-1.compute.amazonaws.com",
+        'PORT': '5432',
+    }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
