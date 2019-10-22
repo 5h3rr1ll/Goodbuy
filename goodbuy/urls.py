@@ -41,9 +41,9 @@ urlpatterns = [
     path('goodbuyDatabase/', include(
         ('goodbuyDatabase.urls',"goodbuyDatabase"),
         namespace="goodbuyDatabase")),
-    path('collectDataApp/', include(
-        ('collectDataApp.urls',"collectDataApp"),
-        namespace="collectDataApp")),
+    path('scraper/', include(
+        ('scraper.urls',"scraper"),
+        namespace="scraper")),
 ]
 
 if settings.DEBUG == True:
