@@ -145,3 +145,9 @@ def show_list_of_codes(request, list, *args, **kwargs):
 
 class ProductDetailView(DetailView):
     model = Product
+
+def is_in_own_database(request, code):
+    if Product.objects.filter(code=code).exists():
+        return render(request, "goodbuyDatabase/product_detail.html")
+    else:
+        return redirect("/scraper/{}".format(code))
