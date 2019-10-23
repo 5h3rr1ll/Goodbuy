@@ -7,6 +7,8 @@ from django.http import HttpResponse
 from .forms import AddNewProductForm
 from .models import Product
 
+import requests
+
 def create_product(request):
     if request.method == "POST" and request.is_ajax():
         form = AddNewProductForm(request.POST, request.FILES)
@@ -146,8 +148,17 @@ def show_list_of_codes(request, list, *args, **kwargs):
 class ProductDetailView(DetailView):
     model = Product
 
+def is_in_one_of_big_ten(brand):
+    big_ten = ["Unilever","Nestlé","Coca-Cola","Kellog's","MARS","PEPSICO","Mondelez","General Mills","Associated British Foods plc","DANONE"]
+    return brand in big_ten
+
 def is_in_own_database(request, code):
     if Product.objects.filter(code=code).exists():
         return render(request, "goodbuyDatabase/product_detail.html")
     else:
-        return redirect("/scraper/{}".format(code))
+        # return redirect("/scraper/{}".format(code))
+        # data = {"code":code}
+        response = requests.get("http://127.0.0.1:8000/scraper/{}".format(code))
+        response = response.json()
+
+        return HttpResponse(str(is_in_one_of_big_ten(response["brand"])))
