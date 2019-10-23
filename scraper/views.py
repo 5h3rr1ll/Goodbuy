@@ -6,9 +6,11 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from django.http import JsonResponse
 
 import time
 import sys
+
 
 # Create your views here.
 def scrape(request, code):
@@ -42,7 +44,6 @@ def scrape(request, code):
         product_name = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.XPATH, "/html/body/div[3]/div[5]/div[2]/div/h1"))
         )
-        print("\n Productname:", product_name.text , "\n")
     except Exception as e:
         print("\n Productname ERROR:", str(e))
 
@@ -50,7 +51,6 @@ def scrape(request, code):
         product_category = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.XPATH, "/html/body/div[3]/div[6]/div[1]/div[2]/div/div[1]/p[2]/a"))
         )
-        print("\n Product category:", product_category.text , "\n")
     except Exception as e:
         print("\n Product category ERROR:", str(e))
 
@@ -66,6 +66,14 @@ def scrape(request, code):
         product_brand = WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located((By.XPATH, "/html/body/div[3]/div[6]/div[1]/div[2]/div/div[6]/div[5]/p[2]/a"))
         )
-        print("\n Brand:", product_brand.text , "\n")
     except Exception as e:
         print("\n Brand ERROR:", str(e))
+
+    product = {
+        "code" : code,
+        "product_name" : product_name.text,
+        "brand" : product_brand.text,
+        "product_category" : product_category.text
+    }
+
+    return JsonResponse(product)
