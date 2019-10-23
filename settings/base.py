@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig",
     "codeScanner.apps.CodeScannerConfig",
     "goodbuyDatabase.apps.GoodbuyDatabaseConfig",
-    "scraper",
 
     'django.contrib.admin',
     'django.contrib.auth',
