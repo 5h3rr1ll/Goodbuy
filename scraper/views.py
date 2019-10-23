@@ -1,17 +1,19 @@
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from django.http import HttpResponse
 from django.shortcuts import render
 from selenium import webdriver
+
+import time
 import sys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
-from django.http import HttpResponse
 
 # Create your views here.
 def scrape(request, code):
     driver = webdriver.Chrome(executable_path=r"/Users/ajs/Developer/Goodbuy/scraper/chromedriver")
     # chrome_options.add_argument("--headless")
-    driver.set_window_position(0, 0)
+    # driver.set_window_position(0, 0)
     driver.set_window_size(1200, 1134)
     driver.get("https://codecheck.info")
 
@@ -23,7 +25,6 @@ def scrape(request, code):
         search_field.send_keys("{}".format(code))
     except Exception as e:
         print("\nsearch field ERROR:", str(e))
-        sys.exit()
 
     try:
         search_button = WebDriverWait(driver, 10).until(
@@ -32,22 +33,35 @@ def scrape(request, code):
         search_button.click()
     except Exception as e:
         print("\nsearch-submit-button field ERROR:", str(e))
-        sys.exit()
 
     try:
-        code = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[5]/div[1]/div[2]/div/div[1]/p[2]"))
+        product_name = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "/html/body/div[3]/div[5]/div[2]/div/h1"))
         )
-        print("\nCODE:",code.text, "\n")
+        print("\n Productname:", product_name.text , "\n")
     except Exception as e:
-        print("\n find code ERROR:", str(e))
-        sys.exit()
+        print("\n Productname ERROR:", str(e))
 
     try:
-        brand = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "/html/body/div[2]/div[5]/div[1]/div[2]/div/div[3]/div[3]/p[2]/a"))
+        product_category = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "/html/body/div[3]/div[6]/div[1]/div[2]/div/div[1]/p[2]/a"))
         )
-        brand = brand.text
+        print("\n product_category:", product_category.text , "\n")
     except Exception as e:
-        print("\n Brand Var ERROR:", str(e))
-        sys.exit()
+        print("\n product_category ERROR:", str(e))
+
+    try:
+        more_product_detail_button = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "/html/body/div[3]/div[6]/div[1]/div[2]/div/div[7]"))
+        )
+        more_product_detail_button.click()
+    except Exception as e:
+        print("\n More Product Details ERROR:", str(e))
+
+    try:
+        product_brand = WebDriverWait(driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, "/html/body/div[3]/div[6]/div[1]/div[2]/div/div[6]/div[5]/p[2]/a"))
+        )
+        print("\n Brand:", product_brand.text , "\n")
+    except Exception as e:
+        print("\n Brand ERROR:", str(e))
