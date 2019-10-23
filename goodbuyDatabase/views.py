@@ -5,7 +5,7 @@ from django.views.generic import UpdateView, DetailView, DeleteView
 from django.http import HttpResponse
 
 from .forms import AddNewProductForm
-from .models import Product
+from .models import Product, Brand, SubCategoryOfProduct
 
 import requests
 
@@ -152,13 +152,29 @@ def is_in_one_of_big_ten(brand):
     big_ten = ["Unilever","Nestlé","Coca-Cola","Kellog's","MARS","PEPSICO","Mondelez","General Mills","Associated British Foods plc","DANONE"]
     return brand in big_ten
 
-def is_in_own_database(request, code):
+def is_in_own_database(request, code, *product, **brand):
     if Product.objects.filter(code=code).exists():
         return render(request, "goodbuyDatabase/product_detail.html")
     else:
-        # return redirect("/scraper/{}".format(code))
-        # data = {"code":code}
         response = requests.get("http://127.0.0.1:8000/scraper/{}".format(code))
         response = response.json()
+        if Brand.objects.filter(name=response["brand"]).exists():
+            product = Product(
+            name=response["product_name"],
+            code=response["code"],
+            brand=Brand.objects.get(name=response["brand"]),
+            sub_category=SubCategoryOfProduct.objects.get_or_create(name=response["product_category"])
+            )
+            product.save()
+        else:
+            brand = Brand(name=response["brand"])
+            brand.save()
+            product = Product(
+                name=response["product_name"],
+                code=response["code"],
+                brand=Brand.objects.get(name=response["brand"]),
+                sub_category=response["product_category"]
+                )
+            product.save()
 
         return HttpResponse(str(is_in_one_of_big_ten(response["brand"])))
