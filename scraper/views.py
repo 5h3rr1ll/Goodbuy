@@ -5,14 +5,18 @@ from selenium.webdriver.common.by import By
 from django.http import HttpResponse
 from django.shortcuts import render
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 import time
 import sys
 
 # Create your views here.
 def scrape(request, code):
-    driver = webdriver.Chrome(executable_path=r"/Users/ajs/Developer/Goodbuy/scraper/chromedriver")
-    # chrome_options.add_argument("--headless")
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    prefs = {"profile.managed_default_content_settings.images": 2}
+    chrome_options.add_experimental_option("prefs", prefs)
+    driver = webdriver.Chrome(executable_path=r"/Users/ajs/Developer/Goodbuy/scraper/chromedriver", options=chrome_options)
     # driver.set_window_position(0, 0)
     driver.set_window_size(1200, 1134)
     driver.get("https://codecheck.info")
@@ -46,9 +50,9 @@ def scrape(request, code):
         product_category = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.XPATH, "/html/body/div[3]/div[6]/div[1]/div[2]/div/div[1]/p[2]/a"))
         )
-        print("\n product_category:", product_category.text , "\n")
+        print("\n Product category:", product_category.text , "\n")
     except Exception as e:
-        print("\n product_category ERROR:", str(e))
+        print("\n Product category ERROR:", str(e))
 
     try:
         more_product_detail_button = WebDriverWait(driver, 10).until(
