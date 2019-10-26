@@ -89,32 +89,24 @@ WSGI_APPLICATION = 'goodbuy.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-   # ‘sqlite3’: {
-   #     ‘ENGINE’: ‘django.db.backends.sqlite3’,
-   #     ‘NAME’: os.path.join(BASE_DIR, ‘db.sqlite3’),
-   # },
+    'production': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': os.environ.get("DATABASEUSER"),
+        'NAME': os.environ.get("DATABASENAME"),
+        'PASSWORD': os.environ.get("DATABASEPW"),
+        'HOST': os.environ.get("DATABASEHOST"),
+        'PORT': '5432',
+        },
 
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql_psycopg2',
-       'USER': os.environ.get("DATABASEUSER"),
-       'NAME': os.environ.get("DATABASENAME"),
-       'PASSWORD': os.environ.get("DATABASEPW"),
-       'HOST': os.environ.get("DATABASEHOST"),
-       'PORT': '5432',
-       },
-
-   # 'default': {
-   #     'ENGINE': 'django.db.backends.mysql',
-   #     'USER': 'root',
-   #     # 'NAME': 'root',
-   #     'PASSWORD': 'Nix123456',
-   #     'HOST': 'localhost',
-   #     'PORT': '3306',
-       # 'OPTIONS': {
-       #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-       #     }
-       # },
-}
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': "twwvczmzjozniv",
+        'NAME': "d7idpuukb69euf",
+        'PASSWORD': "f1f4c7f771817dfde419164fd6a596bcf443a1e711a8052e666b61c2f39e1180",
+        'HOST': "ec2-54-217-228-25.eu-west-1.compute.amazonaws.com",
+        'PORT': '5432',
+        }
+    }
 
 
 # Password validation
