@@ -8,6 +8,8 @@ from .forms import AddNewProductForm
 from .models import Product, Brand, CategoryOfProduct
 
 import requests
+from django.http import JsonResponse
+
 
 def create_product(request):
     if request.method == "POST" and request.is_ajax():
@@ -148,9 +150,10 @@ def show_list_of_codes(request, list, *args, **kwargs):
 class ProductDetailView(DetailView):
     model = Product
 
-def is_in_one_of_big_ten(request, brand):
+def is_big_ten(request, brandname):
     big_ten = ["Unilever","Nestlé","Coca-Cola","Kellog's","MARS","PEPSICO","Mondelez","General Mills","Associated British Foods plc","DANONE"]
-    return brand in big_ten
+    answer = { "in big ten" : brandname in big_ten }
+    return JsonResponse(answer)
 
 def is_in_own_database(request, code):
     return HttpResponse(str(Product.objects.filter(code=code).exists()))
