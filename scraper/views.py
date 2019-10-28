@@ -50,15 +50,16 @@ def scrape(request, code):
     print("\n product name")
     try:
         product_name = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "/html/body/div[3]/div[5]/div[2]/div/h1"))
+            EC.presence_of_element_located((By.CSS_SELECTOR, ".page-title-headline > .float-group > h1"))
         )
+
     except Exception as e:
         print("\n Productname ERROR:", str(e))
 
     print("\n product image")
     try:
         product_image = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "/html/body/div[3]/div[6]/div[1]/div[1]/div[1]/span/div/img"))
+            EC.presence_of_element_located((By.CSS_SELECTOR, ".nf > img"))
         )
     except Exception as e:
         print("\n Product image ERROR:", str(e))
@@ -66,7 +67,7 @@ def scrape(request, code):
     print("\n product category")
     try:
         product_category = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "/html/body/div[3]/div[6]/div[1]/div[2]/div/div[1]/p[2]/a"))
+            EC.presence_of_element_located((By.CSS_SELECTOR, "div.block.prod-basic-info > div > .product-info-item > p:nth-child(2) > a"))
         )
     except Exception as e:
         print("\n Product category ERROR:", str(e))
@@ -92,6 +93,9 @@ def scrape(request, code):
     except Exception as e:
         product_brand = "N.A."
         print("\n Can't extract brand:", str(e))
+        #When there is no brand in the scraped object we return the Httpresponse(403).
+        #The Api should know that this is a response to redirect the user in Vue to a view for inserting the brand.
+        return HttpResponse(403)
 
     print("Product is done")
     product = {
