@@ -15,5 +15,4 @@ urlpatterns = [
     path("check/<str:code>/", goodbuyDatabase_views.is_in_own_database, name="is_in_own_database"),
     path("instant_feedback/<str:code>/", goodbuyDatabase_views.instant_feedback, name="instant_feedback"),
     path("is_in_own_database/<str:code>/", goodbuyDatabase_views.is_in_own_database, name="is_in_own_database"),
-    path("obt/<str:code>/", goodbuyDatabase_views.is_in_one_of_big_ten, name="is_in_one_of_big_ten"),
 ]
