@@ -18,7 +18,7 @@ def scrape(request, code):
     # chrome_options.add_argument("--headless")
     prefs = {"profile.managed_default_content_settings.images": 2}
     chrome_options.add_experimental_option("prefs", prefs)
-    driver = webdriver.Chrome(executable_path=r"/Users/ajs/Developer/Goodbuy/scraper/chromedriver", options=chrome_options)
+    driver = webdriver.Chrome(executable_path=r"scraper/chromedriver", options=chrome_options)
     driver.set_window_position(0, 0)
     driver.set_window_size(1200, 1134)
     driver.get("https://codecheck.info")
