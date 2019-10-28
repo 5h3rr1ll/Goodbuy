@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'goodbuy.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'production': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'USER': os.environ.get("DATABASEUSER"),
         'NAME': os.environ.get("DATABASENAME"),
@@ -96,7 +96,7 @@ DATABASES = {
         'HOST': os.environ.get("DATABASEHOST"),
         'PORT': '5432',
     },
-    'test_database': {
+    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'USER': "bgwvoxvzwbfeog",
         'NAME': "d5u4p788nmhdm",
