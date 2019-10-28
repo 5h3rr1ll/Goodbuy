@@ -12,9 +12,9 @@ class AddNewProductForm(forms.ModelForm):
         fields = [
             "code",
             "name",
-            "image",
+            "image_of_front",
+            "image_of_details",
             "brand",
             "corporation",
-            "main_category",
-            "sub_category",
+            "product_category",
         ]

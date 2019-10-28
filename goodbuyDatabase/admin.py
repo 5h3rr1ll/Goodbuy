@@ -3,15 +3,10 @@ from .models import (
     Corporation, Company, Brand,
     Product, Country, Rating,
     Store, ProductPriceInStore,
-    MainCategoryOfProduct, SubCategoryOfProduct,
-    Certificate,
+    Certificate, CategoryOfProduct
     )
 # Register your models here.
-class MainCategoryOfProductAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "created", "updated",)
-    list_display_links = ("id", "name", "created", "updated",)
-
-class SubCategoryOfProductAdmin(admin.ModelAdmin):
+class CategoryOfProductAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "created", "updated",)
     list_display_links = ("id", "name", "created", "updated",)
 
@@ -107,7 +102,7 @@ class CertificateAdmin(admin.ModelAdmin):
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "id", "name","added_by","checked","checked_by","logo", "wiki", "code",
-        "image", "brand", "corporation",
+        "scraped_image", "brand", "corporation",
         "scanned_counter" ,"created", "updated",
         )
     list_display_links = ("id", "name")
@@ -134,8 +129,7 @@ admin.site.register(Brand, BrandAdmin,)
 admin.site.register(Product, ProductAdmin,)
 admin.site.register(Country, CountryAdmin,)
 admin.site.register(Rating, RatingAdmin,)
-admin.site.register(MainCategoryOfProduct, MainCategoryOfProductAdmin,)
-admin.site.register(SubCategoryOfProduct, SubCategoryOfProductAdmin,)
+admin.site.register(CategoryOfProduct, CategoryOfProductAdmin,)
 admin.site.register(Store, StoreAdmin,)
 admin.site.register(ProductPriceInStore, ProdcutPriceInStoreAdmin,)
 admin.site.register(Certificate,CertificateAdmin,)
