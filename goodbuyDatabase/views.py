@@ -5,7 +5,7 @@ from django.views.generic import UpdateView, DetailView, DeleteView
 from django.http import HttpResponse
 
 from .forms import AddNewProductForm
-from .models import Product, Brand, SubCategoryOfProduct
+from .models import Product, Brand, CategoryOfProduct
 
 import requests
 
@@ -148,33 +148,73 @@ def show_list_of_codes(request, list, *args, **kwargs):
 class ProductDetailView(DetailView):
     model = Product
 
-def is_in_one_of_big_ten(brand):
+def is_in_one_of_big_ten(request, brand):
     big_ten = ["Unilever","Nestlé","Coca-Cola","Kellog's","MARS","PEPSICO","Mondelez","General Mills","Associated British Foods plc","DANONE"]
     return brand in big_ten
 
-def is_in_own_database(request, code, *product, **brand):
+def is_in_own_database(request, code):
+    return HttpResponse(str(Product.objects.filter(code=code).exists()))
+
+def instant_feedback(request, code):
+
+    # first check if the product is our own databse
     if Product.objects.filter(code=code).exists():
-        return render(request, "goodbuyDatabase/product_detail.html")
+        args = {
+            "product" : Product.objects.get(code=code)
+            }
+        return render(request, "goodbuyDatabase/product_detail.html", args)
     else:
-        response = requests.get("http://127.0.0.1:8000/scraper/{}".format(code))
-        response = response.json()
-        if Brand.objects.filter(name=response["brand"]).exists():
-            product = Product(
-            name=response["product_name"],
-            code=response["code"],
-            brand=Brand.objects.get(name=response["brand"]),
-            sub_category=SubCategoryOfProduct.objects.get_or_create(name=response["product_category"])
-            )
-            product.save()
-        else:
-            brand = Brand(name=response["brand"])
+        scraped_product = requests.get(f"http://127.0.0.1:8000/scraper/{code}").json()
+
+    print("\n HIer is das Product:", scraped_product)
+
+    if Brand.objects.filter(name=scraped_product["brand"]).exists() and CategoryOfProduct.objects.filter(name=scraped_product["product_category"]).exists():
+        product = Product(
+        name=scraped_product["product_name"],
+        code=scraped_product["code"],
+        brand=Brand.objects.get(name=scraped_product["brand"]),
+        product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"]),
+        scraped_image = scraped_product["product_image"],
+        )
+        product.save()
+        is_in_one_of_big_ten(product.brand)
+    else:
+        category = CategoryOfProduct(name=scraped_product["product_category"])
+        category.save()
+
+        product = Product(
+        name=scraped_product["product_name"],
+        code=scraped_product["code"],
+        brand=Brand.objects.get(name=scraped_product["brand"]),
+        product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"]),
+        scraped_image = scraped_product["product_image"],
+        )
+        product.save()
+    if CategoryOfProduct.objects.filter(name=scraped_product["product_category"]).exists():
+
+            brand = Brand(name=scraped_product["brand"])
             brand.save()
             product = Product(
-                name=response["product_name"],
-                code=response["code"],
-                brand=Brand.objects.get(name=response["brand"]),
-                sub_category=response["product_category"]
+                name=scraped_product["product_name"],
+                code=scraped_product["code"],
+                brand=Brand.objects.get(name=scraped_product["brand"]),
+                product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"]),
+                scraped_image = scraped_product["product_image"],
                 )
             product.save()
+    else:
+        category = CategoryOfProduct(name=scraped_product["product_category"])
+        category.save()
+        product = Product(
+            name=scraped_product["product_name"],
+            code=scraped_product["code"],
+            brand=Brand.objects.get(name=scraped_product["brand"]),
+            product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"])[0],
+            scraped_image = scraped_product["product_image"],
+            )
+        product.save()
 
-        return HttpResponse(str(is_in_one_of_big_ten(response["brand"])))
+        args = {
+            "one_of_the_big_ten" : is_in_one_of_big_ten(scraped_product["brand"])
+        }
+        return render(request, "goodbuyDatabase/instant_feedback.html", args)
