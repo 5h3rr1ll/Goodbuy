@@ -13,4 +13,7 @@ urlpatterns = [
     path("list_codes/<list>/", goodbuyDatabase_views.show_list_of_codes, name="show_list_of_codes"),
     path("product/<int:pk>/details", goodbuyDatabase_views.ProductDetailView.as_view(), name="product_detail"),
     path("check/<str:code>/", goodbuyDatabase_views.is_in_own_database, name="is_in_own_database"),
+    path("instant_feedback/<str:code>/", goodbuyDatabase_views.instant_feedback, name="instant_feedback"),
+    path("is_in_own_database/<str:code>/", goodbuyDatabase_views.is_in_own_database, name="is_in_own_database"),
+    path("obt/<str:code>/", goodbuyDatabase_views.is_in_one_of_big_ten, name="is_in_one_of_big_ten"),
 ]
