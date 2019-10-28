@@ -36,9 +36,9 @@
     <h2 class="mt-4">Code(s) Already in Database!</h2>
     {% for product in allready_in_db %}
           <article class="media content-section mt-4">
-            {% if product.image %}
+            {% if product.scraped_image %}
             <img
-              class="rounded-circle article-img" src="{{ product.image.url }}"
+              class="rounded-circle article-img" src="{{ product.scraped_image.url }}"
               alt="Pircture of User {{ product.name }}">
             {% endif %}
             <div class="media-body">

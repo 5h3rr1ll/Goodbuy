@@ -134,7 +134,7 @@ class Brand(models.Model):
     def __str__(self):
         return self.name
 
-class MainCategoryOfProduct(models.Model):
+class CategoryOfProduct(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=45)
     created = models.DateTimeField(auto_now_add=True)
@@ -142,21 +142,8 @@ class MainCategoryOfProduct(models.Model):
 
     class Meta:
         managed = True
-        db_table = "main_category_of_products"
-
-    def __str__(self):
-        return self.name
-
-class SubCategoryOfProduct(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=45)
-    main_category = models.ForeignKey(MainCategoryOfProduct, models.CASCADE)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        managed = True
-        db_table = "sub_category_of_products"
+        db_table = "category_of_products"
+        ordering = ("name","id",)
 
     def __str__(self):
         return self.name
@@ -181,7 +168,13 @@ class Product(models.Model):
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     code = models.CharField(null=True,blank=True,unique=True, max_length=13)
-    image = models.ImageField(
+    scraped_image = models.URLField(null=True, blank=True)
+    image_of_front = models.ImageField(
+        default="default.svg",
+        upload_to="product_image",
+        null=True,
+        blank=True)
+    image_of_details = models.ImageField(
         default="default.svg",
         upload_to="product_image",
         null=True,
@@ -190,12 +183,7 @@ class Product(models.Model):
     corporation = models.ForeignKey(
         Corporation, models.SET_NULL, null=True, blank=True
         )
-    main_category = models.ForeignKey(MainCategoryOfProduct,
-        models.SET_NULL,
-        null=True,
-        blank=True,
-        )
-    sub_category = models.ForeignKey(SubCategoryOfProduct,
+    product_category = models.ForeignKey(CategoryOfProduct,
         models.SET_NULL,
         null=True,
         blank=True,
@@ -225,9 +213,12 @@ class Product(models.Model):
 
     def delete(self, *args, **kwargs):
         # So the default image not get deleted
-        if self.image != "default.svg":
-            print("image:",type(self.image))
-            self.image.delete()
+        if self.image_of_front != "default.svg":
+            print("image:",type(self.image_of_front))
+            self.image_of_front.delete()
+        if self.image_of_details != "default.svg":
+            print("image:",type(self.image_of_details))
+            self.image_of_details.delete()
         super().delete(*args, **kwargs)
 
 class ProductPriceInStore(models.Model):
