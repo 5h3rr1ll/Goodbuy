@@ -2,13 +2,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.views.generic import UpdateView, DetailView, DeleteView
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from .forms import AddNewProductForm
 from .models import Product, Brand, CategoryOfProduct
+from django.core import serializers
 
 import requests
-from django.http import JsonResponse
 
 
 def create_product(request):
@@ -221,3 +221,11 @@ def instant_feedback(request, code):
             "one_of_the_big_ten" : is_in_one_of_big_ten(scraped_product["brand"])
         }
         return render(request, "goodbuyDatabase/instant_feedback.html", args)
+
+def feedback(request, code):
+    if Product.objects.filter(code=code).exists():
+        product_object = Product.objects.get(code=code)
+        is_big_ten = requests.get(f"http://127.0.0.1:8000/isbigten/{product_object.brand}/")
+        product_serialized = serializers.serialize("json", [product_object,])
+
+        return HttpResponse(f"[{is_big_ten.text},{product_serialized}]")

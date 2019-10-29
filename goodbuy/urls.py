@@ -47,6 +47,7 @@ urlpatterns = [
         namespace="scraper")),
     path("isbigten/<str:brandname>/", gd_views.is_big_ten),
     path("lookup/<str:code>/", scraper_views.scrape),
+    path("feedback/<str:code>/", gd_views.feedback),
 ]
 
 if settings.DEBUG == True:
