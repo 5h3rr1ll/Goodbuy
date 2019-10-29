@@ -77,6 +77,8 @@ def scrape(request, code):
 
     print("\n interate over product info items")
     sleep(3)
+
+    product_brand = "N.A."
     try:
         product_info_items = driver.find_elements_by_class_name("product-info-item")
         for div in product_info_items:
@@ -84,16 +86,16 @@ def scrape(request, code):
             if div.text.splitlines()[0] == "Marke" or div.text.splitlines()[0] == "Marke":
                 product_brand = div.text.splitlines()[1]
     except Exception as e:
+        product_brand = "N.A."
         print("\n Can't extract brand:", str(e))
-        return redirect(f"/goodbuyDatabase/add/product/{code}")
 
     print("Product is done")
     product = {
         "code" : code,
-        "product_name" : product_name.text,
+        "name" : product_name.text,
         "brand" : product_brand,
         "product_category" : product_category.text,
-        "product_image" : product_image.get_attribute("src"),
+        "scraped_image" : product_image.get_attribute("src"),
     }
     print("Product: ", product)
 
