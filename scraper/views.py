@@ -15,7 +15,7 @@ import sys
 
 def scrape(request, code):
     chrome_options = Options()
-    # chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--headless")
     prefs = {"profile.managed_default_content_settings.images": 2}
     chrome_options.add_experimental_option("prefs", prefs)
     driver = webdriver.Chrome(executable_path=r"scraper/chromedriver", options=chrome_options)

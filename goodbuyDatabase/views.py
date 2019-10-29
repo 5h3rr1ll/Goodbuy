@@ -243,6 +243,7 @@ def endpoint_saveproduct(request):
             name=product["name"],
             brand=Brand.objects.get(name=product["brand"]),
             product_category=CategoryOfProduct.objects.get(name=product["product_category"]),
+            scraped_image=product["scraped_image"],
             )
         print("\n Request Body:", product["code"])
     else:
