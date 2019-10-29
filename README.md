@@ -29,12 +29,6 @@ Inside the goodbuyDatabase directory, you will find the models.py file is for th
 Inside goodbuy you will find the middleware.py which is a file for security in Django, for example, we defined here that you can only access specific sites when you are logged in. There you also find the settings.py where you need to announce new applications and where you also set e.g. the database settings and much more.
 ### codeScanner
 In this app main functions is to add products to the database. To lower the error while entering the product code, we are using web SDK from Scandit, to scan the code. At the moment everything happens in templates/mypScanWebApp/gtin.html . There the SDK gets loaded and via js. the scanned code gets sent to the server where the urls.py gets triggered to either add a product or to show that the product already exists. The business logic for that you will find in the views.py, as always.
-### mvpLogograb
-The main logic for the foundation of the feedback-to-a-product-function happens in mvpLogoGrab: Two functions Upload picture OR take pictures. To upload the picture and then determine the logo we use an API (LogoGrab) which can be found in the script.js (logoGrabWebScanner()) placed in the folder mvpLogoGrab/static/script.js .
-The logo name is then sent through a post request to the server also in the script.js (requestLogonameData()).
-The data is then queried on the server side you can find it in the views.py file(get_data() & post()).
-#Explain more in detail
-To configure the videoStream / Picture taking take a look into the script.js
 ### accounts
 In accounts happens everything around users. You find in the template folder the templates for registration, login, profile, change password, edit profile, password reset, log out and so on. In accounts is a forms.py which defines how the registrations pages look like and the edit profile pages.
 ### home
