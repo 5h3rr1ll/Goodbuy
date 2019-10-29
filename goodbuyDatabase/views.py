@@ -229,3 +229,7 @@ def feedback(request, code):
         product_serialized = serializers.serialize("json", [product_object,])
 
         return HttpResponse(f"[{is_big_ten.text},{product_serialized}]")
+
+def endpoint_saveproduct(request):
+    if request.POST:
+        print(request.body)
