@@ -8,7 +8,10 @@ from .forms import AddNewProductForm
 from .models import Product, Brand, CategoryOfProduct
 from django.core import serializers
 
+from django.views.decorators.csrf import csrf_exempt
+
 import requests
+import json
 
 
 def create_product(request):
@@ -169,15 +172,15 @@ def instant_feedback(request, code):
     else:
         scraped_product = requests.get(f"http://127.0.0.1:8000/scraper/{code}").json()
 
-    print("\n HIer is das Product:", scraped_product)
+    print("\n Hier is das Product:", scraped_product)
 
     if Brand.objects.filter(name=scraped_product["brand"]).exists() and CategoryOfProduct.objects.filter(name=scraped_product["product_category"]).exists():
         product = Product(
-        name=scraped_product["product_name"],
+        name=scraped_product["name"],
         code=scraped_product["code"],
         brand=Brand.objects.get(name=scraped_product["brand"]),
         product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"]),
-        scraped_image = scraped_product["product_image"],
+        scraped_image = scraped_product["scraped_image"],
         )
         product.save()
         is_in_one_of_big_ten(product.brand)
@@ -186,11 +189,11 @@ def instant_feedback(request, code):
         category.save()
 
         product = Product(
-        name=scraped_product["product_name"],
+        name=scraped_product["name"],
         code=scraped_product["code"],
         brand=Brand.objects.get(name=scraped_product["brand"]),
         product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"]),
-        scraped_image = scraped_product["product_image"],
+        scraped_image = scraped_product["scraped_image"],
         )
         product.save()
     if CategoryOfProduct.objects.filter(name=scraped_product["product_category"]).exists():
@@ -198,22 +201,22 @@ def instant_feedback(request, code):
             brand = Brand(name=scraped_product["brand"])
             brand.save()
             product = Product(
-                name=scraped_product["product_name"],
+                name=scraped_product["name"],
                 code=scraped_product["code"],
                 brand=Brand.objects.get(name=scraped_product["brand"]),
                 product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"]),
-                scraped_image = scraped_product["product_image"],
+                scraped_image = scraped_product["scraped_image"],
                 )
             product.save()
     else:
         category = CategoryOfProduct(name=scraped_product["product_category"])
         category.save()
         product = Product(
-            name=scraped_product["product_name"],
+            name=scraped_product["name"],
             code=scraped_product["code"],
             brand=Brand.objects.get(name=scraped_product["brand"]),
-            product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"])[0],
-            scraped_image = scraped_product["product_image"],
+            product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"]),
+            scraped_image = scraped_product["scraped_image"],
             )
         product.save()
 
@@ -230,6 +233,18 @@ def feedback(request, code):
 
         return HttpResponse(f"[{is_big_ten.text},{product_serialized}]")
 
+@csrf_exempt
 def endpoint_saveproduct(request):
-    if request.POST:
-        print(request.body)
+    if request.method == "POST":
+        product = json.loads(request.body.decode("utf-8"))
+        Brand.objects.get_or_create(name=product["brand"])
+        CategoryOfProduct.objects.get_or_create(name=product["product_category"])
+        Product.objects.get_or_create(
+            name=product["name"],
+            brand=Brand.objects.get(name=product["brand"]),
+            product_category=CategoryOfProduct.objects.get(name=product["product_category"]),
+            )
+        print("\n Request Body:", product["code"])
+    else:
+        print("ELSE!")
+    return HttpResponse("")
