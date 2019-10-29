@@ -31,12 +31,12 @@ ALLOWED_HOSTS = ["127.0.0.1","localhost",]
 
 
 # Application definition
-
 INSTALLED_APPS = [
     "home.apps.HomeConfig",
     "accounts.apps.AccountsConfig",
     "codeScanner.apps.CodeScannerConfig",
     "goodbuyDatabase.apps.GoodbuyDatabaseConfig",
+    "scraper",
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -84,7 +84,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'goodbuy.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -97,7 +96,6 @@ DATABASES = {
         'HOST': os.environ.get("DATABASEHOST"),
         'PORT': '5432',
         },
-
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'USER': "twwvczmzjozniv",
@@ -107,7 +105,6 @@ DATABASES = {
         'PORT': '5432',
         }
     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

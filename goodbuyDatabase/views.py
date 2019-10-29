@@ -2,10 +2,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.views.generic import UpdateView, DetailView, DeleteView
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 from .forms import AddNewProductForm
-from .models import Product
+from .models import Product, Brand, CategoryOfProduct
+from django.core import serializers
+
+from django.views.decorators.csrf import csrf_exempt
+
+import requests
+import json
+
 
 def create_product(request):
     if request.method == "POST" and request.is_ajax():
@@ -148,3 +155,100 @@ def receive_code(request, code):
 
 class ProductDetailView(DetailView):
     model = Product
+
+def is_big_ten(request, brandname):
+    big_ten = ["Unilever","Nestlé","Coca-Cola","Kellog's","MARS","PEPSICO","Mondelez","General Mills","Associated British Foods plc","DANONE"]
+    answer = { "in big ten" : brandname in big_ten }
+    return JsonResponse(answer)
+
+def is_in_own_database(request, code):
+    return HttpResponse(str(Product.objects.filter(code=code).exists()))
+
+def instant_feedback(request, code):
+
+    # first check if the product is our own databse
+    if Product.objects.filter(code=code).exists():
+        args = {
+            "product" : Product.objects.get(code=code)
+            }
+        return render(request, "goodbuyDatabase/product_detail.html", args)
+    else:
+        scraped_product = requests.get(f"http://127.0.0.1:8000/scraper/{code}").json()
+
+    print("\n Hier is das Product:", scraped_product)
+
+    if Brand.objects.filter(name=scraped_product["brand"]).exists() and CategoryOfProduct.objects.filter(name=scraped_product["product_category"]).exists():
+        product = Product(
+        name=scraped_product["name"],
+        code=scraped_product["code"],
+        brand=Brand.objects.get(name=scraped_product["brand"]),
+        product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"]),
+        scraped_image = scraped_product["scraped_image"],
+        )
+        product.save()
+        is_in_one_of_big_ten(product.brand)
+    else:
+        category = CategoryOfProduct(name=scraped_product["product_category"])
+        category.save()
+
+        product = Product(
+        name=scraped_product["name"],
+        code=scraped_product["code"],
+        brand=Brand.objects.get(name=scraped_product["brand"]),
+        product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"]),
+        scraped_image = scraped_product["scraped_image"],
+        )
+        product.save()
+    if CategoryOfProduct.objects.filter(name=scraped_product["product_category"]).exists():
+
+            brand = Brand(name=scraped_product["brand"])
+            brand.save()
+            product = Product(
+                name=scraped_product["name"],
+                code=scraped_product["code"],
+                brand=Brand.objects.get(name=scraped_product["brand"]),
+                product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"]),
+                scraped_image = scraped_product["scraped_image"],
+                )
+            product.save()
+    else:
+        category = CategoryOfProduct(name=scraped_product["product_category"])
+        category.save()
+        product = Product(
+            name=scraped_product["name"],
+            code=scraped_product["code"],
+            brand=Brand.objects.get(name=scraped_product["brand"]),
+            product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"]),
+            scraped_image = scraped_product["scraped_image"],
+            )
+        product.save()
+
+        args = {
+            "one_of_the_big_ten" : is_in_one_of_big_ten(scraped_product["brand"])
+        }
+        return render(request, "goodbuyDatabase/instant_feedback.html", args)
+
+def feedback(request, code):
+    if Product.objects.filter(code=code).exists():
+        product_object = Product.objects.get(code=code)
+        is_big_ten = requests.get(f"http://127.0.0.1:8000/isbigten/{product_object.brand}/")
+        product_serialized = serializers.serialize("json", [product_object,])
+
+        return HttpResponse(f"[{is_big_ten.text},{product_serialized}]")
+
+@csrf_exempt
+def endpoint_saveproduct(request):
+    if request.method == "POST":
+        product = json.loads(request.body.decode("utf-8"))
+        Brand.objects.get_or_create(name=product["brand"])
+        CategoryOfProduct.objects.get_or_create(name=product["product_category"])
+        Product.objects.get_or_create(
+            name=product["name"],
+            brand=Brand.objects.get(name=product["brand"]),
+            product_category=CategoryOfProduct.objects.get(name=product["product_category"]),
+            scraped_image=product["scraped_image"],
+            )
+        print("\n Request Body:", product["code"])
+    else:
+        print("ELSE!")
+    return HttpResponse("")

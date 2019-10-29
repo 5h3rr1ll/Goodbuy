@@ -37,10 +37,10 @@
       <tr>
         <td>{{ product.id}}</td>
         <td>
-          {% if product.image %}
-            <a href="{{ product.image.url }}">
+          {% if product.scraped_image %}
+            <a href="{{ product.scraped_image.url }}">
               <img
-                src="{{ product.image.url }}"
+                src="{{ product.scraped_image.url }}"
                 alt="{{ product.name }}"
                 style="height:100px">
             </a>

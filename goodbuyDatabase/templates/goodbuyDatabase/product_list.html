@@ -3,10 +3,10 @@
 {% block body %}
     {% for product in products %}
         <article class="media content-section mt-4">
-          {% if product.image %}
+          {% if product.scraped_image %}
           <img
             class="rounded-circle article-img"
-            src="{{ product.image.url }}">
+            src="{{ product.scraped_image.url }}">
           {% endif %}
           <div class="media-body">
             <div class="article-metadata">

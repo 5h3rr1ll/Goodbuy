@@ -60,7 +60,7 @@
         let picker;
         // Create & start the picker
         ScanditSDK.BarcodePicker.create(scannerContainer, {
-                playSoundOnScan: true,
+                playSoundOnScan: false,
                 vibrateOnScan: true
             })
             .then(barcodePicker => {
@@ -88,6 +88,8 @@
                     resultContainer.innerHTML = scanResult.barcodes.reduce((string, barcode) =>
                         string + `${ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology)}: ${barcode.data}<br>`,
                         '');
+                    sendCodeToListView()
+                    picker.pauseScanning();
                 });
                 picker.onScanError(error => {
                     console.error(error.message);
@@ -115,7 +117,7 @@
 
         function sendCodeToListView(){
           var csrftoken = getCookie('csrftoken');
-          const url = "/goodbuyDatabase/add/product/" + Array.from(codeSet).join(",") + "/"
+          const url = "/goodbuyDatabase/instant_feedback/" + Array.from(codeSet).join(",") + "/"
           fetch(url,{
             method: 'POST',
             body: JSON.stringify(codeSet),

@@ -3,7 +3,7 @@
   <article class="media content-section mt-4">
     {% if onbject.image %}
     <img
-      class="rounded-circle" src="{{ object.image.url }}"
+      class="rounded-circle" src="{{ object.scraped_image.url }}"
       alt="Pircture of Product: {{ product.name }}"
       style="height:150px; width:150px">
     {% endif %}
@@ -19,7 +19,7 @@
         {% endif %}
       </div>
       <h2 class="article-title">{{ object.name }}</h2>
-      <p class="article-content">{{ object.certificate }}</p>
+      <p class="article-content">{{ object.code }}</p>
       <a class="btn btn-outline-primary" href="{% url 'goodbuyDatabase:product_list' %}">Back to List</a>
     </div>
   </article>
