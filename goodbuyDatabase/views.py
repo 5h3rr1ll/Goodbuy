@@ -243,6 +243,7 @@ def endpoint_saveproduct(request):
         Brand.objects.get_or_create(name=product["brand"])
         CategoryOfProduct.objects.get_or_create(name=product["product_category"])
         Product.objects.get_or_create(
+            code=product["code"],
             name=product["name"],
             brand=Brand.objects.get(name=product["brand"]),
             product_category=CategoryOfProduct.objects.get(name=product["product_category"]),
