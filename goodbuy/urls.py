@@ -8,6 +8,7 @@ from accounts import views as acccount_views
 from home import views as home_views
 from goodbuyDatabase import views as gd_views
 from scraper import views as scraper_views
+from brandScraper import views as brand_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
