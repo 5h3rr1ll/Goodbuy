@@ -229,10 +229,18 @@ def instant_feedback(request, code):
         return render(request, "goodbuyDatabase/instant_feedback.html", args)
 
 def feedback(request, code):
+    print("In feedback")
     if Product.objects.filter(code=code).exists():
+        print("in if")
         product_object = Product.objects.get(code=code)
-        is_big_ten = requests.get(f"http://127.0.0.1:8000/isbigten/{product_object.brand}/")
+        print(product_object)
+        try:
+            is_big_ten = requests.get(f"http://127.0.0.1:8000/isbigten/{product_object.brand}/")
+            print("In Try is big ten:", is_big_ten)
+        except Exception as e:
+            print("\n request ERROR:", str(e))
         product_serialized = serializers.serialize("json", [product_object,])
+        print(product_serialized)
 
         return HttpResponse(f"[{is_big_ten.text},{product_serialized}]")
 
