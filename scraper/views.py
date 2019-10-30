@@ -16,7 +16,11 @@ import os
 
 def scrape(request, code):
     options = Options()
+    options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
     options.add_argument("--headless")
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--remote-debugging-port=9222')
     prefs = {"profile.managed_default_content_settings.images": 2}
     options.add_experimental_option("prefs", prefs)
     driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), chrome_options=options)
