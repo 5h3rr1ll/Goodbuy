@@ -235,7 +235,7 @@ def feedback(request, code):
         product_object = Product.objects.get(code=code)
         print(product_object)
         try:
-            is_big_ten = requests.get(f"http://127.0.0.1:8000/isbigten/{product_object.brand}/")
+            is_big_ten = requests.get(f"http://localhost:8000/isbigten/{product_object.brand}/")
             print("In Try is big ten:", is_big_ten)
         except Exception as e:
             print("\n request ERROR:", str(e))
