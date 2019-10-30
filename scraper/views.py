@@ -81,7 +81,6 @@ def scrape(request, code):
         print("\n More Product Details Div not found:", str(e))
 
     print("\n interate over product info items")
-    sleep(3)
 
     product_brand = "N.A."
     try:

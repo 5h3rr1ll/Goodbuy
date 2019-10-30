@@ -42,9 +42,6 @@ urlpatterns = [
     path('goodbuyDatabase/', include(
         ('goodbuyDatabase.urls',"goodbuyDatabase"),
         namespace="goodbuyDatabase")),
-    path('scraper/', include(
-        ('scraper.urls',"scraper"),
-        namespace="scraper")),
     path("isbigten/<str:brandname>/", gd_views.is_big_ten),
     path("lookup/<str:code>/", scraper_views.scrape),
     path("feedback/<str:code>/", gd_views.feedback),
