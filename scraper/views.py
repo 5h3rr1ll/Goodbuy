@@ -15,15 +15,11 @@ import os
 
 
 def scrape(request, code):
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
+    options = Options()
+    options.add_argument("--headless")
     prefs = {"profile.managed_default_content_settings.images": 2}
-    chrome_options.add_experimental_option("prefs", prefs)
-<<<<<<< HEAD
-    driver = webdriver.Chrome(executable_path=str(os.environ.get("CHROMEDRIVER_PATH")), options=chrome_options)
-=======
-    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_options)
->>>>>>> f117d024b8808e369660b47de214d43046acce86
+    options.add_experimental_option("prefs", prefs)
+    driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), chrome_options=options)
     driver.set_window_position(0, 0)
     driver.set_window_size(1200, 1134)
     driver.get("https://codecheck.info")
