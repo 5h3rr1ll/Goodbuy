@@ -87,24 +87,7 @@ WSGI_APPLICATION = 'goodbuy.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-    'production': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'USER': os.environ.get("DATABASEUSER"),
-        'NAME': os.environ.get("DATABASENAME"),
-        'PASSWORD': os.environ.get("DATABASEPW"),
-        'HOST': os.environ.get("DATABASEHOST"),
-        'PORT': '5432',
-        },
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'USER': "twwvczmzjozniv",
-        'NAME': "d7idpuukb69euf",
-        'PASSWORD': "f1f4c7f771817dfde419164fd6a596bcf443a1e711a8052e666b61c2f39e1180",
-        'HOST': "ec2-54-217-228-25.eu-west-1.compute.amazonaws.com",
-        'PORT': '5432',
-        }
-    }
+DATABASES = {}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

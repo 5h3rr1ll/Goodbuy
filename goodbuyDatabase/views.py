@@ -5,7 +5,7 @@ from django.views.generic import UpdateView, DetailView, DeleteView
 from django.http import HttpResponse, JsonResponse
 
 from .forms import AddNewProductForm
-from .models import Product, Brand, CategoryOfProduct
+from .models import Corporation, Brand, Product, CategoryOfProduct
 from django.core import serializers
 
 from django.views.decorators.csrf import csrf_exempt
@@ -229,26 +229,55 @@ def instant_feedback(request, code):
         return render(request, "goodbuyDatabase/instant_feedback.html", args)
 
 def feedback(request, code):
+    print("In feedback")
     if Product.objects.filter(code=code).exists():
+        print("in if")
         product_object = Product.objects.get(code=code)
-        is_big_ten = requests.get(f"http://127.0.0.1:8000/isbigten/{product_object.brand}/")
+        print(product_object)
+        try:
+            is_big_ten = requests.get(f"https://dev-goodbuy.herokuapp.com/isbigten/{product_object.brand}/")
+            print("In Try is big ten:", is_big_ten)
+        except Exception as e:
+            print("\n request ERROR:", str(e))
         product_serialized = serializers.serialize("json", [product_object,])
+        print(product_serialized)
 
         return HttpResponse(f"[{is_big_ten.text},{product_serialized}]")
 
 @csrf_exempt
-def endpoint_saveproduct(request):
+def endpoint_save_product(request):
     if request.method == "POST":
         product = json.loads(request.body.decode("utf-8"))
         Brand.objects.get_or_create(name=product["brand"])
         CategoryOfProduct.objects.get_or_create(name=product["product_category"])
         Product.objects.get_or_create(
+            code=product["code"],
             name=product["name"],
             brand=Brand.objects.get(name=product["brand"]),
             product_category=CategoryOfProduct.objects.get(name=product["product_category"]),
             scraped_image=product["scraped_image"],
             )
         print("\n Request Body:", product["code"])
+    else:
+        print("ELSE!")
+    return HttpResponse("")
+
+@csrf_exempt
+def endpoint_save_brand(request):
+    if request.method == "POST":
+        request = json.loads(request.body.decode("utf-8"))
+        Brand.objects.get_or_create(name=request["brand"])
+        print(f"Brand {request['brand']} saved.")
+    else:
+        print("ELSE!")
+    return HttpResponse("")
+
+@csrf_exempt
+def endpoint_save_corporation(request):
+    if request.method == "POST":
+        request = json.loads(request.body.decode("utf-8"))
+        Corporation.objects.get_or_create(name=request["corporation"])
+        print(f"Corporation {request['corporation']} saved.")
     else:
         print("ELSE!")
     return HttpResponse("")

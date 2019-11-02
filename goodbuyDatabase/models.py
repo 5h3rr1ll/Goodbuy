@@ -164,7 +164,7 @@ class Certificate(models.Model):
 
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=45, verbose_name="Product Name")
+    name = models.CharField(max_length=50, verbose_name="Product Name")
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     code = models.CharField(null=True,blank=True,unique=True, max_length=13)

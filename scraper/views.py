@@ -11,14 +11,19 @@ from django.urls import reverse
 
 from time import sleep
 import sys
+import os
 
 
 def scrape(request, code):
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
+    options = Options()
+    options.binary_location = os.environ.get('GOOGLE_CHROME_BIN')
+    options.add_argument("--headless")
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--remote-debugging-port=9222')
     prefs = {"profile.managed_default_content_settings.images": 2}
-    chrome_options.add_experimental_option("prefs", prefs)
-    driver = webdriver.Chrome(executable_path=r"scraper/chromedriver", options=chrome_options)
+    options.add_experimental_option("prefs", prefs)
+    driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH')), chrome_options=options)
     driver.set_window_position(0, 0)
     driver.set_window_size(1200, 1134)
     driver.get("https://codecheck.info")
