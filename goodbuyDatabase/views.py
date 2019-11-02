@@ -5,7 +5,7 @@ from django.views.generic import UpdateView, DetailView, DeleteView
 from django.http import HttpResponse, JsonResponse
 
 from .forms import AddNewProductForm
-from .models import Product, Brand, CategoryOfProduct
+from .models import Corporation, Brand, Product, CategoryOfProduct
 from django.core import serializers
 
 from django.views.decorators.csrf import csrf_exempt
@@ -245,7 +245,7 @@ def feedback(request, code):
         return HttpResponse(f"[{is_big_ten.text},{product_serialized}]")
 
 @csrf_exempt
-def endpoint_saveproduct(request):
+def endpoint_save_product(request):
     if request.method == "POST":
         product = json.loads(request.body.decode("utf-8"))
         Brand.objects.get_or_create(name=product["brand"])
@@ -258,6 +258,26 @@ def endpoint_saveproduct(request):
             scraped_image=product["scraped_image"],
             )
         print("\n Request Body:", product["code"])
+    else:
+        print("ELSE!")
+    return HttpResponse("")
+
+@csrf_exempt
+def endpoint_save_brand(request):
+    if request.method == "POST":
+        request = json.loads(request.body.decode("utf-8"))
+        Brand.objects.get_or_create(name=request["brand"])
+        print(f"Brand {request['brand']} saved.")
+    else:
+        print("ELSE!")
+    return HttpResponse("")
+
+@csrf_exempt
+def endpoint_save_corporation(request):
+    if request.method == "POST":
+        request = json.loads(request.body.decode("utf-8"))
+        Corporation.objects.get_or_create(name=request["corporation"])
+        print(f"Corporation {request['corporation']} saved.")
     else:
         print("ELSE!")
     return HttpResponse("")

@@ -14,5 +14,7 @@ urlpatterns = [
     path("product/<int:pk>/details", goodbuyDatabase_views.ProductDetailView.as_view(), name="product_detail"),
     path("instant_feedback/<str:code>/", goodbuyDatabase_views.instant_feedback, name="instant_feedback"),
     path("is_in_own_database/<str:code>/", goodbuyDatabase_views.is_in_own_database, name="is_in_own_database"),
-    path("saveproduct/", goodbuyDatabase_views.endpoint_saveproduct, name="endpoint_saveproduct"),
+    path("save_product/", goodbuyDatabase_views.endpoint_save_product, name="endpoint_save_product"),
+    path("save_brand/", goodbuyDatabase_views.endpoint_save_brand, name="endpoint_save_brand"),
+    path("save_corporation/", goodbuyDatabase_views.endpoint_save_corporation, name="endpoint_save_corporation"),
 ]
