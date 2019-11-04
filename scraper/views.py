@@ -51,8 +51,7 @@ def scrape(request, code):
     try:
         product_name = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, ".page-title-headline > .float-group > h1"))
-        )
-
+        ).text
     except Exception as e:
         print("\n Productname ERROR:", str(e))
 
@@ -60,15 +59,16 @@ def scrape(request, code):
     try:
         product_image = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, ".nf > img"))
-        )
+        ).get_attribute("src")
     except Exception as e:
         print("\n Product image ERROR:", str(e))
 
+    product_category = "N.A."
     print("\n product category")
     try:
         product_category = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "div.block.prod-basic-info > div > .product-info-item > p:nth-child(2) > a"))
-        )
+        ).text
     except Exception as e:
         print("\n Product category ERROR:", str(e))
 
@@ -98,10 +98,10 @@ def scrape(request, code):
     print("Product is done")
     product = {
         "code" : code,
-        "name" : product_name.text,
+        "name" : product_name,
         "brand" : product_brand,
-        "product_category" : product_category.text,
-        "scraped_image" : product_image.get_attribute("src"),
+        "product_category" : product_category,
+        "scraped_image" : product_image,
     }
     print("Product: ", product)
 
