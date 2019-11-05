@@ -164,76 +164,12 @@ def is_big_ten(request, brandname):
 def is_in_own_database(request, code):
     return HttpResponse(str(Product.objects.filter(code=code).exists()))
 
-def instant_feedback(request, code):
-
-    # first check if the product is our own databse
-    if Product.objects.filter(code=code).exists():
-        args = {
-            "product" : Product.objects.get(code=code)
-            }
-        return render(request, "goodbuyDatabase/product_detail.html", args)
-    else:
-        scraped_product = requests.get(f"http://127.0.0.1:8000/scraper/{code}").json()
-
-    print("\n Hier is das Product:", scraped_product)
-
-    if Brand.objects.filter(name=scraped_product["brand"]).exists() and CategoryOfProduct.objects.filter(name=scraped_product["product_category"]).exists():
-        product = Product(
-        name=scraped_product["name"],
-        code=scraped_product["code"],
-        brand=Brand.objects.get(name=scraped_product["brand"]),
-        product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"]),
-        scraped_image = scraped_product["scraped_image"],
-        )
-        product.save()
-        is_in_one_of_big_ten(product.brand)
-    else:
-        category = CategoryOfProduct(name=scraped_product["product_category"])
-        category.save()
-
-        product = Product(
-        name=scraped_product["name"],
-        code=scraped_product["code"],
-        brand=Brand.objects.get(name=scraped_product["brand"]),
-        product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"]),
-        scraped_image = scraped_product["scraped_image"],
-        )
-        product.save()
-    if CategoryOfProduct.objects.filter(name=scraped_product["product_category"]).exists():
-
-            brand = Brand(name=scraped_product["brand"])
-            brand.save()
-            product = Product(
-                name=scraped_product["name"],
-                code=scraped_product["code"],
-                brand=Brand.objects.get(name=scraped_product["brand"]),
-                product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"]),
-                scraped_image = scraped_product["scraped_image"],
-                )
-            product.save()
-    else:
-        category = CategoryOfProduct(name=scraped_product["product_category"])
-        category.save()
-        product = Product(
-            name=scraped_product["name"],
-            code=scraped_product["code"],
-            brand=Brand.objects.get(name=scraped_product["brand"]),
-            product_category=CategoryOfProduct.objects.get(name=scraped_product["product_category"]),
-            scraped_image = scraped_product["scraped_image"],
-            )
-        product.save()
-
-        args = {
-            "one_of_the_big_ten" : is_in_one_of_big_ten(scraped_product["brand"])
-        }
-        return render(request, "goodbuyDatabase/instant_feedback.html", args)
-
 def feedback(request, code):
     if Product.objects.filter(code=code).exists():
         product_object = Product.objects.get(code=code)
         print(product_object)
         try:
-            is_big_ten = requests.get(f"https://dev-goodbuy.herokuapp.com/isbigten/{product_object.brand}/")
+            is_big_ten = requests.get(f"http://localhost:8000/isbigten/{product_object.brand}/")
             print("In Try is big ten:", is_big_ten)
         except Exception as e:
             print("\n request ERROR:", str(e))
@@ -242,11 +178,13 @@ def feedback(request, code):
         return HttpResponse(f"[{is_big_ten.text},{product_serialized}]")
     else:
         product = requests.get(f"http://localhost:8000/lookup/{code}/").json()
-        is_big_ten = requests.get(f"https://dev-goodbuy.herokuapp.com/isbigten/{product['brand']}/")
+        is_big_ten = requests.get(f"http://localhost:8000/isbigten/{product['brand']}/")
+        print(f"\nProduct in feedback: {product}")
+        resp = requests.post("http://localhost:8000/goodbuyDatabase/save_product/", json=product)
+        print(f"\nResponse:", resp)
         return HttpResponse(f"[{is_big_ten.text},{product}]")
 
-
-
+# TODO: endpoints are not protected with csrf❗️
 @csrf_exempt
 def endpoint_save_product(request):
     if request.method == "POST":
@@ -260,7 +198,6 @@ def endpoint_save_product(request):
             product_category=CategoryOfProduct.objects.get(name=product["product_category"]),
             scraped_image=product["scraped_image"],
             )
-        print("\n Request Body:", product["code"])
     else:
         print("ELSE!")
     return HttpResponse("")
