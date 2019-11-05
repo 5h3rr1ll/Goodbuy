@@ -229,9 +229,7 @@ def instant_feedback(request, code):
         return render(request, "goodbuyDatabase/instant_feedback.html", args)
 
 def feedback(request, code):
-    print("In feedback")
     if Product.objects.filter(code=code).exists():
-        print("in if")
         product_object = Product.objects.get(code=code)
         print(product_object)
         try:
@@ -241,8 +239,13 @@ def feedback(request, code):
             print("\n request ERROR:", str(e))
         product_serialized = serializers.serialize("json", [product_object,])
         print(product_serialized)
-
         return HttpResponse(f"[{is_big_ten.text},{product_serialized}]")
+    else:
+        product = requests.get(f"http://localhost:8000/lookup/{code}/").json()
+        is_big_ten = requests.get(f"https://dev-goodbuy.herokuapp.com/isbigten/{product['brand']}/")
+        return HttpResponse(f"[{is_big_ten.text},{product}]")
+
+
 
 @csrf_exempt
 def endpoint_save_product(request):
