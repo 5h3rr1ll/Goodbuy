@@ -11,9 +11,8 @@ class CategoryOfProductAdmin(admin.ModelAdmin):
     list_display_links = ("id", "name", "created", "updated",)
 
 class RatingAdmin(admin.ModelAdmin):
-    list_display = ("id", "corporation" , "humans", "environment", "animals",
-     "animals_description", "environment_description", "humans_description")
-    list_display_links = ("id", "corporation",  "humans", "environment", "animals")
+    list_display = ("id", "corporation",)
+    list_display_links = ("id", "corporation",)
 
     @classmethod
     def corporation(self, obj):
