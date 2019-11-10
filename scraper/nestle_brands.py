@@ -9,28 +9,27 @@ class Nestle_Wiki_Scraper:
         self.soup = BeautifulSoup(self.request.content, "html.parser")
 
     def get_rid_of(self, bs_object):
-        for element in bs_object.findAll("li"):
-            text = element.get_text()
+        for list_element in bs_object.findAll("li"):
+            link_text = list_element.get_text()
 
-            if "[" in text and "(" in text:
-                text = text.split("(")
-                text = text[0].split("[")
-                text = text[0].strip()
-            elif " –" in text:
-                text = text.split(" –")
-            elif "[" in text:
-                text = text.split("[")
-            elif "(" in text:
-                text = text.split("(")
+            if "[" in link_text and "(" in link_text:
+                link_text = link_text.split("(")
+                link_text = link_text[0].split("[")
+                link_text = link_text[0].strip()
+            elif " –" in link_text:
+                link_text = link_text.split(" –")
+            elif "[" in link_text:
+                link_text = link_text.split("[")
+            elif "(" in link_text:
+                link_text = link_text.split("(")
 
-
-            if type(text) is list:
-                print(text[0].strip())
+            if type(link_text) is list:
+                print(link_text[0].strip())
             else:
-                print(text.strip())
+                print(link_text.strip())
 
-    def get_it(self):
-        list = {
+    def get_all_categories(self):
+        list_of_div_locations = {
             "Beverages": "#mw-content-text > div > div:nth-child(6)",
             "Coffee": "#mw-content-text > div > div:nth-child(8)",
             "Water": "#mw-content-text > div > div:nth-child(10)",
@@ -50,9 +49,10 @@ class Nestle_Wiki_Scraper:
             "Shelf stable": "#mw-content-text > div > ul:nth-child(41)",
             "Yogurt": "#mw-content-text > div > div:nth-child(43)",
         }
-        for category, div_add in list.items():
+        for category, div_location in list_of_div_locations.items():
             print(f"\nCategory: {category}")
-            self.get_rid_of(self.soup.select_one(div_add))
+            self.get_rid_of(self.soup.select_one(div_location))
 
-ns = Nestle_Wiki_Scraper()
-ns.get_it()
+
+nestle_wiki = Nestle_Wiki_Scraper()
+nestle_wiki.get_all_categories()
