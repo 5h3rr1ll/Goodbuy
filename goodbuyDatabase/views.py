@@ -180,7 +180,7 @@ def feedback(request, code):
         product = requests.get(f"http://localhost:8000/lookup/{code}/").json()
         is_big_ten = requests.get(f"http://localhost:8000/isbigten/{product['brand']}/")
         print(f"\nProduct in feedback: {product}")
-        resp = requests.post("http://localhost:8000/goodbuyDatabase/save_product/", json=product)
+        resp = requests.post("http://localhost:8000/goodbuyDatabase/save_product/", json=product, )
         print(f"\nResponse:", resp)
         return HttpResponse(f"[{is_big_ten.text},{product}]")
 
@@ -188,15 +188,15 @@ def feedback(request, code):
 @csrf_exempt
 def endpoint_save_product(request):
     if request.method == "POST":
-        product = json.loads(request.body.decode("utf-8"))
-        Brand.objects.get_or_create(name=product["brand"])
-        CategoryOfProduct.objects.get_or_create(name=product["product_category"])
+        response = json.loads(request.body.decode("utf-8"))
+        Brand.objects.get_or_create(name=response["brand"])
+        CategoryOfProduct.objects.get_or_create(name=response["product_category"])
         Product.objects.get_or_create(
-            code=product["code"],
-            name=product["name"],
-            brand=Brand.objects.get(name=product["brand"]),
-            product_category=CategoryOfProduct.objects.get(name=product["product_category"]),
-            scraped_image=product["scraped_image"],
+            code=response["code"],
+            name=response["name"],
+            brand=Brand.objects.get(name=response["brand"]),
+            product_category=CategoryOfProduct.objects.get(name=response["product_category"]),
+            scraped_image=response["scraped_image"],
             )
     else:
         print("ELSE!")
@@ -205,9 +205,13 @@ def endpoint_save_product(request):
 @csrf_exempt
 def endpoint_save_brand(request):
     if request.method == "POST":
-        request = json.loads(request.body.decode("utf-8"))
-        Brand.objects.get_or_create(name=request["brand"])
-        print(f"Brand {request['brand']} saved.")
+        response = json.loads(request.body.decode("utf-8"))
+        Corporation.objects.get_or_create(name=response["corporation"])
+        Brand.objects.get_or_create(
+            name=response["name"],
+            corporation=Corporation.objects.get(name=response["corporation"]),
+            )
+        print(f"Brand {response['name']} saved.")
     else:
         print("ELSE!")
     return HttpResponse("")
@@ -215,9 +219,9 @@ def endpoint_save_brand(request):
 @csrf_exempt
 def endpoint_save_corporation(request):
     if request.method == "POST":
-        request = json.loads(request.body.decode("utf-8"))
-        Corporation.objects.get_or_create(name=request["corporation"])
-        print(f"Corporation {request['corporation']} saved.")
+        response = json.loads(request.body.decode("utf-8"))
+        Corporation.objects.get_or_create(name=response["corporation"])
+        print(f"Corporation {response['corporation']} saved.")
     else:
         print("ELSE!")
     return HttpResponse("")
