@@ -8,6 +8,13 @@ class Nestle_Wiki_Scraper:
         self.request = requests.get(self.url)
         self.soup = BeautifulSoup(self.request.content, "html.parser")
 
+    def save_brand(self, brand):
+        data = {
+            "name" : brand,
+            "corporation" : "Nestlé",
+        }
+        requests.post("http://localhost:8000/goodbuyDatabase/save_brand/", json=data, )
+
     def get_rid_of(self, bs_object):
         for list_element in bs_object.findAll("li"):
             link_text = list_element.get_text()
@@ -25,8 +32,10 @@ class Nestle_Wiki_Scraper:
 
             if type(link_text) is list:
                 print(link_text[0].strip())
+                self.save_brand(link_text[0].strip())
             else:
                 print(link_text.strip())
+                self.save_brand(link_text.strip())
 
     def get_all_categories(self):
         list_of_div_locations = {
