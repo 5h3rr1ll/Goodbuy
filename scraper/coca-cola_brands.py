@@ -22,7 +22,7 @@ class CocaColaWikiScraper:
     def get_rid_of(self, bs_object):
         for list_element in bs_object.findAll("li"):
             link_text = list_element.get_text()
-            special_char = re.findall("[\][–)(]", link_text)
+            special_char = re.findall("[\][–)(,}:]|[0-9]{4}", link_text)
             try:
                 print(link_text.split(special_char[0])[0])
                 self.save_brand(link_text.split(special_char[0])[0].strip())
