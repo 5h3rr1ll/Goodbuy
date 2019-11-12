@@ -1,7 +1,7 @@
+import re
+
 import requests
 from bs4 import BeautifulSoup
-
-import re
 
 
 class CocaColaWikiScraper:
@@ -19,19 +19,25 @@ class CocaColaWikiScraper:
             "http://localhost:8000/goodbuyDatabase/save_brand/", json=data,
         )
 
-    def get_rid_of(self, bs_object):
-        for list_element in bs_object.findAll("li"):
-            link_text = list_element.get_text()
-            special_char = re.findall("[\][–)(,}:]|[0-9]{4}", link_text)
-            try:
-                print(link_text.split(special_char[0])[0])
-                self.save_brand(link_text.split(special_char[0])[0].strip())
-            except:
-                print(link_text)
-                self.save_brand(link_text.strip())
+    def clean_up_brand_name(self, bs_object):
+        try:
+            if bs_object.findAll("li") == []:
+                print("empty Error")
+            else:
+                for list_element in bs_object.findAll("li"):
+                    link_text = list_element.get_text()
+                    special_char = re.findall("[\][–)(,}:]|[0-9]{4}", link_text)
+                    try:
+                        print(link_text.split(special_char[0])[0])
+                        self.save_brand(link_text.split(special_char[0])[0].strip())
+                    except:
+                        print(link_text)
+                        self.save_brand(link_text.strip())
+        except AttributeError as e:
+            print(str(e), " div changed position ")
 
-    def get_all_products(self):
-        list_of_div_locations = {
+    def get_all_div_location(self):
+        div_locations_list = {
             "A": "#mw-content-text > div > div:nth-child(5)",
             "B": "#mw-content-text > div > div:nth-child(8)",
             "C": "#mw-content-text > div > div:nth-child(10)",
@@ -58,10 +64,15 @@ class CocaColaWikiScraper:
             "Y": "#mw-content-text > div > div:nth-child(52)",
             "Z": "#mw-content-text > div > div:nth-child(54)",
         }
-        for start_letter, div_location in list_of_div_locations.items():
-            print(f"\nBrands starting with: {start_letter}")
-            self.get_rid_of(self.soup.select_one(div_location))
+        return div_locations_list
+
+    def iterate_over_list(self, lst):
+        for category, div_location in lst.items():
+            print(f"\n{Category}:")
+            div_location = self.soup.select_one(div_location)
+            self.clean_up_brand_name(div_location)
 
 
 coca_wiki = CocaColaWikiScraper()
-coca_wiki.get_all_products()
+div_locations_list = coca_wiki.get_all_div_location()
+coca_wiki.iterate_over_list(div_locations_list)
