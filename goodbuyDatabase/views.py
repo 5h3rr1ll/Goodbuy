@@ -156,14 +156,6 @@ def show_list_of_codes(request, list, *args, **kwargs):
         }
         return render(request, "goodbuyDatabase/list_of_product_codes.html", args)
 
-<<<<<<< HEAD
-=======
-
-def receive_code(request, code):
-    return HttpResponse(status=204)
-
-
->>>>>>> d239fa8804f9798ff3e2b65bdfa57c2fb274d017
 class ProductDetailView(DetailView):
     model = Product
 
