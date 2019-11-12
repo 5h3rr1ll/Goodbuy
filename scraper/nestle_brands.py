@@ -1,32 +1,35 @@
 import requests
 from bs4 import BeautifulSoup
 
+import re
 
-class Nestle_Wiki_Scraper:
+class NestleWikiScraper:
     def __init__(self):
         self.url = "https://en.wikipedia.org/wiki/List_of_Nestl%C3%A9_brands"
         self.request = requests.get(self.url)
         self.soup = BeautifulSoup(self.request.content, "html.parser")
 
+    def save_brand(self, brand):
+        data = {
+            "name": brand,
+            "corporation": "Nestlé",
+        }
+        requests.post(
+            "http://localhost:8000/goodbuyDatabase/save_brand/", json=data,
+        )
+
+
     def get_rid_of(self, bs_object):
         for list_element in bs_object.findAll("li"):
             link_text = list_element.get_text()
+            special_char = re.findall("[\][–)(,}:]|[0-9]{4}", link_text)
+            try:
+                print(link_text.split(special_char[0])[0])
+                self.save_brand(link_text.split(special_char[0])[0].strip())
+            except:
+                print(link_text)
+                self.save_brand(link_text.strip())
 
-            if "[" in link_text and "(" in link_text:
-                link_text = link_text.split("(")
-                link_text = link_text[0].split("[")
-                link_text = link_text[0].strip()
-            elif " –" in link_text:
-                link_text = link_text.split(" –")
-            elif "[" in link_text:
-                link_text = link_text.split("[")
-            elif "(" in link_text:
-                link_text = link_text.split("(")
-
-            if type(link_text) is list:
-                print(link_text[0].strip())
-            else:
-                print(link_text.strip())
 
     def get_all_categories(self):
         list_of_div_locations = {
@@ -54,5 +57,5 @@ class Nestle_Wiki_Scraper:
             self.get_rid_of(self.soup.select_one(div_location))
 
 
-nestle_wiki = Nestle_Wiki_Scraper()
+nestle_wiki = NestleWikiScraper()
 nestle_wiki.get_all_categories()

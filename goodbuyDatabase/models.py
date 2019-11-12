@@ -116,7 +116,7 @@ class Company(models.Model):
 
 class Brand(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=45,)
+    name = models.CharField(unique=True, max_length=50,)
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     company = models.ForeignKey(Company, models.SET_NULL, null=True, blank=True)
