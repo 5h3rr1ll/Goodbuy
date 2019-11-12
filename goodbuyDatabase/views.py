@@ -10,8 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DeleteView, DetailView, UpdateView
 
 from .forms import AddNewProductForm
-from .models import (Brand, CategoryOfProduct, Company, Corporation, Country,
-                     Product)
+from .models import Brand, CategoryOfProduct, Company, Corporation, Country, Product
 
 
 def create_product(request):
@@ -186,24 +185,28 @@ def is_in_own_database(request, code):
     print(HttpResponse(str(Product.objects.filter(code=code).exists())))
 
 
+def create_feedback_string(product_object):
+    product_serialized = serializers.serialize("json", [product_object,])
+    try:
+        is_big_ten = requests.get(
+            f"http://localhost:8000/is_big_ten/{product_object.brand}/"
+        )
+    except Exception as e:
+        print("\n request ERROR:", str(e))
+    is_big_ten_string = '{"is big ten":' + f'"{is_big_ten.content.decode("ascii")}",'
+    return json.loads(is_big_ten_string + product_serialized[2:-1])
+
+
 def feedback(request, code):
     if Product.objects.filter(code=code).exists():
         product_object = Product.objects.get(code=code)
-        print(product_object)
-        try:
-            is_big_ten = requests.get(
-                f"http://localhost:8000/is_big_ten/{product_object.brand}/"
-            )
-        except Exception as e:
-            print("\n request ERROR:", str(e))
-        is_big_ten_string = '{"is big ten":' + f'"{is_big_ten.content.decode("ascii")}",'
-        product_serialized = serializers.serialize("json", [product_object,])
-        anwser = is_big_ten_string + product_serialized[2:-1]
-        anwser = json.loads(anwser)
-        return JsonResponse(anwser)
+        answer = create_feedback_string(product_object)
+        return JsonResponse(answer)
     else:
         product = requests.get(f"http://localhost:8000/lookup/{code}/").json()
-        is_big_ten = requests.get(f"http://localhost:8000/is_big_ten/{product['brand']}/")
+        is_big_ten = requests.get(
+            f"http://localhost:8000/is_big_ten/{product['brand']}/"
+        )
         print(f"\nProduct in feedback: {product}")
         resp = requests.post(
             "http://localhost:8000/goodbuyDatabase/save_product/", json=product,
@@ -286,13 +289,18 @@ def endpoint_save_corporation(request):
 def endpoint_save_country(request):
     if request.method == "POST":
         response = json.loads(request.body.decode("utf-8"))
-        country_code = json.loads(requests.get(
-            f"https://restcountries.eu/rest/v2/name/{response['country']}?fullText=true"
-        ).content)
-        country_code = country_code[0]["alpha2Code"]
+        country_code = "N.A."
+        try:
+            country_code = json.loads(
+                requests.get(
+                    f"https://restcountries.eu/rest/v2/name/{response['country']}?fullText=true"
+                ).content
+            )
+            country_code = country_code[0]["alpha2Code"]
+        except Exception as e:
+            print(str(e), "Can't find country.")
         Country.objects.get_or_create(
-            name=response["country"],
-            code=country_code,
+            name=response["country"], code=country_code,
         )
         print(f"Country {response['country']} saved.")
     else:
