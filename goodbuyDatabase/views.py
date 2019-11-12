@@ -178,12 +178,12 @@ def is_big_ten(request, brandname):
         "Associated British Foods plc",
         "DANONE",
     ]
-    answer = {"in big ten": brandname in big_ten}
-    return JsonResponse(answer)
+    # answer = {"in big ten": brandname in big_ten}
+    return HttpResponse(brandname in big_ten)
 
 
 def is_in_own_database(request, code):
-    return HttpResponse(str(Product.objects.filter(code=code).exists()))
+    print(HttpResponse(str(Product.objects.filter(code=code).exists())))
 
 
 def feedback(request, code):
@@ -192,17 +192,18 @@ def feedback(request, code):
         print(product_object)
         try:
             is_big_ten = requests.get(
-                f"http://localhost:8000/isbigten/{product_object.brand}/"
+                f"http://localhost:8000/is_big_ten/{product_object.brand}/"
             )
-            print("In Try is big ten:", is_big_ten)
         except Exception as e:
             print("\n request ERROR:", str(e))
+        is_big_ten_string = '{"is big ten":' + f'"{is_big_ten.content.decode("ascii")}",'
         product_serialized = serializers.serialize("json", [product_object,])
-        print(product_serialized)
-        return HttpResponse(f"[{is_big_ten.text},{product_serialized}]")
+        anwser = is_big_ten_string + product_serialized[2:-1]
+        anwser = json.loads(anwser)
+        return JsonResponse(anwser)
     else:
         product = requests.get(f"http://localhost:8000/lookup/{code}/").json()
-        is_big_ten = requests.get(f"http://localhost:8000/isbigten/{product['brand']}/")
+        is_big_ten = requests.get(f"http://localhost:8000/is_big_ten/{product['brand']}/")
         print(f"\nProduct in feedback: {product}")
         resp = requests.post(
             "http://localhost:8000/goodbuyDatabase/save_product/", json=product,
