@@ -4,13 +4,23 @@ import requests
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core import serializers
+from django.db import DataError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DeleteView, DetailView, UpdateView
 
 from .forms import AddNewProductForm
-from .models import Brand, CategoryOfProduct, Company, Corporation, Country, Product
+from .models import (
+    Brand,
+    CategoryOfProduct,
+    Company,
+    Corporation,
+    Country,
+    Product,
+    Store,
+    Certificate,
+)
 
 
 def create_product(request):
@@ -44,9 +54,11 @@ def add_product(request, code):
         form = AddNewProductForm(request.POST, request.FILES)
 
         if form.is_valid():
-            """commit=False allows you to modify the resulting object before it
+            """
+            commit=False allows you to modify the resulting object before it
             is actually saved to the database. Source:
-            https://stackoverflow.com/questions/2218930/django-save-user-id-with-model-save?noredirect=1&lq=1"""
+            https://stackoverflow.com/questions/2218930/django-save-user-id-with-model-save?noredirect=1&lq=1
+            """
             product = form.save(commit=False)
             product.added_by = request.user
             if request.user.groups.filter(name="ProductGroup").exists():
@@ -302,7 +314,10 @@ def endpoint_save_country(request):
         Country.objects.get_or_create(
             name=response["country"], code=country_code,
         )
-        print(f"Country {response['country']} saved.")
+        Store.objects.get_or_create(
+            name=response["name"], country=Country.objects.get(name=response["country"])
+        )
+        print(f"Store {response['name']} saved.")
     else:
         print("ELSE!")
     return HttpResponse("")
