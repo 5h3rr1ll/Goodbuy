@@ -60,9 +60,4 @@ urlpatterns = [
         goodbuyDatabase_views.endpoint_save_country,
         name="endpoint_save_country",
     ),
-    path(
-        "save_store/",
-        goodbuyDatabase_views.endpoint_save_store,
-        name="endpoint_save_store",
-    ),
 ]
