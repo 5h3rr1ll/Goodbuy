@@ -52,6 +52,6 @@ class KelloggsWikiScraper:
 
 
 
-kelloggs_wiki = KelloggsWikiScraper()
-div_locations_list = kelloggs_wiki.get_all_div_location()
-kelloggs_wiki.iterate_over_list(div_locations_list)
+# kelloggs_wiki = KelloggsWikiScraper()
+# div_locations_list = kelloggs_wiki.get_all_div_location()
+# kelloggs_wiki.iterate_over_list(div_locations_list)
