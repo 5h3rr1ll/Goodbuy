@@ -165,6 +165,7 @@ def is_big_ten(request, brandname):
         "Unilever",
         "Nestlé",
         "Coca-Cola",
+        "Coca Cola",
         "Kellog's",
         "MARS",
         "PEPSICO",
