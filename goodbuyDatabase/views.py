@@ -155,7 +155,8 @@ def show_list_of_codes(request, list, *args, **kwargs):
             try:
                 product = Product.objects.get(code=code)
                 product_in_db.append(product)
-            except:
+            except Exception:
+                print(str(Exception))
                 form = AddNewProductForm(initial={"code": code})
                 product_not_in_db.append(form)
 
