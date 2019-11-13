@@ -214,10 +214,7 @@ def feedback(request, code):
         return JsonResponse(answer)
     else:
         product = requests.get(f"http://localhost:8000/lookup/{code}/").json()
-        is_big_ten = requests.get(
-            f"http://localhost:8000/is_big_ten/{product['brand']}/"
-        )
-        resp = requests.post(
+        requests.post(
             "http://localhost:8000/goodbuyDatabase/save_product/", json=product,
         )
         product_object = Product.objects.get(code=code)
