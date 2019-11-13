@@ -4,7 +4,6 @@ import requests
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core import serializers
-from django.db import DataError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render, render_to_response
 from django.views.decorators.csrf import csrf_exempt
@@ -19,7 +18,6 @@ from .models import (
     Country,
     Product,
     Store,
-    Certificate,
 )
 
 
