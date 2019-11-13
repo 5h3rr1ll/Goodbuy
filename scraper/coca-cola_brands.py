@@ -46,7 +46,8 @@ class CocaColaWikiScraper:
         except AttributeError as e:
             print(str(e), " div changed position ")
 
-    def get_all_div_location(self):
+    @classmethod
+    def get_all_div_location(cls):
         div_locations_list = {
             "A": "#mw-content-text > div > div:nth-child(5)",
             "B": "#mw-content-text > div > div:nth-child(8)",
