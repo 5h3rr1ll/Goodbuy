@@ -196,7 +196,7 @@ def is_in_own_database(request, code):
 
 
 def create_feedback_string(product_object):
-    product_serialized = serializers.serialize("json", [product_object,])
+    product_serialized = serializers.serialize("json", [product_object, ])
     try:
         is_big_ten = requests.get(
             f"http://localhost:8000/is_big_ten/{product_object.brand}/"
@@ -217,12 +217,12 @@ def feedback(request, code):
         is_big_ten = requests.get(
             f"http://localhost:8000/is_big_ten/{product['brand']}/"
         )
-        print(f"\nProduct in feedback: {product}")
         resp = requests.post(
             "http://localhost:8000/goodbuyDatabase/save_product/", json=product,
         )
-        print(f"\nResponse:", resp)
-        return HttpResponse(f"[{is_big_ten.text},{product}]")
+        product_object = Product.objects.get(code=code)
+        answer = create_feedback_string(product_object)
+        return JsonResponse(answer)
 
 
 # TODO: endpoints are not protected with csrf❗️
