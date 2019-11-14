@@ -5,9 +5,9 @@ from . import views as goodbuyDatabase_views
 app_name = "goodbuyDatabase"
 
 urlpatterns = [
-    path("new/product/", goodbuyDatabase_views.create_product, name="create_product"),
+    path("new/product/", goodbuyDatabase_views.create_product_form, name="create_product_form"),
     path(
-        "add/product/<str:code>/", goodbuyDatabase_views.add_product, name="add_product"
+        "add/product/<str:code>/", goodbuyDatabase_views.add_product_form, name="add_product_form"
     ),
     path(
         "product/<int:pk>/update/",
