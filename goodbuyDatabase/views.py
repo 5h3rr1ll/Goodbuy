@@ -10,18 +10,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DeleteView, DetailView, UpdateView
 
 from .forms import AddNewProductForm
-from .models import (
-    Brand,
-    CategoryOfProduct,
-    Company,
-    Corporation,
-    Country,
-    Product,
-    Store,
-)
+from .models import (Brand, CategoryOfProduct, Company, Corporation, Country,
+                     Product, Store)
 
 
-def create_product(request):
+def create_product_form(request):
     if request.method == "POST" and request.is_ajax():
         form = AddNewProductForm(request.POST, request.FILES)
         print(request.POST)
@@ -47,7 +40,7 @@ def create_product(request):
 
 
 @login_required
-def add_product(request, code):
+def add_product_form(request, code):
     if request.method == "POST":
         form = AddNewProductForm(request.POST, request.FILES)
 
@@ -167,10 +160,6 @@ def show_list_of_codes(request, list, *args, **kwargs):
         return render(request, "goodbuyDatabase/list_of_product_codes.html", args)
 
 
-def receive_code(request, code):
-    return HttpResponse(status=204)
-
-
 class ProductDetailView(DetailView):
     model = Product
 
@@ -180,16 +169,33 @@ def is_big_ten(request, brandname):
         "Unilever",
         "Nestlé",
         "Coca-Cola",
-        "Kellog's",
-        "MARS",
-        "PEPSICO",
+        "Kellogg's",
+        "Mars",
+        "PepsiCo",
         "Mondelez",
         "General Mills",
-        "Associated British Foods plc",
-        "DANONE",
+        "Associated British Foods",
+        "Danone",
     ]
-    # answer = {"in big ten": brandname in big_ten}
-    return HttpResponse(brandname in big_ten)
+    brand_obj, created = Brand.objects.get_or_create(name=brandname)
+    if created is True:
+        print("We don't know")
+        return HttpResponse("We don't know")
+    elif created is False:
+        if brand_obj.corporation is None:
+            print("We don't know")
+            return HttpResponse("We don't know")
+        elif (
+            brand_obj.corporation.name is not None
+            and brand_obj.corporation.name in big_ten
+        ):
+            print("True")
+            return HttpResponse(True)
+        else:
+            print("False")
+            return HttpResponse(False)
+    else:
+        print("WTF!?")
 
 
 def is_in_own_database(request, code):
@@ -305,8 +311,8 @@ def endpoint_save_country(request):
                 ).content
             )
             country_code = country_code[0]["alpha2Code"]
-        except Exception as e:
-            print(str(e), "Can't find country.")
+        except Exception:
+            print(str(Exception), "Can't find country.")
         Country.objects.get_or_create(
             name=response["country"], code=country_code,
         )
