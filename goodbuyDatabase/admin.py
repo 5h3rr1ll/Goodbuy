@@ -76,19 +76,15 @@ class CorporationAdmin(admin.ModelAdmin):
         "name",
         "logo",
         "wiki",
+        "origin",
         "origin_code",
         "created",
         "updated",
     )
     list_display_links = ("id", "name")
     search_fields = [
-        "id",
         "name",
-        "logo",
-        "wiki",
-        "origin_code",
-        "created",
-        "updated",
+        "id",
     ]
     autocomplete_fields = ("origin",)
     inlines = [
@@ -109,6 +105,7 @@ class CompanyAdmin(admin.ModelAdmin):
         "logo",
         "wiki",
         "corporation",
+        "origin",
         "origin_code",
         "created",
         "updated",
@@ -119,7 +116,7 @@ class CompanyAdmin(admin.ModelAdmin):
         "name",
         "logo",
         "corporation__name",
-        "origin_code",
+        "origin",
         "created",
         "updated",
     ]
