@@ -69,7 +69,7 @@ def scrape(request, code):
     except Exception as e:
         print("\n Product image ERROR:", str(e))
 
-    product_category = "N.A."
+    product_category = ""
     print("\n product category")
     try:
         product_category = (
@@ -100,7 +100,7 @@ def scrape(request, code):
 
     print("\n interate over product info items")
 
-    product_brand = "N.A."
+    product_brand = ""
     try:
         product_info_items = driver.find_elements_by_class_name("product-info-item")
         for div in product_info_items:
@@ -111,7 +111,6 @@ def scrape(request, code):
             ):
                 product_brand = div.text.splitlines()[1]
     except Exception as e:
-        product_brand = "N.A."
         print("\n Can't extract brand:", str(e))
         #When there is no brand in the scraped object we return the Httpresponse(403).
         #The Api should know that this is a response to redirect the user in Vue to a view for inserting the brand.
