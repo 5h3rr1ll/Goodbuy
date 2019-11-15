@@ -11,7 +11,7 @@ from django.views.generic import DeleteView, DetailView, UpdateView
 
 from .forms import AddNewProductForm
 from .models import (Brand, CategoryOfProduct, Company, Corporation, Country,
-                     Product, Store)
+                     Product)
 
 
 def create_product_form(request):
@@ -303,7 +303,6 @@ def endpoint_save_corporation(request):
 def endpoint_save_country(request):
     if request.method == "POST":
         response = json.loads(request.body.decode("utf-8"))
-        country_code = "N.A."
         try:
             country_code = json.loads(
                 requests.get(
@@ -311,15 +310,15 @@ def endpoint_save_country(request):
                 ).content
             )
             country_code = country_code[0]["alpha2Code"]
+            Country.objects.get_or_create(
+                name=response["country"], code=country_code,
+            )
         except Exception:
-            print(str(Exception), "Can't find country.")
-        Country.objects.get_or_create(
-            name=response["country"], code=country_code,
-        )
-        Store.objects.get_or_create(
-            name=response["name"], country=Country.objects.get(name=response["country"])
-        )
-        print(f"Store {response['name']} saved.")
+            print(str(Exception), "Can't find country (code).")
+            Country.objects.get_or_create(
+                name=response["country"]
+            )
+        print(f"Country {response['name']} saved.")
     else:
         print("ELSE!")
     return HttpResponse("")
