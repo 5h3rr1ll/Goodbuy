@@ -220,9 +220,9 @@ def feedback(request, code):
         answer = create_feedback_string(product_object)
         return JsonResponse(answer)
     else:
-        product = requests.get(f"http://localhost:8000/lookup/{code}/").json()
+        product_as_dict = requests.get(f"http://localhost:8000/lookup/{code}/").json()
         requests.post(
-            "http://localhost:8000/goodbuyDatabase/save_product/", json=product,
+            "http://localhost:8000/goodbuyDatabase/save_product/", json=product_as_dict,
         )
         product_object = Product.objects.get(code=code)
         answer = create_feedback_string(product_object)
@@ -232,19 +232,24 @@ def feedback(request, code):
 # TODO: endpoints are not protected with csrf❗️
 @csrf_exempt
 def endpoint_save_product(request):
+    brand = None
+    product_category = None
     if request.method == "POST":
         response = json.loads(request.body.decode("utf-8"))
-        Brand.objects.get_or_create(name=response["brand"])
-        CategoryOfProduct.objects.get_or_create(name=response["product_category"])
-        Product.objects.get_or_create(
+        if response["brand"] is not None:
+            brand, created = Brand.objects.get_or_create(name=response["brand"])
+        if response["product_category"] is not None:
+            product_category, created = CategoryOfProduct.objects.get_or_create(
+                name=response["product_category"]
+            )
+        product_object, created = Product.objects.get_or_create(
             code=response["code"],
             name=response["name"],
-            brand=Brand.objects.get(name=response["brand"]),
-            product_category=CategoryOfProduct.objects.get(
-                name=response["product_category"]
-            ),
+            brand=brand,
+            product_category=product_category,
             scraped_image=response["scraped_image"],
         )
+        print(f"Product saved: {product_object.name}")
     else:
         print("ELSE!")
     return HttpResponse("")
