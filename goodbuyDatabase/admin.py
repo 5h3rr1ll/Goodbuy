@@ -1,8 +1,17 @@
 from django.contrib import admin
 
-from .models import (Brand, CategoryOfProduct, Certificate, Company,
-                     Corporation, Country, Product, ProductPriceInStore,
-                     Rating, Store)
+from .models import (
+    Brand,
+    CategoryOfProduct,
+    Certificate,
+    Company,
+    Corporation,
+    Country,
+    Product,
+    ProductPriceInStore,
+    Rating,
+    Store,
+)
 
 
 # Register your models here.
@@ -22,8 +31,14 @@ class CategoryOfProductAdmin(admin.ModelAdmin):
 
 
 class RatingAdmin(admin.ModelAdmin):
-    list_display = ("id", "corporation",)
-    list_display_links = ("id", "corporation",)
+    list_display = (
+        "id",
+        "corporation",
+    )
+    list_display_links = (
+        "id",
+        "corporation",
+    )
 
     @classmethod
     def corporation(self, obj):
@@ -197,10 +212,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = [
         "id",
         "name",
-        "logo",
-        "wiki",
         "code",
-        "scraped_image",
         "brand__name",
         "corporation__name",
         "scanned_counter",
