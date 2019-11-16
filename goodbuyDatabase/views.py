@@ -303,21 +303,20 @@ def endpoint_save_corporation(request):
 def endpoint_save_country(request):
     if request.method == "POST":
         response = json.loads(request.body.decode("utf-8"))
+        country_code = None
         try:
             country_code = json.loads(
                 requests.get(
-                    f"https://restcountries.eu/rest/v2/name/{response['country']}?fullText=true"
+                    f"https://restcountries.eu/rest/v2/name/{response['name']}"
                 ).content
             )
-            country_code = country_code[0]["alpha2Code"]
-            Country.objects.get_or_create(
-                name=response["country"], code=country_code,
-            )
+            if country_code["status"] != 404:
+                country_code = country_code[0]["alpha2Code"]
+            else:
+                country_code = None
         except Exception:
             print(str(Exception), "Can't find country (code).")
-            Country.objects.get_or_create(
-                name=response["country"]
-            )
+        Country.objects.get_or_create(name=response["name"], code=country_code)
         print(f"Country {response['name']} saved.")
     else:
         print("ELSE!")
