@@ -66,7 +66,7 @@ class Corporation(models.Model):
 
 class Rating(models.Model):
     id = models.AutoField(primary_key=True)
-    coperation = models.ForeignKey(Corporation, models.SET_NULL, null=True, blank=False)
+    corporation = models.ForeignKey(Corporation, models.SET_NULL, null=True, blank=False)
     year = models.IntegerField(
         validators=[MinValueValidator(1900), MaxValueValidator(9999)],
         null=True,
@@ -111,10 +111,7 @@ class Rating(models.Model):
     class Meta:
         managed = True
         db_table = "ratings"
-        ordering = (
-            "year",
-            "id",
-        )
+        ordering = ("corporation", "id",)
 
     def __str__(self):
         return (self.year, self.corporation.name)
