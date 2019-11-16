@@ -111,10 +111,7 @@ class Rating(models.Model):
     class Meta:
         managed = True
         db_table = "ratings"
-        ordering = (
-            "year",
-            "id",
-        )
+        ordering = ("corporation","id",)
 
     def __str__(self):
         return (self.year, self.corporation.name)
