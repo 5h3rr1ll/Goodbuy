@@ -26,7 +26,7 @@
 {% block body %}
     <!-- Containers for the picker and the results -->
     <div id="scandit-barcode-picker"></div>
-    <div id="scandit-barcode-result">No codes scanned yet</div>
+    <div id="scandit-barcode-result">Scanned an barcode to start</div>
     <!-- Button to continue scanning after a barcode was scanned -->
     <button
       class="btn btn-outline-primary"
@@ -82,14 +82,13 @@
 
                     // Function is disabled so user can scan several codes one
                     // after anither
-                    // picker.pauseScanning();
+                    picker.pauseScanning();
                     codeSet.add(scanResult.barcodes[0].data)
                     console.log(codeSet.values())
                     resultContainer.innerHTML = scanResult.barcodes.reduce((string, barcode) =>
                         string + `${ScanditSDK.Barcode.Symbology.toHumanizedName(barcode.symbology)}: ${barcode.data}<br>`,
                         '');
                     sendCodeToListView()
-                    picker.pauseScanning();
                 });
                 picker.onScanError(error => {
                     console.error(error.message);
@@ -117,10 +116,9 @@
 
         function sendCodeToListView(){
           var csrftoken = getCookie('csrftoken');
-          const url = "/goodbuyDatabase/instant_feedback/" + Array.from(codeSet).join(",") + "/"
+          const url = "/feedback/" + Array.from(codeSet).join(",") + "/"
           fetch(url,{
             method: 'POST',
-            body: JSON.stringify(codeSet),
             headers: {
               'Content-Type': 'json/application',
               'X-CSRFToken': csrftoken,
@@ -132,10 +130,10 @@
           window.location.replace(url);
         };
     </script>
-    <button
+    <!-- <button
       class="btn btn-outline-primary"
       id="done-scanning-button"
       onclick="sendCodeToListView()">
       Done
-    </button>
+    </button> -->
 {% endblock %}

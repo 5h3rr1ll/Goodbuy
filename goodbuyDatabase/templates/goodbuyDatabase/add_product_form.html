@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block head %}
+  <title>Add Product</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Add Product</h1>
+    <p>
+      Hey! There we have a new product for the Database!<br>
+      Please do us a favour and provide as much information as possible.<br>
+      But don't stress yourself. If you don't know or can't find certain
+      information, just skip it. 😉<br>
+    </p>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button class="btn btn-outline-primary" type="submit">Submit</button>
+      <a class="btn btn-outline-danger" href="/code_scanner/">Cancel</a>
+    </form>
+    <br>
+    {% if form.errors %}
+      {% for field in form %}
+          {% for error in field.errors %}
+              <div class="alert alert-danger">
+                  <strong>{{ error|escape }}</strong>
+              </div>
+          {% endfor %}
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+          <div class="alert alert-danger">
+              <strong>{{ error|escape }}</strong>
+          </div>
+      {% endfor %}
+    {% endif %}
+{% endblock %}

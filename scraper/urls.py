@@ -4,5 +4,5 @@ from scraper import views
 app_name = "scraper"
 
 urlpatterns = [
-    path('<str:code>/', views.scrape, name='scrap'),
+    path("<str:code>/", views.scrape, name="scrap"),
 ]

@@ -8,6 +8,7 @@ from accounts import views as acccount_views
 from home import views as home_views
 from goodbuyDatabase import views as gd_views
 from scraper import views as scraper_views
+from brandScraper import views as brand_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -42,7 +43,11 @@ urlpatterns = [
     path('goodbuyDatabase/', include(
         ('goodbuyDatabase.urls',"goodbuyDatabase"),
         namespace="goodbuyDatabase")),
-    path("isbigten/<str:brandname>/", gd_views.is_big_ten),
+    path('scraper/', include(
+        ('scraper.urls',"scraper"),
+        namespace="scraper")),
+    path("lookup_Brands/", brand_views.scrape),
+    path("is_big_ten/<str:brandname>/", gd_views.is_big_ten),
     path("lookup/<str:code>/", scraper_views.scrape),
     path("feedback/<str:code>/", gd_views.feedback),
 ]
