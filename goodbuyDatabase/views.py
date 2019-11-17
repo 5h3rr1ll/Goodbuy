@@ -12,6 +12,7 @@ from django.views.generic import DeleteView, DetailView, UpdateView
 from .forms import AddNewProductForm
 from .models import (Brand, CategoryOfProduct, Company, Corporation, Country,
                      Product)
+import os
 
 
 def create_product_form(request):
@@ -206,7 +207,7 @@ def create_feedback_string(product_object):
     product_serialized = serializers.serialize("json", [product_object, ])
     try:
         is_big_ten = requests.get(
-            f"http://localhost:8000/is_big_ten/{product_object.brand}/"
+            f"{os.environment.get(CURRENT_HOST)}/is_big_ten/{product_object.brand}/"
         )
     except Exception as e:
         print("\n request ERROR:", str(e))
@@ -220,9 +221,9 @@ def feedback(request, code):
         answer = create_feedback_string(product_object)
         return JsonResponse(answer)
     else:
-        product_as_dict = requests.get(f"http://localhost:8000/lookup/{code}/").json()
+        product_as_dict = requests.get(f"{os.environment.get(CURRENT_HOST)}/lookup/{code}/").json()
         requests.post(
-            "http://localhost:8000/goodbuyDatabase/save_product/", json=product_as_dict,
+            f"{os.environment.get(CURRENT_HOST)}/goodbuyDatabase/save_product/", json=product_as_dict,
         )
         product_object = Product.objects.get(code=code)
         answer = create_feedback_string(product_object)
