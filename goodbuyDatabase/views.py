@@ -1,4 +1,5 @@
 import json
+import os
 
 import requests
 from django.contrib.auth.decorators import login_required
@@ -12,7 +13,6 @@ from django.views.generic import DeleteView, DetailView, UpdateView
 from .forms import AddNewProductForm
 from .models import (Brand, CategoryOfProduct, Company, Corporation, Country,
                      Product)
-import os
 
 
 def create_product_form(request):

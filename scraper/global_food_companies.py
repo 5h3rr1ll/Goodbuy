@@ -1,4 +1,5 @@
 """This module gathers information about companies of gernal mills."""
+import os
 import re
 
 import requests
@@ -112,7 +113,8 @@ class FoodCompaniesFromAllOverTheWordWikiScraper:
             "origin": country,
         }
         requests.post(
-            "http://localhost:8000/goodbuyDatabase/save_company/", json=data,
+            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_company/",
+            json=data,
         )
 
     def clean_up_company_name(self, country, bs_object):
@@ -134,7 +136,7 @@ class FoodCompaniesFromAllOverTheWordWikiScraper:
                             country, link_text.split(special_char[0])[0].strip()
                         )
                     except IndexError:
-                        print(link_text)
+                        print(str(IndexError), link_text)
                         self.save_company(country, link_text.strip())
         except AttributeError:
             print(" div changed position", str(AttributeError))

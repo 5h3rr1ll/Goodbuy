@@ -1,4 +1,5 @@
 """This module gathers information about brands and companies of corperations."""
+import os
 import re
 
 import requests
@@ -21,7 +22,7 @@ class DanoneScraper:
             "corporation": "Danone",
         }
         requests.post(
-            "http://localhost:8000/goodbuyDatabase/save_brand/", json=data,
+            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_brand/", json=data,
         )
 
     def clean_up_brand_name(self, bs_object):
@@ -41,7 +42,7 @@ class DanoneScraper:
                         print(link_text.split(special_char[0])[0])
                         self.save_brand(link_text.split(special_char[0])[0].strip())
                     except IndexError:
-                        print(link_text)
+                        print(str(IndexError), link_text)
                         self.save_brand(link_text.strip())
         except AttributeError:
             print(" div changed position", str(AttributeError))

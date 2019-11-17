@@ -1,7 +1,9 @@
+import os
 import re
 
 import requests
 from bs4 import BeautifulSoup
+
 
 class MondelezWikiScraper:
     def __init__(self):
@@ -15,7 +17,7 @@ class MondelezWikiScraper:
             "corporation": "Mondelez",
         }
         requests.post(
-            "http://localhost:8000/goodbuyDatabase/save_brand/", json=data,
+            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_brand/", json=data,
         )
 
     def clean_up_brand_name(self, bs_object):
@@ -25,12 +27,12 @@ class MondelezWikiScraper:
             else:
                 for list_element in bs_object.findAll("li"):
                     link_text = list_element.get_text()
-                    special_char = re.findall("[\][–)(,}:]|[0-9]{4}", link_text)
+                    special_char = re.findall(r"[\][–)(,}:]|[0-9]{4}", link_text)
                     try:
                         print(link_text.split(special_char[0])[0])
                         self.save_brand(link_text.split(special_char[0])[0].strip())
-                    except:
-                        print(link_text)
+                    except Exception:
+                        print(str(Exception), link_text)
                         self.save_brand(link_text.strip())
         except AttributeError as e:
             print(str(e), " div changed position ")
@@ -48,6 +50,5 @@ class MondelezWikiScraper:
             self.clean_up_brand_name(div_location)
 
 
-mondelez_wiki = MondelezWikiScraper()
-div_locations_list = mondelez_wiki.get_all_div_location()
-mondelez_wiki.iterate_over_list(div_locations_list)
+MONDELEZ_WIKI = MondelezWikiScraper()
+MONDELEZ_WIKI.iterate_over_list(MONDELEZ_WIKI.get_all_div_location())

@@ -1,4 +1,5 @@
 """This module gathers information about brands and companies of corperations."""
+import os
 import re
 
 import requests
@@ -21,7 +22,8 @@ class CocaColaWikiScraper:
             "corporation": "Kellogg's",
         }
         requests.post(
-            "http://localhost:8000/goodbuyDatabase/save_brand/", json=data,
+            f"http://localhost:{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_brand/",
+            json=data,
         )
 
     def clean_up_brand_name(self, bs_object):
