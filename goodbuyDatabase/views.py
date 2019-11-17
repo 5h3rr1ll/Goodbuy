@@ -207,7 +207,7 @@ def create_feedback_string(product_object):
     product_serialized = serializers.serialize("json", [product_object, ])
     try:
         is_big_ten = requests.get(
-            f"{os.environment.get(CURRENT_HOST)}/is_big_ten/{product_object.brand}/"
+            f"{os.environ.get(CURRENT_HOST)}/is_big_ten/{product_object.brand}/"
         )
     except Exception as e:
         print("\n request ERROR:", str(e))
@@ -221,9 +221,9 @@ def feedback(request, code):
         answer = create_feedback_string(product_object)
         return JsonResponse(answer)
     else:
-        product_as_dict = requests.get(f"{os.environment.get(CURRENT_HOST)}/lookup/{code}/").json()
+        product_as_dict = requests.get(f"{os.environ.get(CURRENT_HOST)}/lookup/{code}/").json()
         requests.post(
-            f"{os.environment.get(CURRENT_HOST)}/goodbuyDatabase/save_product/", json=product_as_dict,
+            f"{os.environ.get(CURRENT_HOST)}/goodbuyDatabase/save_product/", json=product_as_dict,
         )
         product_object = Product.objects.get(code=code)
         answer = create_feedback_string(product_object)
