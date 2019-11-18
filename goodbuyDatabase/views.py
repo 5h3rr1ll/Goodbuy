@@ -160,7 +160,6 @@ def show_list_of_codes(request, list, *args, **kwargs):
         }
         return render(request, "goodbuyDatabase/list_of_product_codes.html", args)
 
-
 class ProductDetailView(DetailView):
     model = Product
 
@@ -170,9 +169,10 @@ def is_big_ten(request, brandname):
         "Unilever",
         "Nestlé",
         "Coca-Cola",
-        "Kellogg's",
-        "Mars",
-        "PepsiCo",
+        "Coca Cola",
+        "Kellog's",
+        "MARS",
+        "PEPSICO",
         "Mondelez",
         "General Mills",
         "Associated British Foods",
