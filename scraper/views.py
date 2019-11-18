@@ -1,14 +1,9 @@
 import os
-import sys
-from time import sleep
 
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import redirect, render
-from django.urls import reverse
+from django.http import HttpResponse, JsonResponse
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -19,7 +14,6 @@ def scrape(request, code):
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
-    # options.add_argument("--remote-debugging-port=9222")
     prefs = {"profile.managed_default_content_settings.images": 2}
     options.add_experimental_option("prefs", prefs)
     driver = webdriver.Chrome(
@@ -60,6 +54,7 @@ def scrape(request, code):
             .text
         )
     except Exception as e:
+        # TODO: if name is not found, user needs to get redirected to add product form
         print("\n Productname ERROR:", str(e))
 
     print("\n product image")
@@ -72,7 +67,7 @@ def scrape(request, code):
     except Exception as e:
         print("\n Product image ERROR:", str(e))
 
-    product_category = "N.A."
+    product_category = None
     print("\n product category")
     try:
         product_category = (
@@ -102,9 +97,8 @@ def scrape(request, code):
         print("\n More Product Details Div not found:", str(e))
 
     print("\n interate over product info items")
-    sleep(3)
 
-    product_brand = "N.A."
+    product_brand = None
     try:
         product_info_items = driver.find_elements_by_class_name("product-info-item")
         for div in product_info_items:
@@ -115,8 +109,11 @@ def scrape(request, code):
             ):
                 product_brand = div.text.splitlines()[1]
     except Exception as e:
-        product_brand = "N.A."
         print("\n Can't extract brand:", str(e))
+        # When there is no brand in the scraped object we return the Httpresponse(403).
+        # The Api should know that this is a response to redirect the user in Vue to a view for
+        # inserting the brand.
+        return HttpResponse(403)
 
     print("Product is done")
     product = {
@@ -126,6 +123,6 @@ def scrape(request, code):
         "product_category": product_category,
         "scraped_image": product_image,
     }
-    print("Product: ", product)
+    print("Looked up product: ", product)
 
     return JsonResponse(product)

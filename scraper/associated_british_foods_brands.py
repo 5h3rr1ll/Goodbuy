@@ -6,19 +6,20 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class MarsWikiScraper:
-    """Returns brands of Mars"""
+class AssociatedBritishFoodsScraper:
+    """Returns brands of Associated British Foods"""
 
     def __init__(self):
-        self.url = "https://en.wikipedia.org/wiki/Mars,_Incorporated"
+        self.url = "https://en.wikipedia.org/wiki/Associated_British_Foods"
         self.request = requests.get(self.url)
         self.soup = BeautifulSoup(self.request.content, "html.parser")
 
-    def save_brand(self, brand):
+    @classmethod
+    def save_brand(cls, brand):
         """Takes a brand name and saves it with the corporation into the database"""
         data = {
             "name": brand,
-            "corporation": "Mars",
+            "corporation": "Associated British Foods",
         }
         requests.post(
             f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_brand/", json=data,
@@ -40,21 +41,21 @@ class MarsWikiScraper:
                     try:
                         print(link_text.split(special_char[0])[0])
                         self.save_brand(link_text.split(special_char[0])[0].strip())
-                    except Exception:
-                        print(str(Exception), link_text)
+                    except IndexError:
+                        print(str(IndexError), link_text)
                         self.save_brand(link_text.strip())
-        except AttributeError as e:
-            print(str(e), " div changed position ")
+        except AttributeError:
+            print(" div changed position", str(AttributeError))
 
-    def get_all_div_location(self):
+    @classmethod
+    def get_all_div_location(cls):
         """
         Returns a dictionary with locations of the brand list, located by css selctor, combind with
         with the sections title.
         """
         div_locations_list = {
-            "Original products": "#mw-content-text > div > div:nth-child(68)",
-            "Products manufactured by The Wrigley Company": "#mw-content-text > div > div:nth-child(70)",
-            "Products for pet consumption": "#mw-content-text > div > div:nth-child(72)",
+            "Brands": "#mw-content-text > div > div:nth-child(20)",
+            "Subsidiaries": "#mw-content-text > div > div:nth-child(22)",
         }
         return div_locations_list
 
@@ -63,10 +64,12 @@ class MarsWikiScraper:
         Iterates over the list of div locations. Finds the div and call clean_up_brand_name on it.
         """
         for category, div_location in lst.items():
-            print(f"\nCategory: {category}")
+            print(f"\n{category}:")
             div_location = self.soup.select_one(div_location)
             self.clean_up_brand_name(div_location)
 
 
-MARS_WIKI = MarsWikiScraper()
-MARS_WIKI.iterate_over_list(MARS_WIKI.get_all_div_location())
+ASSOCIATED_BRITISH_FOODS_WIKI = AssociatedBritishFoodsScraper()
+ASSOCIATED_BRITISH_FOODS_WIKI.iterate_over_list(
+    ASSOCIATED_BRITISH_FOODS_WIKI.get_all_div_location()
+)

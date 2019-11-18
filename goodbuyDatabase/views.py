@@ -1,4 +1,5 @@
 import json
+import os
 
 import requests
 from django.contrib.auth.decorators import login_required
@@ -14,7 +15,7 @@ from .models import (Brand, CategoryOfProduct, Company, Corporation, Country,
                      Product)
 
 
-def create_product(request):
+def create_product_form(request):
     if request.method == "POST" and request.is_ajax():
         form = AddNewProductForm(request.POST, request.FILES)
         print(request.POST)
@@ -40,14 +41,16 @@ def create_product(request):
 
 
 @login_required
-def add_product(request, code):
+def add_product_form(request, code):
     if request.method == "POST":
         form = AddNewProductForm(request.POST, request.FILES)
 
         if form.is_valid():
-            """commit=False allows you to modify the resulting object before it
+            """
+            commit=False allows you to modify the resulting object before it
             is actually saved to the database. Source:
-            https://stackoverflow.com/questions/2218930/django-save-user-id-with-model-save?noredirect=1&lq=1"""
+            https://stackoverflow.com/questions/2218930/django-save-user-id-with-model-save?noredirect=1&lq=1
+            """
             product = form.save(commit=False)
             product.added_by = request.user
             if request.user.groups.filter(name="ProductGroup").exists():
@@ -146,7 +149,8 @@ def show_list_of_codes(request, list, *args, **kwargs):
             try:
                 product = Product.objects.get(code=code)
                 product_in_db.append(product)
-            except:
+            except Exception:
+                print(str(Exception))
                 form = AddNewProductForm(initial={"code": code})
                 product_not_in_db.append(form)
 
@@ -171,58 +175,82 @@ def is_big_ten(request, brandname):
         "PEPSICO",
         "Mondelez",
         "General Mills",
-        "Associated British Foods plc",
-        "DANONE",
+        "Associated British Foods",
+        "Danone",
     ]
-    answer = {"in big ten": brandname in big_ten}
-    return JsonResponse(answer)
+    brand_obj, created = Brand.objects.get_or_create(name=brandname)
+    if created is True:
+        print("We don't know")
+        return HttpResponse("We don't know")
+    elif created is False:
+        if brand_obj.corporation is None:
+            print("We don't know")
+            return HttpResponse("We don't know")
+        elif (
+            brand_obj.corporation.name is not None
+            and brand_obj.corporation.name in big_ten
+        ):
+            print("True")
+            return HttpResponse(True)
+        else:
+            print("False")
+            return HttpResponse(False)
+    else:
+        print("WTF!?")
 
 
 def is_in_own_database(request, code):
-    return HttpResponse(str(Product.objects.filter(code=code).exists()))
+    print(HttpResponse(str(Product.objects.filter(code=code).exists())))
+
+
+def create_feedback_string(product_object):
+    product_serialized = serializers.serialize("json", [product_object, ])
+    try:
+        is_big_ten = requests.get(
+            f"{os.environ.get('CURRENT_HOST')}/is_big_ten/{product_object.brand}/"
+        )
+    except Exception as e:
+        print("\n request ERROR:", str(e))
+    is_big_ten_string = '{"is big ten":' + f'"{is_big_ten.content.decode("ascii")}",'
+    return json.loads(is_big_ten_string + product_serialized[2:-1])
 
 
 def feedback(request, code):
     if Product.objects.filter(code=code).exists():
         product_object = Product.objects.get(code=code)
-        print(product_object)
-        try:
-            is_big_ten = requests.get(
-                f"http://localhost:8000/isbigten/{product_object.brand}/"
-            )
-            print("In Try is big ten:", is_big_ten)
-        except Exception as e:
-            print("\n request ERROR:", str(e))
-        product_serialized = serializers.serialize("json", [product_object,])
-        print(product_serialized)
-        return HttpResponse(f"[{is_big_ten.text},{product_serialized}]")
+        answer = create_feedback_string(product_object)
+        return JsonResponse(answer)
     else:
-        product = requests.get(f"http://localhost:8000/lookup/{code}/").json()
-        is_big_ten = requests.get(f"http://localhost:8000/isbigten/{product['brand']}/")
-        print(f"\nProduct in feedback: {product}")
-        resp = requests.post(
-            "http://localhost:8000/goodbuyDatabase/save_product/", json=product,
+        product_as_dict = requests.get(f"{os.environ.get('CURRENT_HOST')}/lookup/{code}/").json()
+        requests.post(
+            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product_as_dict,
         )
-        print(f"\nResponse:", resp)
-        return HttpResponse(f"[{is_big_ten.text},{product}]")
+        product_object = Product.objects.get(code=code)
+        answer = create_feedback_string(product_object)
+        return JsonResponse(answer)
 
 
 # TODO: endpoints are not protected with csrf❗️
 @csrf_exempt
 def endpoint_save_product(request):
+    brand = None
+    product_category = None
     if request.method == "POST":
         response = json.loads(request.body.decode("utf-8"))
-        Brand.objects.get_or_create(name=response["brand"])
-        CategoryOfProduct.objects.get_or_create(name=response["product_category"])
-        Product.objects.get_or_create(
+        if response["brand"] is not None:
+            brand, created = Brand.objects.get_or_create(name=response["brand"])
+        if response["product_category"] is not None:
+            product_category, created = CategoryOfProduct.objects.get_or_create(
+                name=response["product_category"]
+            )
+        product_object, created = Product.objects.get_or_create(
             code=response["code"],
             name=response["name"],
-            brand=Brand.objects.get(name=response["brand"]),
-            product_category=CategoryOfProduct.objects.get(
-                name=response["product_category"]
-            ),
+            brand=brand,
+            product_category=product_category,
             scraped_image=response["scraped_image"],
         )
+        print(f"Product saved: {product_object.name}")
     else:
         print("ELSE!")
     return HttpResponse("")
@@ -281,15 +309,21 @@ def endpoint_save_corporation(request):
 def endpoint_save_country(request):
     if request.method == "POST":
         response = json.loads(request.body.decode("utf-8"))
-        country_code = json.loads(requests.get(
-            f"https://restcountries.eu/rest/v2/name/{response['country']}?fullText=true"
-        ).content)
-        country_code = country_code[0]["alpha2Code"]
-        Country.objects.get_or_create(
-            name=response["country"],
-            code=country_code,
-        )
-        print(f"Country {response['country']} saved.")
+        country_code = None
+        try:
+            country_code = json.loads(
+                requests.get(
+                    f"https://restcountries.eu/rest/v2/name/{response['name']}"
+                ).content
+            )
+            if country_code["status"] != 404:
+                country_code = country_code[0]["alpha2Code"]
+            else:
+                country_code = None
+        except Exception:
+            print(str(Exception), "Can't find country (code).")
+        Country.objects.get_or_create(name=response["name"], code=country_code)
+        print(f"Country {response['name']} saved.")
     else:
         print("ELSE!")
     return HttpResponse("")
