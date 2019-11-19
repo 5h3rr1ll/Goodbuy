@@ -1,5 +1,4 @@
 from unittest import TestCase
-import nose
 import requests
 
 from goodbuyDatabase.models import Brand, Corporation
@@ -9,7 +8,6 @@ from goodbuyDatabase.models import Brand, Corporation
 class TestFeedbackApiFunctions(TestCase):
 
     def setUp(self):
-        nose.main()
         self.ean_code_in_db = '2000423339488'
         self.ean_code_not_in_db = '4000582185399'
 
