@@ -4,6 +4,7 @@ import os
 import requests
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 from rq import Queue
 
@@ -80,8 +81,8 @@ def feedback(request, code):
     # calls function to build feedback string
     # returns json answer
     else:
-        product = requests.get(f"{os.environ.get('CURRENT_HOST')}/lookup/{code}/").json()
-        return JsonResponse(product)
+        q.enqueue(requests.get(f"{os.environ.get('CURRENT_HOST')}/lookup/{code}/"))
+        return redirect(f'/feedback/{code}/')
 
 
 # TODO: endpoints are not protected with csrf❗️
