@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "storages",
 ]
 
+
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 MIDDLEWARE = [

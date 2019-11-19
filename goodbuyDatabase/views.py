@@ -1,18 +1,12 @@
-import json
-import os
 
-import requests
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.core import serializers
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import redirect, render, render_to_response
-from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DeleteView, DetailView, UpdateView
 
 from .forms import AddNewProductForm
-from .models import (Brand, CategoryOfProduct, Company, Corporation, Country,
-                     Product)
+from .models import (Product)
 
 
 def create_product_form(request):
@@ -160,170 +154,6 @@ def show_list_of_codes(request, list, *args, **kwargs):
         }
         return render(request, "goodbuyDatabase/list_of_product_codes.html", args)
 
-
 class ProductDetailView(DetailView):
     model = Product
 
-
-def is_big_ten(request, brandname):
-    big_ten = [
-        "Unilever",
-        "Nestlé",
-        "Coca-Cola",
-        "Kellogg's",
-        "Mars",
-        "PepsiCo",
-        "Mondelez",
-        "General Mills",
-        "Associated British Foods",
-        "Danone",
-    ]
-    brand_obj, created = Brand.objects.get_or_create(name=brandname)
-    if created is True:
-        print("We don't know")
-        return HttpResponse("We don't know")
-    elif created is False:
-        if brand_obj.corporation is None:
-            print("We don't know")
-            return HttpResponse("We don't know")
-        elif (
-            brand_obj.corporation.name is not None
-            and brand_obj.corporation.name in big_ten
-        ):
-            print("True")
-            return HttpResponse(True)
-        else:
-            print("False")
-            return HttpResponse(False)
-    else:
-        print("WTF!?")
-
-
-def is_in_own_database(request, code):
-    print(HttpResponse(str(Product.objects.filter(code=code).exists())))
-
-
-def create_feedback_string(product_object):
-    product_serialized = serializers.serialize("json", [product_object, ])
-    try:
-        is_big_ten = requests.get(
-            f"{os.environ.get('CURRENT_HOST')}/is_big_ten/{product_object.brand}/"
-        )
-    except Exception as e:
-        print("\n request ERROR:", str(e))
-    is_big_ten_string = '{"is big ten":' + f'"{is_big_ten.content.decode("ascii")}",'
-    return json.loads(is_big_ten_string + product_serialized[2:-1])
-
-
-def feedback(request, code):
-    if Product.objects.filter(code=code).exists():
-        product_object = Product.objects.get(code=code)
-        answer = create_feedback_string(product_object)
-        return JsonResponse(answer)
-    else:
-        product_as_dict = requests.get(f"{os.environ.get('CURRENT_HOST')}/lookup/{code}/").json()
-        requests.post(
-            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product_as_dict,
-        )
-        product_object = Product.objects.get(code=code)
-        answer = create_feedback_string(product_object)
-        return JsonResponse(answer)
-
-
-# TODO: endpoints are not protected with csrf❗️
-@csrf_exempt
-def endpoint_save_product(request):
-    brand = None
-    product_category = None
-    if request.method == "POST":
-        response = json.loads(request.body.decode("utf-8"))
-        if response["brand"] is not None:
-            brand, created = Brand.objects.get_or_create(name=response["brand"])
-        if response["product_category"] is not None:
-            product_category, created = CategoryOfProduct.objects.get_or_create(
-                name=response["product_category"]
-            )
-        product_object, created = Product.objects.get_or_create(
-            code=response["code"],
-            name=response["name"],
-            brand=brand,
-            product_category=product_category,
-            scraped_image=response["scraped_image"],
-        )
-        print(f"Product saved: {product_object.name}")
-    else:
-        print("ELSE!")
-    return HttpResponse("")
-
-
-@csrf_exempt
-def endpoint_save_brand(request):
-    if request.method == "POST":
-        response = json.loads(request.body.decode("utf-8"))
-        Corporation.objects.get_or_create(name=response["corporation"])
-        try:
-            Brand.objects.get_or_create(
-                name=response["name"],
-                corporation=Corporation.objects.get(name=response["corporation"]),
-            )
-            print(f"Brand {response['name']} saved.")
-        except Exception as e:
-            print(
-                "\n ERROR while Saving Brand:",
-                str(e),
-                f"\nBrand Name: {response['name']}\nLength Brand name: {len(response['name'])}\n",
-            )
-    else:
-        print("ELSE!")
-    return HttpResponse("")
-
-
-@csrf_exempt
-def endpoint_save_company(request):
-    if request.method == "POST":
-        response = json.loads(request.body.decode("utf-8"))
-        Corporation.objects.get_or_create(name=response["corporation"])
-
-        Company.objects.get_or_create(
-            name=response["name"],
-            corporation=Corporation.objects.get(name=response["corporation"],),
-        )
-        print(f"Company {response['name']} saved.")
-    else:
-        print("ELSE!")
-    return HttpResponse("")
-
-
-@csrf_exempt
-def endpoint_save_corporation(request):
-    if request.method == "POST":
-        response = json.loads(request.body.decode("utf-8"))
-        Corporation.objects.get_or_create(name=response["corporation"])
-        print(f"Corporation {response['corporation']} saved.")
-    else:
-        print("ELSE!")
-    return HttpResponse("")
-
-
-@csrf_exempt
-def endpoint_save_country(request):
-    if request.method == "POST":
-        response = json.loads(request.body.decode("utf-8"))
-        country_code = None
-        try:
-            country_code = json.loads(
-                requests.get(
-                    f"https://restcountries.eu/rest/v2/name/{response['name']}"
-                ).content
-            )
-            if country_code["status"] != 404:
-                country_code = country_code[0]["alpha2Code"]
-            else:
-                country_code = None
-        except Exception:
-            print(str(Exception), "Can't find country (code).")
-        Country.objects.get_or_create(name=response["name"], code=country_code)
-        print(f"Country {response['name']} saved.")
-    else:
-        print("ELSE!")
-    return HttpResponse("")
