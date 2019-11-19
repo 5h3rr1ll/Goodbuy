@@ -1,14 +1,25 @@
 import json
 import os
+
 import requests
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
-from goodbuyDatabase.models import Corporation, Company, Country, Product, Brand, CategoryOfProduct
-
+from rq import Queue
 
 def is_big_ten(request, code):
+from goodbuyDatabase.models import (
+    Brand,
+    CategoryOfProduct,
+    Company,
+
+    Product,
+    Country,
+    Corporation,
+)
+from .worker import conn
+
+q = Queue(connection=conn)
     big_ten = [
         "Unilever",
         "Nestlé",
@@ -38,11 +49,11 @@ def is_in_own_database(code):
     return HttpResponse(str(Product.objects.filter(code=code).exists()))
 
 
-#Creates feedback string but also returns it with the product_object
+# Creates feedback string but also returns it with the product_object
 def create_feedback_string(product_object):
-    product_serialized = serializers.serialize("json", [product_object, ])
-    #Checks if it is big ten
-    #Try Except should be own function
+    product_serialized = serializers.serialize("json", [product_object,])
+    # Checks if it is big ten
+    # Try Except should be own function
     try:
         # why not call is big ten directly?
         is_big_ten = requests.get(
@@ -50,15 +61,17 @@ def create_feedback_string(product_object):
         )
     except Exception as e:
         print("\n request ERROR:", str(e))
-    #Here is the actual creation of the string according to the name
+    # Here is the actual creation of the string according to the name
     is_big_ten_string = '{"is big ten":' + f'"{is_big_ten.content.decode("ascii")}",'
     return json.loads(is_big_ten_string + product_serialized[2:-1])
 
 
 def feedback(request, code):
-    #looks if product exist in database
-    if Product.objects.filter(code=code).exists(): # Does it make sense to call a function instead
-        #product exists calls for string creation and then returns json answer
+    # looks if product exist in database
+    if Product.objects.filter(
+        code=code
+    ).exists():  # Does it make sense to call a function instead
+        # product exists calls for string creation and then returns json answer
         product_object = Product.objects.get(code=code)
         answer = create_feedback_string(product_object)
         return JsonResponse(answer)
@@ -68,13 +81,9 @@ def feedback(request, code):
     # calls function to build feedback string
     # returns json answer
     else:
-        product_as_dict = requests.get(f"{os.environ.get('CURRENT_HOST')}/lookup/{code}/").json()
-        requests.post(
-            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product_as_dict,
-        )
-        product_object = Product.objects.get(code=code)
-        answer = create_feedback_string(product_object)
-        return JsonResponse(answer)
+        print("\nIN ELSE of FEEDBACK()\n")
+        q.enqueue(requests.get(f"{os.environ.get('CURRENT_HOST')}/lookup/{code}/"))
+        return HttpResponse("WTF!?")
 
 
 # TODO: endpoints are not protected with csrf❗️
@@ -132,11 +141,12 @@ def endpoint_save_brand(request):
     # why empty http presponse
     return HttpResponse("")
 
+
 @csrf_exempt
 def endpoint_save_company(request):
     # checking if it is POST could also be outsourced because it is the same in everyfunction
     if request.method == "POST":
-        #duplicatd can be own function
+        # duplicatd can be own function
         response = json.loads(request.body.decode("utf-8"))
         # is not referred to in function name
         Corporation.objects.get_or_create(name=response["corporation"])
@@ -145,15 +155,16 @@ def endpoint_save_company(request):
             name=response["name"],
             corporation=Corporation.objects.get(name=response["corporation"],),
         )
-    #why empty http presponse
+    # why empty http presponse
     return HttpResponse("")
+
 
 # Actually creates Corporation and Company
 @csrf_exempt
 def endpoint_save_corporation(request):
     # checking if it is POST could also be outsourced because it is the same in everyfunction
     if request.method == "POST":
-        #duplicatd can be own function
+        # duplicatd can be own function
         response = json.loads(request.body.decode("utf-8"))
         Corporation.objects.get_or_create(name=response["corporation"])
     # why empty http presponse
@@ -164,7 +175,7 @@ def endpoint_save_corporation(request):
 def endpoint_save_country(request):
     # checking if it is POST could also be outsourced because it is the same in everyfunction
     if request.method == "POST":
-        #duplicatd can be own function
+        # duplicatd can be own function
 
         response = json.loads(request.body.decode("utf-8"))
         country_code = None
