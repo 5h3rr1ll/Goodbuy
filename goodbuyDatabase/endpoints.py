@@ -4,7 +4,6 @@ import os
 import requests
 from django.core import serializers
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 from rq import Queue
 
@@ -17,7 +16,7 @@ from goodbuyDatabase.models import (
     Product,
 )
 from scraper.views import scrape
-from .worker import conn
+from worker import conn
 
 q = Queue(connection=conn)
 
