@@ -7,7 +7,6 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rq import Queue
 
-def is_big_ten(request, code):
 from goodbuyDatabase.models import (
     Brand,
     CategoryOfProduct,
@@ -20,6 +19,9 @@ from goodbuyDatabase.models import (
 from .worker import conn
 
 q = Queue(connection=conn)
+
+def is_big_ten(request, code):
+
     big_ten = [
         "Unilever",
         "Nestlé",
