@@ -7,7 +7,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from goodbuyDatabase.models import Corporation, Company, Country, Product, Brand, CategoryOfProduct
 
-def is_big_ten(request, brandname):
+
+def is_big_ten(request, code):
     big_ten = [
         "Unilever",
         "Nestlé",
@@ -21,52 +22,16 @@ def is_big_ten(request, brandname):
         "Associated British Foods",
         "Danone",
     ]
-    brand_obj, created = Brand.objects.get_or_create(name=brandname)
-    if created:
-        return HttpResponse("We don't know")
-    else:
-        if brand_obj.corporation is None:
-            return HttpResponse("We don't know")
-        elif brand_obj.corporation.name in big_ten:
+    try:
+        product_obj= Product.objects.get(code=code)
+        corporation_name = product_obj.brand.corporation.name
+        if corporation_name in big_ten:
             return HttpResponse(True)
         else:
             return HttpResponse(False)
-
-
-
-
-# def get_or_create_brand(brandname):
-#     try:
-#         brand_obj, created = Brand.objects.get_or_create(name=brandname)
-#         if created:
-#             return HttpResponse("We don't know")
-#         else:
-#             return brand_obj.corporation
-#     except:
-#         return HttpResponse("Error")
-#
-# def is_big_ten(brandname):
-#     big_ten = [
-#         "Unilever",
-#         "Nestlé",
-#         "Coca-Cola",
-#         "Coca Cola",
-#         "Kellog's",
-#         "MARS",
-#         "PEPSICO",
-#         "Mondelez",
-#         "General Mills",
-#         "Associated British Foods",
-#         "Danone",
-#     ]
-#     corporation = get_or_create_brand(brandname)
-#     if corporation in big_ten:
-#         return HttpResponse(True)
-#     return HttpResponse(False)
-
-
-
-
+    except Exception as e:
+        print(str(e))
+        return HttpResponse("We don\'t know")
 
 
 def is_in_own_database(code):
@@ -81,7 +46,7 @@ def create_feedback_string(product_object):
     try:
         # why not call is big ten directly?
         is_big_ten = requests.get(
-            f"{os.environ.get('CURRENT_HOST')}/is_big_ten/{product_object.brand}/"
+            f"{os.environ.get('CURRENT_HOST')}/is_big_ten/{product_object.code}/"
         )
     except Exception as e:
         print("\n request ERROR:", str(e))
