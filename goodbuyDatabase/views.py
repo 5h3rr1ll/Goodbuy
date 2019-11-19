@@ -6,7 +6,8 @@ from django.shortcuts import redirect, render, render_to_response
 from django.views.generic import DeleteView, DetailView, UpdateView
 
 from .forms import AddNewProductForm
-from .models import (Product)
+from .models import Product
+
 
 
 def create_product_form(request):
@@ -156,4 +157,3 @@ def show_list_of_codes(request, list, *args, **kwargs):
 
 class ProductDetailView(DetailView):
     model = Product
-
