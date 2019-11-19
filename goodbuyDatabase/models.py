@@ -144,7 +144,7 @@ class Company(models.Model):
 
 class Brand(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=50,)
+    name = models.CharField(unique=True, max_length=100,)
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     company = models.ForeignKey(Company, models.SET_NULL, null=True, blank=True)
@@ -214,7 +214,6 @@ class Product(models.Model):
         default="default.svg", upload_to="product_image", null=True, blank=True
     )
     brand = models.ForeignKey(Brand, models.SET_NULL, null=True, blank=True)
-    corporation = models.ForeignKey(Corporation, models.SET_NULL, null=True, blank=True)
     product_category = models.ForeignKey(
         CategoryOfProduct, models.SET_NULL, null=True, blank=True,
     )

@@ -203,7 +203,6 @@ class ProductAdmin(admin.ModelAdmin):
         "code",
         "scraped_image",
         "brand",
-        "corporation",
         "scanned_counter",
         "created",
         "updated",
@@ -214,7 +213,6 @@ class ProductAdmin(admin.ModelAdmin):
         "name",
         "code",
         "brand__name",
-        "corporation__name",
         "scanned_counter",
         "created",
         "updated",
@@ -223,7 +221,6 @@ class ProductAdmin(admin.ModelAdmin):
     exclude = ("scanned_counter", "added_by")
     autocomplete_fields = (
         "brand",
-        "corporation",
     )
     inlines = [
         PriceInline,

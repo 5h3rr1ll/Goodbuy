@@ -1,5 +1,6 @@
 import os
 
+import requests
 from django.http import HttpResponse, JsonResponse
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -124,5 +125,7 @@ def scrape(request, code):
         "scraped_image": product_image,
     }
     print("Looked up product: ", product)
-
+    requests.post(
+        f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product,
+    )
     return JsonResponse(product)

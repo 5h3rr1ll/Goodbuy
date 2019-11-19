@@ -6,7 +6,7 @@ from django.conf import settings
 
 from accounts import views as acccount_views
 from home import views as home_views
-from goodbuyDatabase import views as gd_views
+from goodbuyDatabase import endpoints as goodbuyDatabase_endpoints
 from scraper import views as scraper_views
 
 urlpatterns = [
@@ -45,9 +45,9 @@ urlpatterns = [
     path('scraper/', include(
         ('scraper.urls',"scraper"),
         namespace="scraper")),
-    path("is_big_ten/<str:brandname>/", gd_views.is_big_ten),
+    path("is_big_ten/<str:code>/", goodbuyDatabase_endpoints.is_big_ten),
     path("lookup/<str:code>/", scraper_views.scrape),
-    path("feedback/<str:code>/", gd_views.feedback),
+    path("feedback/<str:code>/", goodbuyDatabase_endpoints.feedback),
 ]
 
 if settings.DEBUG == True:
