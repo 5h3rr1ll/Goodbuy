@@ -22,17 +22,15 @@ class TestFeedbackApi(TestCase):
 
     def test_feedback_ean_not_in_db_is_in_big_ten(self):
         response = self.request_api(self.ean_code_not_in_db)
-        self.assertEqual(response, ['"is big ten": "We don\'t know"'])
+        self.assertEqual(response, ['"is big ten": "False"'])
 
     def request_api(self, ean):
         response = requests.get('http://127.0.0.1:8000/feedback/%s/' %ean)
-        is_not_in_big_ten = re.findall('"is big ten": "We don\'t know"', response.text)
+        is_not_in_big_ten = re.findall('"is big ten": "False"', response.text)
+#        print(response.text["is big ten"])
         if is_not_in_big_ten == []:
             is_in_big_ten = re.findall('"is big ten": "True"', response.text)
             return is_in_big_ten
         else:
             return is_not_in_big_ten
-
-
-
 

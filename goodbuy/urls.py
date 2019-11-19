@@ -45,7 +45,7 @@ urlpatterns = [
     path('scraper/', include(
         ('scraper.urls',"scraper"),
         namespace="scraper")),
-    path("is_big_ten/<str:brandname>/", goodbuyDatabase_endpoints.is_big_ten),
+    path("is_big_ten/<str:code>/", goodbuyDatabase_endpoints.is_big_ten),
     path("lookup/<str:code>/", scraper_views.scrape),
     path("feedback/<str:code>/", goodbuyDatabase_endpoints.feedback),
 ]
