@@ -80,7 +80,7 @@ def feedback(request, code):
     # calls function to build feedback string
     # returns json answer
     else:
-        q.enqueue(scrape(request, code))
+        result = q.enqueue(scrape, code)
         return HttpResponse(status=209)
 
 

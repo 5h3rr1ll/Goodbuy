@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-def scrape(request, code):
+def scrape(code):
     options = Options()
     options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     options.add_argument("--headless")
