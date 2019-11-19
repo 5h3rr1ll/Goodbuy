@@ -16,7 +16,7 @@ from goodbuyDatabase.models import (
     Country,
     Product,
 )
-
+from scraper.views import scrape
 from .worker import conn
 
 q = Queue(connection=conn)
@@ -81,7 +81,7 @@ def feedback(request, code):
     # calls function to build feedback string
     # returns json answer
     else:
-        q.enqueue(requests.get(f"{os.environ.get('CURRENT_HOST')}/lookup/{code}/"))
+        q.enqueue(scrape(request, code))
         return HttpResponse(status=209)
 
 
