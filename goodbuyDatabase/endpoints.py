@@ -80,9 +80,8 @@ def feedback(request, code):
     # calls function to build feedback string
     # returns json answer
     else:
-        print("\nIN ELSE of FEEDBACK()\n")
-        q.enqueue(requests.get(f"{os.environ.get('CURRENT_HOST')}/lookup/{code}/"))
-        return HttpResponse("WTF!?")
+        product = requests.get(f"{os.environ.get('CURRENT_HOST')}/lookup/{code}/").json()
+        return JsonResponse(product)
 
 
 # TODO: endpoints are not protected with csrf❗️
