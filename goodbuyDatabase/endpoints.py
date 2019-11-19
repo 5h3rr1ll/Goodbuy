@@ -82,7 +82,7 @@ def feedback(request, code):
     # returns json answer
     else:
         q.enqueue(requests.get(f"{os.environ.get('CURRENT_HOST')}/lookup/{code}/"))
-        return redirect(f'/feedback/{code}/')
+        return HttpResponse(status=209)
 
 
 # TODO: endpoints are not protected with csrf❗️
