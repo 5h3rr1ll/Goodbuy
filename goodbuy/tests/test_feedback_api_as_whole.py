@@ -26,14 +26,11 @@ class TestFeedbackApi(TestCase):
 
     def request_api(self, ean):
         response = requests.get('http://127.0.0.1:8000/feedback/%s/' %ean)
-        print("response-------",response.text)
         is_not_in_big_ten = re.findall('"is big ten": "We don\'t know"', response.text)
         if is_not_in_big_ten == []:
             is_in_big_ten = re.findall('"is big ten": "True"', response.text)
-            print("is in big ten", is_in_big_ten)
             return is_in_big_ten
         else:
-            print("is not in big ten", is_not_in_big_ten)
             return is_not_in_big_ten
 
 
