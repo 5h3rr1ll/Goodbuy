@@ -1,5 +1,5 @@
 from django.test import TestCase
-import requests, json, ast
+import requests, ast
 
 class CodeCheck(TestCase):
 
