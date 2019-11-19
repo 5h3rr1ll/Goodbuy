@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse, resolve
-from goodbuyDatabase.views import is_in_own_database, add_product, product_list, show_list_of_codes
-from django.contrib.auth.models import User
-from django.test import Client
+from goodbuyDatabase.endpoints import is_in_own_database
+from goodbuyDatabase.views import product_list, show_list_of_codes
+
 
 class TestUrls(TestCase):
    
@@ -12,10 +12,6 @@ class TestUrls(TestCase):
     def test_is_in_own_database(self):
         url = reverse('goodbuyDatabase:is_in_own_database', args=['4000582185399'])
         self.assertEqual(resolve(url).func, is_in_own_database)
-
-    def test_add_product(self):
-        url = reverse('goodbuyDatabase:add_product', args=['4000582185399'])
-        self.assertEqual(resolve(url).func, add_product)
     
     def test_product_list(self):
         url = reverse('goodbuyDatabase:product_list')
