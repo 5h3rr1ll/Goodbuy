@@ -22,12 +22,12 @@ class TestModels(TestCase):
         )
 
         self.rating_obj = Rating.objects.create(
-            humans = 8,
-            humans_description = 'They treat their workers good',
-            environment = 2,
-            environment_description = 'The environment has to suffer a lot because of their produced waste',
-            animals = 5,
-            animals_description = 'They don\'t have a lot to do with anmials',
+            women_value = 8,
+            women_rating_text = 'They treat their female workers good',
+            land_value = 2,
+            land_rating_text = 'The environment has to suffer a lot because of their produced waste',
+            climate_value = 5,
+            climate_rating_text = 'They don\'t have a lot to do with climate',
             corporation = Corporation.objects.get(name='Apple')
         )
 
@@ -59,8 +59,8 @@ class TestModels(TestCase):
         self.assertEqual(corportaion.wiki, 'www.apple/wiki.de')
 
     def test_if_rating_creation_works(self):
-        rating = Rating.objects.get(humans=8)
-        self.assertEqual(rating.animals, 5)
+        rating = Rating.objects.get(women_value=8)
+        self.assertEqual(rating.climate_value, 5)
     
     def test_if_company_creation_works(self):
         company = Company.objects.get(logo='www.Amazon/logo.de')
