@@ -130,4 +130,5 @@ def scrape(code):
     requests.post(
         f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product,
     )
+    driver.quit()
     return str(product)
