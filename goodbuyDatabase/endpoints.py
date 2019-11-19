@@ -11,17 +11,17 @@ from goodbuyDatabase.models import (
     Brand,
     CategoryOfProduct,
     Company,
-
-    Product,
-    Country,
     Corporation,
+    Country,
+    Product,
 )
+
 from .worker import conn
 
 q = Queue(connection=conn)
 
-def is_big_ten(request, code):
 
+def is_big_ten(request, code):
     big_ten = [
         "Unilever",
         "Nestlé",
@@ -35,16 +35,13 @@ def is_big_ten(request, code):
         "Associated British Foods",
         "Danone",
     ]
-    try:
-        product_obj= Product.objects.get(code=code)
-        corporation_name = product_obj.brand.corporation.name
-        if corporation_name in big_ten:
-            return HttpResponse(True)
-        else:
-            return HttpResponse(False)
-    except Exception as e:
-        print(str(e))
-        return HttpResponse("We don\'t know")
+    product_obj = Product.objects.get(code=code)
+    if product_obj.brand is None:
+        return HttpResponse("We don't know")
+    elif product_obj.brand.corporation is None:
+        return HttpResponse("We don't know")
+    else:
+        return HttpResponse(product_obj.brand.corporation.name in big_ten)
 
 
 def is_in_own_database(code):
@@ -53,7 +50,7 @@ def is_in_own_database(code):
 
 # Creates feedback string but also returns it with the product_object
 def create_feedback_string(product_object):
-    product_serialized = serializers.serialize("json", [product_object,])
+    product_serialized = serializers.serialize("json", [product_object, ])
     # Checks if it is big ten
     # Try Except should be own function
     try:
@@ -101,8 +98,8 @@ def endpoint_save_product(request):
         # loads the response
         # json loading can be a seperate function because this is in all endpoints necessary
         response = json.loads(request.body.decode("utf-8"))
-        # checks if brand exists in response could maybe be replaced by N.A initial value and then get or create why is get or create when
-        # we check before if it is not none same for product_category
+        # checks if brand exists in response could maybe be replaced by N.A initial value and then get or
+        # create why is get or create when we check before if it is not none same for product_category
         if response["brand"] is not None:
             brand, created = Brand.objects.get_or_create(name=response["brand"])
         if response["product_category"] is not None:
