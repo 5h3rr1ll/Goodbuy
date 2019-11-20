@@ -63,12 +63,18 @@ def scrape(code):
 
     print("\nSearch for product image...")
     try:
-        product_image = (
-            WebDriverWait(driver, 10)
-            .until(EC.presence_of_element_located((By.CSS_SELECTOR, ".nf > img")))
-            .get_attribute("src")
-        )
-        print(f" Product image found at {product_image}.")
+        try:
+            no_image = (
+                WebDriverWait(driver, 10)
+                .until(EC.presence_of_element_located((By.CSS_SELECTOR, ".no-image")))
+            )
+        except:
+            product_image = (
+                WebDriverWait(driver, 10)
+                .until(EC.presence_of_element_located((By.CSS_SELECTOR, ".nf > img")))
+                .get_attribute("src")
+            )
+            print(f" Product image found at {product_image}.")
     except Exception as e:
         print("  Product image ERROR:", str(e))
 
