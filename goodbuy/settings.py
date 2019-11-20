@@ -30,6 +30,7 @@ DEBUG = os.environ.get("DEBUG_VALUE") == "True"
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
+    "competent-pike-2cc019.netlify.com",
 ]
 
 
