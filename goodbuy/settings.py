@@ -30,9 +30,6 @@ DEBUG = os.environ.get("DEBUG_VALUE") == "True"
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "https://competent-pike-2cc019.netlify.com/",
-    "https://goodbuy.netlify.com/#/scanner/1212",
-    "https://goodbuy.netlify.com",
 ]
 
 
@@ -52,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.postgres",
     "crispy_forms",
     "storages",
+    'corsheaders',
 ]
 
 
@@ -60,6 +58,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -68,6 +67,12 @@ MIDDLEWARE = [
     # TODO: Not sure if this middleware is really helpful, things like
     # /?next=/ -functionality <-- is missing then
     # "goodbuy.middleware.LoginRequireMiddleware",
+]
+
+CORS_ORIGIN_WHITELIST = [
+    "https://competent-pike-2cc019.netlify.com/",
+    "https://goodbuy.netlify.com/#/scanner/1212",
+    "https://goodbuy.netlify.com",
 ]
 
 ROOT_URLCONF = "goodbuy.urls"
