@@ -15,7 +15,7 @@ from goodbuyDatabase.models import (
     Country,
     Product,
 )
-from scraper.views import scrape
+from scraper.cc_lookup import cc_lookup
 from worker import conn
 
 q = Queue(connection=conn)
@@ -80,8 +80,13 @@ def feedback(request, code):
     # calls function to build feedback string
     # returns json answer
     else:
-        result = q.enqueue(scrape, code)
+        result = q.enqueue(cc_lookup, code)
         return HttpResponse(status=209)
+
+
+def lookup(request, code):
+    product = cc_lookup(code)
+    return product
 
 
 # TODO: endpoints are not protected with csrf❗️
