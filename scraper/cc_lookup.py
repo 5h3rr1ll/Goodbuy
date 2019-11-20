@@ -63,12 +63,32 @@ def cc_lookup(code):
 
     print("\nSearch for product image...")
     try:
-        product_image = (
-            WebDriverWait(driver, 10)
-            .until(EC.presence_of_element_located((By.CSS_SELECTOR, ".nf > img")))
-            .get_attribute("src")
-        )
-        print(f" Product image found at {product_image}.")
+        try:
+            no_image = (
+                WebDriverWait(driver, 10)
+                .until(EC.presence_of_element_located((By.CSS_SELECTOR, ".no-image")))
+            )
+
+            print("no-image but doesnt throw errror")
+            product_image = None
+
+        except:
+            product_image = (
+                WebDriverWait(driver, 10)
+                    .until(EC.presence_of_element_located((By.CSS_SELECTOR, ".nf > img")))
+                    .get_attribute("src")
+            )
+            try:
+                onerror =( WebDriverWait(driver, 10)
+                        .until(EC.presence_of_element_located((By.CSS_SELECTOR, ".nf > img")))
+                        .get_attribute("onerror")
+                           )
+                product_image = None
+            except:
+                print("No image, Picture")
+                product_image = "No image, Picture"
+            pass
+            print(f" Product image found at {product_image}.")
     except Exception as e:
         print("  Product image ERROR:", str(e))
 
