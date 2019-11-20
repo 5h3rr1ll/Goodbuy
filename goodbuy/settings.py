@@ -32,6 +32,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "https://competent-pike-2cc019.netlify.com/",
     "https://goodbuy.netlify.com/#/scanner/1212",
+    "https://goodbuy.netlify.com",
 ]
 
 
