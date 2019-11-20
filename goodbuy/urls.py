@@ -46,7 +46,7 @@ urlpatterns = [
         ('scraper.urls',"scraper"),
         namespace="scraper")),
     path("is_big_ten/<str:code>/", goodbuyDatabase_endpoints.is_big_ten),
-    path("lookup/<str:code>/", scraper_views.scrape),
+    path("lookup/<str:code>/", goodbuyDatabase_endpoints.lookup),
     path("feedback/<str:code>/", goodbuyDatabase_endpoints.feedback),
 ]
 
