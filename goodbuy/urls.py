@@ -49,6 +49,7 @@ urlpatterns = [
     path("lookup/<str:code>/", goodbuyDatabase_endpoints.lookup),
     path("feedback/<str:code>/", goodbuyDatabase_endpoints.feedback),
     path("feedback/result/<str:code>/", goodbuyDatabase_endpoints.result_feedback),
+    path("is_in_own_database/<str:code>/", goodbuyDatabase_endpoints.is_in_own_database),
 ]
 
 if settings.DEBUG == True:
