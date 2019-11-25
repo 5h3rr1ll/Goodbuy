@@ -1,3 +1,4 @@
+import os
 
 import requests
 from django.http import HttpResponse
