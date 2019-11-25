@@ -1,8 +1,8 @@
 from django.urls import path
-from scraper import cc_lookup
+from scraper.views import scrape
 
 app_name = "scraper"
 
 urlpatterns = [
-    path("<str:code>/", cc_lookup.cc_lookup, name="cc_lookup"),
+    path("<str:code>/", scrape, name="scrape"),
 ]
