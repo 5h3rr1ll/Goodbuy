@@ -50,6 +50,8 @@ def is_in_own_database(code):
 
 # Creates feedback string but also returns it with the product_object
 def create_feedback_string(product_object):
+    brand = product_object.brand.name
+    corporation = product_object.brand.corporation.name
     product_serialized = serializers.serialize("json", [product_object, ])
     # Checks if it is big ten
     # Try Except should be own function
@@ -57,12 +59,16 @@ def create_feedback_string(product_object):
         # why not call is big ten directly?
         is_big_ten = requests.get(
             f"{os.environ.get('CURRENT_HOST')}/is_big_ten/{product_object.code}/"
-        )
+        ).content.decode("utf-8")
     except Exception as e:
         print("\n request ERROR:", str(e))
     # Here is the actual creation of the string according to the name
-    is_big_ten_string = '{"is big ten":' + f'"{is_big_ten.content.decode("ascii")}",'
-    return json.loads(is_big_ten_string + product_serialized[2:-1])
+    is_big_ten_string = {
+        "is big ten": is_big_ten,
+        "brand": brand,
+        "corporation": corporation,
+    }
+    return(is_big_ten_string)
 
 
 def feedback(request, code):
