@@ -29,7 +29,7 @@ def is_big_ten(request, code):
         "Coca Cola",
         "Kellog's",
         "MARS",
-        "PEPSICO",
+        "PepsiCo",
         "Mondelez",
         "General Mills",
         "Associated British Foods",

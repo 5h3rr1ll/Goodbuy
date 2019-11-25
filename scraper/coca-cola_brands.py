@@ -19,10 +19,10 @@ class CocaColaWikiScraper:
         """Takes a brand name and saves it with the corporation into the database"""
         data = {
             "name": brand,
-            "corporation": "Kellogg's",
+            "corporation": "Coca-Cola",
         }
         requests.post(
-            f"http://localhost:{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_brand/",
+            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_brand/",
             json=data,
         )
 
@@ -43,7 +43,7 @@ class CocaColaWikiScraper:
                         print(link_text.split(special_char[0])[0])
                         self.save_brand(link_text.split(special_char[0])[0].strip())
                     except Exception:
-                        print(str(Exception), link_text)
+                        print(link_text)
                         self.save_brand(link_text.strip())
         except AttributeError as e:
             print(str(e), " div changed position ")

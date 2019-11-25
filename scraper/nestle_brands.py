@@ -32,31 +32,31 @@ class NestleWikiScraper:
                         print(link_text.split(special_char[0])[0])
                         self.save_brand(link_text.split(special_char[0])[0].strip())
                     except Exception:
-                        print(str(Exception), link_text)
+                        print(link_text)
                         self.save_brand(link_text.strip())
         except AttributeError as e:
             print(str(e), " div changed position ")
 
     def get_all_div_location(self):
         div_locations_list = {
-            "Beverages": "#mw-content-text > div > div:nth-child(6)",
-            "Coffee": "#mw-content-text > div > div:nth-child(8)",
-            "Water": "#mw-content-text > div > div:nth-child(10)",
-            "Cereals": "#mw-content-text > div > div:nth-child(12)",
-            "Chilled": "#mw-content-text > div > div:nth-child(15)",
-            "Choclate & Co.": "#mw-content-text > div > div:nth-child(17)",
-            "Foodservice products": "#mw-content-text > div > ul:nth-child(19)",
-            "Frozen food": "#mw-content-text > div > div:nth-child(21)",
-            "Frozen Dessert": "#mw-content-text > div > div:nth-child(23)",
-            "Healthcare nutrition": "#mw-content-text > div > div:nth-child(25)",
-            "Infant foods": "#mw-content-text > div > div:nth-child(27)",
-            "Performance nutrition": "#mw-content-text > div > ul:nth-child(29)",
-            "Petcare": "#mw-content-text > div > div:nth-child(31)",
-            "Purina petcare products": "#mw-content-text > div > div:nth-child(34)",
-            "Refrigerated products": "#mw-content-text > div > ul:nth-child(36)",
-            "Seasonings": "#mw-content-text > div > ul:nth-child(39)",
-            "Shelf stable": "#mw-content-text > div > ul:nth-child(41)",
-            "Yogurt": "#mw-content-text > div > div:nth-child(43)",
+            "Beverages": "#mw-content-text > div > div:nth-child(10)",
+            "Coffee": "#mw-content-text > div > div:nth-child(12)",
+            "Water": "#mw-content-text > div > div:nth-child(14)",
+            "Cereals": "#mw-content-text > div > div:nth-child(16)",
+            "Chilled": "#mw-content-text > div > div:nth-child(19)",
+            "Choclate & Co.": "#mw-content-text > div > div:nth-child(21)",
+            "Foodservice products": "#mw-content-text > div > ul:nth-child(23)",
+            "Frozen food": "#mw-content-text > div > div:nth-child(25)",
+            "Frozen Dessert": "#mw-content-text > div > div:nth-child(27)",
+            "Healthcare nutrition": "#mw-content-text > div > div:nth-child(29)",
+            "Infant foods": "#mw-content-text > div > div:nth-child(31)",
+            "Performance nutrition": "#mw-content-text > div > ul:nth-child(33)",
+            "Petcare": "#mw-content-text > div > div:nth-child(35)",
+            "Purina petcare products": "#mw-content-text > div > div:nth-child(38)",
+            "Refrigerated products": "#mw-content-text > div > ul:nth-child(40)",
+            "Seasonings": "#mw-content-text > div > ul:nth-child(43)",
+            "Shelf stable": "#mw-content-text > div > ul:nth-child(45)",
+            "Yogurt": "#mw-content-text > div > div:nth-child(47)",
         }
         return div_locations_list
 
