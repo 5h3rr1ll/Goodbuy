@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.postgres",
     "crispy_forms",
     "storages",
-    'corsheaders',
+    "corsheaders",
 ]
 
 
@@ -58,7 +58,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -70,8 +70,6 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-    "https://competent-pike-2cc019.netlify.com/",
-    "https://goodbuy.netlify.com/#/scanner/1212",
     "https://goodbuy.netlify.com",
 ]
 

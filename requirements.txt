@@ -26,4 +26,7 @@ selenium==3.141.0
 six==1.12.0
 urllib3==1.24.1
 whitenoise==4.1.2
+selenium==3.141.0
+rq==1.1.0
+redis==3.3.11
 django-cors-headers==3.2.0
