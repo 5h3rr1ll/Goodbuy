@@ -21,7 +21,7 @@ urlpatterns = [
     path("register/", acccount_views.register, name="register"),
     path('profile/', acccount_views.user_profile, name="user_profile"),
     path("accounts/", include(
-        ("accounts.urls","accounts"),
+        ("accounts.urls", "accounts"),
         namespace="accounts")),
     path("password-reset/", auth_views.PasswordResetView.as_view(
         template_name="accounts/password_reset.html"),
@@ -35,15 +35,15 @@ urlpatterns = [
     path("password-reset-complete/", auth_views.PasswordResetCompleteView.as_view(
         template_name="accounts/password_reset_complete.html"),
         name="password_reset_complete"),
-    path("home/", include(("home.urls","home"),namespace="home")),
+    path("home/", include(("home.urls", "home"),namespace="home")),
     path('code_scanner/', include(
-        ('codeScanner.urls',"codeScanner"),
+        ('codeScanner.urls', "codeScanner"),
         namespace="codeScanner")),
     path('goodbuyDatabase/', include(
-        ('goodbuyDatabase.urls',"goodbuyDatabase"),
+        ('goodbuyDatabase.urls', "goodbuyDatabase"),
         namespace="goodbuyDatabase")),
     path('scraper/', include(
-        ('scraper.urls',"scraper"),
+        ('scraper.urls', "scraper"),
         namespace="scraper")),
     path("is_big_ten/<str:code>/", goodbuyDatabase_endpoints.is_big_ten),
     path("lookup/<str:code>/", goodbuyDatabase_endpoints.lookup),

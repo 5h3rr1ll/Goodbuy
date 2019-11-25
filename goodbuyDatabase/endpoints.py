@@ -39,7 +39,7 @@ def is_big_ten(request, code):
     if product_obj.brand is None:
         return HttpResponse("We don't know")
     elif product_obj.brand.corporation is None:
-        return HttpResponse("We don't know")
+        return HttpResponse("False")
     else:
         return HttpResponse(product_obj.brand.corporation.name in big_ten)
 
@@ -52,7 +52,13 @@ def is_in_own_database(code):
 def create_feedback_string(product_object):
     brand = product_object.brand.name
     corporation = product_object.brand.corporation.name
+    product_category = product_object.product_category.name
     product_serialized = serializers.serialize("json", [product_object, ])
+    product_serialized = product_serialized.strip("[]")
+    product_serialized = json.loads(product_serialized)
+    product_serialized['fields']['brand'] = brand
+    product_serialized['fields']['corporation'] = corporation
+    product_serialized['fields']['product_category'] = product_category
     # Checks if it is big ten
     # Try Except should be own function
     try:
@@ -68,7 +74,8 @@ def create_feedback_string(product_object):
         "brand": brand,
         "corporation": corporation,
     }
-    return(is_big_ten_string)
+    product_serialized["is big ten"] = is_big_ten
+    return(product_serialized)
 
 
 def feedback(request, code):
