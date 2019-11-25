@@ -48,11 +48,28 @@ def is_in_own_database(code):
     return HttpResponse(str(Product.objects.filter(code=code).exists()))
 
 
+def check_for_attributes(product_object):
+    try:
+        brand = product_object.brand.name
+    except Exception:
+        brand = ""
+        print(str(Exception))
+    try:
+        corporation = product_object.brand.corporation.name
+    except Exception:
+        corporation = ""
+        print(str(Exception))
+    try:
+        product_category = product_object.product_category.name
+    except Exception:
+        product_category = ""
+        print(str(Exception))
+    return(brand, corporation, product_category)
+
+
 # Creates feedback string but also returns it with the product_object
 def create_feedback_string(product_object):
-    brand = product_object.brand.name
-    corporation = product_object.brand.corporation.name
-    product_category = product_object.product_category.name
+    brand, corporation, product_category = check_for_attributes(product_object)
     product_serialized = serializers.serialize("json", [product_object, ])
     product_serialized = product_serialized.strip("[]")
     product_serialized = json.loads(product_serialized)
@@ -70,11 +87,11 @@ def create_feedback_string(product_object):
         print("\n request ERROR:", str(e))
     # Here is the actual creation of the string according to the name
     is_big_ten_string = {
-        "is big ten": is_big_ten,
+        "is_big_ten": is_big_ten,
         "brand": brand,
         "corporation": corporation,
     }
-    product_serialized["is big ten"] = is_big_ten
+    product_serialized["is_big_ten"] = is_big_ten
     return(product_serialized)
 
 

@@ -78,7 +78,7 @@ def scrape(code):
                 .get_attribute("src")
             )
             try:
-                onerror = (
+                on_error = (
                     WebDriverWait(driver, 10)
                     .until(
                         EC.presence_of_element_located((By.CSS_SELECTOR, ".nf > img"))
