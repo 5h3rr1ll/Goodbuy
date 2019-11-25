@@ -34,7 +34,7 @@ class UnileverWikiScraper:
                         print(link_text.split(special_char[0])[0])
                         self.save_brand(link_text.split(special_char[0])[0].strip())
                     except Exception:
-                        print(str(Exception), link_text)
+                        print(link_text)
                         self.save_brand(link_text.strip())
         except AttributeError as e:
             print(str(e), " div changed position ")
