@@ -114,6 +114,17 @@ def feedback(request, code):
         return HttpResponse(status=209)
 
 
+def result_feedback(request, code):
+    if Product.objects.filter(
+        code=code
+    ).exists():
+        product_object = Product.objects.get(code=code)
+        answer = create_feedback_string(product_object)
+        return JsonResponse(answer)
+    else:
+        return HttpResponse("Not yet in database")
+
+
 def lookup(request, code):
     product = scrape(code)
     return product
