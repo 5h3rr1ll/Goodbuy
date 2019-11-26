@@ -110,7 +110,7 @@ def feedback(request, code):
     # calls function to build feedback string
     # returns json answer
     else:
-        result = q.enqueue(scrape, code)
+        result = q.enqueue(scrape, code, result_ttl=0)
         return HttpResponse(status=209)
 
 

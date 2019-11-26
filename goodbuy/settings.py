@@ -71,7 +71,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = [
     "https://goodbuy.netlify.com",
-    "https://goodbuy-dev.netlify.com/",
+    "https://goodbuy-dev.netlify.com",
 ]
 
 ROOT_URLCONF = "goodbuy.urls"
