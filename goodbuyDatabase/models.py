@@ -144,7 +144,7 @@ class Company(models.Model):
 
 class Brand(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(unique=True, max_length=100,)
+    name = models.CharField(unique=False, max_length=100,)
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     company = models.ForeignKey(Company, models.SET_NULL, null=True, blank=True)
@@ -173,6 +173,25 @@ class CategoryOfProduct(models.Model):
     class Meta:
         managed = True
         db_table = "category_of_products"
+        ordering = (
+            "name",
+            "id",
+        )
+
+    def __str__(self):
+        return self.name
+
+
+class SubCategoryOfProduct(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(unique=True, max_length=45)
+    main_category = models.ForeignKey(CategoryOfProduct, models.SET_NULL, null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = True
+        db_table = "sub_category_of_products"
         ordering = (
             "name",
             "id",
@@ -217,6 +236,9 @@ class Product(models.Model):
     product_category = models.ForeignKey(
         CategoryOfProduct, models.SET_NULL, null=True, blank=True,
     )
+    product_sub_category = models.ForeignKey(
+        SubCategoryOfProduct, models.SET_NULL, null=True, blank=True,
+    )
     certificate = models.ManyToManyField(Certificate, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -228,6 +250,7 @@ class Product(models.Model):
     checked_by = models.ForeignKey(
         User, models.SET_NULL, null=True, blank=True, related_name="inspector"
     )
+    state = models.CharField(max_length=10)
 
     class Meta:
         managed = True

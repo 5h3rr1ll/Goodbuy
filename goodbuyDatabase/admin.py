@@ -1,24 +1,30 @@
 from django.contrib import admin
 
-from .models import (
-    Brand,
-    CategoryOfProduct,
-    Certificate,
-    Company,
-    Corporation,
-    Country,
-    Product,
-    ProductPriceInStore,
-    Rating,
-    Store,
-)
+from .models import (Brand, Certificate, Company, Corporation, Country,
+                     Product, ProductPriceInStore, Rating, Store,
+                     CategoryOfProduct, SubCategoryOfProduct)
 
 
-# Register your models here.
 class CategoryOfProductAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
+        "created",
+        "updated",
+    )
+    list_display_links = (
+        "id",
+        "name",
+        "created",
+        "updated",
+    )
+
+
+class SubCategoryOfProductAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+        "main_category",
         "created",
         "updated",
     )
@@ -262,6 +268,9 @@ admin.site.register(
 )
 admin.site.register(
     CategoryOfProduct, CategoryOfProductAdmin,
+)
+admin.site.register(
+    SubCategoryOfProduct, SubCategoryOfProductAdmin,
 )
 admin.site.register(
     Store, StoreAdmin,

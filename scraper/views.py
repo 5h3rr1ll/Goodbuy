@@ -94,10 +94,10 @@ def scrape(code):
     except Exception as e:
         print("  Product image ERROR:", str(e))
 
-    product_category = None
+    product_sub_category = None
     print("\nSearch for product category...")
     try:
-        product_category = (
+        product_sub_category = (
             WebDriverWait(driver, 10)
             .until(
                 EC.presence_of_element_located(
@@ -109,7 +109,7 @@ def scrape(code):
             )
             .text
         )
-        print(f" Product category is {product_category}.")
+        print(f" Product category is {product_sub_category}.")
     except Exception as e:
         print("  Product category ERROR:", str(e))
 
@@ -145,7 +145,7 @@ def scrape(code):
         "code": code,
         "name": product_name,
         "brand": product_brand,
-        "product_category": product_category,
+        "product_sub_category": product_sub_category,
         "scraped_image": product_image,
     }
     print("✅ Looked up product: ", product)
