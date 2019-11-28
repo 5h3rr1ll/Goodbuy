@@ -7,8 +7,15 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rq import Queue
 
-from goodbuyDatabase.models import (Brand, Company, Corporation, Country,
-                                    Product, SubCategoryOfProduct)
+from goodbuyDatabase.models import (
+    Brand,
+    Company,
+    Corporation,
+    Country,
+    Product,
+    CategoryOfProduct,
+    SubCategoryOfProduct,
+)
 from scraper.views import scrape
 from worker import conn
 
@@ -58,18 +65,18 @@ def check_for_attributes(product_object):
     except Exception:
         product_sub_category = ""
         print(str(Exception))
-    return(brand, corporation, product_sub_category)
+    return (brand, corporation, product_sub_category)
 
 
 # Creates feedback string but also returns it with the product_object
 def create_feedback_string(product_object):
     brand, corporation, product_sub_category = check_for_attributes(product_object)
-    product_serialized = serializers.serialize("json", [product_object, ])
+    product_serialized = serializers.serialize("json", [product_object,])
     product_serialized = product_serialized.strip("[]")
     product_serialized = json.loads(product_serialized)
-    product_serialized['fields']['brand'] = brand
-    product_serialized['fields']['corporation'] = corporation
-    product_serialized['fields']['product_sub_category'] = product_sub_category
+    product_serialized["fields"]["brand"] = brand
+    product_serialized["fields"]["corporation"] = corporation
+    product_serialized["fields"]["product_sub_category"] = product_sub_category
     # Checks if it is big ten
     # Try Except should be own function
     try:
@@ -86,16 +93,17 @@ def create_feedback_string(product_object):
         "corporation": corporation,
     }
     product_serialized["is_big_ten"] = is_big_ten
-    return(product_serialized)
+    return product_serialized
 
 
 def feedback(request, code):
     # looks if product exist in database
-    if Product.objects.filter(
-        code=code
-    ).exists():  # Does it make sense to call a function instead
-        # product exists calls for string creation and then returns json answer
+    if request.method == "GET" and Product.objects.filter(code=code).exists():
         product_object = Product.objects.get(code=code)
+        if product_object.state == "209":
+            print("Code is already in progress")
+            return HttpResponse(status=209)
+        # product exists calls for string creation and then returns json answer
         answer = create_feedback_string(product_object)
         return JsonResponse(answer)
     # product doesnt exist in db so start codecheck scraper
@@ -109,9 +117,7 @@ def feedback(request, code):
 
 
 def result_feedback(request, code):
-    if Product.objects.filter(
-        code=code
-    ).exists():
+    if Product.objects.filter(code=code).exists():
         product_object = Product.objects.get(code=code)
         answer = create_feedback_string(product_object)
         return JsonResponse(answer)
@@ -128,31 +134,37 @@ def lookup(request, code):
 # in the end it doesnt only save the product but checks for a lot of things before hand
 @csrf_exempt
 def endpoint_save_product(request):
-    # initializes brand and product_sub_category
-    brand = None
-    product_sub_category = None
-    # check if request method is post
-    # checking if it is POST could also be outsourced because it is the same in everyfunction
-    if request.method == "POST":
-        # loads the response
-        # json loading can be a seperate function because this is in all endpoints necessary
-        response = json.loads(request.body.decode("utf-8"))
-        # checks if brand exists in response could maybe be replaced by N.A initial value and then get or
-        # create why is get or create when we check before if it is not none same for product_sub_category
-        if response["brand"] is not None:
-            brand, created = Brand.objects.get_or_create(name=response["brand"])
-        if response["product_sub_category"] is not None:
+    product = json.loads(request.body.decode("utf-8"))
+    if (
+        request.method == "POST"
+        and Product.objects.filter(code=product["code"]).exists()
+    ):
+        print(f"Updating product with code: {product['code']}\n")
+        brand = None
+        if product["brand"] is not None:
+            brand, created = Brand.objects.get_or_create(name=product["brand"])
+        product_sub_category = None
+        if product["product_sub_category"] is not None:
             product_sub_category, created = SubCategoryOfProduct.objects.get_or_create(
-                name=response["product_sub_category"]
+                name=product["product_sub_category"]
             )
-        product_object, created = Product.objects.get_or_create(
-            code=response["code"],
-            name=response["name"],
+        product_category = None
+        if product["product_category"] is not None:
+            product_category, created = SubCategoryOfProduct.objects.get_or_create(
+                name=product["product_sub_category"]
+            )
+        Product.objects.filter(code=product["code"]).update(
+            name=product["name"],
             brand=brand,
             product_sub_category=product_sub_category,
-            scraped_image=response["scraped_image"],
+            product_category=product_category,
+            state="200",
+            scraped_image=product["scraped_image"],
         )
-    # why empty http presponse
+    elif request.method == "GET":
+        print(f"\nRecieving product to save, code: {product['code']}\n")
+        product_obj = Product(code=product["code"], state=product["state"],)
+        product_obj.save()
     return HttpResponse("")
 
 

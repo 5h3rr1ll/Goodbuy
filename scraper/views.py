@@ -10,6 +10,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 def scrape(code):
+    product = {
+        "code": code,
+        "state": "209",
+    }
+    requests.get(
+        f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product,
+    )
     options = Options()
     options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     options.add_argument("--headless")
@@ -145,8 +152,10 @@ def scrape(code):
         "code": code,
         "name": product_name,
         "brand": product_brand,
+        "product_category": None,
         "product_sub_category": product_sub_category,
         "scraped_image": product_image,
+        "state": "200",
     }
     print("✅ Looked up product: ", product)
     requests.post(
