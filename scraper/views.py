@@ -12,7 +12,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 def scrape(code):
     product = {
         "code": code,
+        "name": None,
+        "brand": None,
+        "product_category": None,
+        "product_sub_category": None,
+        "scraped_image": None,
         "state": "209",
+        "scraped_image": None,
     }
     requests.get(
         f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product,
@@ -54,7 +60,7 @@ def scrape(code):
 
     print("\nSearch for product name...")
     try:
-        product_name = (
+        product["name"] = (
             WebDriverWait(driver, 10)
             .until(
                 EC.presence_of_element_located(
@@ -63,10 +69,15 @@ def scrape(code):
             )
             .text
         )
-        print(f" Product name is {product_name}.")
+        print(f" Product name is {product['name']}.")
     except Exception as e:
         # TODO: if name is not found, user needs to get redirected to add product form
+        product["state"] = "306"
+        requests.post(
+            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product,
+        )
         print("  Productname ERROR:", str(e))
+        return HttpResponse(status=306)
 
     print("\nSearch for product image...")
     try:
@@ -75,11 +86,10 @@ def scrape(code):
                 EC.presence_of_element_located((By.CSS_SELECTOR, ".no-image"))
             )
 
-            print("no-image but doesnt throw errror")
-            product_image = None
+            print("no-image but doesnt throw error")
 
         except Exception:
-            product_image = (
+            product["scraped_image"] = (
                 WebDriverWait(driver, 10)
                 .until(EC.presence_of_element_located((By.CSS_SELECTOR, ".nf > img")))
                 .get_attribute("src")
@@ -92,19 +102,15 @@ def scrape(code):
                     )
                     .get_attribute("onerror")
                 )
-                product_image = None
             except Exception:
                 print("No image, Picture", str(Exception))
-                product_image = "No image, Picture"
-            pass
-            print(f" Product image found at {product_image}.")
+            print(f" Product image found at {product['name']}.")
     except Exception as e:
         print("  Product image ERROR:", str(e))
 
-    product_sub_category = None
     print("\nSearch for product category...")
     try:
-        product_sub_category = (
+        product["product_sub_category"] = (
             WebDriverWait(driver, 10)
             .until(
                 EC.presence_of_element_located(
@@ -116,7 +122,7 @@ def scrape(code):
             )
             .text
         )
-        print(f" Product category is {product_sub_category}.")
+        print(f" Product category is {product['product_sub_category']}.")
     except Exception as e:
         print("  Product category ERROR:", str(e))
 
@@ -133,33 +139,26 @@ def scrape(code):
 
     print("\nInterate over product info items to find product brand...")
 
-    product_brand = None
     try:
         product_info_items = driver.find_elements_by_class_name("product-info-item")
         for div in product_info_items:
             print("\n Text:", div.text)
             if div.text.splitlines()[0] == "Marke":
-                product_brand = div.text.splitlines()[1]
-        print(f" Product brand is {product_brand}.")
+                product["brand"] = div.text.splitlines()[1]
+        print(f" Product brand is {product['brand']}.")
     except Exception as e:
+        product["state"] = "306"
+        requests.post(
+            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product,
+        )
         print("  Can't extract brand:", str(e))
-        # When there is no brand in the scraped object we return the Httpresponse(403).
-        # The Api should know that this is a response to redirect the user in Vue to a view for
-        # inserting the brand.
-        return HttpResponse(403)
-
-    product = {
-        "code": code,
-        "name": product_name,
-        "brand": product_brand,
-        "product_category": None,
-        "product_sub_category": product_sub_category,
-        "scraped_image": product_image,
-        "state": "200",
-    }
-    print("✅ Looked up product: ", product)
-    requests.post(
-        f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product,
-    )
+        return HttpResponse(status=306)
+    print(f'\nName: {product["name"]} Brand: {product["brand"]}\n')
+    if product["name"] is not None and product["brand"] is not None:
+        product["state"] =  "200"
+        print("✅ Looked up product: ", product)
+        requests.post(
+            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product,
+        )
     driver.quit()
     return str(product)

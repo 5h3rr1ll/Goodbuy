@@ -13,7 +13,6 @@ from goodbuyDatabase.models import (
     Corporation,
     Country,
     Product,
-    CategoryOfProduct,
     SubCategoryOfProduct,
 )
 from scraper.views import scrape
@@ -71,7 +70,7 @@ def check_for_attributes(product_object):
 # Creates feedback string but also returns it with the product_object
 def create_feedback_string(product_object):
     brand, corporation, product_sub_category = check_for_attributes(product_object)
-    product_serialized = serializers.serialize("json", [product_object,])
+    product_serialized = serializers.serialize("json", [product_object, ])
     product_serialized = product_serialized.strip("[]")
     product_serialized = json.loads(product_serialized)
     product_serialized["fields"]["brand"] = brand
@@ -86,12 +85,6 @@ def create_feedback_string(product_object):
         ).content.decode("utf-8")
     except Exception as e:
         print("\n request ERROR:", str(e))
-    # Here is the actual creation of the string according to the name
-    is_big_ten_string = {
-        "is_big_ten": is_big_ten,
-        "brand": brand,
-        "corporation": corporation,
-    }
     product_serialized["is_big_ten"] = is_big_ten
     return product_serialized
 
@@ -112,7 +105,7 @@ def feedback(request, code):
     # calls function to build feedback string
     # returns json answer
     else:
-        result = q.enqueue(scrape, code, result_ttl=0)
+        q.enqueue(scrape, code, result_ttl=0)
         return HttpResponse(status=209)
 
 
@@ -158,7 +151,7 @@ def endpoint_save_product(request):
             brand=brand,
             product_sub_category=product_sub_category,
             product_category=product_category,
-            state="200",
+            state=product["state"],
             scraped_image=product["scraped_image"],
         )
     elif request.method == "GET":

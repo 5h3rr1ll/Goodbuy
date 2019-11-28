@@ -230,7 +230,7 @@ class Product(models.Model):
     STATE = (
         ("200", "checked"),
         ("209", "pending"),
-        ("210", "incomplete"),
+        ("306", "incomplete"),
         ("211", "unchecked"),
     )
     id = models.AutoField(primary_key=True)
