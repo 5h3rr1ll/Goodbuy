@@ -1,8 +1,18 @@
 from django.contrib import admin
 
-from .models import (Brand, Certificate, Company, Corporation, Country,
-                     Product, ProductPriceInStore, Rating, Store,
-                     CategoryOfProduct, SubCategoryOfProduct)
+from .models import (
+    Brand,
+    Certificate,
+    Company,
+    Corporation,
+    Country,
+    Product,
+    ProductPriceInStore,
+    Rating,
+    Store,
+    CategoryOfProduct,
+    SubCategoryOfProduct,
+)
 
 
 class CategoryOfProductAdmin(admin.ModelAdmin):
@@ -201,15 +211,15 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
-        "added_by",
-        "checked",
+        "state",
+        "code",
+        "brand",
         "checked_by",
+        "scanned_counter",
+        "added_by",
         "logo",
         "wiki",
-        "code",
         "scraped_image",
-        "brand",
-        "scanned_counter",
         "created",
         "updated",
     )
@@ -225,9 +235,7 @@ class ProductAdmin(admin.ModelAdmin):
         "checked_by__name",
     ]
     exclude = ("scanned_counter", "added_by")
-    autocomplete_fields = (
-        "brand",
-    )
+    autocomplete_fields = ("brand",)
     inlines = [
         PriceInline,
     ]
