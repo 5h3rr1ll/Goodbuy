@@ -93,6 +93,8 @@ def feedback(request, code):
     # looks if product exist in database
     if request.method == "GET" and Product.objects.filter(code=code).exists():
         product_object = Product.objects.get(code=code)
+        product_object.scanned_counter += 1
+        product_object.save()
         if product_object.state == "209":
             print("Code is already in progress")
             return HttpResponse(status=209)
