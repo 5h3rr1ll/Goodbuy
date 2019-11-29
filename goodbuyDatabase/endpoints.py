@@ -21,7 +21,7 @@ from worker import conn
 q = Queue(connection=conn)
 
 
-def is_big_ten(request, code):
+def is_big_ten(code):
     big_ten = [
         ["Unilever"],
         ["Nestlé", "Nestle"],
@@ -36,14 +36,14 @@ def is_big_ten(request, code):
     ]
     product_obj = Product.objects.get(code=code)
     if product_obj.brand is None:
-        return HttpResponse("We don't know")
+        return "We don't know"
     elif product_obj.brand.corporation is None:
-        return HttpResponse("False")
+        return "False"
     for names_list in big_ten:
         for name_option in names_list:
             if name_option.lower() == product_obj.brand.corporation.name.lower():
-                return HttpResponse("True")
-    return HttpResponse("False")
+                return "True"
+    return "False"
 
 
 def is_in_own_database(code):
@@ -79,15 +79,9 @@ def create_feedback_string(product_object):
     product_serialized["fields"]["corporation"] = corporation
     product_serialized["fields"]["product_sub_category"] = product_sub_category
     # Checks if it is big ten
-    # Try Except should be own function
-    try:
-        # why not call is big ten directly?
-        is_big_ten = requests.get(
-            f"{os.environ.get('CURRENT_HOST')}/is_big_ten/{product_object.code}/"
-        ).content.decode("utf-8")
-    except Exception as e:
-        print("\n request ERROR:", str(e))
-    product_serialized["is_big_ten"] = is_big_ten
+    is_big_ten_answer = is_big_ten(product_object.code)
+    print(is_big_ten_answer)
+    product_serialized["is_big_ten"] = is_big_ten_answer
     return product_serialized
 
 
