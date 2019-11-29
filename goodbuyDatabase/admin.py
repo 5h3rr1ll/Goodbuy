@@ -232,7 +232,7 @@ class ProductAdmin(admin.ModelAdmin):
         "scanned_counter",
         "created",
         "updated",
-        "checked_by__name",
+        "checked_by__username",
     ]
     exclude = ("scanned_counter", "added_by")
     autocomplete_fields = ("brand",)
