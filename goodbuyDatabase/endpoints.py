@@ -23,25 +23,27 @@ q = Queue(connection=conn)
 
 def is_big_ten(request, code):
     big_ten = [
-        "Unilever",
-        "Nestlé",
-        "Coca-Cola",
-        "Coca Cola",
-        "Kellog's",
-        "MARS",
-        "PepsiCo",
-        "Mondelez",
-        "General Mills",
-        "Associated British Foods",
-        "Danone",
+        ["Unilever"],
+        ["Nestlé", "Nestle"],
+        ["Coca-Cola", "Coca Cola"],
+        ["Kellog's", "Kellogs"],
+        ["Mars"],
+        ["PepsiCo"],
+        ["Mondelez"],
+        ["General Mills, Inc."],
+        ["Associated British Foods plc"],
+        ["Danone"],
     ]
     product_obj = Product.objects.get(code=code)
     if product_obj.brand is None:
         return HttpResponse("We don't know")
     elif product_obj.brand.corporation is None:
         return HttpResponse("False")
-    else:
-        return HttpResponse(product_obj.brand.corporation.name in big_ten)
+    for names_list in big_ten:
+        for name_option in names_list:
+            if name_option.lower() == product_obj.brand.corporation.name.lower():
+                return HttpResponse("True")
+    return HttpResponse("False")
 
 
 def is_in_own_database(code):
