@@ -1,5 +1,4 @@
 import json
-import os
 
 import requests
 from django.core import serializers
@@ -13,7 +12,7 @@ from goodbuyDatabase.models import (
     Corporation,
     Country,
     Product,
-    SubCategoryOfProduct,
+    SubProductCategory,
 )
 from scraper.views import scrape
 from worker import conn
@@ -136,12 +135,12 @@ def endpoint_save_product(request):
             brand, created = Brand.objects.get_or_create(name=product["brand"])
         product_sub_category = None
         if product["product_sub_category"] is not None:
-            product_sub_category, created = SubCategoryOfProduct.objects.get_or_create(
+            product_sub_category, created = SubProductCategory.objects.get_or_create(
                 name=product["product_sub_category"]
             )
         product_category = None
         if product["product_category"] is not None:
-            product_category, created = SubCategoryOfProduct.objects.get_or_create(
+            product_category, created = SubProductCategory.objects.get_or_create(
                 name=product["product_sub_category"]
             )
         Product.objects.filter(code=product["code"]).update(

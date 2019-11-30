@@ -10,13 +10,13 @@ from .models import (
     ProductPriceInStore,
     Rating,
     Store,
-    MainCategoryOfProduct,
-    CategoryOfProduct,
-    SubCategoryOfProduct,
+    MainProductCategory,
+    ProductCategory,
+    SubProductCategory,
 )
 
 
-class MainCategoryOfProductAdmin(admin.ModelAdmin):
+class MainProductCategoryAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
@@ -36,34 +36,10 @@ class MainCategoryOfProductAdmin(admin.ModelAdmin):
     ]
 
 
-class CategoryOfProductAdmin(admin.ModelAdmin):
+class ProductCategoryAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
-        "main_category",
-        "created",
-        "updated",
-    )
-    list_display_links = (
-        "id",
-        "name",
-        "main_category",
-        "created",
-        "updated",
-    )
-
-    search_fields = [
-        "id",
-        "name",
-        "main_category__name",
-    ]
-
-
-class SubCategoryOfProductAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "name",
-        "category_of_product",
         "created",
         "updated",
     )
@@ -77,8 +53,28 @@ class SubCategoryOfProductAdmin(admin.ModelAdmin):
     search_fields = [
         "id",
         "name",
-        "category_of_product__name",
     ]
+
+
+class SubProductCategoryAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+        "created",
+        "updated",
+    )
+    list_display_links = (
+        "id",
+        "name",
+        "created",
+        "updated",
+    )
+
+    search_fields = [
+        "id",
+        "name",
+    ]
+
 
 class RatingAdmin(admin.ModelAdmin):
     list_display = (
@@ -309,13 +305,13 @@ admin.site.register(
     Rating, RatingAdmin,
 )
 admin.site.register(
-    MainCategoryOfProduct, MainCategoryOfProductAdmin,
+    MainProductCategory, MainProductCategoryAdmin,
 )
 admin.site.register(
-    CategoryOfProduct, CategoryOfProductAdmin,
+    ProductCategory, ProductCategoryAdmin,
 )
 admin.site.register(
-    SubCategoryOfProduct, SubCategoryOfProductAdmin,
+    SubProductCategory, SubProductCategoryAdmin,
 )
 admin.site.register(
     Store, StoreAdmin,

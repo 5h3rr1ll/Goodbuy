@@ -14,8 +14,9 @@ def scrape(code):
         "code": code,
         "name": None,
         "brand": None,
+        "main_product_category": None,
         "product_category": None,
-        "product_sub_category": None,
+        "sub_product_category": None,
         "scraped_image": None,
         "state": "209",
         "scraped_image": None,
@@ -58,26 +59,26 @@ def scrape(code):
     except Exception as e:
         print("  Search submit button ERROR:", str(e))
 
-    print("\nSearch for product name...")
-    try:
-        product["name"] = (
-            WebDriverWait(driver, 10)
-            .until(
-                EC.presence_of_element_located(
-                    (By.CSS_SELECTOR, ".page-title-headline > .float-group > h1")
-                )
-            )
-            .text
-        )
-        print(f" Product name is {product['name']}.")
-    except Exception as e:
-        # TODO: if name is not found, user needs to get redirected to add product form
-        product["state"] = "306"
-        requests.post(
-            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product,
-        )
-        print("  Productname ERROR:", str(e))
-        return HttpResponse(status=306)
+    print("\nSearch for product name and categories...")
+    div = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "bc"))
+    )
+    spans = div.find_elements_by_class_name("bcd")
+    breadcrumbs = []
+    for breadcrumb in spans:
+        breadcrumbs.append(breadcrumb.text)
+    product["main_product_category"] = breadcrumbs[1]
+    product["product_category"] = breadcrumbs[2]
+    product["sub_product_category"] = breadcrumbs[-1]
+    breadcrumb_string = div.text.split(f"{breadcrumbs[-2] + ' ' + breadcrumbs[-1]}")
+    product["name"] = breadcrumb_string[-1].strip()
+    print(
+        f"""
+        Product name: {product['name']}
+        Product Category: {product['product_category']}
+        Sub-Product Category: {product['sub_product_category']}
+        """
+    )
 
     print("\nSearch for product image...")
     try:
@@ -108,24 +109,6 @@ def scrape(code):
     except Exception as e:
         print("  Product image ERROR:", str(e))
 
-    print("\nSearch for product category...")
-    try:
-        product["product_sub_category"] = (
-            WebDriverWait(driver, 10)
-            .until(
-                EC.presence_of_element_located(
-                    (
-                        By.CSS_SELECTOR,
-                        "div.block.prod-basic-info > div > .product-info-item > p:nth-child(2) > a",
-                    )
-                )
-            )
-            .text
-        )
-        print(f" Product category is {product['product_sub_category']}.")
-    except Exception as e:
-        print("  Product category ERROR:", str(e))
-
     print("\nFind more product details div")
     try:
         more_product_detail_div = WebDriverWait(driver, 10).until(
@@ -149,16 +132,18 @@ def scrape(code):
     except Exception as e:
         product["state"] = "306"
         requests.post(
-            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product,
+            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/",
+            json=product,
         )
         print("  Can't extract brand:", str(e))
         return HttpResponse(status=306)
     print(f'\nName: {product["name"]} Brand: {product["brand"]}\n')
     if product["name"] is not None and product["brand"] is not None:
-        product["state"] =  "200"
+        product["state"] = "200"
         print("✅ Looked up product: ", product)
         requests.post(
-            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product,
+            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/",
+            json=product,
         )
     driver.quit()
     return str(product)
