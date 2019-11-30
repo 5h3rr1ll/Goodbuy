@@ -169,9 +169,28 @@ class Brand(models.Model):
         return self.name
 
 
-class CategoryOfProduct(models.Model):
+class MainProductCategory(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=45)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = True
+        db_table = "main_category_of_products"
+        ordering = (
+            "name",
+            "id",
+        )
+
+    def __str__(self):
+        return self.name
+
+
+class ProductCategory(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(unique=True, max_length=45)
+    main_category = models.ForeignKey(MainProductCategory, models.SET_NULL, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -187,11 +206,11 @@ class CategoryOfProduct(models.Model):
         return self.name
 
 
-class SubCategoryOfProduct(models.Model):
+class SubProductCategory(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(unique=True, max_length=45)
-    main_category = models.ForeignKey(
-        CategoryOfProduct, models.SET_NULL, null=True, blank=True
+    category_of_product = models.ForeignKey(
+        ProductCategory, models.SET_NULL, null=True, blank=True
     )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -256,17 +275,24 @@ class Product(models.Model):
         blank=True,
     )
     brand = models.ForeignKey(Brand, models.SET_NULL, null=True, blank=True)
+    main_product_category = models.ForeignKey(
+        MainProductCategory,
+        models.SET_NULL,
+        verbose_name="Main Product Category",
+        null=True,
+        blank=True,
+    )
     product_category = models.ForeignKey(
-        CategoryOfProduct,
+        ProductCategory,
         models.SET_NULL,
         verbose_name="Product Category",
         null=True,
         blank=True,
     )
-    product_sub_category = models.ForeignKey(
-        SubCategoryOfProduct,
+    sub_product_category = models.ForeignKey(
+        SubProductCategory,
         models.SET_NULL,
-        verbose_name="Product Sub-Category",
+        verbose_name="Sub Product Category",
         null=True,
         blank=True,
     )

@@ -15,6 +15,7 @@ class AddNewProductForm(forms.ModelForm):
             "image_of_front",
             "image_of_details",
             "brand",
+            "main_product_category",
             "product_category",
-            "product_sub_category",
+            "sub_product_category"
         ]

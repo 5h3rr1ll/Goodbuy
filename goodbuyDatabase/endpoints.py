@@ -1,5 +1,4 @@
 import json
-import os
 
 import requests
 from django.core import serializers
@@ -13,7 +12,9 @@ from goodbuyDatabase.models import (
     Corporation,
     Country,
     Product,
-    SubCategoryOfProduct,
+    MainProductCategory,
+    ProductCategory,
+    SubProductCategory,
 )
 from scraper.views import scrape
 from worker import conn
@@ -62,22 +63,22 @@ def check_for_attributes(product_object):
         corporation = ""
         print(str(Exception))
     try:
-        product_sub_category = product_object.product_sub_category.name
+        sub_product_category = product_object.sub_product_category.name
     except Exception:
-        product_sub_category = ""
+        sub_product_category = ""
         print(str(Exception))
-    return (brand, corporation, product_sub_category)
+    return (brand, corporation, sub_product_category)
 
 
 # Creates feedback string but also returns it with the product_object
 def create_feedback_string(product_object):
-    brand, corporation, product_sub_category = check_for_attributes(product_object)
+    brand, corporation, sub_product_category = check_for_attributes(product_object)
     product_serialized = serializers.serialize("json", [product_object, ])
     product_serialized = product_serialized.strip("[]")
     product_serialized = json.loads(product_serialized)
     product_serialized["fields"]["brand"] = brand
     product_serialized["fields"]["corporation"] = corporation
-    product_serialized["fields"]["product_sub_category"] = product_sub_category
+    product_serialized["fields"]["sub_product_category"] = sub_product_category
     # Checks if it is big ten
     is_big_ten_answer = is_big_ten(product_object.code)
     print(is_big_ten_answer)
@@ -134,21 +135,27 @@ def endpoint_save_product(request):
         brand = None
         if product["brand"] is not None:
             brand, created = Brand.objects.get_or_create(name=product["brand"])
-        product_sub_category = None
-        if product["product_sub_category"] is not None:
-            product_sub_category, created = SubCategoryOfProduct.objects.get_or_create(
-                name=product["product_sub_category"]
+        sub_product_category = None
+        if product["sub_product_category"] is not None:
+            sub_product_category, created = SubProductCategory.objects.get_or_create(
+                name=product["sub_product_category"]
             )
         product_category = None
         if product["product_category"] is not None:
-            product_category, created = SubCategoryOfProduct.objects.get_or_create(
-                name=product["product_sub_category"]
+            product_category, created = ProductCategory.objects.get_or_create(
+                name=product["product_category"]
+            )
+        main_product_category = None
+        if product["main_product_category"] is not None:
+            main_product_category, created = MainProductCategory.objects.get_or_create(
+                name=product["main_product_category"]
             )
         Product.objects.filter(code=product["code"]).update(
             name=product["name"],
             brand=brand,
-            product_sub_category=product_sub_category,
+            main_product_category=main_product_category,
             product_category=product_category,
+            sub_product_category=sub_product_category,
             state=product["state"],
             scraped_image=product["scraped_image"],
         )

@@ -10,12 +10,13 @@ from .models import (
     ProductPriceInStore,
     Rating,
     Store,
-    CategoryOfProduct,
-    SubCategoryOfProduct,
+    MainProductCategory,
+    ProductCategory,
+    SubProductCategory,
 )
 
 
-class CategoryOfProductAdmin(admin.ModelAdmin):
+class MainProductCategoryAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
@@ -29,12 +30,16 @@ class CategoryOfProductAdmin(admin.ModelAdmin):
         "updated",
     )
 
+    search_fields = [
+        "id",
+        "name",
+    ]
 
-class SubCategoryOfProductAdmin(admin.ModelAdmin):
+
+class ProductCategoryAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
-        "main_category",
         "created",
         "updated",
     )
@@ -44,6 +49,31 @@ class SubCategoryOfProductAdmin(admin.ModelAdmin):
         "created",
         "updated",
     )
+
+    search_fields = [
+        "id",
+        "name",
+    ]
+
+
+class SubProductCategoryAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+        "created",
+        "updated",
+    )
+    list_display_links = (
+        "id",
+        "name",
+        "created",
+        "updated",
+    )
+
+    search_fields = [
+        "id",
+        "name",
+    ]
 
 
 class RatingAdmin(admin.ModelAdmin):
@@ -275,10 +305,13 @@ admin.site.register(
     Rating, RatingAdmin,
 )
 admin.site.register(
-    CategoryOfProduct, CategoryOfProductAdmin,
+    MainProductCategory, MainProductCategoryAdmin,
 )
 admin.site.register(
-    SubCategoryOfProduct, SubCategoryOfProductAdmin,
+    ProductCategory, ProductCategoryAdmin,
+)
+admin.site.register(
+    SubProductCategory, SubProductCategoryAdmin,
 )
 admin.site.register(
     Store, StoreAdmin,
