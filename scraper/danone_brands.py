@@ -87,10 +87,4 @@ list_from_wiki = [
 ]
 
 for brand in list_from_wiki:
-    data = {
-        "name": brand,
-        "corporation": "Danone",
-    }
-    requests.post(
-        f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_brand/", json=data,
-    )
+    DANONE_WIKI.save_brand(brand)
