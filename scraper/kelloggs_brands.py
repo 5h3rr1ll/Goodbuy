@@ -68,5 +68,6 @@ class KelloggsWikiScraper:
             div_location = self.soup.select_one(div_location)
             self.clean_up_brand_name(div_location)
 
+
 KELLOGS_WIKI = KelloggsWikiScraper()
 KELLOGS_WIKI.iterate_over_list(KELLOGS_WIKI.get_all_div_location())

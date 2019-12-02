@@ -70,3 +70,27 @@ class DanoneScraper:
 
 DANONE_WIKI = DanoneScraper()
 DANONE_WIKI.iterate_over_list(DANONE_WIKI.get_all_div_location())
+
+list_from_wiki = [
+    "Alpro",
+    "Nutricia",
+    "Nutrilon",
+    "AQUA",
+    "Blédina",
+    "Cow & Gate",
+    "Horizon Organic",
+    "Mizone",
+    "Prostokvashino",
+    "Silk",
+    "Vega",
+    "Damavand",
+]
+
+for brand in list_from_wiki:
+    data = {
+        "name": brand,
+        "corporation": "Danone",
+    }
+    requests.post(
+        f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_brand/", json=data,
+    )
