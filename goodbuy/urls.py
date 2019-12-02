@@ -7,7 +7,9 @@ from django.conf import settings
 from accounts import views as acccount_views
 from home import views as home_views
 from goodbuyDatabase import endpoints as goodbuyDatabase_endpoints
-from scraper import views as scraper_views
+from goodbuyDatabase import views as goodbuyDatabase_views
+
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -50,8 +52,9 @@ urlpatterns = [
     path("feedback/<str:code>/", goodbuyDatabase_endpoints.feedback),
     path("feedback/result/<str:code>/", goodbuyDatabase_endpoints.result_feedback),
     path("is_in_own_database/<str:code>/", goodbuyDatabase_endpoints.is_in_own_database),
+    path("loaderio-f149e04d132ede4fa7de07ef79d40a02/", goodbuyDatabase_views.loaderio),
 ]
 
-if settings.DEBUG == True:
-    urlpatterns +=  static(settings.MEDIA_URL,
+if settings.DEBUG is True:
+    urlpatterns += static(settings.MEDIA_URL,
         document_root=settings.MEDIA_ROOT)

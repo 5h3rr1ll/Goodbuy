@@ -9,7 +9,6 @@ from .forms import AddNewProductForm
 from .models import Product
 
 
-
 def create_product_form(request):
     if request.method == "POST" and request.is_ajax():
         form = AddNewProductForm(request.POST, request.FILES)
@@ -155,5 +154,10 @@ def show_list_of_codes(request, list, *args, **kwargs):
         }
         return render(request, "goodbuyDatabase/list_of_product_codes.html", args)
 
+
 class ProductDetailView(DetailView):
     model = Product
+
+
+def loaderio(request):
+    return render(request, "goodbuyDatabase/loaderio.html")
