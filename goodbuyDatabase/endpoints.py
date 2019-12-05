@@ -98,9 +98,9 @@ def feedback(request, code):
         # product exists calls for string creation and then returns json answer
         answer = create_feedback_string(product_object)
         return JsonResponse(answer)
-        response = requests.get(
-            f"https://world.openfoodfacts.org/api/v0/product/{code}.json"
-        )
+    response = requests.get(
+        f"https://world.openfoodfacts.org/api/v0/product/{code}.json"
+    )
     response_as_json = json.loads(response.text)
     if response_as_json["status_verbose"] == "product found":
         print("\nProduct got from OFF\n")
