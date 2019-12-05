@@ -131,9 +131,6 @@ def feedback(request, code):
     # then get the product out of the database again (?)
     # calls function to build feedback string
     # returns json answer
-    else:
-        q.enqueue(scrape, code, result_ttl=0)
-        return HttpResponse(status=209)
 
 
 def result_feedback(request, code):
