@@ -98,14 +98,39 @@ def feedback(request, code):
         # product exists calls for string creation and then returns json answer
         answer = create_feedback_string(product_object)
         return JsonResponse(answer)
+    response = requests.get(
+        f"https://world.openfoodfacts.org/api/v0/product/{code}.json"
+    )
+    response_as_json = json.loads(response.text)
+    if response_as_json["status_verbose"] == "product found":
+        print("\nProduct got from OFF\n")
+        if response_as_json["product"]["brands"] == "":
+            brand = None
+            state = "306"
+        else:
+            brand, created = Brand.objects.get_or_create(
+                name=response_as_json["product"]["brands"]
+            )
+            state = "200"
+        try:
+            Product.objects.create(
+                name=response_as_json["product"]["product_name"],
+                brand=brand,
+                code=code,
+                state=state
+            )
+        except Exception:
+            print(str(Exception))
+        answer = create_feedback_string(Product.objects.get(code=code))
+        return JsonResponse(answer)
+    else:
+        q.enqueue(scrape, code, result_ttl=0)
+        return HttpResponse(status=209)
     # product doesnt exist in db so start codecheck scraper
     # save the product in database
     # then get the product out of the database again (?)
     # calls function to build feedback string
     # returns json answer
-    else:
-        q.enqueue(scrape, code, result_ttl=0)
-        return HttpResponse(status=209)
 
 
 def result_feedback(request, code):
