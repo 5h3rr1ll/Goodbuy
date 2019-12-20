@@ -60,25 +60,28 @@ def scrape(code):
         print("  Search submit button ERROR:", str(e))
 
     print("\nSearch for product name and categories...")
-    div = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "bc"))
-    )
-    spans = div.find_elements_by_class_name("bcd")
-    breadcrumbs = []
-    for breadcrumb in spans:
-        breadcrumbs.append(breadcrumb.text)
-    product["main_product_category"] = breadcrumbs[1]
-    product["product_category"] = breadcrumbs[2]
-    product["sub_product_category"] = breadcrumbs[-1]
-    breadcrumb_string = div.text.split(f"{breadcrumbs[-2] + ' ' + breadcrumbs[-1]}")
-    product["name"] = breadcrumb_string[-1].strip()
-    print(
-        f"""
-        Product name: {product['name']}
-        Product Category: {product['product_category']}
-        Sub-Product Category: {product['sub_product_category']}
-        """
-    )
+    try:
+        div = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "bc"))
+        )
+        spans = div.find_elements_by_class_name("bcd")
+        breadcrumbs = []
+        for breadcrumb in spans:
+            breadcrumbs.append(breadcrumb.text)
+        product["main_product_category"] = breadcrumbs[1]
+        product["product_category"] = breadcrumbs[2]
+        product["sub_product_category"] = breadcrumbs[-1]
+        breadcrumb_string = div.text.split(f"{breadcrumbs[-2] + ' ' + breadcrumbs[-1]}")
+        product["name"] = breadcrumb_string[-1].strip()
+        print(
+            f"""
+            Product name: {product['name']}
+            Product Category: {product['product_category']}
+            Sub-Product Category: {product['sub_product_category']}
+            """
+        )
+    except Exception:
+        print(str(Exception))
 
     print("\nSearch for product image...")
     try:
