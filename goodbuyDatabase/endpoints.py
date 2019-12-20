@@ -54,19 +54,19 @@ def is_in_own_database(code):
 def check_for_attributes(product_object):
     try:
         brand = product_object.brand.name
-    except Exception:
+    except Exception as e:
         brand = ""
-        print(str(Exception))
+        print(str(e))
     try:
         corporation = product_object.brand.corporation.name
-    except Exception:
+    except Exception as e:
         corporation = ""
-        print(str(Exception))
+        print(str(e))
     try:
         sub_product_category = product_object.sub_product_category.name
-    except Exception:
+    except Exception as e:
         sub_product_category = ""
-        print(str(Exception))
+        print(str(e))
     return (brand, corporation, sub_product_category)
 
 
@@ -104,14 +104,15 @@ def feedback(request, code):
     response_as_json = json.loads(response.text)
     if response_as_json["status_verbose"] == "product found":
         print("\nProduct got from OFF\n")
-        if response_as_json["product"]["brands"] == "":
-            brand = None
-            state = "306"
-        else:
+        try:
             brand, created = Brand.objects.get_or_create(
                 name=response_as_json["product"]["brands"]
             )
             state = "200"
+        except Exception as e:
+            print(str(e))
+            brand = None
+            state = "306"
         try:
             Product.objects.create(
                 name=response_as_json["product"]["product_name"],
@@ -129,9 +130,10 @@ def feedback(request, code):
             requests.post(
                 "https://4vyxihyubj.execute-api.eu-central-1.amazonaws.com/dev/",
                 params=params,
-                timeout=0.0000000001,
+                timeout=1,
             )
-        except requests.exceptions.ReadTimeout:
+        except Exception as e:
+            print(str(e))
             pass
         return HttpResponse(status=209)
     # product doesnt exist in db so start codecheck scraper
