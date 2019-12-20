@@ -80,8 +80,8 @@ def scrape(code):
             Sub-Product Category: {product['sub_product_category']}
             """
         )
-    except Exception:
-        print(str(Exception))
+    except Exception as e:
+        print(str(e))
 
     print("\nSearch for product image...")
     try:
