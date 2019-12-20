@@ -10,6 +10,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 def scrape(code):
+    print(f"Start scraper for {code}")
+    print("Intial product save.")
     product = {
         "code": code,
         "name": None,
@@ -148,5 +150,13 @@ def scrape(code):
             f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/",
             json=product,
         )
+    else:
+        product["state"] = "306"
+        requests.post(
+            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/",
+            json=product,
+        )
+        print("Name and/or brand is None.")
+        return HttpResponse(status=306)
     driver.quit()
     return str(product)
