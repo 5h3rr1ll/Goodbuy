@@ -11,8 +11,8 @@ from goodbuyDatabase.models import (
     Company,
     Corporation,
     Country,
-    Product,
     MainProductCategory,
+    Product,
     ProductCategory,
     SubProductCategory,
 )
@@ -117,14 +117,22 @@ def feedback(request, code):
                 name=response_as_json["product"]["product_name"],
                 brand=brand,
                 code=code,
-                state=state
+                state=state,
             )
         except Exception:
             print(str(Exception))
         answer = create_feedback_string(Product.objects.get(code=code))
         return JsonResponse(answer)
     else:
-        q.enqueue(scrape, code, result_ttl=0)
+        params = {"code": code}
+        try:
+            requests.post(
+                "https://4vyxihyubj.execute-api.eu-central-1.amazonaws.com/dev/",
+                params=params,
+                timeout=0.0000000001,
+            )
+        except requests.exceptions.ReadTimeout:
+            pass
         return HttpResponse(status=209)
     # product doesnt exist in db so start codecheck scraper
     # save the product in database

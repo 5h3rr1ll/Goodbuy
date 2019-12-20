@@ -21,7 +21,6 @@ def scrape(code):
         "sub_product_category": None,
         "scraped_image": None,
         "state": "209",
-        "scraped_image": None,
     }
     requests.get(
         f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product,
@@ -152,11 +151,11 @@ def scrape(code):
         )
     else:
         product["state"] = "306"
+        product["scraped_image"] = None
         requests.post(
-            f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/",
+            f"https://dev-goodbuy.herokuapp.com/goodbuyDatabase/save_product/",
             json=product,
         )
-        print("Name and/or brand is None.")
-        return HttpResponse(status=306)
+        print("Name and/or brand is None")
     driver.quit()
     return str(product)
