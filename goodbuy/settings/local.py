@@ -12,7 +12,7 @@ DEBUG = True
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "local_goodbuy_db",
+        "NAME": "postgres",
         "HOST": "127.0.0.1",
         "Port": "5432",
     }
