@@ -1,19 +1,21 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import render, redirect, render_to_response
+
 from django.contrib.auth.decorators import login_required
-from django.views.generic import UpdateView, DetailView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from django.views.generic import DeleteView, DetailView, UpdateView
 
 from .forms import AddNewProductForm
 from .models import Product
 
-def create_product(request):
+
+def create_product_form(request):
     if request.method == "POST" and request.is_ajax():
         form = AddNewProductForm(request.POST, request.FILES)
         print(request.POST)
         print(request.FILES)
-        image = request.POST["image"].replace("C:\\fakepath\\","product_image/")
-        print("Image path:",image)
+        image = request.POST["image"].replace("C:\\fakepath\\", "product_image/")
+        print("Image path:", image)
         if form.is_valid():
             print(request.POST)
             name = request.POST["name"]
@@ -22,9 +24,7 @@ def create_product(request):
             # product.name = request.POST["name"]
 
             Product.objects.create(
-                name = name,
-                code = code,
-                image = image,
+                name=name, code=code, image=image,
             )
         else:
             print("\n!!! error While creating Product !!!\n")
@@ -33,15 +33,18 @@ def create_product(request):
         print("\n!!! error While creating Product !!!\n")
     return HttpResponse("")
 
+
 @login_required
-def add_product(request, code):
+def add_product_form(request, code):
     if request.method == "POST":
         form = AddNewProductForm(request.POST, request.FILES)
 
         if form.is_valid():
-            '''commit=False allows you to modify the resulting object before it
+            """
+            commit=False allows you to modify the resulting object before it
             is actually saved to the database. Source:
-            https://stackoverflow.com/questions/2218930/django-save-user-id-with-model-save?noredirect=1&lq=1'''
+            https://stackoverflow.com/questions/2218930/django-save-user-id-with-model-save?noredirect=1&lq=1
+            """
             product = form.save(commit=False)
             product.added_by = request.user
             if request.user.groups.filter(name="ProductGroup").exists():
@@ -53,31 +56,38 @@ def add_product(request, code):
                 product.checked = False
                 product.save()
                 return redirect("/code_scanner/")
-        return render_to_response('goodbuyDatabase/add_product.html', {'form': form})
+        return render(request, "goodbuyDatabase/add_product_form.html", {"form": form})
     else:
         try:
             product = Product.objects.get(code=code)
             product.scanned_counter += 1
             product.save()
             args = {
-                "product":product,
+                "product": product,
             }
-            return render(request,"goodbuyDatabase/product_already_exists.html",args)
+            return render(request, "goodbuyDatabase/product_already_exists.html", args)
         except Exception as e:
             print("type error: " + str(e))
-            form = AddNewProductForm(initial={"code":code})
+            form = AddNewProductForm(initial={"code": code})
             args = {
-                "form":form,
-                "error":e,
-                }
-            return render(request, "goodbuyDatabase/add_product.html", args)
+                "form": form,
+                "error": e,
+            }
+            return render(request, "goodbuyDatabase/add_product_form.html", args)
+
 
 class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Product
     fields = [
-        "name","code","image","brand","corporation","main_category",
-        "sub_category","certificate",
-        ]
+        "name",
+        "code",
+        "image",
+        "brand",
+        "corporation",
+        "main_category",
+        "sub_category",
+        "certificate",
+    ]
 
     def form_valid(self, form):
         form.instance.added_by = self.request.user
@@ -89,6 +99,7 @@ class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
+
 class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     success_url = "/goodbuyDatabase/list_all/"
@@ -98,22 +109,21 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+
 def product_list(request):
     products = Product.objects.all()
-    return render(
-        request,
-        "goodbuyDatabase/product_list.html",
-        { "products":products })
+    return render(request, "goodbuyDatabase/product_list.html", {"products": products})
+
 
 def show_list_of_codes(request, list, *args, **kwargs):
     if request.method == "POST":
         form = AddNewProductForm(request.POST, request.FILES)
         if form.is_valid():
-            '''
+            """
             commit=False allows you to modify the resulting object before it
             is actually saved to the database. Source:
             https://stackoverflow.com/questions/2218930/django-save-user-id-with-model-save?noredirect=1&lq=1
-            '''
+            """
             product = form.save(commit=False)
             product.added_by = request.user
             if request.user.groups.filter(name="ProductGroup").exists():
@@ -133,18 +143,21 @@ def show_list_of_codes(request, list, *args, **kwargs):
             try:
                 product = Product.objects.get(code=code)
                 product_in_db.append(product)
-            except:
-                form = AddNewProductForm(initial={"code":code})
+            except Exception:
+                print(str(Exception))
+                form = AddNewProductForm(initial={"code": code})
                 product_not_in_db.append(form)
 
         args = {
-            "allready_in_db":product_in_db,
-            "product_not_in_db":product_not_in_db,
-            }
+            "allready_in_db": product_in_db,
+            "product_not_in_db": product_not_in_db,
+        }
         return render(request, "goodbuyDatabase/list_of_product_codes.html", args)
 
-    def receive_code(request):
-        return HttpResponse(status=204)
 
 class ProductDetailView(DetailView):
     model = Product
+
+
+def loaderio(request):
+    return render(request, "goodbuyDatabase/loaderio.html")

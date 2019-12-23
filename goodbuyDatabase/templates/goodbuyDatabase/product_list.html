@@ -3,10 +3,10 @@
 {% block body %}
     {% for product in products %}
         <article class="media content-section mt-4">
-          {% if product.image %}
+          {% if product.scraped_image %}
           <img
             class="rounded-circle article-img"
-            src="{{ product.image.url }}">
+            src="{{ product.scraped_image }}">
           {% endif %}
           <div class="media-body">
             <div class="article-metadata">
@@ -14,7 +14,7 @@
               <small class="text-muted">{{ product.created }}</small>
             </div>
             <h2><a class="article-title" href="{% url 'goodbuyDatabase:product_detail' product.id %}">{{ product.name }}</a></h2>
-            <p class="article-content">{{ product.certificate }}</p>
+            <p class="article-content">EAN Code: {{ product.code }}</p>
           </div>
         </article>
 
