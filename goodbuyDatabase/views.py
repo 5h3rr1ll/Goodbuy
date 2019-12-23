@@ -2,7 +2,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponse
-from django.shortcuts import redirect, render, render_to_response
+from django.shortcuts import redirect, render
 from django.views.generic import DeleteView, DetailView, UpdateView
 
 from .forms import AddNewProductForm
@@ -56,7 +56,7 @@ def add_product_form(request, code):
                 product.checked = False
                 product.save()
                 return redirect("/code_scanner/")
-        return render_to_response("goodbuyDatabase/add_product.html", {"form": form})
+        return render(request, "goodbuyDatabase/add_product_form.html", {"form": form})
     else:
         try:
             product = Product.objects.get(code=code)
@@ -73,7 +73,7 @@ def add_product_form(request, code):
                 "form": form,
                 "error": e,
             }
-            return render(request, "goodbuyDatabase/add_product.html", args)
+            return render(request, "goodbuyDatabase/add_product_form.html", args)
 
 
 class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
