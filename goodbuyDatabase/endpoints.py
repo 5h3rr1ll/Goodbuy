@@ -98,6 +98,7 @@ def feedback(request, code):
         # product exists calls for string creation and then returns json answer
         answer = create_feedback_string(product_object)
         return JsonResponse(answer)
+    print(f"Looking up OFF for code {code}")
     response = requests.get(
         f"https://world.openfoodfacts.org/api/v0/product/{code}.json"
     )
@@ -127,6 +128,7 @@ def feedback(request, code):
     else:
         params = {"code": code}
         try:
+            print(f"sending code {code} to AWS lambda")
             requests.post(
                 "https://4vyxihyubj.execute-api.eu-central-1.amazonaws.com/dev/",
                 params=params,

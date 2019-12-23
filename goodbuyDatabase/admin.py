@@ -18,73 +18,58 @@ from .models import (
 
 class MainProductCategoryAdmin(admin.ModelAdmin):
     list_display = (
-        "id",
         "name",
         "created",
         "updated",
     )
     list_display_links = (
-        "id",
         "name",
         "created",
         "updated",
     )
 
     search_fields = [
-        "id",
         "name",
     ]
 
 
 class ProductCategoryAdmin(admin.ModelAdmin):
     list_display = (
-        "id",
         "name",
         "created",
         "updated",
     )
     list_display_links = (
-        "id",
         "name",
         "created",
         "updated",
     )
 
     search_fields = [
-        "id",
         "name",
     ]
 
 
 class SubProductCategoryAdmin(admin.ModelAdmin):
     list_display = (
-        "id",
         "name",
         "created",
         "updated",
     )
     list_display_links = (
-        "id",
         "name",
         "created",
         "updated",
     )
 
     search_fields = [
-        "id",
         "name",
     ]
 
 
 class RatingAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "corporation",
-    )
-    list_display_links = (
-        "id",
-        "corporation",
-    )
+    list_display = ("corporation",)
+    list_display_links = ("corporation",)
 
     @classmethod
     def corporation(self, obj):
@@ -98,18 +83,13 @@ class RatingAdmin(admin.ModelAdmin):
 
 class CountryAdmin(admin.ModelAdmin):
     list_display = (
-        "id",
         "name",
         "code",
         "created",
         "updated",
     )
-    list_display_links = (
-        "id",
-        "name",
-    )
+    list_display_links = ("name",)
     search_fields = [
-        "id",
         "name",
         "code",
         "created",
@@ -124,7 +104,6 @@ class RatingInline(admin.StackedInline):
 
 class CorporationAdmin(admin.ModelAdmin):
     list_display = (
-        "id",
         "name",
         "logo",
         "wiki",
@@ -133,10 +112,9 @@ class CorporationAdmin(admin.ModelAdmin):
         "created",
         "updated",
     )
-    list_display_links = ("id", "name")
+    list_display_links = ("name",)
     search_fields = [
         "name",
-        "id",
     ]
     autocomplete_fields = ("origin",)
     inlines = [
@@ -152,7 +130,6 @@ class CorporationAdmin(admin.ModelAdmin):
 
 class CompanyAdmin(admin.ModelAdmin):
     list_display = (
-        "id",
         "name",
         "logo",
         "wiki",
@@ -162,9 +139,8 @@ class CompanyAdmin(admin.ModelAdmin):
         "created",
         "updated",
     )
-    list_display_links = ("id", "name")
+    list_display_links = ("name",)
     search_fields = [
-        "id",
         "name",
         "logo",
         "corporation__name",
@@ -183,7 +159,6 @@ class CompanyAdmin(admin.ModelAdmin):
 
 class BrandAdmin(admin.ModelAdmin):
     list_display = (
-        "id",
         "name",
         "logo",
         "wiki",
@@ -192,9 +167,8 @@ class BrandAdmin(admin.ModelAdmin):
         "created",
         "updated",
     )
-    list_display_links = ("id", "name")
+    list_display_links = ("name",)
     search_fields = [
-        "id",
         "name",
         "logo",
         "wiki",
@@ -210,8 +184,8 @@ class BrandAdmin(admin.ModelAdmin):
 
 
 class ProdcutPriceInStoreAdmin(admin.ModelAdmin):
-    list_display = ("id", "store", "product", "price")
-    search_fields = ["id", "store__name", "product__name", "price"]
+    list_display = ("store", "product", "price")
+    search_fields = ["store__name", "product__name", "price"]
 
 
 class PriceInline(admin.StackedInline):
@@ -221,15 +195,13 @@ class PriceInline(admin.StackedInline):
 
 class CertificateAdmin(admin.ModelAdmin):
     list_display = (
-        "id",
         "name",
         "wiki",
         "created",
         "updated",
     )
-    list_display_links = ("id", "name")
+    list_display_links = ("name",)
     search_fields = [
-        "id",
         "name",
         "created",
         "updated",
@@ -239,13 +211,13 @@ class CertificateAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-        "id",
         "name",
         "state",
         "code",
         "brand",
         "checked_by",
         "scanned_counter",
+        "data_source",
         "added_by",
         "logo",
         "wiki",
@@ -253,9 +225,8 @@ class ProductAdmin(admin.ModelAdmin):
         "created",
         "updated",
     )
-    list_display_links = ("id", "name")
+    list_display_links = ("name",)
     search_fields = [
-        "id",
         "name",
         "code",
         "brand__name",
@@ -273,13 +244,11 @@ class ProductAdmin(admin.ModelAdmin):
 
 class StoreAdmin(admin.ModelAdmin):
     list_display = (
-        "id",
         "name",
         "country",
     )
-    list_display_links = ("id", "name")
+    list_display_links = ("name",)
     search_fields = [
-        "id",
         "name",
     ]
     autocomplete_fields = ()
