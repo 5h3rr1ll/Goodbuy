@@ -52,9 +52,10 @@ class MarsWikiScraper:
         with the sections title.
         """
         div_locations_list = {
-            "Original products": "#mw-content-text > div > div:nth-child(68)",
-            "Products manufactured by The Wrigley Company": "#mw-content-text > div > div:nth-child(70)",
-            "Products for pet consumption": "#mw-content-text > div > div:nth-child(72)",
+            "Original products": "#mw-content-text > div > div:nth-child(72)",
+            "Products manufactured by The Wrigley Company": "#mw-content-text > div > div:nth-child(74)",
+            "Products for pet consumption": "#mw-content-text > div > div:nth-child(76)",
+            "Discontinued product lines": "#mw-content-text > div > ul:nth-child(79)",
         }
         return div_locations_list
 

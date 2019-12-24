@@ -54,10 +54,11 @@ class GeneralMillsWikiScraper:
         with the sections title.
         """
         div_locations_list = {
-            "Breakfast cereals": "#mw-content-text > div > div:nth-child(55)",
-            "Baking goods": "#mw-content-text > div > div:nth-child(62)",
-            "Grain snacks": "#mw-content-text > div > div:nth-child(66)",
-            "Meal products": "#mw-content-text > div > div:nth-child(69)",
+            "Breakfast cereals": "#mw-content-text > div > div:nth-child(56)",
+            "Discontinued cereals": "#mw-content-text > div > div:nth-child(60)",
+            "Baking goods": "#mw-content-text > div > div:nth-child(63)",
+            "Grain snacks": "#mw-content-text > div > div:nth-child(67)",
+            "Meal products": "#mw-content-text > div > div:nth-child(70)",
         }
         return div_locations_list
 
@@ -73,3 +74,21 @@ class GeneralMillsWikiScraper:
 
 GENERAL_MILLS_WIKI = GeneralMillsWikiScraper()
 GENERAL_MILLS_WIKI.iterate_over_list(GENERAL_MILLS_WIKI.get_all_div_location())
+
+manually_added_brands = [
+    "Cascadian Farm",
+    "Annie's",
+    "Blue Buffalo",
+    "Frescarini",
+    "Latina",
+    "Totino's",
+    "Jeno's",
+    "Progresso",
+    "Colombo",
+    "Yoplait",
+    "Häagen-Dazs",
+]
+
+for brand in manually_added_brands:
+    print(f"{brand}")
+    GENERAL_MILLS_WIKI.save_brand(brand)
