@@ -138,11 +138,6 @@ def feedback(request, code):
             print(str(e))
             pass
         return HttpResponse(status=209)
-    # product doesnt exist in db so start codecheck scraper
-    # save the product in database
-    # then get the product out of the database again (?)
-    # calls function to build feedback string
-    # returns json answer
 
 
 def result_feedback(request, code):
