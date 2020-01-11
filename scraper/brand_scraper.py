@@ -28,6 +28,7 @@ class BrandScraper:
         with open(os.path.join(sys.path[0], "corps.json"), "r") as f:
             self.corps_dict = json.load(f)
 
+    # TODO: Function which iterate through manually created lists
     def get_all(self):
         for corp in self.corps_dict.keys():
             print(f"\n{BColors.HEADER}{corp}{BColors.ENDC}")
@@ -58,17 +59,17 @@ class BrandScraper:
             print(f"{BColors.FAIL}brand list is empty{BColors.ENDC}", str(e))
 
     @classmethod
-    def save_brand(cls, brand, corp):
-        """Takes a brand name and saves it with the corporation into the database"""
+    def save_brand(cls, brand_name, corp_name):
+        """Takes a brand_name name and saves it with the corporation into the database"""
         data = {
-            "name": brand,
-            "corporation": corp,
+            "name": brand_name,
+            "corporation": corp_name,
         }
         requests.post(
             f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_brand/", json=data,
         )
 
-    def clean_up_brand_name(self, bs_object, corp):
+    def clean_up_brand_name(self, bs_object, corp_name):
         """
         Takes a BeautifulSoup object, searches for all links in it, iterate through it. searches
         for special characters to remove unneeded text from the link text. In the end the name
@@ -78,23 +79,28 @@ class BrandScraper:
             if bs_object.findAll("li"):
                 for list_element in bs_object.findAll("li"):
                     link_text = list_element.get_text()
+                    # TODO: save regex in var, regex needs to remove slashes like: /
                     special_char = re.findall(r'[\][–)(,}:]|[0-9]{4}', link_text)
                     try:
-                        print(link_text.split(special_char[0])[0])
-                        self.save_brand(link_text.split(special_char[0])[0].strip(), corp)
+                        brand_name = link_text.split(special_char[0])[0].strip()
+                        print(brand_name)
+                        self.save_brand(brand_name, corp_name)
                     except IndexError:
-                        print(link_text)
-                        self.save_brand(link_text.strip(), corp)
+                        brand_name = link_text.strip()
+                        print(brand_name)
+                        self.save_brand(brand_name, corp_name)
             elif bs_object.findAll("td"):
                 for list_element in bs_object.findAll("a"):
                     link_text = list_element.get_text()
                     special_char = re.findall(r'[\][–)(,}:]|[0-9]{4}', link_text)
                     try:
-                        print(link_text.split(special_char[0])[0])
-                        self.save_brand(link_text.split(special_char[0])[0].strip(), corp)
+                        brand_name = link_text.split(special_char[0])[0].strip()
+                        print(brand_name)
+                        self.save_brand(brand_name, corp_name)
                     except IndexError:
-                        print(link_text)
-                        self.save_brand(link_text.strip(), corp)
+                        brand_name = link_text.strip()
+                        print(brand_name)
+                        self.save_brand(brand_name, corp_name)
             else:
                 print(f"{BColors.FAIL}empty Error{BColors.ENDC}")
         except AttributeError:
@@ -102,14 +108,14 @@ class BrandScraper:
                 f"{BColors.FAIL}div changed position{BColors.ENDC}", str(AttributeError)
             )
 
-    def iterate_over_json(self, lst, soup, corp):
+    def iterate_over_json(self, lst, soup, corp_name):
         """
         Iterates over the json object. Finds the list of div and call clean_up_brand_name on it.
         """
         for category, div_location in lst.items():
             print(f"{BColors.OKGREEN}\n{category}{BColors.ENDC}")
             div_location = soup.select_one(div_location)
-            self.clean_up_brand_name(div_location, corp)
+            self.clean_up_brand_name(div_location, corp_name)
 
 
 if __name__ == "__main__":
