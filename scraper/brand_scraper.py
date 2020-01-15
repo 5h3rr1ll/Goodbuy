@@ -30,7 +30,7 @@ class BrandScraper:
 
     def get_all(self):
         for corp in self.corps_dict.keys():
-            print(f"\n{BColors.HEADER}{corp}{BColors.ENDC}")
+            print(f'\n{BColors.HEADER}{corp}{BColors.ENDC}')
             url = self.corps_dict[corp]["url"]
             request = requests.get(url)
             soup = BeautifulSoup(request.content, "html.parser")
@@ -78,20 +78,24 @@ class BrandScraper:
             if bs_object.findAll("li"):
                 for list_element in bs_object.findAll("li"):
                     link_text = list_element.get_text()
-                    special_char = re.findall(r'[\][–)(,}:]|[0-9]{4}', link_text)
+                    special_char = re.findall(r"[\][–)(,}:]|[0-9]{4}", link_text)
                     try:
                         print(link_text.split(special_char[0])[0])
-                        self.save_brand(link_text.split(special_char[0])[0].strip(), corp)
+                        self.save_brand(
+                            link_text.split(special_char[0])[0].strip(), corp
+                        )
                     except IndexError:
                         print(link_text)
                         self.save_brand(link_text.strip(), corp)
             elif bs_object.findAll("td"):
                 for list_element in bs_object.findAll("a"):
                     link_text = list_element.get_text()
-                    special_char = re.findall(r'[\][–)(,}:]|[0-9]{4}', link_text)
+                    special_char = re.findall(r"[\][–)(,}:]|[0-9]{4}", link_text)
                     try:
                         print(link_text.split(special_char[0])[0])
-                        self.save_brand(link_text.split(special_char[0])[0].strip(), corp)
+                        self.save_brand(
+                            link_text.split(special_char[0])[0].strip(), corp
+                        )
                     except IndexError:
                         print(link_text)
                         self.save_brand(link_text.strip(), corp)

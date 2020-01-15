@@ -21,6 +21,7 @@ def scrape(code):
         "sub_product_category": None,
         "scraped_image": None,
         "state": "209",
+        "data_source": "2",
     }
     requests.get(
         f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product,

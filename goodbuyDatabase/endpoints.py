@@ -120,6 +120,7 @@ def feedback(request, code):
                 brand=brand,
                 code=code,
                 state=state,
+                data_source="1",
             )
         except Exception:
             print(str(Exception))
