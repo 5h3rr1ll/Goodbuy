@@ -2,7 +2,7 @@ import os
 
 from .base import *
 
-# os.system("pg_ctl -D /usr/local/var/postgres start")
+os.system("pg_ctl -D /usr/local/var/postgres start")
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
