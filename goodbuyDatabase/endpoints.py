@@ -127,8 +127,15 @@ def feedback(request, code):
         answer = create_feedback_string(Product.objects.get(code=code))
         return JsonResponse(answer)
     else:
+        print(f"Intial save product with code {code}.")
+        Product.objects.create(code=code, state="209")
+
         params = {"code": code}
         try:
+            # Uncomment next two line to run scraper locally
+            # print("Run Scraper locally")
+            # scrape(code)
+            # Comment next six lines out when debugging locally
             print(f"sending code {code} to AWS lambda")
             requests.post(
                 "https://4vyxihyubj.execute-api.eu-central-1.amazonaws.com/dev/",
