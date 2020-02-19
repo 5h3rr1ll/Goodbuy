@@ -16,7 +16,7 @@ from goodbuyDatabase.models import (
     ProductCategory,
     SubProductCategory,
 )
-from scraper.views import scrape
+from scraper.django_cc_crawler import scrape
 from worker import conn
 
 q = Queue(connection=conn)
