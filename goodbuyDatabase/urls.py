@@ -61,4 +61,9 @@ urlpatterns = [
         goodbuyDatabase_endpoints.endpoint_save_country,
         name="endpoint_save_country",
     ),
+    path(
+        "current_categories/",
+        goodbuyDatabase_endpoints.current_categories,
+        name="current_categories",
+    ),
 ]
