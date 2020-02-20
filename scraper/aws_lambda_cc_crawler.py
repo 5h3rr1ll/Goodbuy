@@ -173,7 +173,7 @@ def scrape(code):
         product["state"] = "306"
         print("Name and/or brand is None")
 
-    requests.get(
+    requests.post(
         f"{os.environ.get('CURRENT_HOST')}/goodbuyDatabase/save_product/", json=product,
     )
     driver.quit()
