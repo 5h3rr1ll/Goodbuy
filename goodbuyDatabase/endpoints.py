@@ -6,17 +6,11 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rq import Queue
 
-from goodbuyDatabase.models import (
-    Brand,
-    Company,
-    Corporation,
-    Country,
-    MainProductCategory,
-    Product,
-    ProductCategory,
-    SubProductCategory,
-)
-from scraper.views import scrape
+from goodbuyDatabase.models import (Brand, Company, Corporation, Country,
+                                    MainProductCategory, Product,
+                                    ProductCategory, SubProductCategory)
+from scraper.aws_lambda_cc_crawler import scrape
+from scraper.django_cc_crawler import scrape as local_scrape
 from worker import conn
 
 q = Queue(connection=conn)
@@ -127,8 +121,15 @@ def feedback(request, code):
         answer = create_feedback_string(Product.objects.get(code=code))
         return JsonResponse(answer)
     else:
+        print(f"Intial save product with code {code}.")
+        Product.objects.create(code=code, state="209")
+
         params = {"code": code}
         try:
+            # Uncomment next two line to run scraper locally
+            # print("Run Scraper locally")
+            # scrape(code)
+            # Comment next six lines out when debugging locally
             print(f"sending code {code} to AWS lambda")
             requests.post(
                 "https://4vyxihyubj.execute-api.eu-central-1.amazonaws.com/dev/",
@@ -159,6 +160,10 @@ def lookup(request, code):
     product = scrape(code)
     return product
 
+
+def local_lookup(request, code):
+    product = local_scrape(code)
+    return product
 
 # TODO: endpoints are not protected with csrf❗️
 # in the end it doesnt only save the product but checks for a lot of things before hand

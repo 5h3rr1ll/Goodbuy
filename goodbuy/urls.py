@@ -66,7 +66,8 @@ urlpatterns = [
     ),
     path("scraper/", include(("scraper.urls", "scraper"), namespace="scraper")),
     path("is_big_ten/<str:code>/", goodbuyDatabase_endpoints.is_big_ten),
-    path("lookup/<str:code>/", goodbuyDatabase_endpoints.lookup),
+    path("lookup/<str:code>/", goodbuyDatabase_endpoints.lookup, name="aws_lookup"),
+    path("local_lookup/<str:code>/", goodbuyDatabase_endpoints.local_lookup, name="django_lookup"),
     path("feedback/<str:code>/", goodbuyDatabase_endpoints.feedback),
     path("feedback/result/<str:code>/", goodbuyDatabase_endpoints.result_feedback),
     path(
