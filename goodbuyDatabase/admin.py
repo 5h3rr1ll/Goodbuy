@@ -13,6 +13,7 @@ from .models import (
     MainProductCategory,
     ProductCategory,
     SubProductCategory,
+    BigTen,
 )
 
 
@@ -254,6 +255,17 @@ class StoreAdmin(admin.ModelAdmin):
     autocomplete_fields = ()
 
 
+class BigTenAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+    )
+    list_display_links = ("name",)
+    search_fields = [
+        "name",
+    ]
+    autocomplete_fields = ()
+
+
 admin.site.site_header = "Goodbuy Database"
 admin.site.register(
     Corporation, CorporationAdmin,
@@ -290,4 +302,7 @@ admin.site.register(
 )
 admin.site.register(
     Certificate, CertificateAdmin,
+)
+admin.site.register(
+    BigTen, BigTenAdmin,
 )

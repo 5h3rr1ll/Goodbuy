@@ -92,3 +92,4 @@ migrations/
 dump.rdb
 venv/
 .idea/
+scraper/chromedriver

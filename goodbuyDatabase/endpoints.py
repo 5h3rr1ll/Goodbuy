@@ -6,73 +6,49 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rq import Queue
 
-from goodbuyDatabase.models import (
-    Brand,
-    Company,
-    Corporation,
-    Country,
-    MainProductCategory,
-    Product,
-    ProductCategory,
-    SubProductCategory,
-)
-from scraper.views import scrape
+from goodbuyDatabase.models import (BigTen, Brand, Company, Corporation,
+                                    Country, MainProductCategory, Product,
+                                    ProductCategory, SubProductCategory)
+from scraper.aws_lambda_cc_crawler import scrape
+from scraper.django_cc_crawler import scrape as local_scrape
 from worker import conn
 
 q = Queue(connection=conn)
 
 
-def is_big_ten(code):
-    big_ten = [
-        ["Unilever"],
-        ["Nestlé", "Nestle"],
-        ["Coca-Cola", "Coca Cola"],
-        ["Kellog's", "Kellogs"],
-        ["Mars"],
-        ["PepsiCo"],
-        ["Mondelez"],
-        ["General Mills, Inc."],
-        ["Associated British Foods plc"],
-        ["Danone"],
-    ]
-    product_obj = Product.objects.get(code=code)
-    if product_obj.brand is None:
-        return "We don't know"
-    elif product_obj.brand.corporation is None:
-        return "False"
-    for names_list in big_ten:
-        for name_option in names_list:
-            if name_option.lower() == product_obj.brand.corporation.name.lower():
-                return "True"
-    return "False"
-
-
-def is_in_own_database(code):
+def is_in_own_database(request, code):
     return HttpResponse(str(Product.objects.filter(code=code).exists()))
 
 
-def check_for_attributes(product_object):
+def is_big_ten(request, code):
+    if Product.objects.get(code=code).brand is None:
+        return "We don't know"
+    brand = Brand.objects.filter(name__trigram_similar=Product.objects.get(code=code).brand)[0]
+    return BigTen.objects.filter(name__trigram_similar=brand.name).exists()
+
+
+def check_for_attributes(request, product_object):
     try:
         brand = product_object.brand.name
     except Exception as e:
         brand = ""
-        print(str(e))
+        print("Error in check for attributes: ", str(e))
     try:
         corporation = product_object.brand.corporation.name
     except Exception as e:
         corporation = ""
-        print(str(e))
+        print("Error in check for attributes: ", str(e))
     try:
         sub_product_category = product_object.sub_product_category.name
     except Exception as e:
         sub_product_category = ""
-        print(str(e))
+        print("Error in check for attributes: ", str(e))
     return (brand, corporation, sub_product_category)
 
 
 # Creates feedback string but also returns it with the product_object
-def create_feedback_string(product_object):
-    brand, corporation, sub_product_category = check_for_attributes(product_object)
+def create_feedback_string(request, product_object):
+    brand, corporation, sub_product_category = check_for_attributes(request, product_object)
     product_serialized = serializers.serialize("json", [product_object, ])
     product_serialized = product_serialized.strip("[]")
     product_serialized = json.loads(product_serialized)
@@ -80,8 +56,7 @@ def create_feedback_string(product_object):
     product_serialized["fields"]["corporation"] = corporation
     product_serialized["fields"]["sub_product_category"] = sub_product_category
     # Checks if it is big ten
-    is_big_ten_answer = is_big_ten(product_object.code)
-    print(is_big_ten_answer)
+    is_big_ten_answer = is_big_ten(request, code=product_object.code)
     product_serialized["is_big_ten"] = is_big_ten_answer
     return product_serialized
 
@@ -96,7 +71,7 @@ def feedback(request, code):
             print("Code is already in progress")
             return HttpResponse(status=209)
         # product exists calls for string creation and then returns json answer
-        answer = create_feedback_string(product_object)
+        answer = create_feedback_string(request, product_object)
         return JsonResponse(answer)
     print(f"Looking up OFF for code {code}")
     response = requests.get(
@@ -104,7 +79,7 @@ def feedback(request, code):
     )
     response_as_json = json.loads(response.text)
     if response_as_json["status_verbose"] == "product found":
-        print("\nProduct got from OFF\n")
+        print("\nGot product from OFF\n")
         try:
             brand, created = Brand.objects.get_or_create(
                 name=response_as_json["product"]["brands"]
@@ -120,12 +95,16 @@ def feedback(request, code):
                 brand=brand,
                 code=code,
                 state=state,
+                data_source="1",
             )
         except Exception:
             print(str(Exception))
-        answer = create_feedback_string(Product.objects.get(code=code))
+        answer = create_feedback_string(request, Product.objects.get(code=code))
         return JsonResponse(answer)
     else:
+        print(f"Intial save product with code {code}.")
+        Product.objects.create(code=code, state="209")
+
         params = {"code": code}
         try:
             print(f"sending code {code} to AWS lambda")
@@ -138,11 +117,6 @@ def feedback(request, code):
             print(str(e))
             pass
         return HttpResponse(status=209)
-    # product doesnt exist in db so start codecheck scraper
-    # save the product in database
-    # then get the product out of the database again (?)
-    # calls function to build feedback string
-    # returns json answer
 
 
 def result_feedback(request, code):
@@ -158,6 +132,10 @@ def lookup(request, code):
     product = scrape(code)
     return product
 
+
+def local_lookup(request, code):
+    product = local_scrape(code)
+    return product
 
 # TODO: endpoints are not protected with csrf❗️
 # in the end it doesnt only save the product but checks for a lot of things before hand

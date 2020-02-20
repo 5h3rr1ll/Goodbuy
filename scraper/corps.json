@@ -1,0 +1,187 @@
+{
+  "Associated British Foods":{
+    "brand_list":[
+
+    ],
+    "divs":{
+      "Brands":"#mw-content-text > div > div:nth-child(20)",
+      "Subsidiaries":"#mw-content-text > div > div:nth-child(22)"
+    },
+    "name":"Associated British Foods",
+    "url":"https://en.wikipedia.org/wiki/Associated_British_Foods"
+  },
+  "Coca-Cola":{
+    "brand_list":[
+
+    ],
+    "divs":{
+      "A":"#mw-content-text > div > div:nth-child(5)",
+      "B":"#mw-content-text > div > div:nth-child(8)",
+      "C":"#mw-content-text > div > div:nth-child(10)",
+      "D":"#mw-content-text > div > div:nth-child(12)",
+      "E":"#mw-content-text > div > div:nth-child(14)",
+      "F":"#mw-content-text > div > div:nth-child(16)",
+      "G":"#mw-content-text > div > div:nth-child(18)",
+      "H":"#mw-content-text > div > div:nth-child(20)",
+      "I":"#mw-content-text > div > div:nth-child(22)",
+      "J":"#mw-content-text > div > div:nth-child(24)",
+      "K":"#mw-content-text > div > div:nth-child(26)",
+      "L":"#mw-content-text > div > div:nth-child(28)",
+      "M":"#mw-content-text > div > div:nth-child(30)",
+      "N":"#mw-content-text > div > div:nth-child(32)",
+      "O":"#mw-content-text > div > div:nth-child(34)",
+      "P":"#mw-content-text > div > div:nth-child(36)",
+      "Q":"#mw-content-text > div > div:nth-child(38)",
+      "R":"#mw-content-text > div > div:nth-child(40)",
+      "S":"#mw-content-text > div > div:nth-child(42)",
+      "T":"#mw-content-text > div > div:nth-child(44)",
+      "U":"#mw-content-text > div > div:nth-child(46)",
+      "V":"#mw-content-text > div > div:nth-child(48)",
+      "W":"#mw-content-text > div > div:nth-child(50)",
+      "Y":"#mw-content-text > div > div:nth-child(52)",
+      "Z":"#mw-content-text > div > div:nth-child(54)"
+    },
+    "name":"Coca-Cola",
+    "url":"https://en.wikipedia.org/wiki/List_of_Coca-Cola_brands"
+  },
+  "Danone":{
+    "brand_list":[
+      "Alpro",
+      "Nutricia",
+      "Nutrilon",
+      "AQUA",
+      "Blédina",
+      "Cow & Gate",
+      "Horizon Organic",
+      "Mizone",
+      "Prostokvashino",
+      "Silk",
+      "Vega",
+      "Damavand"
+    ],
+    "divs":{
+      "Brands":"#tagstable > tbody"
+    },
+    "name":"Danone",
+    "url":"https://world.openfoodfacts.org/brand/danone/brands"
+  },
+  "General Mills":{
+    "brand_list":[
+      "Cascadian Farm",
+      "Annie's",
+      "Blue Buffalo",
+      "Frescarini",
+      "Latina",
+      "Totino's",
+      "Jeno's",
+      "Progresso",
+      "Colombo",
+      "Yoplait",
+      "Häagen-Dazs"
+    ],
+    "divs":{
+      "Breakfast cereals":"#mw-content-text > div > div:nth-child(57)",
+      "Discontinued cereals":"#mw-content-text > div > div:nth-child(61)",
+      "Baking goods":"#mw-content-text > div > div:nth-child(64)",
+      "Grain snacks":"#mw-content-text > div > div:nth-child(68)",
+      "Meal products":"#mw-content-text > div > div:nth-child(71)"
+    },
+    "name":"General Mills",
+    "url":"https://en.wikipedia.org/wiki/General_Mills"
+  },
+  "Kellog's":{
+    "brand_list":[
+
+    ],
+    "divs":{
+      "Products":"#mw-content-text > div > div:nth-child(27)",
+      "Cereal":"#mw-content-text > div > div:nth-child(31)"
+    },
+    "name":"Kellog's",
+    "url":"https://en.wikipedia.org/wiki/Kellogg%27s"
+  },
+  "Mars":{
+    "brand_list":[
+
+    ],
+    "divs":{
+      "Original products":"#mw-content-text > div > div:nth-child(72)",
+      "Products manufactured by The Wrigley Company":"#mw-content-text > div > div:nth-child(74)",
+      "Products for pet consumption":"#mw-content-text > div > div:nth-child(76)",
+      "Discontinued product lines":"#mw-content-text > div > ul:nth-child(79)"
+    },
+    "name":"Mars",
+    "url":"https://en.wikipedia.org/wiki/Mars,_Incorporated"
+  },
+  "Mondelez":{
+    "brand_list":[
+
+    ],
+    "divs":{
+      "Current brands":"#mw-content-text > div > div.div-col.columns.column-width"
+    },
+    "name":"Mondelez",
+    "url":"https://en.wikipedia.org/wiki/List_of_Kraft_brands"
+  },
+  "Nestlé":{
+    "brand_list":[
+
+    ],
+    "divs":{
+      "Beverages":"#mw-content-text > div > div:nth-child(10)",
+      "Coffee":"#mw-content-text > div > div:nth-child(12)",
+      "Water":"#mw-content-text > div > div:nth-child(14)",
+      "Cereals":"#mw-content-text > div > div:nth-child(16)",
+      "Chilled":"#mw-content-text > div > div:nth-child(19)",
+      "Choclate & Co.":"#mw-content-text > div > div:nth-child(21)",
+      "Foodservice products":"#mw-content-text > div > ul:nth-child(23)",
+      "Frozen food":"#mw-content-text > div > div:nth-child(25)",
+      "Frozen Dessert":"#mw-content-text > div > div:nth-child(27)",
+      "Healthcare nutrition":"#mw-content-text > div > div:nth-child(29)",
+      "Infant foods":"#mw-content-text > div > div:nth-child(31)",
+      "Performance nutrition":"#mw-content-text > div > ul:nth-child(33)",
+      "Petcare":"#mw-content-text > div > div:nth-child(35)",
+      "Purina petcare products":"#mw-content-text > div > div:nth-child(38)",
+      "Refrigerated products":"#mw-content-text > div > ul:nth-child(40)",
+      "Seasonings":"#mw-content-text > div > ul:nth-child(43)",
+      "Shelf stable":"#mw-content-text > div > ul:nth-child(45)",
+      "Yogurt":"#mw-content-text > div > div:nth-child(47)"
+    },
+    "name":"Nestlé",
+    "url":"https://en.wikipedia.org/wiki/List_of_Nestl%C3%A9_brands"
+  },
+  "PepsiCo":{
+    "brand_list":[
+
+    ],
+    "divs":{
+      "Trademarks":"#mw-content-text > div > ul:nth-child(5)",
+      "Licensed / Joint Partnership Trademarks":"#mw-content-text > div > ul:nth-child(7)",
+      "Breakfast Bars":"#mw-content-text > div > ul:nth-child(9) > li:nth-child(1) > ul",
+      "Coffee Drinks":"#mw-content-text > div > ul:nth-child(9) > li:nth-child(2) > ul",
+      "Energy Drinks":"#mw-content-text > div > ul:nth-child(9) > li:nth-child(3) > ul",
+      "Cereal":"#mw-content-text > div > ul:nth-child(9) > li:nth-child(4) > ul",
+      "Other":"#mw-content-text > div > ul:nth-child(9) > li:nth-child(5) > ul",
+      "Rice Snacks":"#mw-content-text > div > ul:nth-child(9) > li:nth-child(6) > ul",
+      "Side Dishes":"#mw-content-text > div > ul:nth-child(9) > li:nth-child(7) > ul",
+      "Snacks":"#mw-content-text > div > ul:nth-child(9) > li:nth-child(8) > ul",
+      "Soft Drinks (original Pepsi brands)":"#mw-content-text > div > ul:nth-child(9) > li:nth-child(9) > ul",
+      "Sports Nutrition":"#mw-content-text > div > ul:nth-child(9) > li:nth-child(10) > ul",
+      "Bottled Water":"#mw-content-text > div > ul:nth-child(9) > li:nth-child(11) > ul"
+    },
+    "name":"PepsiCo",
+    "url":"https://en.wikipedia.org/wiki/List_of_assets_owned_by_PepsiCo"
+  },
+  "Unilever":{
+    "brand_list":[
+
+    ],
+    "divs":{
+      "Billion-euro per Year":"#mw-content-text > div > div:nth-child(5)",
+      "Food and beverages":"#mw-content-text > div > div:nth-child(7)",
+      "Home care and beauty & personal care brands":"#mw-content-text > div > div:nth-child(23)"
+    },
+    "name":"Unilever",
+    "url":"https://en.wikipedia.org/wiki/List_of_Unilever_brands"
+  }
+}
