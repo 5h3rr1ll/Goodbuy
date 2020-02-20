@@ -6,17 +6,11 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rq import Queue
 
-from goodbuyDatabase.models import (
-    Brand,
-    Company,
-    Corporation,
-    Country,
-    MainProductCategory,
-    Product,
-    ProductCategory,
-    SubProductCategory,
-)
-from scraper.django_cc_crawler import scrape
+from goodbuyDatabase.models import (Brand, Company, Corporation, Country,
+                                    MainProductCategory, Product,
+                                    ProductCategory, SubProductCategory)
+from scraper.aws_lambda_cc_crawler import scrape
+from scraper.django_cc_crawler import scrape as local_scrape
 from worker import conn
 
 q = Queue(connection=conn)
@@ -166,6 +160,10 @@ def lookup(request, code):
     product = scrape(code)
     return product
 
+
+def local_lookup(request, code):
+    product = local_scrape(code)
+    return product
 
 # TODO: endpoints are not protected with csrf❗️
 # in the end it doesnt only save the product but checks for a lot of things before hand
