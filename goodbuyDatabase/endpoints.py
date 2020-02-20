@@ -19,9 +19,9 @@ q = Queue(connection=conn)
 def is_big_ten(code):
     big_ten = [
         ["Unilever"],
-        ["Nestlé", "Nestle"],
-        ["Coca-Cola", "Coca Cola"],
-        ["Kellog's", "Kellogs"],
+        ["Nestlé"],
+        ["Coca-Cola"],
+        ["Kellog's"],
         ["Mars"],
         ["PepsiCo"],
         ["Mondelez"],
@@ -34,7 +34,7 @@ def is_big_ten(code):
         return "We don't know"
     elif product_obj.brand.corporation is None:
         return "False"
-    for names_list in big_ten:
+    elif Brand.objects.filter(name__trigram_similar=product_obj.brand)[0]:
         for name_option in names_list:
             if name_option.lower() == product_obj.brand.corporation.name.lower():
                 return "True"
