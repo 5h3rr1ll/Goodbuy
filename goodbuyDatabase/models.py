@@ -340,6 +340,7 @@ class BigTen(models.Model):
     class Meta:
         managed = True
         db_table = "big_ten"
+        verbose_name_plural = "Big Ten"
 
     def __str__(self):
         return str(self.name)
