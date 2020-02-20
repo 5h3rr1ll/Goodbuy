@@ -330,3 +330,17 @@ class ProductPriceInStore(models.Model):
 
     def __str__(self):
         return str(self.price)
+
+
+class BigTen(models.Model):
+    name = models.CharField(primary_key=True, unique=True, max_length=45, db_index=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        managed = True
+        db_table = "big_ten"
+        verbose_name_plural = "Big Ten"
+
+    def __str__(self):
+        return str(self.name)
