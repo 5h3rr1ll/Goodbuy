@@ -6,8 +6,8 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rq import Queue
 
-from goodbuyDatabase.models import (Brand, Company, Corporation, Country,
-                                    MainProductCategory, Product,
+from goodbuyDatabase.models import (BigTen, Brand, Company, Corporation,
+                                    Country, MainProductCategory, Product,
                                     ProductCategory, SubProductCategory)
 from scraper.aws_lambda_cc_crawler import scrape
 from scraper.django_cc_crawler import scrape as local_scrape
@@ -16,29 +16,13 @@ from worker import conn
 q = Queue(connection=conn)
 
 
-def is_big_ten(code):
-    big_ten = [
-        ["Unilever"],
-        ["Nestlé"],
-        ["Coca-Cola"],
-        ["Kellog's"],
-        ["Mars"],
-        ["PepsiCo"],
-        ["Mondelez"],
-        ["General Mills, Inc."],
-        ["Associated British Foods plc"],
-        ["Danone"],
-    ]
-    product_obj = Product.objects.get(code=code)
-    if product_obj.brand is None:
+def is_big_ten(request, code):
+    if Product.objects.get(code=code).brand is None:
         return "We don't know"
-    elif product_obj.brand.corporation is None:
-        return "False"
-    elif Brand.objects.filter(name__trigram_similar=product_obj.brand)[0]:
-        for name_option in names_list:
-            if name_option.lower() == product_obj.brand.corporation.name.lower():
-                return "True"
-    return "False"
+
+    brand = Brand.objects.filter(name__trigram_similar=Product.objects.get(code=code).brand)[0]
+
+    return BigTen.objects.filter(name__trigram_similar=brand.name).exists()
 
 
 def is_in_own_database(code):
@@ -126,10 +110,6 @@ def feedback(request, code):
 
         params = {"code": code}
         try:
-            # Uncomment next two line to run scraper locally
-            # print("Run Scraper locally")
-            # scrape(code)
-            # Comment next six lines out when debugging locally
             print(f"sending code {code} to AWS lambda")
             requests.post(
                 "https://4vyxihyubj.execute-api.eu-central-1.amazonaws.com/dev/",
@@ -140,11 +120,6 @@ def feedback(request, code):
             print(str(e))
             pass
         return HttpResponse(status=209)
-    # product doesnt exist in db so start codecheck scraper
-    # save the product in database
-    # then get the product out of the database again (?)
-    # calls function to build feedback string
-    # returns json answer
 
 
 def result_feedback(request, code):
