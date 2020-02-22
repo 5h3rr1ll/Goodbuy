@@ -256,3 +256,10 @@ def endpoint_save_country(request):
             print(str(Exception), "Can't find country (code).")
         Country.objects.get_or_create(name=response["name"], code=country_code)
     return HttpResponse("")
+
+
+@csrf_exempt
+def current_categories(request):
+    if request.method == "GET":
+        current_categories = list(MainProductCategory.objects.values())
+        return JsonResponse(current_categories, safe=False)
