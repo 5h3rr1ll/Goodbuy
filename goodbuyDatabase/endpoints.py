@@ -263,3 +263,17 @@ def current_categories(request):
     if request.method == "GET":
         current_categories = list(MainProductCategory.objects.values())
         return JsonResponse(current_categories, safe=False)
+
+def product_validation(request):
+    if request.method == "POST":
+        response = json.loads(request.body.decode("utf-8"))
+        code = response["barcode"]
+        upvote_counter = response["upvote-counter"]
+        downvote_counter = response["downvote-counter"]
+        product_object = Product.objects.get(code=code)
+        if upvote_counter:
+            product_object.upvote_counter += 1
+        elif downvote_counter:
+            product_object.downvote_counter += 1
+        product_object.save()
+        return HttpResponse("")

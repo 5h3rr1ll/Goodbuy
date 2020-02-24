@@ -218,6 +218,8 @@ class ProductAdmin(admin.ModelAdmin):
         "brand",
         "checked_by",
         "scanned_counter",
+        "upvote_counter",
+        "downvote_counter",
         "data_source",
         "added_by",
         "logo",
@@ -236,7 +238,7 @@ class ProductAdmin(admin.ModelAdmin):
         "updated",
         "checked_by__username",
     ]
-    exclude = ("scanned_counter", "added_by")
+    exclude = ("scanned_counter", "added_by", "upvote_counter", "downvote_counter",)
     autocomplete_fields = ("brand",)
     inlines = [
         PriceInline,
