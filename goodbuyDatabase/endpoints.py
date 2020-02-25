@@ -264,6 +264,7 @@ def current_categories(request):
         current_categories = list(MainProductCategory.objects.values())
         return JsonResponse(current_categories, safe=False)
 
+
 def product_validation(request):
     if request.method == "POST":
         response = json.loads(request.body.decode("utf-8"))
