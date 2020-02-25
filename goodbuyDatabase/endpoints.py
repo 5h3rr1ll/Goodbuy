@@ -21,9 +21,10 @@ def is_in_own_database(request, code):
 
 
 def is_big_ten(request, code):
-    if Product.objects.get(code=code).brand is None:
+    product = Product.objects.get(code=code)
+    if product.brand is None:
         return "We don't know"
-    brand = Brand.objects.filter(name__trigram_similar=Product.objects.get(code=code).brand)[0]
+    brand = Brand.objects.filter(name__trigram_similar=product.brand)[0]
     return BigTen.objects.filter(name__trigram_similar=brand.name).exists()
 
 
