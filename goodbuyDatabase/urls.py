@@ -66,4 +66,9 @@ urlpatterns = [
         goodbuyDatabase_endpoints.current_categories,
         name="current_categories",
     ),
+    path(
+        "product_validation/",
+        goodbuyDatabase_endpoints.product_validation,
+        name="product_validation",
+    ),
 ]
