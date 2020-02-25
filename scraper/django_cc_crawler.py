@@ -155,12 +155,12 @@ def scrape(code):
         for div in product_info_items:
             print("\n Text:", div.text)
             if div.text.splitlines()[0] == "Marke":
-                print(
-                    f"\nBrand Print: {Brand.objects.get_or_create(name=div.text.splitlines()[1])[0]}\n"
-                )
                 product.brand = Brand.objects.get_or_create(
                     name=div.text.splitlines()[1]
                 )[0]
+                print(
+                    f"\nBrand Print: {product.brand}\n"
+                )
         print(f" Product brand is {product.brand}.")
     except Exception as e:
         product.state = "306"
