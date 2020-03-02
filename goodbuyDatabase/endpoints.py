@@ -25,7 +25,9 @@ def is_big_ten(request, code):
     if product.brand is None:
         return "We don't know"
     brand = Brand.objects.filter(name__trigram_similar=product.brand)[0]
-    return BigTen.objects.filter(name__trigram_similar=brand.name).exists()
+    if brand.corporation is not None:
+        return BigTen.objects.filter(name__trigram_similar=brand.corporation).exists()
+    return False
 
 
 def check_for_attributes(request, product_object):
