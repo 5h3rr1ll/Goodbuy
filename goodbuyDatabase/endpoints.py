@@ -110,7 +110,7 @@ def feedback(request, code):
         try:
             print(f"sending code {code} to AWS lambda")
             requests.post(
-                "https://4vyxihyubj.execute-api.eu-central-1.amazonaws.com/dev/",
+                "https://jr08d16pid.execute-api.eu-central-1.amazonaws.com/prod/",
                 params=params,
                 timeout=1,
             )
