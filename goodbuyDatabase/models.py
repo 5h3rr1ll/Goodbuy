@@ -240,6 +240,12 @@ class Product(models.Model):
     scanned_counter = models.IntegerField(
         default=1, verbose_name="Scanned Counter", null=True, blank=True, db_index=True
     )
+    upvote_counter = models.IntegerField(
+        default=0, verbose_name="Upvote Counter", null=True, blank=True, db_index=True
+    )
+    downvote_counter = models.IntegerField(
+        default=0, verbose_name="Downvote Counter", null=True, blank=True, db_index=True
+    )
     added_by = models.ForeignKey(
         User, models.SET_NULL, null=True, blank=True, related_name="creator"
     )

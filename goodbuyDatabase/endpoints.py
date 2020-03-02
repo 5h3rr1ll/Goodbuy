@@ -21,9 +21,10 @@ def is_in_own_database(request, code):
 
 
 def is_big_ten(request, code):
-    if Product.objects.get(code=code).brand is None:
+    product = Product.objects.get(code=code)
+    if product.brand is None:
         return "We don't know"
-    brand = Brand.objects.filter(name__trigram_similar=Product.objects.get(code=code).brand)[0]
+    brand = Brand.objects.filter(name__trigram_similar=product.brand)[0]
     return BigTen.objects.filter(name__trigram_similar=brand.name).exists()
 
 
@@ -109,7 +110,7 @@ def feedback(request, code):
         try:
             print(f"sending code {code} to AWS lambda")
             requests.post(
-                "https://4vyxihyubj.execute-api.eu-central-1.amazonaws.com/dev/",
+                "https://jr08d16pid.execute-api.eu-central-1.amazonaws.com/prod/",
                 params=params,
                 timeout=1,
             )
@@ -256,3 +257,25 @@ def endpoint_save_country(request):
             print(str(Exception), "Can't find country (code).")
         Country.objects.get_or_create(name=response["name"], code=country_code)
     return HttpResponse("")
+
+
+@csrf_exempt
+def current_categories(request):
+    if request.method == "GET":
+        current_categories = list(MainProductCategory.objects.values())
+        return JsonResponse(current_categories, safe=False)
+
+
+def product_validation(request):
+    if request.method == "POST":
+        response = json.loads(request.body.decode("utf-8"))
+        code = response["barcode"]
+        upvote_counter = response["upvote-counter"]
+        downvote_counter = response["downvote-counter"]
+        product_object = Product.objects.get(code=code)
+        if upvote_counter:
+            product_object.upvote_counter += 1
+        elif downvote_counter:
+            product_object.downvote_counter += 1
+        product_object.save()
+        return HttpResponse("")
