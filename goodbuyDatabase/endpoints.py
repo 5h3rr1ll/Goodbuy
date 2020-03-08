@@ -194,6 +194,8 @@ def endpoint_save_product(request):
         print(f"\nRecieving product to save, code: {product['code']}\n")
         product_obj = Product(code=product["code"], state=product["state"],)
         product_obj.save()
+    else:
+        print("Something went wrong❗️")
     return HttpResponse("")
 
 
