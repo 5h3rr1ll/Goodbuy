@@ -200,6 +200,27 @@ def endpoint_save_product(request):
 
 
 @csrf_exempt
+def endpoint_update_product(request):
+    if request.method == "POST":
+        json_product = json.loads(request.body.decode("utf-8"))
+        product = Product.objects.get(code=json_product["code"])
+        try:
+            product.name = json_product["name"]
+        except Exception as e:
+            print("name n.a.", str(e))
+        try:
+            product.brand = json_product["brand"]
+        except Exception as e:
+            print("brand n.a.", str(e))
+        try:
+            product.main_product_category = json_product["category"]
+        except Exception as e:
+            print("category n.a.", str(e))
+        product.save()
+        return JsonResponse(json_product)
+
+
+@csrf_exempt
 def endpoint_save_brand(request):
     # checking if it is POST could also be outsourced because it is the same in everyfunction
     if request.method == "POST":
