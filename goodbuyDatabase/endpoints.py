@@ -33,7 +33,7 @@ def is_big_ten(request, code):
         print(f"Brand Corp: {brand.corporation}")
         print(f"Exists? {BigTen.objects.filter(name__trigram_similar=brand.corporation).exists()}")
         return BigTen.objects.filter(name__trigram_similar=brand.corporation).exists()
-    return False
+    return "We don't know"
 
 
 def check_for_attributes(request, product_object):
