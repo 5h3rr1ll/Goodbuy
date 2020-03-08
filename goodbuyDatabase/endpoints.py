@@ -70,13 +70,6 @@ def create_feedback_string(request, product_object):
     return product_serialized
 
 
-def off_brand_checker(request, string):
-    lst_string = string.split(",")
-
-    if BigTen.objects.filter(name=lst[0]).exists():
-        pass
-
-
 def feedback(request, code):
     # looks if product exist in database
     if request.method == "GET" and Product.objects.filter(code=code).exists():
