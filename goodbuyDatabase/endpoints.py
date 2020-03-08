@@ -21,15 +21,17 @@ def is_in_own_database(request, code):
 
 
 def is_big_ten(request, code):
-    print(f"Is Big Ten")
+    print(f"Is Big Ten?")
     product = Product.objects.get(code=code)
     if product.brand is None:
         return "We don't know"
     print(f"Product Brand: {product.brand}")
     brand = Brand.objects.filter(name__trigram_similar=product.brand)[0]
     print(f"Trigram Similar Brand: {product.brand}")
+    print(f"New Brand: {brand}")
     if brand.corporation is not None:
         print(f"Brand Corp: {brand.corporation}")
+        print(f"Exists? {BigTen.objects.filter(name__trigram_similar=brand.corporation).exists()}")
         return BigTen.objects.filter(name__trigram_similar=brand.corporation).exists()
     return False
 
@@ -66,6 +68,13 @@ def create_feedback_string(request, product_object):
     is_big_ten_answer = is_big_ten(request, code=product_object.code)
     product_serialized["is_big_ten"] = is_big_ten_answer
     return product_serialized
+
+
+def off_brand_checker(request, string):
+    lst_string = string.split(",")
+
+    if BigTen.objects.filter(name=lst[0]).exists():
+        pass
 
 
 def feedback(request, code):
