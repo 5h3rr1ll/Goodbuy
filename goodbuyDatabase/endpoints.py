@@ -29,7 +29,7 @@ def is_big_ten(request, code):
     brand = Brand.objects.filter(name__trigram_similar=product.brand)[0]
     print(f"Trigram Similar Brand: {product.brand}")
     print(f"New Brand: {brand}")
-    if brand.corporation is not None:
+    if brand.corporation:
         print(f"Brand Corp: {brand.corporation}")
         print(f"Exists? {BigTen.objects.filter(name__trigram_similar=brand.corporation).exists()}")
         return BigTen.objects.filter(name__trigram_similar=brand.corporation).exists()
