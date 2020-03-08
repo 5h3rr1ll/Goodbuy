@@ -42,6 +42,11 @@ urlpatterns = [
         name="endpoint_save_product",
     ),
     path(
+        "update_product/",
+        goodbuyDatabase_endpoints.endpoint_update_product,
+        name="endpoint_update_product",
+    ),
+    path(
         "save_brand/",
         goodbuyDatabase_endpoints.endpoint_save_brand,
         name="endpoint_save_brand",
