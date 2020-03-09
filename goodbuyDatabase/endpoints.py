@@ -20,18 +20,31 @@ def is_in_own_database(request, code):
     return HttpResponse(str(Product.objects.filter(code=code).exists()))
 
 
+def off_brand_checker(request, string):
+    print("IN OFF Checker")
+    lst_brand_string = string.name.split(",")
+    print("lst string: ",lst_brand_string)
+    for name in lst_brand_string:
+        if BigTen.objects.filter(name=name).exists():
+            return True
+
+
 def is_big_ten(request, code):
     print(f"Is Big Ten")
     product = Product.objects.get(code=code)
     if product.brand is None:
         return "We don't know"
     print(f"Product Brand: {product.brand}")
+    if product.data_source == "1":
+        print(product.brand)
+        answer = off_brand_checker(request, product.brand)
+        return answer
     brand = Brand.objects.filter(name__trigram_similar=product.brand)[0]
     print(f"Trigram Similar Brand: {product.brand}")
     if brand.corporation is not None:
         print(f"Brand Corp: {brand.corporation}")
-        return BigTen.objects.filter(name__trigram_similar=brand.corporation).exists()
-    return False
+        return HttpResponse(BigTen.objects.filter(name__trigram_similar=brand.corporation).exists())
+    return HttpResponse(False)
 
 
 def check_for_attributes(request, product_object):
