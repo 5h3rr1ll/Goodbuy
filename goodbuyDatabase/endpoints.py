@@ -6,9 +6,17 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rq import Queue
 
-from goodbuyDatabase.models import (BigTen, Brand, Company, Corporation,
-                                    Country, MainProductCategory, Product,
-                                    ProductCategory, SubProductCategory)
+from goodbuyDatabase.models import (
+    BigTen,
+    Brand,
+    Company,
+    Corporation,
+    Country,
+    MainProductCategory,
+    Product,
+    ProductCategory,
+    SubProductCategory,
+)
 from scraper.aws_lambda_cc_crawler import scrape
 from scraper.django_cc_crawler import scrape as local_scrape
 from worker import conn
@@ -23,7 +31,7 @@ def is_in_own_database(request, code):
 def off_brand_checker(request, string):
     print("IN OFF Checker")
     lst_brand_string = string.name.split(",")
-    print("lst string: ",lst_brand_string)
+    print("lst string: ", lst_brand_string)
     for name in lst_brand_string:
         if BigTen.objects.filter(name=name).exists():
             return True
@@ -69,8 +77,10 @@ def check_for_attributes(request, product_object):
 
 # Creates feedback string but also returns it with the product_object
 def create_feedback_string(request, product_object):
-    brand, corporation, sub_product_category = check_for_attributes(request, product_object)
-    product_serialized = serializers.serialize("json", [product_object, ])
+    brand, corporation, sub_product_category = check_for_attributes(
+        request, product_object
+    )
+    product_serialized = serializers.serialize("json", [product_object,])
     product_serialized = product_serialized.strip("[]")
     product_serialized = json.loads(product_serialized)
     product_serialized["fields"]["brand"] = brand
@@ -158,6 +168,7 @@ def local_lookup(request, code):
     product = local_scrape(code)
     return product
 
+
 # TODO: endpoints are not protected with csrf❗️
 # in the end it doesnt only save the product but checks for a lot of things before hand
 @csrf_exempt
@@ -214,11 +225,16 @@ def endpoint_update_product(request):
         except Exception as e:
             print("name n.a.", str(e))
         try:
-            product.brand = json_product["brand"]
+            product.brand, created = Brand.objects.get_or_create(
+                name=json_product["brand"]
+            )
         except Exception as e:
             print("brand n.a.", str(e))
         try:
-            product.main_product_category = json_product["category"]
+            (
+                product.main_product_category,
+                created,
+            ) = MainProductCategory.objects.get_or_create(name=json_product["category"])
         except Exception as e:
             print("category n.a.", str(e))
         product.save()
