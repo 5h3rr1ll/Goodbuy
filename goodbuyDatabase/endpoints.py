@@ -237,6 +237,7 @@ def endpoint_update_product(request):
             ) = MainProductCategory.objects.get_or_create(name=json_product["category"])
         except Exception as e:
             print("category n.a.", str(e))
+        product.state = "211"
         product.save()
         return JsonResponse(json_product)
 
