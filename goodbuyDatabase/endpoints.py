@@ -30,7 +30,7 @@ def off_brand_checker(request, string):
 
 
 def is_big_ten(request, code):
-    print(f"Is Big Ten")
+    print(f"Is Big Ten?")
     product = Product.objects.get(code=code)
     if product.brand is None:
         return "We don't know"
@@ -41,10 +41,11 @@ def is_big_ten(request, code):
         return answer
     brand = Brand.objects.filter(name__trigram_similar=product.brand)[0]
     print(f"Trigram Similar Brand: {product.brand}")
-    if brand.corporation is not None:
+    print(f"New Brand: {brand}")
+    if brand.corporation:
         print(f"Brand Corp: {brand.corporation}")
-        return HttpResponse(BigTen.objects.filter(name__trigram_similar=brand.corporation).exists())
-    return HttpResponse(False)
+        return BigTen.objects.filter(name__trigram_similar=brand.corporation).exists()
+    return "We don't know"
 
 
 def check_for_attributes(request, product_object):
@@ -198,7 +199,30 @@ def endpoint_save_product(request):
         print(f"\nRecieving product to save, code: {product['code']}\n")
         product_obj = Product(code=product["code"], state=product["state"],)
         product_obj.save()
+    else:
+        print("Something went wrong❗️")
     return HttpResponse("")
+
+
+@csrf_exempt
+def endpoint_update_product(request):
+    if request.method == "POST":
+        json_product = json.loads(request.body.decode("utf-8"))
+        product = Product.objects.get(code=json_product["code"])
+        try:
+            product.name = json_product["name"]
+        except Exception as e:
+            print("name n.a.", str(e))
+        try:
+            product.brand = json_product["brand"]
+        except Exception as e:
+            print("brand n.a.", str(e))
+        try:
+            product.main_product_category = json_product["category"]
+        except Exception as e:
+            print("category n.a.", str(e))
+        product.save()
+        return JsonResponse(json_product)
 
 
 @csrf_exempt
