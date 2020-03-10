@@ -65,13 +65,13 @@ urlpatterns = [
         ),
     ),
     path("scraper/", include(("scraper.urls", "scraper"), namespace="scraper")),
-    path("is_big_ten/<str:code>/", goodbuyDatabase_endpoints.is_big_ten),
+    path("is_big_ten/<str:brand_name>/", goodbuyDatabase_endpoints.is_big_ten_by_name),
     path("lookup/<str:code>/", goodbuyDatabase_endpoints.lookup, name="aws_lookup"),
     path("local_lookup/<str:code>/", goodbuyDatabase_endpoints.local_lookup, name="django_lookup"),
     path("feedback/<str:code>/", goodbuyDatabase_endpoints.feedback),
     path("feedback/result/<str:code>/", goodbuyDatabase_endpoints.result_feedback),
     path(
-        "is_in_own_database/<str:code>/", goodbuyDatabase_endpoints.is_in_own_database
+        "is_product_in_db/<str:code>/", goodbuyDatabase_endpoints.is_product_db
     ),
     path("loaderio-f149e04d132ede4fa7de07ef79d40a02/", goodbuyDatabase_views.loaderio),
 ]
