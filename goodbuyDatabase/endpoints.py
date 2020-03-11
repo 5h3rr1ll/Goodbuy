@@ -33,7 +33,10 @@ def is_big_ten_by_name(request, brand_name):
         return "We don't know"
     try:
         brand = Brand.objects.get(name=brand_name)
-        return BigTen.objects.filter(name=brand.name).exists()
+        if brand.corporation:
+            return BigTen.objects.filter(name=brand.corporation).exists()
+        else:
+            return "We don't know"
     except Exception as e:
         print(str(e))
         brand = Brand.objects.filter(name__trigram_similar=brand_name)[0]
