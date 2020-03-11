@@ -32,9 +32,9 @@ urlpatterns = [
         name="product_detail",
     ),
     path(
-        "is_product_db/<str:code>/",
-        goodbuyDatabase_endpoints.is_product_db,
-        name="is_product_db",
+        "is_product_in_db/<str:code>/",
+        goodbuyDatabase_endpoints.is_product_in_db,
+        name="is_product_in_db",
     ),
     path(
         "save_product/",
