@@ -74,6 +74,7 @@ def check_for_attributes(request, product_object):
 
 # Creates feedback string but also returns it with the product_object
 def create_feedback_string(request, product_object):
+    open_food_facts = "1"
     brand, corporation, sub_product_category = check_for_attributes(
         request, product_object
     )
@@ -83,7 +84,7 @@ def create_feedback_string(request, product_object):
     product_serialized["fields"]["brand"] = brand
     product_serialized["fields"]["corporation"] = corporation
     product_serialized["fields"]["sub_product_category"] = sub_product_category
-    if product_object.data_source == "1":
+    if product_object.data_source == open_food_facts:
         lst_names = brand.split(",")
         first = is_big_ten_by_name(request, lst_names[0].strip())
         if first:
