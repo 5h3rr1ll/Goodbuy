@@ -71,7 +71,7 @@ urlpatterns = [
     path("feedback/<str:code>/", goodbuyDatabase_endpoints.feedback),
     path("feedback/result/<str:code>/", goodbuyDatabase_endpoints.result_feedback),
     path(
-        "is_product_in_db/<str:code>/", goodbuyDatabase_endpoints.is_product_db
+        "is_product_in_db/<str:code>/", goodbuyDatabase_endpoints.is_product_in_db
     ),
     path("loaderio-f149e04d132ede4fa7de07ef79d40a02/", goodbuyDatabase_views.loaderio),
 ]
