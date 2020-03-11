@@ -24,7 +24,7 @@ from worker import conn
 q = Queue(connection=conn)
 
 
-def is_product_db(request, code):
+def is_product_in_db(request, code):
     return HttpResponse(str(Product.objects.filter(code=code).exists()))
 
 
