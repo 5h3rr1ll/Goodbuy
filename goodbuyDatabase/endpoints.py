@@ -24,36 +24,33 @@ from worker import conn
 q = Queue(connection=conn)
 
 
-def is_in_own_database(request, code):
+def is_product_in_db(request, code):
     return HttpResponse(str(Product.objects.filter(code=code).exists()))
 
 
-def off_brand_checker(request, string):
-    print("IN OFF Checker")
-    lst_brand_string = string.name.split(",")
-    print("lst string: ", lst_brand_string)
-    for name in lst_brand_string:
-        if BigTen.objects.filter(name=name).exists():
-            return True
+def is_big_ten_by_name(request, brand_name):
+    if brand_name == "":
+        return "We don't know"
+    try:
+        brand = Brand.objects.get(name=brand_name)
+        if brand.corporation:
+            return BigTen.objects.filter(name=brand.corporation).exists()
+        else:
+            return "We don't know"
+    except Exception as e:
+        print(str(e))
+        brand = Brand.objects.filter(name__trigram_similar=brand_name)[0]
+        if brand.corporation:
+            return BigTen.objects.filter(name__trigram_similar=brand.corporation).exists()
+        else:
+            return "We don't know"
 
 
-def is_big_ten(request, code):
-    print(f"Is Big Ten?")
+def is_big_ten_by_code(request, code):
     product = Product.objects.get(code=code)
     if product.brand is None:
         return "We don't know"
-    print(f"Product Brand: {product.brand}")
-    if product.data_source == "1":
-        print(product.brand)
-        answer = off_brand_checker(request, product.brand)
-        return answer
-    brand = Brand.objects.filter(name__trigram_similar=product.brand)[0]
-    print(f"Trigram Similar Brand: {product.brand}")
-    print(f"New Brand: {brand}")
-    if brand.corporation:
-        print(f"Brand Corp: {brand.corporation}")
-        return BigTen.objects.filter(name__trigram_similar=brand.corporation).exists()
-    return "We don't know"
+    return is_big_ten_by_code(request, product.brand)
 
 
 def check_for_attributes(request, product_object):
@@ -77,19 +74,35 @@ def check_for_attributes(request, product_object):
 
 # Creates feedback string but also returns it with the product_object
 def create_feedback_string(request, product_object):
+    open_food_facts = "1"
     brand, corporation, sub_product_category = check_for_attributes(
         request, product_object
     )
-    product_serialized = serializers.serialize("json", [product_object,])
+    product_serialized = serializers.serialize("json", [product_object])
     product_serialized = product_serialized.strip("[]")
     product_serialized = json.loads(product_serialized)
     product_serialized["fields"]["brand"] = brand
     product_serialized["fields"]["corporation"] = corporation
     product_serialized["fields"]["sub_product_category"] = sub_product_category
-    # Checks if it is big ten
-    is_big_ten_answer = is_big_ten(request, code=product_object.code)
-    product_serialized["is_big_ten"] = is_big_ten_answer
-    return product_serialized
+    if product_object.data_source == open_food_facts:
+        lst_names = brand.split(",")
+        first = is_big_ten_by_name(request, lst_names[0].strip())
+        if first:
+            product_serialized["is_big_ten"] = first
+            return product_serialized
+        else:
+            try:
+                second = is_big_ten_by_name(request, lst_names[1].strip())
+                if second:
+                    product_serialized["is_big_ten"] = second
+                    return product_serialized
+            except Exception as e:
+                print(str(e))
+                product_serialized["is_big_ten"] = False
+                return product_serialized
+    else:
+        product_serialized["is_big_ten"] = is_big_ten_by_name(request, brand)
+        return product_serialized
 
 
 def feedback(request, code):
