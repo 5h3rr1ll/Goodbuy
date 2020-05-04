@@ -90,3 +90,7 @@ db.sqlite3
 
 dump.rdb
 venv/
+
+goodbuy/bin/
+
+goodbuy/pyvenv.cfg
