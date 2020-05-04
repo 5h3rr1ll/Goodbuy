@@ -94,3 +94,5 @@ venv/
 goodbuy/bin/
 
 goodbuy/pyvenv.cfg
+
+scraper/chromedriver
