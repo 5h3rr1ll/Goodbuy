@@ -31,7 +31,8 @@ def scrape(code):
     prefs = {"profile.managed_default_content_settings.images": 2}
     options.add_experimental_option("prefs", prefs)
     driver = webdriver.Chrome(
-        executable_path=str(os.environ.get("CHROMEDRIVER_PATH")), chrome_options=options
+        executable_path=str(os.environ.get("CHROMEDRIVER_PATH")),
+        chrome_options=options,
     )
     driver.set_window_position(0, 0)
     driver.set_window_size(1200, 1134)
@@ -93,9 +94,10 @@ def scrape(code):
             product.name = (
                 WebDriverWait(driver, 10)
                 .until(
-                    EC.presence_of_element_located((By.XPATH, '//*[@id="t-1263277"]'))
-                )
-                .text
+                    EC.presence_of_element_located(
+                        (By.XPATH, '//*[@id="t-1263277"]')
+                    )
+                ).text
             )
             print(f"  Product name: {product.name}")
         else:
@@ -120,16 +122,21 @@ def scrape(code):
         except Exception:
             product.scraped_image = (
                 WebDriverWait(driver, 10)
-                .until(EC.presence_of_element_located((By.CSS_SELECTOR, ".nf > img")))
+                .until(
+                    EC.presence_of_element_located(
+                        (By.CSS_SELECTOR, ".nf > img")
+                    )
+                )
                 .get_attribute("src")
             )
             try:
                 on_error = (
                     WebDriverWait(driver, 10)
                     .until(
-                        EC.presence_of_element_located((By.CSS_SELECTOR, ".nf > img"))
-                    )
-                    .get_attribute("onerror")
+                        EC.presence_of_element_located(
+                            (By.CSS_SELECTOR, ".nf > img")
+                        )
+                    ).get_attribute("onerror")
                 )
             except Exception:
                 print("No image, Picture", str(Exception))
@@ -150,17 +157,17 @@ def scrape(code):
 
     print("\nInterate over product info items to find product brand...")
     try:
-        product_info_items = driver.find_elements_by_class_name("product-info-item")
+        product_info_items = driver.find_elements_by_class_name(
+            "product-info-item"
+        )
 
         for div in product_info_items:
             print("\n Text:", div.text)
             if div.text.splitlines()[0] == "Marke":
                 product.brand = Brand.objects.get_or_create(
                     name=div.text.splitlines()[1]
-                )[0]
-                print(
-                    f"\nBrand Print: {product.brand}\n"
-                )
+                    )[0]
+                print(f"\nBrand Print: {product.brand}\n")
         print(f" Product brand is {product.brand}.")
     except Exception as e:
         product.state = "306"
@@ -184,4 +191,6 @@ def scrape(code):
     product_obj_as_json = serializers.serialize(
         "json", Product.objects.filter(code=code)
     )
-    return HttpResponse(product_obj_as_json, content_type="text/json-comment-filtered")
+    return HttpResponse(
+        product_obj_as_json, content_type="text/json-comment-filtered"
+    )
