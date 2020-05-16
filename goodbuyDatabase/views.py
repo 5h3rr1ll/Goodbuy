@@ -30,11 +30,13 @@ def create_product_form(request):
             print("\n!!! error While creating Product !!!\n")
         return HttpResponse("")
     else:
+        form = AddNewProductForm(request.POST)
+        return render(request, "goodbuyDatabase/add_product_form.html", {"form": form})
         print("\n!!! error While creating Product !!!\n")
     return HttpResponse("")
 
 
-@login_required
+# @login_required
 def add_product_form(request, code):
     if request.method == "POST":
         form = AddNewProductForm(request.POST, request.FILES)

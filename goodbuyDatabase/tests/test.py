@@ -1,17 +1,16 @@
 import os
 import unittest
 
-from django.test import TestCase
-from django.urls import reverse
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-
+from django.test import TestCase
+from django.urls import reverse
 from goodbuyDatabase.forms import AddNewProductForm
 from goodbuyDatabase.models import Country, Product
 
 
-class TestSignup(unittest.TestCase):
+class TestLogIn(unittest.TestCase):
     def setUp(self):
         options = Options()
         options.add_argument("--headless")
@@ -38,7 +37,7 @@ class GoodbuyDatabaseTest(TestCase):
     def create_country(self, name="Germany"):
         return Country.objects.create(name=name)
 
-    def create_product(self, name="Snickers", code=123456):
+    def create_product(self, name="Snickers", code="123456"):
         return Product.objects.create(name=name, code=code)
 
     def test_create_country(self):
@@ -60,8 +59,6 @@ class GoodbuyDatabaseTest(TestCase):
         )
 
     def test_valid_form(self):
-        product = self.create_product()
-        data = {"code": product.code}
+        data = {"code": "1234567", "name": "Mars"}
         form = AddNewProductForm(data=data)
-        print("\nForm:", form, "\n")
         self.assertTrue(form.is_valid())
