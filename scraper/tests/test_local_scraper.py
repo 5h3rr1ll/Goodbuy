@@ -1,17 +1,13 @@
 from django.test import TestCase
 from django.urls import reverse
-
-# from scraper.django_cc_crawler import Scraper
+import json
 
 
 class LocalCCScraper(TestCase):
-    # def setUp(self):
-    #     self.scraper = Scraper("5000112640168")
-
-    # def test_search_field_founded(self):
-    #     self.scraper.search_for_product_on_cc()
-
-    def test_return_200(self):
-        url = reverse("django_lookup", args=[5000112640168])
+    def test_successfull_scrape(self):
+        url = reverse("django_lookup", args=[42113539])
         resp = self.client.get(url)
+        resp_as_json = json.loads(resp.content.decode("utf-8"))
+        print("Respons as Json:", resp_as_json)
         self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp_as_json["name"], "Big Red (Wrigley´s)")
