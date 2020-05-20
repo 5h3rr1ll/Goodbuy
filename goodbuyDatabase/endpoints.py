@@ -18,7 +18,7 @@ from goodbuyDatabase.models import (
     SubProductCategory,
 )
 from scraper.aws_lambda_cc_crawler import scrape
-from scraper.django_cc_crawler import scrape as local_scrape
+from scraper.django_cc_crawler import Scraper as local_scraper
 from worker import conn
 
 q = Queue(connection=conn)
@@ -41,7 +41,9 @@ def is_big_ten_by_name(request, brand_name):
         print(str(e))
         brand = Brand.objects.filter(name__trigram_similar=brand_name)[0]
         if brand.corporation:
-            return BigTen.objects.filter(name__trigram_similar=brand.corporation).exists()
+            return BigTen.objects.filter(
+                name__trigram_similar=brand.corporation
+            ).exists()
         else:
             return "We don't know"
 
@@ -154,7 +156,9 @@ def feedback(request, code):
             )
         except Exception:
             print(str(Exception))
-        answer = create_feedback_string(request, Product.objects.get(code=code))
+        answer = create_feedback_string(
+            request, Product.objects.get(code=code)
+        )
         return JsonResponse(answer)
     else:
         print(f"Intial save product with code {code}.")
@@ -183,18 +187,20 @@ def result_feedback(request, code):
         return HttpResponse("Not yet in database")
 
 
-def lookup(request, code):
+def lookup(code):
     product = scrape(code)
     return product
 
 
 def local_lookup(request, code):
-    product = local_scrape(code)
+    scraper = local_scraper(code)
+    product = scraper.scrape()
     return product
 
 
 # TODO: endpoints are not protected with csrf❗️
-# in the end it doesnt only save the product but checks for a lot of things before hand
+# in the end it doesnt only save the product but checks for a lot of things
+# before hand
 @csrf_exempt
 def endpoint_save_product(request):
     product = json.loads(request.body.decode("utf-8"))
@@ -208,7 +214,10 @@ def endpoint_save_product(request):
             brand, created = Brand.objects.get_or_create(name=product["brand"])
         sub_product_category = None
         if product["sub_product_category"] is not None:
-            sub_product_category, created = SubProductCategory.objects.get_or_create(
+            (
+                sub_product_category,
+                created,
+            ) = SubProductCategory.objects.get_or_create(
                 name=product["sub_product_category"]
             )
         product_category = None
@@ -218,7 +227,10 @@ def endpoint_save_product(request):
             )
         main_product_category = None
         if product["main_product_category"] is not None:
-            main_product_category, created = MainProductCategory.objects.get_or_create(
+            (
+                main_product_category,
+                created,
+            ) = MainProductCategory.objects.get_or_create(
                 name=product["main_product_category"]
             )
         Product.objects.filter(code=product["code"]).update(
@@ -258,7 +270,9 @@ def endpoint_update_product(request):
             (
                 product.main_product_category,
                 created,
-            ) = MainProductCategory.objects.get_or_create(name=json_product["category"])
+            ) = MainProductCategory.objects.get_or_create(
+                name=json_product["category"]
+            )
         except Exception as e:
             print("category n.a.", str(e))
         product.state = "211"
@@ -268,7 +282,8 @@ def endpoint_update_product(request):
 
 @csrf_exempt
 def endpoint_save_brand(request):
-    # checking if it is POST could also be outsourced because it is the same in everyfunction
+    # checking if it is POST could also be outsourced because it is the same in
+    # everyfunction
     if request.method == "POST":
         # can be seperate function
         response = json.loads(request.body.decode("utf-8"))
@@ -278,7 +293,9 @@ def endpoint_save_brand(request):
             # this is the actual function according to the name
             Brand.objects.get_or_create(
                 name=response["name"],
-                corporation=Corporation.objects.get(name=response["corporation"]),
+                corporation=Corporation.objects.get(
+                    name=response["corporation"]
+                ),
             )
         except Exception as e:
             print(
@@ -292,7 +309,8 @@ def endpoint_save_brand(request):
 
 @csrf_exempt
 def endpoint_save_company(request):
-    # checking if it is POST could also be outsourced because it is the same in everyfunction
+    # checking if it is POST could also be outsourced because it is the same in
+    # everyfunction
     if request.method == "POST":
         # duplicatd can be own function
         response = json.loads(request.body.decode("utf-8"))
@@ -310,7 +328,8 @@ def endpoint_save_company(request):
 # Actually creates Corporation and Company
 @csrf_exempt
 def endpoint_save_corporation(request):
-    # checking if it is POST could also be outsourced because it is the same in everyfunction
+    # checking if it is POST could also be outsourced because it is the same in
+    # everyfunction
     if request.method == "POST":
         # duplicatd can be own function
         response = json.loads(request.body.decode("utf-8"))
@@ -321,7 +340,8 @@ def endpoint_save_corporation(request):
 
 @csrf_exempt
 def endpoint_save_country(request):
-    # checking if it is POST could also be outsourced because it is the same in everyfunction
+    # checking if it is POST could also be outsourced because it is the same in
+    # everyfunction
     if request.method == "POST":
         # duplicatd can be own function
 

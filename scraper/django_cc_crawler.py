@@ -1,3 +1,10 @@
+from goodbuyDatabase.models import (
+    Brand,
+    MainProductCategory,
+    Product,
+    ProductCategory,
+    SubProductCategory,
+)
 import os
 
 from django.core import serializers
@@ -7,14 +14,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-
-from goodbuyDatabase.models import (
-    Brand,
-    MainProductCategory,
-    Product,
-    ProductCategory,
-    SubProductCategory,
-)
 
 
 class Scraper:
@@ -39,19 +38,15 @@ class Scraper:
         self.driver.set_window_size(1200, 1134)
         self.driver.get("https://codecheck.info")
 
-    def scrape(self):
-        print("\nSearch for search field...")
+    def search_for_product_on_cc(self):
         try:
             search_field = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "search-query"))
             )
             search_field.clear()
             search_field.send_keys(f"{self.product.code}")
-            print(" Search field found.")
         except Exception as e:
             print("  Search field ERROR:", str(e))
-
-        print("\nSearch for search button...")
         try:
             search_button = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "search-submit"))
@@ -61,6 +56,8 @@ class Scraper:
         except Exception as e:
             print("  Search submit button ERROR:", str(e))
 
+    def scrape(self):
+        self.search_for_product_on_cc()
         print("\nSearch for product name and categories...")
         try:
             div = WebDriverWait(self.driver, 10).until(
