@@ -19,7 +19,7 @@ from goodbuyDatabase.models import (
 
 class Scraper:
     def __init__(self, code):
-        self.product = Product(code=code, state="209")
+        self.product = Product(code=code, state="209", data_source="2")
         self.product.save()
         options = Options()
         options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
@@ -154,6 +154,15 @@ class Scraper:
                 self.product.brand = Brand.objects.get_or_create(
                     name=div.text.splitlines()[1]
                 )[0]
+        return self.product.brand
+
+    def check_product_completeness(self):
+        self.product.state = "200"
+        important_attr = ["name", "brand"]
+        for attr, value in self.product.__dict__.items():
+            print(attr, value)
+            if value is None and value in important_attr:
+                self.product.state = "306"
 
     def scrape(self):
         self.find_search_field_and_pass_product_code()
@@ -162,14 +171,7 @@ class Scraper:
         self.find_product_image()
         self.get_and_click_more_product_details_div()
         self.get_product_brand()
-
-        if self.product.name is not None and self.product.brand is not None:
-            self.product.state = "200"
-            self.product.data_source = "2"
-            print("✅ Looked up product: ", self.product)
-        else:
-            self.product.state = "306"
-            print("Name and/or brand is None")
+        self.check_product_completeness()
         self.product.save()
         self.driver.quit()
         return JsonResponse(
@@ -182,6 +184,7 @@ class Scraper:
                     "main_product_category",
                     "product_category",
                     "sub_product_category",
+                    "state",
                 ],
             )
         )
