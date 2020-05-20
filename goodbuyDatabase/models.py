@@ -5,7 +5,9 @@ from django.urls import reverse
 
 
 class Country(models.Model):
-    name = models.CharField(primary_key=True, unique=True, max_length=50, db_index=True)
+    name = models.CharField(
+        primary_key=True, unique=True, max_length=50, db_index=True
+    )
     code = models.CharField(
         unique=False, max_length=8, null=True, blank=True, db_index=True
     )
@@ -23,8 +25,12 @@ class Country(models.Model):
 
 
 class Store(models.Model):
-    name = models.CharField(primary_key=True, unique=True, max_length=50, db_index=True)
-    country = models.ForeignKey(Country, models.SET_NULL, null=True, blank=True)
+    name = models.CharField(
+        primary_key=True, unique=True, max_length=50, db_index=True
+    )
+    country = models.ForeignKey(
+        Country, models.SET_NULL, null=True, blank=True
+    )
 
     def __str__(self):
         return self.name
@@ -69,37 +75,51 @@ class Rating(models.Model):
         db_index=True,
     )
     land_value = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, blank=True,
+        validators=[MinValueValidator(1), MaxValueValidator(10)],
+        null=True,
+        blank=True,
     )
     land_rating_text = models.TextField(null=True, blank=True,)
     land_definition = models.URLField(null=True, blank=True)
     women_value = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, blank=True,
+        validators=[MinValueValidator(1), MaxValueValidator(10)],
+        null=True,
+        blank=True,
     )
     women_rating_text = models.TextField(null=True, blank=True,)
     women_definition = models.URLField(null=True, blank=True)
     farmers_value = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, blank=True,
+        validators=[MinValueValidator(1), MaxValueValidator(10)],
+        null=True,
+        blank=True,
     )
     farmers_rating_text = models.TextField(null=True, blank=True,)
     farmers_definition = models.URLField(null=True, blank=True)
     workers_value = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, blank=True,
+        validators=[MinValueValidator(1), MaxValueValidator(10)],
+        null=True,
+        blank=True,
     )
     workers_rating_text = models.TextField(null=True, blank=True,)
     workers_definition = models.URLField(null=True, blank=True)
     climate_value = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, blank=True,
+        validators=[MinValueValidator(1), MaxValueValidator(10)],
+        null=True,
+        blank=True,
     )
     climate_rating_text = models.TextField(null=True, blank=True,)
     climate_definition = models.URLField(null=True, blank=True)
     transparency_value = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, blank=True,
+        validators=[MinValueValidator(1), MaxValueValidator(10)],
+        null=True,
+        blank=True,
     )
     transparency_rating_text = models.TextField(null=True, blank=True,)
     transparency_definition = models.URLField(null=True, blank=True)
     water_value = models.IntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, blank=True,
+        validators=[MinValueValidator(1), MaxValueValidator(10)],
+        null=True,
+        blank=True,
     )
     water_rating_text = models.TextField(null=True, blank=True,)
     water_definition = models.URLField(null=True, blank=True)
@@ -114,9 +134,15 @@ class Rating(models.Model):
 
 
 class Company(models.Model):
-    name = models.CharField(primary_key=True, max_length=50, unique=True, db_index=True)
+    name = models.CharField(
+        primary_key=True, max_length=50, unique=True, db_index=True
+    )
     corporation = models.ForeignKey(
-        Corporation, models.SET_NULL, db_column="corporation", null=True, blank=True
+        Corporation,
+        models.SET_NULL,
+        db_column="corporation",
+        null=True,
+        blank=True,
     )
     origin = models.ForeignKey(Country, models.SET_NULL, null=True, blank=True)
     logo = models.URLField(null=True, blank=True)
@@ -136,8 +162,12 @@ class Company(models.Model):
 
 class Brand(models.Model):
     name = models.CharField(unique=False, max_length=100, db_index=True)
-    company = models.ForeignKey(Company, models.SET_NULL, null=True, blank=True)
-    corporation = models.ForeignKey(Corporation, models.SET_NULL, null=True, blank=True)
+    company = models.ForeignKey(
+        Company, models.SET_NULL, null=True, blank=True
+    )
+    corporation = models.ForeignKey(
+        Corporation, models.SET_NULL, null=True, blank=True
+    )
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -153,7 +183,9 @@ class Brand(models.Model):
 
 
 class MainProductCategory(models.Model):
-    name = models.CharField(primary_key=True, unique=True, max_length=45, db_index=True)
+    name = models.CharField(
+        primary_key=True, unique=True, max_length=45, db_index=True
+    )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -167,7 +199,9 @@ class MainProductCategory(models.Model):
 
 
 class ProductCategory(models.Model):
-    name = models.CharField(primary_key=True, unique=True, max_length=45, db_index=True)
+    name = models.CharField(
+        primary_key=True, unique=True, max_length=45, db_index=True
+    )
     main_category = models.ForeignKey(
         MainProductCategory, models.SET_NULL, null=True, blank=True
     )
@@ -184,7 +218,9 @@ class ProductCategory(models.Model):
 
 
 class SubProductCategory(models.Model):
-    name = models.CharField(primary_key=True, unique=True, max_length=45, db_index=True)
+    name = models.CharField(
+        primary_key=True, unique=True, max_length=45, db_index=True
+    )
     category_of_product = models.ForeignKey(
         ProductCategory, models.SET_NULL, null=True, blank=True
     )
@@ -201,7 +237,9 @@ class SubProductCategory(models.Model):
 
 
 class Certificate(models.Model):
-    name = models.CharField(primary_key=True, unique=True, max_length=45, db_index=True)
+    name = models.CharField(
+        primary_key=True, unique=True, max_length=45, db_index=True
+    )
     wiki = models.URLField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -238,13 +276,25 @@ class Product(models.Model):
         null=True, blank=True, unique=True, max_length=13, db_index=True
     )
     scanned_counter = models.IntegerField(
-        default=1, verbose_name="Scanned Counter", null=True, blank=True, db_index=True
+        default=1,
+        verbose_name="Scanned Counter",
+        null=True,
+        blank=True,
+        db_index=True,
     )
     upvote_counter = models.IntegerField(
-        default=0, verbose_name="Upvote Counter", null=True, blank=True, db_index=True
+        default=0,
+        verbose_name="Upvote Counter",
+        null=True,
+        blank=True,
+        db_index=True,
     )
     downvote_counter = models.IntegerField(
-        default=0, verbose_name="Downvote Counter", null=True, blank=True, db_index=True
+        default=0,
+        verbose_name="Downvote Counter",
+        null=True,
+        blank=True,
+        db_index=True,
     )
     added_by = models.ForeignKey(
         User, models.SET_NULL, null=True, blank=True, related_name="creator"
@@ -278,7 +328,9 @@ class Product(models.Model):
     data_source = models.CharField(
         max_length=5, verbose_name="Data Source", choices=SOURCE, db_index=True
     )
-    scraped_image = models.URLField(verbose_name="Scraped Image", null=True, blank=True)
+    scraped_image = models.URLField(
+        verbose_name="Scraped Image", null=True, blank=True
+    )
     logo = models.URLField(null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
     image_of_front = models.ImageField(
@@ -339,7 +391,9 @@ class ProductPriceInStore(models.Model):
 
 
 class BigTen(models.Model):
-    name = models.CharField(primary_key=True, unique=True, max_length=45, db_index=True)
+    name = models.CharField(
+        primary_key=True, unique=True, max_length=45, db_index=True
+    )
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
