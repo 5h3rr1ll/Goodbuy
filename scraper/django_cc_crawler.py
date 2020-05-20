@@ -18,10 +18,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 class Scraper:
     def __init__(self, code):
-        print(f"Starting scraper for {code}")
         self.product = Product(code=code, state="209")
         self.product.save()
-        print(f"Initiate scraper window")
         options = Options()
         options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
         options.add_argument("--headless")
@@ -53,68 +51,60 @@ class Scraper:
         search_button.click()
         return search_button
 
+    def get_breadcrum_div(self):
+        div = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "bc"))
+        )
+        span = div.find_elements_by_class_name("bcd")
+        return div, span
+
+    def get_product_categories_and_name(self):
+        """
+        This function is taken, if the div filters the product name out of the
+        breadcrumb div, since the product name can consists out of serveral
+        parts, it's at the moment necessary to do it within this step.
+        """
+        div, span = self.get_breadcrum_div()
+        breadcrumbs = [breadcrumb.text for breadcrumb in span]
+        self.product.main_product_category = MainProductCategory.objects.get_or_create(
+            name=breadcrumbs[1]
+        )[
+            0
+        ]
+        self.product.product_category = ProductCategory.objects.get_or_create(
+            name=breadcrumbs[2]
+        )[0]
+        self.product.sub_product_category = SubProductCategory.objects.get_or_create(
+            name=breadcrumbs[-1]
+        )[
+            0
+        ]
+        breadcrumb_string = div.text.split(
+            f"{breadcrumbs[-2] + ' ' + breadcrumbs[-1]}"
+        )
+        self.product.name = breadcrumb_string[-1].strip()
+
+    def get_product_name(self):
+        self.product.name = (
+            WebDriverWait(self.driver, 10)
+            .until(
+                EC.presence_of_element_located((By.ID, '//*[@id="t-1263277"]'))
+            )
+            .text
+        )
+        return self.product.name
+
+    def find_product_name(self):
+        div, span = self.get_breadcrum_div()
+        if len(span) >= 3:
+            self.get_product_categories_and_name()
+        elif len(span) == 1:
+            self.get_product_name()
+
     def scrape(self):
         self.find_search_field_and_pass_product_code()
         self.search_for_product_on_cc()
-        print("\nSearch for product name and categories...")
-        try:
-            div = WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.CLASS_NAME, "bc"))
-            )
-            spans = div.find_elements_by_class_name("bcd")
-
-            if len(spans) >= 3:
-                breadcrumbs = []
-                for breadcrumb in spans:
-                    breadcrumbs.append(breadcrumb.text)
-                self.product.main_product_category = MainProductCategory.objects.get_or_create(
-                    name=breadcrumbs[1]
-                )[
-                    0
-                ]
-                self.product.product_category = ProductCategory.objects.get_or_create(
-                    name=breadcrumbs[2]
-                )[
-                    0
-                ]
-                self.product.sub_product_category = SubProductCategory.objects.get_or_create(
-                    name=breadcrumbs[-1]
-                )[
-                    0
-                ]
-                breadcrumb_string = div.text.split(
-                    f"{breadcrumbs[-2] + ' ' + breadcrumbs[-1]}"
-                )
-                self.product.name = breadcrumb_string[-1].strip()
-                print(
-                    f"""
-                    Product name: {self.product.name}
-                    Product Category: {self.product.product_category}
-                    Sub-Product Category: {self.product.sub_product_category}
-                    """
-                )
-            elif len(spans) == 1:
-                self.product.name = (
-                    WebDriverWait(self.driver, 10)
-                    .until(
-                        EC.presence_of_element_located(
-                            (By.XPATH, '//*[@id="t-1263277"]')
-                        )
-                    )
-                    .text
-                )
-                print(f"  Product name: {self.product.name}")
-            else:
-                print("\nStill something wrong here!\n")
-        except Exception as e:
-            print(str(e))
-            self.product.state = "306"
-            product_obj_as_json = serializers.serialize(
-                "json", Product.objects.filter(code=self.product.code)
-            )
-            return HttpResponse(
-                product_obj_as_json, content_type="text/json-comment-filtered"
-            )
+        self.find_product_name()
 
         print("\nSearch for product image...")
         try:
