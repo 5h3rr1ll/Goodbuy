@@ -38,7 +38,7 @@ class Scraper:
         self.driver.set_window_size(1200, 1134)
         self.driver.get("https://codecheck.info")
 
-    def search_for_product_on_cc(self):
+    def find_search_field_and_pass_product_code(self):
         try:
             search_field = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "search-query"))
@@ -47,6 +47,9 @@ class Scraper:
             search_field.send_keys(f"{self.product.code}")
         except Exception as e:
             print("  Search field ERROR:", str(e))
+        return search_field
+
+    def search_for_product_on_cc(self):
         try:
             search_button = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.ID, "search-submit"))
@@ -57,6 +60,7 @@ class Scraper:
             print("  Search submit button ERROR:", str(e))
 
     def scrape(self):
+        self.find_search_field_and_pass_product_code()
         self.search_for_product_on_cc()
         print("\nSearch for product name and categories...")
         try:
