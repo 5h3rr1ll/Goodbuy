@@ -1,7 +1,7 @@
 import os
 
 from django.forms.models import model_to_dict
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -45,7 +45,7 @@ class Scraper:
         search_field.send_keys(f"{self.product.code}")
         return search_field
 
-    def search_for_product_on_cc(self):
+    def search_product_on_cc(self):
         search_button = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.ID, "search-submit"))
         )
@@ -108,7 +108,7 @@ class Scraper:
         elif len(span) == 1:
             self.get_product_name()
 
-    def find_image(self):
+    def find_product_image(self):
         try:
             no_image = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, ".no-image"))
@@ -136,46 +136,32 @@ class Scraper:
             except Exception:
                 print("No image, Picture", str(Exception))
 
+    def get_and_click_more_product_details_div(self):
+        more_product_detail_div = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//*[contains(text(), 'Mehr Infos')]")
+            )
+        )
+        more_product_detail_div.click()
+
+    def get_product_brand(self):
+        product_info_items = self.driver.find_elements_by_class_name(
+            "product-info-item"
+        )
+        for div in product_info_items:
+            print("\n Text:", div.text)
+            if div.text.splitlines()[0] == "Marke":
+                self.product.brand = Brand.objects.get_or_create(
+                    name=div.text.splitlines()[1]
+                )[0]
+
     def scrape(self):
         self.find_search_field_and_pass_product_code()
-        self.search_for_product_on_cc()
+        self.search_product_on_cc()
         self.find_product_name()
-        self.find_image()
-
-        print("\nFind more product details div")
-        try:
-            more_product_detail_div = WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located(
-                    (By.XPATH, "//*[contains(text(), 'Mehr Infos')]")
-                )
-            )
-            more_product_detail_div.click()
-        except Exception as e:
-            print("  More Product Details Div not found:", str(e))
-
-        print("\nInterate over product info items to find product brand...")
-        try:
-            product_info_items = self.driver.find_elements_by_class_name(
-                "product-info-item"
-            )
-
-            for div in product_info_items:
-                print("\n Text:", div.text)
-                if div.text.splitlines()[0] == "Marke":
-                    self.product.brand = Brand.objects.get_or_create(
-                        name=div.text.splitlines()[1]
-                    )[0]
-                    print(f"\nBrand Print: {self.product.brand}\n")
-            print(f" Product brand is {self.product.brand}.")
-        except Exception as e:
-            self.product.state = "306"
-            print(
-                "  Can't extract brand:",
-                str(e),
-                Brand.objects.get_or_create(name=div.text.splitlines()[1])[0],
-            )
-            return HttpResponse(status=306)
-        print(f"\nName: {self.product.name} Brand: {self.product.brand}\n")
+        self.find_product_image()
+        self.get_and_click_more_product_details_div()
+        self.get_product_brand()
 
         if self.product.name is not None and self.product.brand is not None:
             self.product.state = "200"
