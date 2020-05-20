@@ -1,3 +1,13 @@
+import os
+
+from django.forms.models import model_to_dict
+from django.http import HttpResponse, JsonResponse
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
 from goodbuyDatabase.models import (
     Brand,
     MainProductCategory,
@@ -5,15 +15,6 @@ from goodbuyDatabase.models import (
     ProductCategory,
     SubProductCategory,
 )
-import os
-
-from django.core import serializers
-from django.http import HttpResponse
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 
 
 class Scraper:
@@ -83,6 +84,12 @@ class Scraper:
             f"{breadcrumbs[-2] + ' ' + breadcrumbs[-1]}"
         )
         self.product.name = breadcrumb_string[-1].strip()
+        return (
+            self.product.name,
+            self.product.main_product_category,
+            self.product.product_category,
+            self.product.sub_product_category,
+        )
 
     def get_product_name(self):
         self.product.name = (
@@ -101,45 +108,39 @@ class Scraper:
         elif len(span) == 1:
             self.get_product_name()
 
-    def scrape(self):
-        self.find_search_field_and_pass_product_code()
-        self.search_for_product_on_cc()
-        self.find_product_name()
-
-        print("\nSearch for product image...")
+    def find_image(self):
         try:
-            try:
-                no_image = WebDriverWait(self.driver, 10).until(
+            no_image = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, ".no-image"))
+            )
+        except Exception:
+            self.product.scraped_image = (
+                WebDriverWait(self.driver, 10)
+                .until(
                     EC.presence_of_element_located(
-                        (By.CSS_SELECTOR, ".no-image")
+                        (By.CSS_SELECTOR, ".nf > img")
                     )
                 )
-                print("no-image but doesn't throw error")
-            except Exception:
-                self.product.scraped_image = (
+                .get_attribute("src")
+            )
+            try:
+                on_error = (
                     WebDriverWait(self.driver, 10)
                     .until(
                         EC.presence_of_element_located(
                             (By.CSS_SELECTOR, ".nf > img")
                         )
                     )
-                    .get_attribute("src")
+                    .get_attribute("onerror")
                 )
-                try:
-                    on_error = (
-                        WebDriverWait(self.driver, 10)
-                        .until(
-                            EC.presence_of_element_located(
-                                (By.CSS_SELECTOR, ".nf > img")
-                            )
-                        )
-                        .get_attribute("onerror")
-                    )
-                except Exception:
-                    print("No image, Picture", str(Exception))
-                print(f" Product image found at {self.product['name']}.")
-        except Exception as e:
-            print("  Product image ERROR:", str(e))
+            except Exception:
+                print("No image, Picture", str(Exception))
+
+    def scrape(self):
+        self.find_search_field_and_pass_product_code()
+        self.search_for_product_on_cc()
+        self.find_product_name()
+        self.find_image()
 
         print("\nFind more product details div")
         try:
@@ -185,9 +186,16 @@ class Scraper:
             print("Name and/or brand is None")
         self.product.save()
         self.driver.quit()
-        product_obj_as_json = serializers.serialize(
-            "json", Product.objects.filter(code=self.product.code)
-        )
-        return HttpResponse(
-            product_obj_as_json, content_type="text/json-comment-filtered"
+        return JsonResponse(
+            model_to_dict(
+                self.product,
+                fields=[
+                    "name",
+                    "code",
+                    "brand",
+                    "main_product_category",
+                    "product_category",
+                    "sub_product_category",
+                ],
+            )
         )
