@@ -69,20 +69,14 @@ class Scraper:
         breadcrumbs = [breadcrumb.text for breadcrumb in span]
         self.product.main_product_category = MainProductCategory.objects.get_or_create(
             name=breadcrumbs[1]
-        )[
-            0
-        ]
+        )[0]
         self.product.product_category = ProductCategory.objects.get_or_create(
             name=breadcrumbs[2]
         )[0]
         self.product.sub_product_category = SubProductCategory.objects.get_or_create(
             name=breadcrumbs[-1]
-        )[
-            0
-        ]
-        breadcrumb_string = div.text.split(
-            f"{breadcrumbs[-2] + ' ' + breadcrumbs[-1]}"
-        )
+        )[0]
+        breadcrumb_string = div.text.split(f"{breadcrumbs[-2] + ' ' + breadcrumbs[-1]}")
         self.product.name = breadcrumb_string[-1].strip()
         return (
             self.product.name,
@@ -94,9 +88,7 @@ class Scraper:
     def get_product_name(self):
         self.product.name = (
             WebDriverWait(self.driver, 10)
-            .until(
-                EC.presence_of_element_located((By.ID, '//*[@id="t-1263277"]'))
-            )
+            .until(EC.presence_of_element_located((By.ID, '//*[@id="t-1263277"]')))
             .text
         )
         return self.product.name
@@ -116,20 +108,14 @@ class Scraper:
         except Exception:
             self.product.scraped_image = (
                 WebDriverWait(self.driver, 10)
-                .until(
-                    EC.presence_of_element_located(
-                        (By.CSS_SELECTOR, ".nf > img")
-                    )
-                )
+                .until(EC.presence_of_element_located((By.CSS_SELECTOR, ".nf > img")))
                 .get_attribute("src")
             )
             try:
                 on_error = (
                     WebDriverWait(self.driver, 10)
                     .until(
-                        EC.presence_of_element_located(
-                            (By.CSS_SELECTOR, ".nf > img")
-                        )
+                        EC.presence_of_element_located((By.CSS_SELECTOR, ".nf > img"))
                     )
                     .get_attribute("onerror")
                 )
@@ -149,7 +135,6 @@ class Scraper:
             "product-info-item"
         )
         for div in product_info_items:
-            print("\n Text:", div.text)
             if div.text.splitlines()[0] == "Marke":
                 self.product.brand = Brand.objects.get_or_create(
                     name=div.text.splitlines()[1]
