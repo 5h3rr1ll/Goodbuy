@@ -25,7 +25,7 @@ from goodbuyDatabase.models import (
 )
 
 
-class CodeCheckScraper:
+class Scraper:
     def __init__(self, code):
         self.product = Product(code=code, state="209", data_source="2")
         self.product.save()
@@ -51,21 +51,28 @@ class CodeCheckScraper:
         )
         search_field.clear()
         search_field.send_keys(f"{self.product.code}")
-        return search_field
+        self.search_product_on_cc()
 
     def search_product_on_cc(self):
         search_button = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.ID, "search-submit"))
         )
         search_button.click()
-        return search_button
+        self.find_product_name()
 
-    def get_breadcrum_div(self):
+    def get_breadcrum_div_with_product_categorie_and_name(self):
         div = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, "bc"))
         )
         span = div.find_elements_by_class_name("bcd")
         return div, span
+
+    def find_product_name(self):
+        div, span = self.get_breadcrum_div_with_product_categorie_and_name()
+        if len(span) >= 3:
+            self.get_product_categories_and_name()
+        elif len(span) == 1:
+            self.get_product_name()
 
     def get_product_categories_and_name(self):
         """
@@ -73,7 +80,7 @@ class CodeCheckScraper:
         breadcrumb div, since the product name can consists out of serveral
         parts, it's at the moment necessary to do it within this step.
         """
-        div, span = self.get_breadcrum_div()
+        div, span = self.get_breadcrum_div_with_product_categorie_and_name()
         breadcrumbs = [breadcrumb.text for breadcrumb in span]
         self.product.main_product_category = MainProductCategory.objects.get_or_create(
             name=breadcrumbs[1]
@@ -86,12 +93,7 @@ class CodeCheckScraper:
         )[0]
         breadcrumb_string = div.text.split(f"{breadcrumbs[-2] + ' ' + breadcrumbs[-1]}")
         self.product.name = breadcrumb_string[-1].strip()
-        return (
-            self.product.name,
-            self.product.main_product_category,
-            self.product.product_category,
-            self.product.sub_product_category,
-        )
+        self.find_product_image()
 
     def get_product_name(self):
         self.product.name = (
@@ -99,14 +101,7 @@ class CodeCheckScraper:
             .until(EC.presence_of_element_located((By.ID, '//*[@id="t-1263277"]')))
             .text
         )
-        return self.product.name
-
-    def find_product_name(self):
-        div, span = self.get_breadcrum_div()
-        if len(span) >= 3:
-            self.get_product_categories_and_name()
-        elif len(span) == 1:
-            self.get_product_name()
+        self.find_product_image()
 
     def find_product_image(self):
         try:
@@ -129,6 +124,7 @@ class CodeCheckScraper:
                 )
             except Exception:
                 print("No image, Picture", str(Exception))
+        self.get_and_click_more_product_details_div()
 
     def get_and_click_more_product_details_div(self):
         more_product_detail_div = WebDriverWait(self.driver, 10).until(
@@ -137,6 +133,7 @@ class CodeCheckScraper:
             )
         )
         more_product_detail_div.click()
+        self.wait_for_product_details_div()
 
     def wait_for_product_details_div(self):
         WebDriverWait(self.driver, 20).until(
@@ -144,6 +141,7 @@ class CodeCheckScraper:
                 (By.XPATH, "//*[contains(text(), 'Weniger Infos')]")
             )
         )
+        self.get_product_brand()
 
     def get_product_brand(self):
         try:
@@ -157,6 +155,7 @@ class CodeCheckScraper:
                     )[0]
         except Exception as e:
             print(str(e))
+        self.check_product_completeness()
 
     def check_product_completeness(self):
         self.product.state = "200"
@@ -167,13 +166,6 @@ class CodeCheckScraper:
 
     def scrape(self):
         self.find_search_field_and_pass_product_code()
-        self.search_product_on_cc()
-        self.find_product_name()
-        self.find_product_image()
-        self.get_and_click_more_product_details_div()
-        self.wait_for_product_details_div()
-        self.get_product_brand()
-        self.check_product_completeness()
         self.product.save()
         self.driver.quit()
         return JsonResponse(
