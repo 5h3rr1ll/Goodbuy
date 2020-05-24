@@ -18,7 +18,7 @@ from goodbuyDatabase.models import (
     SubProductCategory,
 )
 from scraper.aws_lambda_cc_crawler import scrape
-from scraper.django_cc_crawler import Scraper as local_scraper
+from scraper.django_cc_crawler import CodeCheckScraper as local_scraper
 from worker import conn
 
 q = Queue(connection=conn)
@@ -156,9 +156,7 @@ def feedback(request, code):
             )
         except Exception:
             print(str(Exception))
-        answer = create_feedback_string(
-            request, Product.objects.get(code=code)
-        )
+        answer = create_feedback_string(request, Product.objects.get(code=code))
         return JsonResponse(answer)
     else:
         print(f"Intial save product with code {code}.")
@@ -214,10 +212,7 @@ def endpoint_save_product(request):
             brand, created = Brand.objects.get_or_create(name=product["brand"])
         sub_product_category = None
         if product["sub_product_category"] is not None:
-            (
-                sub_product_category,
-                created,
-            ) = SubProductCategory.objects.get_or_create(
+            (sub_product_category, created,) = SubProductCategory.objects.get_or_create(
                 name=product["sub_product_category"]
             )
         product_category = None
@@ -270,9 +265,7 @@ def endpoint_update_product(request):
             (
                 product.main_product_category,
                 created,
-            ) = MainProductCategory.objects.get_or_create(
-                name=json_product["category"]
-            )
+            ) = MainProductCategory.objects.get_or_create(name=json_product["category"])
         except Exception as e:
             print("category n.a.", str(e))
         product.state = "211"
@@ -293,9 +286,7 @@ def endpoint_save_brand(request):
             # this is the actual function according to the name
             Brand.objects.get_or_create(
                 name=response["name"],
-                corporation=Corporation.objects.get(
-                    name=response["corporation"]
-                ),
+                corporation=Corporation.objects.get(name=response["corporation"]),
             )
         except Exception as e:
             print(

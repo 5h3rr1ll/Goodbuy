@@ -25,7 +25,7 @@ from goodbuyDatabase.models import (
 )
 
 
-class Scraper:
+class CodeCheckScraper:
     def __init__(self, code):
         self.product = Product(code=code, state="209", data_source="2")
         self.product.save()
