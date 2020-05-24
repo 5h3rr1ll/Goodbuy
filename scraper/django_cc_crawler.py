@@ -52,28 +52,30 @@ class CodeCheckScraper:
         search_button.click()
         self.find_product_name()
 
-    def get_breadcrum_div_with_product_categorie_and_name(self):
-        div = WebDriverWait(self.driver, 10).until(
+    def get_breadcrum_span_with_categories_and_name(self):
+        breadcrums_span = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, "bc"))
         )
-        span = div.find_elements_by_class_name("bcd")
-        return div, span
+        list_of_breadcrums = breadcrums_span.find_elements_by_class_name("bcd")
+        return breadcrums_span, list_of_breadcrums
 
     def find_product_name(self):
-        div, span = self.get_breadcrum_div_with_product_categorie_and_name()
-        if len(span) >= 3:
-            self.get_product_categories_and_name()
-        elif len(span) == 1:
+        (
+            breadcrums_span,
+            list_of_breadcrums,
+        ) = self.get_breadcrum_span_with_categories_and_name()
+        if len(list_of_breadcrums) >= 3:
+            self.get_product_categories_and_name(breadcrums_span, list_of_breadcrums)
+        elif len(list_of_breadcrums) == 1:
             self.get_product_name()
 
-    def get_product_categories_and_name(self):
+    def get_product_categories_and_name(self, breadcrums_span, list_of_breadcrums):
         """
         This function is taken, if the div filters the product name out of the
         breadcrumb div, since the product name can consists out of serveral
         parts, it's at the moment necessary to do it within this step.
         """
-        div, span = self.get_breadcrum_div_with_product_categorie_and_name()
-        breadcrumbs = [breadcrumb.text for breadcrumb in span]
+        breadcrumbs = [breadcrumb.text for breadcrumb in list_of_breadcrums]
         self.product.main_product_category = MainProductCategory.objects.get_or_create(
             name=breadcrumbs[1]
         )[0]
@@ -83,7 +85,11 @@ class CodeCheckScraper:
         self.product.sub_product_category = SubProductCategory.objects.get_or_create(
             name=breadcrumbs[-1]
         )[0]
-        breadcrumb_string = div.text.split(f"{breadcrumbs[-2] + ' ' + breadcrumbs[-1]}")
+        print("Breadcrums Span: ", breadcrums_span.text)
+        breadcrumb_string = breadcrums_span.text.split(
+            f"{breadcrumbs[-2] + ' ' + breadcrumbs[-1]}"
+        )
+        print("BreadCrum String: ", breadcrumb_string)
         self.product.name = breadcrumb_string[-1].strip()
         self.find_product_image()
 
