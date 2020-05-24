@@ -1,3 +1,11 @@
+#!/usr/bin/python3
+# *_* coding: utf-8 *_*
+
+"""
+This module is a scraper, useing selenium, to gather informations about a
+certain product.
+"""
+
 import os
 
 from django.forms.models import model_to_dict
@@ -17,7 +25,7 @@ from goodbuyDatabase.models import (
 )
 
 
-class Scraper:
+class CodeCheckScraper:
     def __init__(self, code):
         self.product = Product(code=code, state="209", data_source="2")
         self.product.save()
