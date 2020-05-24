@@ -11,7 +11,7 @@ import os
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from .selenium_chrome_options import options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -29,17 +29,9 @@ class CodeCheckScraper:
     def __init__(self, code):
         self.product = Product(code=code, state="209", data_source="2")
         self.product.save()
-        options = Options()
-        options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-        options.add_argument("--headless")
-        options.add_argument("--disable-gpu")
-        options.add_argument("--no-sandbox")
-        options.add_argument("user-agent=Anon")
-        prefs = {"profile.managed_default_content_settings.images": 2}
-        options.add_experimental_option("prefs", prefs)
         self.driver = webdriver.Chrome(
             executable_path=str(os.environ.get("CHROMEDRIVER_PATH")),
-            chrome_options=options,
+            chrome_options=options(),
         )
         self.driver.set_window_position(0, 0)
         self.driver.set_window_size(1200, 1134)
