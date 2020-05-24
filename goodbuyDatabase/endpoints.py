@@ -196,47 +196,30 @@ def local_lookup(request, code):
     return product
 
 
-# TODO: endpoints are not protected with csrf❗️
-# in the end it doesnt only save the product but checks for a lot of things
-# before hand
 @csrf_exempt
 def endpoint_save_product(request):
-    product = json.loads(request.body.decode("utf-8"))
-    if (
-        request.method == "POST"
-        and Product.objects.filter(code=product["code"]).exists()
-    ):
-        print(f"Updating product with code: {product['code']}\n")
-        brand = None
-        if product["brand"] is not None:
-            brand, created = Brand.objects.get_or_create(name=product["brand"])
-        sub_product_category = None
-        if product["sub_product_category"] is not None:
+    json_product = json.loads(request.body.decode("utf-8"))
+    product = Product.objects.get(code=json_product["code"])
+    if request.method == "POST" and Product.objects.filter(code=product.code).exists():
+        product.name = json_product["name"]
+        if product.brand:
+            brand, created = Brand.objects.get_or_create(name=product.brand)
+        if product.sub_product_category:
             (sub_product_category, created,) = SubProductCategory.objects.get_or_create(
                 name=product["sub_product_category"]
             )
-        product_category = None
-        if product["product_category"] is not None:
+        if product.product_category:
             product_category, created = ProductCategory.objects.get_or_create(
-                name=product["product_category"]
+                name=product.product_category
             )
-        main_product_category = None
-        if product["main_product_category"] is not None:
+        if product.main_product_category:
             (
                 main_product_category,
                 created,
             ) = MainProductCategory.objects.get_or_create(
-                name=product["main_product_category"]
+                name=product.main_product_category
             )
-        Product.objects.filter(code=product["code"]).update(
-            name=product["name"],
-            brand=brand,
-            main_product_category=main_product_category,
-            product_category=product_category,
-            sub_product_category=sub_product_category,
-            state=product["state"],
-            scraped_image=product["scraped_image"],
-        )
+        product.save()
     elif request.method == "GET":
         print(f"\nRecieving product to save, code: {product['code']}\n")
         product_obj = Product(code=product["code"], state=product["state"],)
