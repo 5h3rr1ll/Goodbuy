@@ -130,23 +130,31 @@ class Scraper:
         )
         more_product_detail_div.click()
 
-    def get_product_brand(self):
-        product_info_items = self.driver.find_elements_by_class_name(
-            "product-info-item"
+    def wait_for_product_details_div(self):
+        WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//*[contains(text(), 'Weniger Infos')]")
+            )
         )
-        for div in product_info_items:
-            if div.text.splitlines()[0] == "Marke":
-                self.product.brand = Brand.objects.get_or_create(
-                    name=div.text.splitlines()[1]
-                )[0]
-        return self.product.brand
+
+    def get_product_brand(self):
+        try:
+            product_info_items = self.driver.find_elements_by_class_name(
+                "product-info-item"
+            )
+            for div in product_info_items:
+                if div.text.splitlines()[0] == "Marke":
+                    self.product.brand = Brand.objects.get_or_create(
+                        name=div.text.splitlines()[1]
+                    )[0]
+        except Exception as e:
+            print(str(e))
 
     def check_product_completeness(self):
         self.product.state = "200"
-        important_attr = ["name", "brand"]
+        important_attr = ["name", "brand_id"]
         for attr, value in self.product.__dict__.items():
-            print(attr, value)
-            if value is None and value in important_attr:
+            if attr in important_attr and value is None:
                 self.product.state = "306"
 
     def scrape(self):
@@ -155,6 +163,7 @@ class Scraper:
         self.find_product_name()
         self.find_product_image()
         self.get_and_click_more_product_details_div()
+        self.wait_for_product_details_div()
         self.get_product_brand()
         self.check_product_completeness()
         self.product.save()

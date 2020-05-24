@@ -10,4 +10,6 @@ class LocalCCScraper(TestCase):
         resp_as_json = json.loads(resp.content.decode("utf-8"))
         print("Respons as Json:", resp_as_json)
         self.assertEqual(resp.status_code, 200)
+        self.assertEqual(resp_as_json["state"], "200")
         self.assertEqual(resp_as_json["name"], "Big Red (Wrigley´s)")
+        self.assertEqual(resp_as_json["brand"], 1)
