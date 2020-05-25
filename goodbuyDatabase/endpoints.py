@@ -86,7 +86,12 @@ def check_for_attributes(request, product_object):
 
 
 # Creates feedback string but also returns it with the product_object
-def create_feedback_string(request, product_object):
+# Interface, Pure Function
+def create_feedback_string(request, product_object: Product) -> Product:
+    """
+    Takes a product object, serialize it and adds the information if it belongs
+    to the BigTen.
+    """
     open_food_facts = "1"
     brand, corporation, sub_product_category = check_for_attributes(
         request, product_object
@@ -121,14 +126,14 @@ def create_feedback_string(request, product_object):
 def feedback(request, code):
     # looks if product exist in database
     if request.method == "GET" and Product.objects.filter(code=code).exists():
-        product_object = Product.objects.get(code=code)
-        product_object.scanned_counter += 1
-        product_object.save()
-        if product_object.state == "209":
+        product = Product.objects.get(code=code)
+        product.scanned_counter += 1
+        product.save()
+        if product.state == "209":
             print("Code is already in progress")
             return HttpResponse(status=209)
         # product exists calls for string creation and then returns json answer
-        answer = create_feedback_string(request, product_object)
+        answer = create_feedback_string(request, product)
         return JsonResponse(answer)
     print(f"Looking up OFF for code {code}")
     response = requests.get(
