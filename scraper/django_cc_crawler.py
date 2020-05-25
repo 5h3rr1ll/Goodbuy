@@ -25,6 +25,8 @@ from goodbuyDatabase.models import (
 )
 
 
+# Single Responsibility Principle (SRP), Good identifier names, Error handling
+# and Exceptions
 class CodeCheckScraper:
     def __init__(self, code):
         self.product = Product(code=code, state="209", data_source="2")
