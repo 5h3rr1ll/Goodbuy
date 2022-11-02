@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-import django_heroku
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -157,8 +156,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 
-# Activate Django-Heroku.
-django_heroku.settings(locals())
 
 # Get's the values from the system environment
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")

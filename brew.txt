@@ -1,5 +1,4 @@
 autoconf
-heroku/brew/heroku
 mysql-connector-c
 pkg-config
 postgresql

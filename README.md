@@ -18,19 +18,30 @@ Main backend programming language is Python3. The web framework is Django versio
 
 First, go to Github <https://github.com/5h3rr1ll/Goodbuy> and clone the project.
 
-## Required software and packages
+## Required software, packages and environment variables to run the project
 
 Note: Make sure you have pip3 and homebrew (homebrew on Mac, if you use windows use an equivalent)
 
+### Environment Variables
+
+SECRET_KEY
+DEBUG_VALUE
+DJANGO_SETTINGS_MODULE
+PGDATA
+
 ## Packages
 
-See requirements.txt and brew.txt in the project root folder.
+See requirements.txt and brew.txt in the project root folder and install brew packages before pip packages.
 
 ## Run the server
 
 Go via terminal into the folder Goodbuy.
 
-## Run the server with the command: $ python3 manage.py runserver
+## Run the server with the command
+
+```bash
+python3 manage.py runserver
+````
 
 Go in your web browser to address <http://127.0.0.1:8000> and you will automatically become redirected to the login site, where you can log in with username "user" and password "goodbuy19". To you access the admin panel visit <http://127.0.0.1:8000/admin> or click the "admin" link in the "All Views" menu.
 
@@ -38,6 +49,16 @@ Go in your web browser to address <http://127.0.0.1:8000> and you will automatic
 
 If you encounter problems with installing mysqlclient this resource might help: <https://stackoverflow.com/questions/43740481/python-setup-py-egg-info-mysqlclient>
 Also, make sure you always use the correct python version while executing the terminal commands.
+
+### psycopg2
+
+That library is kinda needed for the database. If you encounter problems with installing it, try this:
+
+```bash
+pip install psycopg2-binary==2.8.6
+```
+
+<https://stackoverflow.com/questions/68024060/assertionerror-database-connection-isnt-set-to-utc>
 
 ## Project Files
 
