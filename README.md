@@ -29,6 +29,22 @@ DEBUG_VALUE
 DJANGO_SETTINGS_MODULE
 PGDATA
 
+### Local Development
+
+Create local postgres database, for that initiate database folder like this:
+
+```bash
+initdb -D /usr/local/var/postgres
+```
+
+And set the PGDATA env var corresponding.
+
+In order to use settings for local develeompent set
+
+```bash
+export DJANGO_SETTINGS_MODULE="goodbuy.settings.local"
+```
+
 ## Packages
 
 See requirements.txt and brew.txt in the project root folder and install brew packages before pip packages.
@@ -55,7 +71,7 @@ Also, make sure you always use the correct python version while executing the te
 That library is kinda needed for the database. If you encounter problems with installing it, try this:
 
 ```bash
-pip install psycopg2-binary==2.8.6
+pip3 install psycopg2-binary==2.8.6
 ```
 
 <https://stackoverflow.com/questions/68024060/assertionerror-database-connection-isnt-set-to-utc>
