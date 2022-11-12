@@ -2,3 +2,6 @@
 .DS_Store
 
 .env
+accounts/__pycache__/forms.cpython-39.pyc
+
+goodbuy/settings/__pycache__/base.cpython-39.pyc
