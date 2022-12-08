@@ -5,3 +5,23 @@
 accounts/__pycache__/forms.cpython-39.pyc
 
 goodbuy/settings/__pycache__/base.cpython-39.pyc
+
+scraper/__pycache__/
+
+home/migrations/__pycache__/
+
+home/__pycache__/
+
+accounts/__pycache__/
+
+codeScanner/__pycache__/
+
+goodbuy/__pycache__/
+
+goodbuy/settings/__pycache__/
+
+goodbuyDatabase/__pycache__/
+
+goodbuyDatabase/migrations/__pycache__/
+
+__pycache__/
