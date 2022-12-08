@@ -37,7 +37,11 @@ Create local postgres database, for that initiate database folder like this:
 initdb -D /usr/local/var/postgres
 ```
 
-And set the PGDATA env var corresponding.
+And set the PGDATA env var corresponding, what would be in this exampel:
+
+```bash
+export PGDATA=/usr/local/var/postgres
+```
 
 In order to use settings for local develeompent set
 
