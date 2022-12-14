@@ -10,6 +10,12 @@ services:
     volumes:
       - .:/goodbuy-django-docker
     ports:
-      - "8000:8000"
+      - "80:8000"
     environment:
       DJANGO_SETTINGS_MODULE: goodbuy.settings.aws-db
+      SECRET_KEY: "$SECRET_KEY"
+      DATABASEHOST: $DATABASEHOST
+      DATABASENAME: $DATABASENAME
+      DATABASEUSER: $DATABASEUSER
+      DATABASEPW: $DATABASEPW
+      DATABASEPORT: $DATABASEPORT
