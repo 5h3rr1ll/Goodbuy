@@ -1,6 +1,6 @@
 autoconf
 mysql-connector-c
 pkg-config
-postgresql
-python3
+postgresql 14.5
+python 3.10.8
 redis
