@@ -4,11 +4,15 @@ It’s about building a tool to raise awareness what impact your consumptions ha
 
 ## Authors: Darjusch Schrand & Anthony Sherrill
 
-## 15. April 2019 updated: 28.05.2019
+## 15. April 2019 updated: 15.12.2022
 
 ## Technical Paper - Goodbuy
 
 The Goodbuy project gathers data about concerns, companies and products to analyse them. To do so, there is a postgreSQL database in place, which is accessible through a web application base on the Django web framework.
+
+## AWS Infrastructure
+
+![AWS Infrastructure](diagram-infrastructure.png)
 
 ## General
 
