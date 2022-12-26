@@ -70,6 +70,7 @@ CORS_ORIGIN_WHITELIST = [
     "https://goodbuy.netlify.com",
     "https://goodbuy-dev.netlify.com",
 ]
+
 ROOT_URLCONF = "goodbuy.urls"
 
 TEMPLATES = [
@@ -170,3 +171,6 @@ AWS_QUERYSTRING_AUTH = False
 DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# To pass origin check in Django
+CSRF_TRUSTED_ORIGINS = ['https://www.goodbuy-cp.de']
