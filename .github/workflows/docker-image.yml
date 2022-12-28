@@ -32,3 +32,8 @@ jobs:
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+    - name: Force new AWS ECS deployment
+      run: |
+        aws ecs update-service --cluster goodbuy-fargate-cluster --service GoodbuyService --force-new-deployment
+      shell: bash
