@@ -169,3 +169,5 @@ Inside goodbuyDatabase you will find the admin.py in which you can configure wha
 ### goodbuyDatabase
 
 Inside the goodbuyDatabase directory, you will find the models.py file is for the database here you can configure your tables, define the input type and the relations between the tables. If you have done the changes, you have to migrate it to also make the changes in the database.
+
+<!-- // TODO: Update README.md -->
